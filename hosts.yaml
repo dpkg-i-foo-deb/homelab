@@ -1,0 +1,24 @@
+auth:
+  hosts: 10.0.0.10
+bastion:
+  hosts: 10.0.1.10
+code:
+  hosts: 10.0.8.10
+vmfirewall:
+  hosts: 10.0.1.1
+nas:
+  hosts: 10.0.11.10
+servarr:
+  hosts: 10.0.10.10
+vmrvproxy:
+  hosts: 10.0.4.10
+vmdns:
+  hosts: 10.0.7.2
+knowledge:
+  hosts: 10.0.0.11
+streaming:
+  hosts: 10.0.0.19
+torrent:
+  hosts: 10.0.6.10
+secrets:
+  hosts: 10.0.0.21
