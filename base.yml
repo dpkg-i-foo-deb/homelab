@@ -1,0 +1,4 @@
+- name: Deploy base dependencies on all hosts
+  hosts: all
+  roles:
+    - base

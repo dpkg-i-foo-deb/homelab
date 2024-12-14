@@ -1,0 +1,3 @@
+---
+- name: Homelab deployment
+  import_playbook: base.yml
