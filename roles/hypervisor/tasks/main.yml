@@ -1,0 +1,33 @@
+# This playbook applies to Debian 12
+
+- name: Install curl
+  become: true
+  ansible.builtin.apt:
+    name: curl
+    update_cache: true
+
+- name: Install wget
+  become: true
+  ansible.builtin.apt:
+    name: wget
+    update_cache: true
+
+- name: Install dnsutils
+  become: true
+  ansible.builtin.apt:
+    name: dnsutils
+    update_cache: true
+
+- name: Install base cockpit
+  become: true
+  ansible.builtin.apt:
+    name: cockpit
+    default_release: bookworm-backports
+    update_cache: true
+
+- name: Install cockpit machines
+  become: true
+  ansible.builtin.apt:
+    name: cockpit-machines
+    default_release: bookworm-backports
+    update_cache: true

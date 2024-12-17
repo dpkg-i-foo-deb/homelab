@@ -1,0 +1,4 @@
+- name: Deploy hypervisors
+  hosts: hypervisors
+  roles:
+    - hypervisor

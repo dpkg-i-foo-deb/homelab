@@ -22,3 +22,5 @@ torrent:
   hosts: 10.0.6.10
 secrets:
   hosts: 10.0.0.21
+hypervisors:
+  hosts: 10.0.1.254
