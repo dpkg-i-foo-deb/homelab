@@ -1,4 +1,4 @@
 - name: Configure base dependencies for all virtual machines
-  hosts: all, !hypervisors
+  hosts: all, !hypervisors, !firewall
   roles:
     - vm
