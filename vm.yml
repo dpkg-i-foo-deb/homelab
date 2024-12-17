@@ -1,4 +1,4 @@
-- name: Deploy base dependencies on all hosts
+- name: Configure base dependencies for all virtual machines
   hosts: all, !hypervisors
   roles:
     - vm

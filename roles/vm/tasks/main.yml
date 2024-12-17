@@ -3,3 +3,15 @@
   ansible.builtin.package:
     name: curl
     state: present
+
+- name: Install vim
+  become: true
+  ansible.builtin.package:
+    name: vim
+    state: present
+
+- name: Install nano
+  become: true
+  ansible.builtin.package:
+    name: nano
+    state: present

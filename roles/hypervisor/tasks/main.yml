@@ -18,6 +18,18 @@
     name: dnsutils
     update_cache: true
 
+- name: Install vim
+  become: true
+  ansible.builtin.package:
+    name: vim
+    state: present
+
+- name: Install nano
+  become: true
+  ansible.builtin.package:
+    name: nano
+    state: present
+
 - name: Install base cockpit
   become: true
   ansible.builtin.apt:
