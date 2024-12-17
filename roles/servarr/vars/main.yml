@@ -1,0 +1,3 @@
+servarr_lidarr_container_name: "lidarr"
+servarr_flaresolverr_container_name: "flaresolverr"
+servarr_prowlarr_container_name: "prowlarr"

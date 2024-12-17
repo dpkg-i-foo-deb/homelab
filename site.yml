@@ -3,3 +3,5 @@
   import_playbook: hypervisor.yml
 - name: Virtual machines configuration
   import_playbook: vm.yml
+- name: Servarr deployment
+  import_playbook: servarr.yml

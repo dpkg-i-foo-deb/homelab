@@ -1,0 +1,4 @@
+- name: Configure servarr
+  hosts: servarr
+  roles:
+    - servarr
