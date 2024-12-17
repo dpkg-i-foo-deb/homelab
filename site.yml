@@ -1,5 +1,5 @@
 ---
-- name: Homelab deployment
-  tasks:
-    - import_playbook: hypervisor.yml
-    - import_playbook: vm.yml
+- name: Hypervisor setup
+  import_playbook: hypervisor.yml
+- name: Virtual machines configuration
+  import_playbook: vm.yml
