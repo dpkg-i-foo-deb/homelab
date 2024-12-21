@@ -1,0 +1,8 @@
+---
+- name: Install zram tools for Debian
+  become: true
+  ansible.builtin.package:
+    name:
+      - zram-tools
+      - systemd-zram-generator
+    state: present

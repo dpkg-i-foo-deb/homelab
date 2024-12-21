@@ -1,0 +1,4 @@
+- name: Zram configuration
+  hosts: all, !firewall
+  roles:
+    - zram

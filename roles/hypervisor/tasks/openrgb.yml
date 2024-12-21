@@ -1,0 +1,13 @@
+---
+- name: Load i2c-dev module required for RAM effects
+  become: true
+  community.general.modprobe:
+    name: i2c-dev
+    state: present
+    persistent: present
+- name: Load i2c-piix4 required for Motherboard control
+  become: true
+  community.general.modprobe:
+    name: i2c-piix4
+    state: present
+    persistent: present

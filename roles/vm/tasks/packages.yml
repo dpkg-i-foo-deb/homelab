@@ -1,0 +1,39 @@
+---
+- name: Update package cache
+  become: true
+  ansible.builtin.package:
+    update_cache: true
+
+- name: Install web tools
+  become: true
+  ansible.builtin.package:
+    name:
+      - wget
+      - curl
+    state: present
+
+- name: Install text editors
+  become: true
+  ansible.builtin.package:
+    name:
+      - vim
+      - nano
+    state: present
+
+- name: Install podman
+  become: true
+  ansible.builtin.package:
+    name: podman
+    state: present
+
+- name: Install tuned
+  become: true
+  ansible.builtin.package:
+    name: tuned
+    state: present
+
+- name: Install qemu-guest-agent
+  become: true
+  ansible.builtin.package:
+    name: qemu-guest-agent
+    state: present

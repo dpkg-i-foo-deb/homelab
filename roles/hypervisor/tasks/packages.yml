@@ -1,0 +1,44 @@
+---
+# This playbook applies to Debian 12
+- name: Update package cache
+  become: true
+  ansible.builtin.package:
+    update_cache: true
+
+- name: Install tuned
+  become: true
+  ansible.builtin.package:
+    name: tuned
+    state: present
+
+- name: Install web tools
+  become: true
+  ansible.builtin.apt:
+    name:
+      - curl
+      - wget
+    update_cache: true
+
+- name: Install dns utilities
+  become: true
+  ansible.builtin.apt:
+    name: dnsutils
+    update_cache: true
+
+- name: Install text editors
+  become: true
+  ansible.builtin.package:
+    name:
+      - nano
+      - vim
+    state: present
+
+- name: Install Cockpit and its extensions
+  become: true
+  ansible.builtin.apt:
+    name:
+      - cockpit
+      - cockpit-machines
+
+    default_release: bookworm-backports
+    update_cache: true

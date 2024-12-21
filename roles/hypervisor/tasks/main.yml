@@ -1,49 +1,9 @@
-# This playbook applies to Debian 12
-- name: Update package cache
-  become: true
-  ansible.builtin.package:
-    update_cache: true
+---
+- name: Package configuration
+  ansible.builtin.include_tasks: packages.yml
 
-- name: Install curl
-  become: true
-  ansible.builtin.apt:
-    name: curl
-    update_cache: true
+- name: OpenRGB Deployment
+  ansible.builtin.include_tasks: openrgb.yml
 
-- name: Install wget
-  become: true
-  ansible.builtin.apt:
-    name: wget
-    update_cache: true
-
-- name: Install dnsutils
-  become: true
-  ansible.builtin.apt:
-    name: dnsutils
-    update_cache: true
-
-- name: Install vim
-  become: true
-  ansible.builtin.package:
-    name: vim
-    state: present
-
-- name: Install nano
-  become: true
-  ansible.builtin.package:
-    name: nano
-    state: present
-
-- name: Install base cockpit
-  become: true
-  ansible.builtin.apt:
-    name: cockpit
-    default_release: bookworm-backports
-    update_cache: true
-
-- name: Install cockpit machines
-  become: true
-  ansible.builtin.apt:
-    name: cockpit-machines
-    default_release: bookworm-backports
-    update_cache: true
+- name: Performance tuning
+  ansible.builtin.include_tasks: performance.yml
