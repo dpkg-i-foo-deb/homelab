@@ -1,9 +1,9 @@
 ---
 - name: Hypervisor setup
   import_playbook: hypervisor.yml
+- name: Zram configuration
+  import_playbook: zram.yml
 - name: Virtual machines configuration
   import_playbook: vm.yml
 - name: Servarr deployment
   import_playbook: servarr.yml
-- name: Zram configuration
-  import_playbook: zram.yml
