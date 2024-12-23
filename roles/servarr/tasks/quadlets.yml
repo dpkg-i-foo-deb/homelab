@@ -29,7 +29,7 @@
   become_user: servarr
   containers.podman.podman_container:
     name: "{{ servarr_flaresolverr_container_name }}"
-    image: lscr.io/linuxserver/flaresolverr:latest
+    image: ghcr.io/flaresolverr/flaresolverr:latest
     state: quadlet
     quadlet_filename: "{{ servarr_flaresolverr_container_name }}"
     ports:
