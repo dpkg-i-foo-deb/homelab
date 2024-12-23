@@ -1,7 +1,7 @@
 ---
 - name: Create Lidarr Quadlet File
   become: true
-  become_user: servarr
+  become_user: "{{servarr_user}}"
   containers.podman.podman_container:
     name: "{{ servarr_lidarr_container_name }}"
     image: lscr.io/linuxserver/lidarr:latest
@@ -26,7 +26,7 @@
 
 - name: Create Flaresolverr container
   become: true
-  become_user: servarr
+  become_user: "{{servarr_user}}"
   containers.podman.podman_container:
     name: "{{ servarr_flaresolverr_container_name }}"
     image: ghcr.io/flaresolverr/flaresolverr:latest
@@ -47,7 +47,7 @@
 
 - name: Create Prowlarr Quadlet File
   become: true
-  become_user: servarr
+  become_user: "{{servarr_user}}"
   containers.podman.podman_container:
     name: "{{ servarr_prowlarr_container_name }}"
     image: lscr.io/linuxserver/prowlarr:latest
