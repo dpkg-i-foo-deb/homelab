@@ -17,6 +17,7 @@
       PUID: "1000"
       PGID: "1000"
       TZ: "{{ tz }}"
+      DNS_SERVER_ADMIN_PASSWORD: "{{ vm_dns_web_password }}"
     quadlet_options:
       - "AutoUpdate=registry"
       - "Pull=newer"
