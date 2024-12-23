@@ -10,3 +10,9 @@
   ansible.builtin.systemd_service:
     state: started
     name: qemu-guest-agent
+
+# Usernames are the same as hostnames for my virtual machines
+- name: Ensure lingering is enabled
+  become: true
+  ansible.builtin.command: "loginctl enable-linger {{ ansible_hostname }}"
+  changed_when: false
