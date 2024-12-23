@@ -1,0 +1,13 @@
+---
+- name: Allow the use of privileged ports by rootless processes
+  ansible.builtin.import_role:
+    name: rootless_ports
+
+# Usernames are the same as hostnames for my virtual machines
+- name: Ensure lingering is enabled
+  become: true
+  ansible.builtin.command: "loginctl enable-linger {{ ansible_hostname }}"
+  changed_when: false
+
+- name: Package configuration
+  ansible.builtin.import_tasks: packages.yml

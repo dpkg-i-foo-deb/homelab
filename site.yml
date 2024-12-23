@@ -1,6 +1,8 @@
 ---
 - name: Hypervisor setup
   import_playbook: hypervisor.yml
+- name: Virtual machines DNS server configuration
+  import_playbook: vm_dns.yml
 - name: Zram configuration
   import_playbook: zram.yml
 - name: Virtual machines configuration
