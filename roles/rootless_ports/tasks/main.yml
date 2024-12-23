@@ -1,7 +1,0 @@
----
-- name: Allow rootless processes to bind to lower ports
-  become: true
-  ansible.posix.sysctl:
-    name: net.ipv4.ip_unprivileged_port_start
-    value: '53'
-    sysctl_set: true

@@ -1,7 +1,0 @@
----
-- name: Install podman
-  become: true
-  ansible.builtin.package:
-    update_cache: true
-    name: podman
-    state: present

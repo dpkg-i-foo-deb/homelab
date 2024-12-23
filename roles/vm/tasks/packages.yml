@@ -20,12 +20,6 @@
       - nano
     state: present
 
-- name: Install podman
-  become: true
-  ansible.builtin.package:
-    name: podman
-    state: present
-
 - name: Install tuned
   become: true
   ansible.builtin.package:
