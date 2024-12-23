@@ -42,3 +42,11 @@
 
     default_release: bookworm-backports
     update_cache: true
+
+- name: Install Incus
+  become: true
+  ansible.builtin.apt:
+    name:
+      - incus
+    default_release: bookworm-backports
+    update_cache: true
