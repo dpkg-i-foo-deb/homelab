@@ -8,5 +8,4 @@
 - name: Apply tuned profile for virtual machines
   become: true
   changed_when: false
-  ansible.builtin.shell:
-    cmd: tuned-adm profile virtual-guest
+  ansible.builtin.command: tuned-adm profile virtual-guest
