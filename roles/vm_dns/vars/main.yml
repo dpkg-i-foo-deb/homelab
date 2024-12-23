@@ -1,0 +1,3 @@
+vm_dns_user: "dns"
+vm_dns_container_name: "dns"
+vm_dns_config_dir: "/var/dns"

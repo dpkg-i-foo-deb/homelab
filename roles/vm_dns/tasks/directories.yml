@@ -1,0 +1,10 @@
+---
+- name: Create DNS server configuration directory if it doesn't exists
+  become: true
+  ansible.builtin.file:
+    path: "{{ vm_dns_config_dir }}"
+    state: directory
+    mode: '0755'
+    owner: "{{ vm_dns_user }}"
+    group: "{{ vm_dns_user }}"
+    recurse: true

@@ -1,8 +1,18 @@
+---
 - name: Configure podman
   ansible.builtin.import_role:
     name: podman
+
+- name: Ensure required directories are present
+  ansible.builtin.import_tasks: directories.yml
 
 - name: Allow usage of privileged ports by rootless processes
   ansible.builtin.import_role:
     name: podman
     tasks_from: rootless_ports
+
+- name: Quadlet(s) configuration
+  ansible.builtin.import_tasks: quadlets.yml
+
+- name: Ensure DNS services are running
+  ansible.builtin.import_tasks: services.yml
