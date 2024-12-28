@@ -31,3 +31,10 @@
       - nano
       - vim
     state: present
+
+- name: Install virtualization tools
+  become: true
+  ansible.builtin.package:
+    name:
+      - libvirt
+    state: present
