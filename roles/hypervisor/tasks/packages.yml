@@ -1,5 +1,4 @@
 ---
-# This playbook applies to Debian 12
 - name: Update package cache
   become: true
   ansible.builtin.package:
@@ -13,7 +12,7 @@
 
 - name: Install web tools
   become: true
-  ansible.builtin.apt:
+  ansible.builtin.package:
     name:
       - curl
       - wget
@@ -21,7 +20,7 @@
 
 - name: Install dns utilities
   become: true
-  ansible.builtin.apt:
+  ansible.builtin.package:
     name: dnsutils
     update_cache: true
 
@@ -35,18 +34,6 @@
 
 - name: Install Cockpit and its extensions
   become: true
-  ansible.builtin.apt:
+  ansible.builtin.package:
     name:
-      - cockpit
-      - cockpit-machines
-
-    default_release: bookworm-backports
-    update_cache: true
-
-- name: Install Incus
-  become: true
-  ansible.builtin.apt:
-    name:
-      - incus
-    default_release: bookworm-backports
-    update_cache: true
+      - cockpit-*
