@@ -1,4 +1,7 @@
 ---
+- name: Configure network
+  ansible.builtin.include_tasks: network.yml
+
 - name: Package configuration
   ansible.builtin.include_tasks: packages.yml
 

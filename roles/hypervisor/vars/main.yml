@@ -1,0 +1,6 @@
+hypervisor_interfaces:
+  - { name: "eth0", mac: "74:56:3c:c7:00:e6" }
+  - { name: "eth1", mac: "1c:86:0b:24:18:25" }
+  - { name: "eth2", mac: "1c:86:0b:24:18:26" }
+  - { name: "eth3", mac: "1c:86:0b:24:18:27" }
+  - { name: "eth4", mac: "1c:86:0b:24:18:28" }

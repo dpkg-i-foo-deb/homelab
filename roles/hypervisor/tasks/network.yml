@@ -1,0 +1,9 @@
+- name: Configure static network interface names
+  become: true
+  ansible.builtin.template:
+      src: templates/static_nic_name.j2
+      dest: /etc/systemd/network/01-{{ nic.name }}.link
+      mode: '0644'
+  loop: "{{ hypervisor_interfaces }}"
+  loop_control:
+    loop_var: nic
