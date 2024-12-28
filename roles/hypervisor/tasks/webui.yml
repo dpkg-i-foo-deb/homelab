@@ -5,6 +5,7 @@
       - cockpit-*
 
 - name: Enable cockpit service and ensure it is running
+  become: true
   ansible.builtin.systemd_service:
     name: '{{ item }}'
     enabled: true
@@ -13,3 +14,11 @@
   with_items:
     - cockpit
     - cockpit.socket
+
+- name: Copy cockpit configuration file
+  become: true
+  ansible.builtin.copy:
+    src: files/cockpit.conf
+    dest: /etc/cockpit/cockpit.conf
+    mode: '0644'
+  notify: Restart cockpit
