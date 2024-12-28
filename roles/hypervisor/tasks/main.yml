@@ -1,5 +1,5 @@
 ---
-- name: Configure network
+- name: Network configuration
   ansible.builtin.include_tasks: network.yml
 
 - name: Configure webui access
@@ -13,3 +13,7 @@
 
 - name: Performance tuning
   ansible.builtin.include_tasks: performance.yml
+
+- name: Services configuration
+  ansible.builtin.include_tasks: services.yml
+  

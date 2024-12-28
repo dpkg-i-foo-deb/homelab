@@ -1,9 +1,21 @@
 - name: Configure static network interface names
   become: true
   ansible.builtin.template:
-      src: templates/static_nic_name.j2
-      dest: /etc/systemd/network/01-{{ nic.name }}.link
-      mode: '0644'
+    src: templates/static_nic_name.j2
+    dest: /etc/systemd/network/01-{{ nic.name }}.link
+    mode: "0644"
   loop: "{{ hypervisor_interfaces }}"
   loop_control:
     loop_var: nic
+
+- name: Copy libvirt network configuration files
+  become: true
+  ansible.builtin.template:
+    src: templates/libvirt_network.j2
+    dest: /etc/libvirt/qemu/networks/{{ net.name }}.xml
+    mode: "0644"
+    owner: root
+    group: root
+  loop: "{{ hypervisor_libvirt_nics }}"
+  loop_control:
+    loop_var: net
