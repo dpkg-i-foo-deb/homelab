@@ -31,9 +31,3 @@
       - nano
       - vim
     state: present
-
-- name: Install Cockpit and its extensions
-  become: true
-  ansible.builtin.package:
-    name:
-      - cockpit-*
