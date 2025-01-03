@@ -1,0 +1,12 @@
+[Unit]
+Description=OpenRGB Server Service
+After=network.target
+
+[Service]
+User=root
+ExecStart={{ hypervisor_openrgb_install_path }}/{{ hypervisor_openrgb_executable }} --server --config {{ hypervisor_openrgb_config }}
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

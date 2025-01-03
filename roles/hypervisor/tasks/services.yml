@@ -4,3 +4,5 @@
     state: restarted
     name: libvirtd
     enabled: true
+
+# - name: Ensure openrgb is enabled and running

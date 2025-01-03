@@ -1,0 +1,7 @@
+hypervisor_openrgb_download_url: https://openrgb.org/releases/release_0.9/OpenRGB_0.9_x86_64_b5f46e3.AppImage
+hypervisor_openrgb_install_path: /opt/openrgb
+hypervisor_openrgb_executable: openrgb.AppImage
+hypervisor_openrgb_config: /etc/openrgb
+# OpenRGB Udev rules
+hypervisor_openrgb_udev_executable: openrgb-udev.sh
+hypervisor_openrgb_udev_url: https://openrgb.org/releases/release_0.9/openrgb-udev-install.sh

@@ -16,4 +16,3 @@
 
 - name: Services configuration
   ansible.builtin.include_tasks: services.yml
-  
