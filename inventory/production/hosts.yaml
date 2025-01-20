@@ -1,5 +1,3 @@
-auth:
-  hosts: 10.0.0.10
 bastion:
   hosts: 10.0.1.10
 code:
@@ -24,3 +22,5 @@ secrets:
   hosts: 10.0.0.21
 hypervisors:
   hosts: 10.0.1.254
+security:
+  hosts: 10.0.0.10

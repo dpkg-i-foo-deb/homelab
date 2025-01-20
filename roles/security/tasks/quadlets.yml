@@ -1,0 +1,51 @@
+---
+- name: Create Code Server Quadlet file
+  become: true
+  become_user: "{{ security_user }}"
+  notify: Restart code-server
+  containers.podman.podman_container:
+    name: "{{ security_code_container }}"
+    image: lscr.io/linuxserver/code-server:latest
+    state: quadlet
+    quadlet_filename: "{{ security_code_container }}"
+    ports:
+      - "8443:8443"
+    volumes:
+      - "/home/{{ security_user }}/workspace:/config/workspace:z"
+    env:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: "{{ tz }}"
+    quadlet_options:
+      - "AutoUpdate=registry"
+      - "Pull=newer"
+      - |
+        [Install]
+        WantedBy=default.target multi-user.target
+
+- name: Create Vaultwarden Quadlet file
+  become: true
+  become_user: "{{ security_user }}"
+  notify: Restart Vaultwarden
+  containers.podman.podman_container:
+    name: "{{ security_vaultwarden_container }}"
+    image: docker.io/vaultwarden/server:latest
+    state: quadlet
+    quadlet_filename: "{{ security_vaultwarden_container }}"
+    ports:
+      - "8080:80"
+    volumes:
+      - "{{ security_vaultwarden_data }}:/data:z"
+    env:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: "{{ tz }}"
+      DOMAIN: "https://{{ security_vaultwarden_host }}.{{ internet_host }}"
+      LOG_LEVEL: "info"
+      ADMIN_TOKEN: "{{ security_vaultwarden_admin_token }}"
+    quadlet_options:
+      - "AutoUpdate=registry"
+      - "Pull=newer"
+      - |
+        [Install]
+        WantedBy=default.target multi-user.target

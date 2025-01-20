@@ -1,0 +1,16 @@
+- name: Restart code-server
+  become: true
+  become_user: "{{ security_user }}"
+  ansible.builtin.systemd_service:
+    daemon_reload: true
+    state: restarted
+    name: "{{ security_code_container }}"
+    scope: user
+- name: Restart Vaultwarden
+  become: true
+  become_user: "{{ security_user }}"
+  ansible.builtin.systemd_service:
+    daemon_reload: true
+    state: restarted
+    name: "{{ security_vaultwarden_container }}"
+    scope: user
