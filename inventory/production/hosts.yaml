@@ -4,8 +4,8 @@ code:
   hosts: 10.0.8.10
 firewall:
   hosts: 10.0.1.1
-#nas:
-#  hosts: 10.0.11.10
+nas:
+  hosts: 10.0.11.10
 servarr:
   hosts: 10.0.10.10
 webproxy:

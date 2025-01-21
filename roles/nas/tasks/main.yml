@@ -1,0 +1,10 @@
+---
+- name: Mountpoint configuration
+  ansible.builtin.import_tasks: mounts.yml
+
+- name: NFS configuration using geerlingguy.nfs
+  become: true
+  vars:
+    nfs_exports: "{{ nas_exports }}"
+  ansible.builtin.import_role:
+    name: geerlingguy.nfs

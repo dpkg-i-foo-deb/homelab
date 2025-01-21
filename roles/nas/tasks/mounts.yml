@@ -1,0 +1,19 @@
+---
+- name: Ensure NAS data directory is present
+  become: true
+  ansible.builtin.file:
+    path: "{{ nas_data }}"
+    state: directory
+    mode: "0755"
+    owner: "{{ nas_user }}"
+    group: "{{ nas_user }}"
+
+- name: Mount up WD USB Disk
+  become: true
+  ansible.posix.mount:
+    path: "{{ nas_data }}"
+    src: "{{ nas_disk_0 }}"
+    fstype: xfs
+    opts: noatime
+    state: present
+    boot: true

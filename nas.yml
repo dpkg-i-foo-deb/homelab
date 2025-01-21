@@ -1,0 +1,4 @@
+- name: NAS Configuration
+  hosts: nas
+  roles:
+    - nas

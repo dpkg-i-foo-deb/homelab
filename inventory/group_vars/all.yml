@@ -1,5 +1,8 @@
+# General Ansible stuff
 ansible_user: ansible
 tz: "America/Bogota"
+
+# Public internet services settings
 internet_host: !vault |
           $ANSIBLE_VAULT;1.1;AES256
           37376434616435653736643536636332366635326333336266393034346632656164353761323436
