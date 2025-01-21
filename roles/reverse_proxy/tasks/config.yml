@@ -1,0 +1,9 @@
+- name: Copy Caddy configuration file
+  become: true
+  ansible.builtin.template:
+    src: templates/Caddyfile
+    dest: /etc/Caddyfile
+    mode: '0644'
+    owner: "{{ reverse_proxy_user }}"
+    group: "{{ reverse_proxy_user }}"
+  notify: Restart Caddy

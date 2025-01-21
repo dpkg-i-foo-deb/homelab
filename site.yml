@@ -7,5 +7,9 @@
   import_playbook: zram.yml
 - name: Virtual machines configuration
   import_playbook: vm.yml
+- name: Reverse proxy configuration
+  import_playbook: reverse_proxy.yml
+- name: Security services configuration
+  import_playbook: security.yml
 - name: Servarr deployment
   import_playbook: servarr.yml

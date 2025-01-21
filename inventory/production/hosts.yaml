@@ -24,3 +24,5 @@ hypervisors:
   hosts: 10.0.1.254
 security:
   hosts: 10.0.0.10
+reverse_proxy:
+  hosts: 10.0.4.10

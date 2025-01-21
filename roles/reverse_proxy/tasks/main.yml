@@ -1,0 +1,12 @@
+- name: Allow usage of privileged ports by rootless processes
+  ansible.builtin.import_role:
+    name: podman
+    tasks_from: rootless_ports
+- name: Directory configuration
+  ansible.builtin.include_tasks: directories.yml
+- name: Copy configuration files
+  ansible.builtin.include_tasks: config.yml
+- name: Quadlet files configuration
+  ansible.builtin.include_tasks: quadlets.yml
+- name: Services configuration
+  ansible.builtin.include_tasks: services.yml

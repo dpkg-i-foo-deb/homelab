@@ -1,0 +1,118 @@
+# Global config
+{
+        servers {
+                trusted_proxies static private_ranges
+        }
+}
+
+# Snippets
+
+
+(proxy) {
+        encode {
+                zstd better
+                gzip 6
+        }
+        reverse_proxy {args[0]}
+}
+
+# Proxy with compression. Uses https and ignores tls stuff
+(proxy_tls) {
+        encode {
+                zstd better
+                gzip 6
+        }
+        reverse_proxy {args[0]} {
+                transport http {
+                        tls
+                        tls_insecure_skip_verify
+                }
+        }
+}
+
+(proxy_keycloak) {
+        encode {
+                zstd better
+                gzip 6
+        }
+
+        forward_auth 10.0.0.10:4180 {
+                uri /oauth2/auth
+                copy_headers Authorization
+
+                @bad status 4xx
+                handle_response @bad {
+                        redir https://oauth.{{ internet_host }}/oauth2/start
+                }
+        }
+
+        reverse_proxy {args[0]}
+}
+
+(proxy_keycloak_tls) {
+        encode {
+                zstd better
+                gzip 6
+        }
+
+        forward_auth 10.0.0.10:4180 {
+                uri /oauth2/auth
+                copy_headers Authorization
+
+                @bad status 4xx
+                handle_response @bad {
+                        redir https://oauth.{{ internet_host }}/oauth2/start
+                }
+        }
+
+        reverse_proxy {args[0]} {
+                transport http {
+                        tls
+                        tls_insecure_skip_verify
+                }
+        }
+}
+
+# Keycloak portal
+
+auth.{{ internet_host }} {
+        import proxy 10.0.0.10:8080
+}
+
+# Oauth2 proxy
+
+oauth.{{ internet_host }} {
+        import proxy 10.0.0.10:4180
+}
+
+code.{{ internet_host }} {
+        import proxy_keycloak 10.0.8.10:8080
+}
+
+music.{{ internet_host }} {
+        import proxy 10.0.0.19:4533
+}
+
+# Password manager
+
+vault.{{ internet_host }} {
+        import proxy 10.0.0.21:8080
+}
+
+# Wireguard dashboard
+
+wireguard.{{ internet_host }} {
+        import proxy 10.0.5.1:10086
+}
+
+# Uptime Kuma
+
+uptime.{{ internet_host }} {
+        import proxy 10.0.1.10:8080
+}
+
+# Note taking app
+
+notes.{{ internet_host }} {
+        import proxy_keycloak 10.0.0.11:3000
+}

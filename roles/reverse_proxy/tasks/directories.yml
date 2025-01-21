@@ -1,0 +1,32 @@
+---
+- name: Check if Caddy TLS directory is present
+  become: true
+  ansible.builtin.stat:
+    path: "{{ reverse_proxy_tls }}"
+  register: result
+
+- name: Create Caddy TLS directory if needed
+  become: true
+  ansible.builtin.file:
+    path: "{{ reverse_proxy_tls }}"
+    state: directory
+    mode: "0755"
+    owner: "{{ reverse_proxy_user }}"
+    group: "{{ reverse_proxy_user }}"
+  when: not result.stat.exists
+
+- name: Check if Caddy data directory is present
+  become: true
+  ansible.builtin.stat:
+    path: "{{ reverse_proxy_opt }}"
+  register: result
+
+- name: Create Caddy data directory if needed
+  become: true
+  ansible.builtin.file:
+    path: "{{ reverse_proxy_opt }}"
+    state: directory
+    mode: "0755"
+    owner: "{{ reverse_proxy_user }}"
+    group: "{{ reverse_proxy_user }}"
+  when: not result.stat.exists
