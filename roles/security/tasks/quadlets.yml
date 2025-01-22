@@ -76,7 +76,9 @@
       KC_HOSTNAME_STRICT: "false"
       KC_HOSTNAME_URL: "https://auth.{{ internet_host }}"
       KC_HTTP_ENABLED: "true"
-    command: start
+      KC_BOOTSTRAP_ADMIN_USERNAME: "{{ security_keycloak_bootstrap_username }}"
+      KC_BOOTSTRAP_ADMIN_PASSWORD: "{{ security_keycloak_bootstrap_password }}"
+    command: start --optimized
     quadlet_options:
       - "AutoUpdate=registry"
       - "Pull=newer"

@@ -1,4 +1,7 @@
 roles:
-  # Install a role from Ansible Galaxy.
   - name: geerlingguy.nfs
-    version: "2.1.0" # note that ranges are not supported for roles
+    version: "2.1.0"
+
+collections:
+  - name: middleware_automation.keycloak
+    version: "2.4.3"
