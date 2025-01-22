@@ -1,10 +1,4 @@
 ---
-- name: Check if code-server directory is present
-  become: true
-  ansible.builtin.stat:
-    path: "/home/{{ security_user }}/{{ security_code_directory }}"
-  register: result
-
 - name: Create code-server directories if needed
   become: true
   ansible.builtin.file:
@@ -13,13 +7,6 @@
     mode: "0755"
     owner: "{{ security_user }}"
     group: "{{ security_user }}"
-  when: not result.stat.exists
-
-- name: Check if Vaultwarden directory is present
-  become: true
-  ansible.builtin.stat:
-    path: "{{ security_vaultwarden_data }}"
-  register: result
 
 - name: Create Vaultwarden directories if needed
   become: true
@@ -29,4 +16,12 @@
     mode: "0755"
     owner: "{{ security_user }}"
     group: "{{ security_user }}"
-  when: not result.stat.exists
+
+- name: Create Postgres directories if needed
+  become: true
+  ansible.builtin.file:
+    path: "{{ security_postgres_data }}"
+    state: directory
+    mode: "0755"
+    owner: "{{ security_user }}"
+    group: "{{ security_user }}"

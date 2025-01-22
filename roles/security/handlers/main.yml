@@ -6,6 +6,7 @@
     state: restarted
     name: "{{ security_code_container }}"
     scope: user
+
 - name: Restart Vaultwarden
   become: true
   become_user: "{{ security_user }}"
@@ -13,4 +14,22 @@
     daemon_reload: true
     state: restarted
     name: "{{ security_vaultwarden_container }}"
+    scope: user
+
+- name: Restart Keycloak
+  become: true
+  become_user: "{{ security_user }}"
+  ansible.builtin.systemd_service:
+    daemon_reload: true
+    state: restarted
+    name: "{{ security_keycloak_container }}"
+    scope: user
+
+- name: Restart Postgres
+  become: true
+  become_user: "{{ security_user }}"
+  ansible.builtin.systemd_service:
+    daemon_reload: true
+    state: restarted
+    name: "{{ security_postgres_container }}"
     scope: user
