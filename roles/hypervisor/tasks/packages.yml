@@ -38,6 +38,7 @@
     name:
       - libvirt
       - pciutils
+      - virt-v2v
     state: present
 
 - name: Install Network tools
