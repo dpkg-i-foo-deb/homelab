@@ -78,7 +78,7 @@
       KC_HTTP_ENABLED: "true"
       KC_BOOTSTRAP_ADMIN_USERNAME: "{{ security_keycloak_bootstrap_username }}"
       KC_BOOTSTRAP_ADMIN_PASSWORD: "{{ security_keycloak_bootstrap_password }}"
-    command: start --optimized
+    command: start
     quadlet_options:
       - "AutoUpdate=registry"
       - "Pull=newer"
