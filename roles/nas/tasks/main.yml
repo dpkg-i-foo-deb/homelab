@@ -8,3 +8,13 @@
     nfs_exports: "{{ nas_exports }}"
   ansible.builtin.import_role:
     name: geerlingguy.nfs
+
+- name: Set permissions for mount points
+  become: true
+  ansible.builtin.file:
+    path: "{{ item.split()[0] }}"
+    owner: "{{ nas_user }}"
+    group: "{{ nas_user }}"
+    state: directory
+    mode: '0766'
+  with_items: "{{ nas_exports }}"

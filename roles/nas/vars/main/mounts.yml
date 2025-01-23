@@ -1,2 +1,2 @@
-nas_data: /mnt/nas-data
+nas_data: /nas-data
 nas_disk_0: /dev/vdb
