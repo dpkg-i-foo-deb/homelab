@@ -1,0 +1,8 @@
+---
+- name: Ensure NFS client dependencies are installed
+  become: true
+  ansible.builtin.package:
+    update_cache: true
+    name:
+        - nfs-utils
+    state: present
