@@ -1,0 +1,9 @@
+---
+- name: Restart Silverbullet
+  become: true
+  become_user: "{{ knowledge_user }}"
+  ansible.builtin.systemd_service:
+    daemon_reload: true
+    state: restarted
+    name: "{{ knowledge_silverbullet_container }}"
+    scope: user

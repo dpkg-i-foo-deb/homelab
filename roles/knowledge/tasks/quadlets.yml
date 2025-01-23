@@ -1,0 +1,24 @@
+---
+- name: Create Silverbullet Quadlet file
+  become: true
+  become_user: "{{ knowledge_user }}"
+  notify: Restart Silverbullet
+  containers.podman.podman_container:
+    name: "{{ knowledge_silverbullet_container }}"
+    image: docker.io/zefhemel/silverbullet:latest
+    state: quadlet
+    quadlet_filename: "{{ knowledge_silverbullet_container }}"
+    ports:
+      - "3000:3000"
+    volumes:
+      - "{{ knowledge_silverbullet_data }}:/space"
+    env:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: "{{ tz }}"
+    quadlet_options:
+      - "AutoUpdate=registry"
+      - "Pull=newer"
+      - |
+        [Install]
+        WantedBy=default.target multi-user.target

@@ -1,0 +1,4 @@
+- name: Configure knowledge virtual machine
+  hosts: knowledge
+  roles:
+    - knowledge
