@@ -4,6 +4,6 @@
   become_user: "{{ vm_dns_user }}"
   ansible.builtin.systemd_service:
     daemon_reload: true
-    state: restarted
+    state: started
     name: "{{ vm_dns_container_name }}"
     scope: user
