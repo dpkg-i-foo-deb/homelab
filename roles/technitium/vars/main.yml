@@ -1,7 +1,7 @@
-vm_dns_user: "dns"
-vm_dns_container_name: "dns"
-vm_dns_config_dir: "/var/dns"
-vm_dns_web_password: !vault |
+technitium_user: "dns"
+technitium_container: "dns"
+technitium_config: "/var/dns"
+technitium_web_password: !vault |
           $ANSIBLE_VAULT;1.1;AES256
           37653833633730316563363766633430383830346462653430316563366165323038363466646639
           3030616332333966616433643332303161316164656438380a396466643763656361353634383266

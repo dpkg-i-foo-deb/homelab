@@ -1,23 +1,24 @@
 ---
 - name: Create Technitium DNS server Quadlet file
   become: true
-  become_user: "{{ vm_dns_user }}"
+  become_user: "{{ technitium_user }}"
+  notify: Restart technitium
   containers.podman.podman_container:
-    name: "{{ vm_dns_container_name }}"
+    name: "{{ technitium_container }}"
     image: docker.io/technitium/dns-server:latest
     state: quadlet
-    quadlet_filename: "{{ vm_dns_container_name }}"
+    quadlet_filename: "{{ technitium_container }}"
     ports:
       - "5380:5380/tcp"
       - "53:53/tcp"
       - "53:53/udp"
     volumes:
-      - "{{ vm_dns_config_dir }}:/config:z"
+      - "{{ technitium_config }}:/config:z"
     env:
       PUID: "1000"
       PGID: "1000"
       TZ: "{{ tz }}"
-      DNS_SERVER_ADMIN_PASSWORD: "{{ vm_dns_web_password }}"
+      DNS_SERVER_ADMIN_PASSWORD: "{{ technitium_web_password }}"
       DNS_SERVER_FORWARDERS: 1.1.1.1, 8.8.8.8
     quadlet_options:
       - "AutoUpdate=registry"
