@@ -4,7 +4,7 @@
     src: templates/static_nic_name.j2
     dest: /etc/systemd/network/01-{{ nic.name }}.link
     mode: "0644"
-  loop: "{{ hypervisor_interfaces }}"
+  loop: "{{ qemu_kvm_interfaces }}"
   loop_control:
     loop_var: nic
 
@@ -16,7 +16,7 @@
     mode: "0644"
     owner: root
     group: root
-  loop: "{{ hypervisor_libvirt_nics }}"
+  loop: "{{ qemu_kvm_libvirt_nics }}"
   loop_control:
     loop_var: net
 
@@ -26,4 +26,4 @@
     autostart: true
     state: active
     name: '{{ item.name }}'
-  with_items: '{{ hypervisor_libvirt_nics }}'
+  with_items: '{{ qemu_kvm_libvirt_nics }}'

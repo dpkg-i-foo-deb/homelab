@@ -5,7 +5,7 @@
     state: started
     name: tuned
 
-- name: Apply tuned profile for hypervisor(s)
+- name: Apply tuned profile for qemu_kvm
   become: true
   changed_when: false
   ansible.builtin.shell:

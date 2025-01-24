@@ -32,7 +32,7 @@
       - vim
     state: present
 
-- name: Install virtualization tools
+- name: Install qemu_kvm tools
   become: true
   ansible.builtin.package:
     name:
@@ -47,18 +47,6 @@
     name:
       - NetworkManager-wifi
       - net-tools
-
-- name: Install OpenRGB dependencies
-  become: true
-  ansible.builtin.package:
-    name:
-      - harfbuzz
-      - i2c-tools
-      - i2c-tools-perl
-      - libi2c
-      - libi2cd
-      - libi2cd-devel
-      - python3-i2c-tools
 
 - name: Install misc tools
   become: true

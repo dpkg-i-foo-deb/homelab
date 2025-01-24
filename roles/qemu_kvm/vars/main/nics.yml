@@ -1,11 +1,11 @@
-hypervisor_interfaces:
+qemu_kvm_interfaces:
   - { name: "eth0", mac: "74:56:3c:c7:00:e6" }
   - { name: "eth1", mac: "1c:86:0b:24:18:25" }
   - { name: "eth2", mac: "1c:86:0b:24:18:26" }
   - { name: "eth3", mac: "1c:86:0b:24:18:27" }
   - { name: "eth4", mac: "1c:86:0b:24:18:28" }
 
-hypervisor_libvirt_nics:
+qemu_kvm_libvirt_nics:
   - {
     name: "int0",
     uuid: "22a77fe6-9391-40b0-8537-ce5d4aa92324",

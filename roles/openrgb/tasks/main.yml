@@ -1,4 +1,6 @@
 ---
+- name: Package configuration
+  ansible.builtin.import_tasks: packages.yml
 - name: Directory configuration
   ansible.builtin.import_tasks: directories.yml
 - name: OpenRGB Modules configuration

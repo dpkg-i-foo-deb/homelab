@@ -1,6 +1,6 @@
 - name: Configure hypervisor(s)
   hosts: hypervisors
   roles:
+    - qemu_kvm
     - cockpit
     - openrgb
-    - hypervisor
