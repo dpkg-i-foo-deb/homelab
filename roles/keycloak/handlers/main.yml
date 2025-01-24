@@ -1,0 +1,17 @@
+- name: Restart Keycloak
+  become: true
+  become_user: "{{ keycloak_user }}"
+  ansible.builtin.systemd_service:
+    daemon_reload: true
+    state: restarted
+    name: "{{ keycloak_container }}"
+    scope: user
+
+- name: Restart Postgres
+  become: true
+  become_user: "{{ keycloak_user }}"
+  ansible.builtin.systemd_service:
+    daemon_reload: true
+    state: restarted
+    name: "{{ keycloak_postgres_container }}"
+    scope: user

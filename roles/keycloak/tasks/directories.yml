@@ -1,0 +1,9 @@
+---
+- name: Create Postgres directories if needed
+  become: true
+  ansible.builtin.file:
+    path: "{{ keycloak_postgres_data }}"
+    state: directory
+    mode: "0755"
+    owner: "{{ keycloak_user }}"
+    group: "{{ keycloak_user }}"

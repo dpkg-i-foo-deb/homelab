@@ -1,0 +1,9 @@
+---
+- name: Create Vaultwarden directories if needed
+  become: true
+  ansible.builtin.file:
+    path: "{{ vaultwarden_data }}"
+    state: directory
+    mode: "0755"
+    owner: "{{ vaultwarden_user }}"
+    group: "{{ vaultwarden_user }}"

@@ -1,0 +1,2 @@
+keycloak_postgres_container: postgres
+keycloak_postgres_data: /var/postgres

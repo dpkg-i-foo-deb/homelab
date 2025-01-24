@@ -1,4 +1,5 @@
 - name: Configure security virtual machine
   hosts: security
   roles:
-    - security
+    - keycloak
+    - vaultwarden

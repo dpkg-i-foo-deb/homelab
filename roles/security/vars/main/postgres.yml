@@ -1,2 +1,0 @@
-security_postgres_container: postgres
-security_postgres_data: /var/postgres
