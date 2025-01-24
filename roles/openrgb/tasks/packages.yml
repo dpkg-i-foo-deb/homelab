@@ -1,8 +1,8 @@
 ---
 - name: Install OpenRGB dependencies
   become: true
-  update_cache: true
   ansible.builtin.package:
+    update_cache: true
     name:
       - harfbuzz
       - i2c-tools

@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 User=root
-ExecStart={{ hypervisor_openrgb_install_path }}/{{ hypervisor_openrgb_executable }} --server --config {{ hypervisor_openrgb_config }}
+ExecStart={{ openrgb_install_path }}/{{ openrgb_executable }} --server --config {{ openrgb_config }}
 Restart=on-failure
 RestartSec=5
 

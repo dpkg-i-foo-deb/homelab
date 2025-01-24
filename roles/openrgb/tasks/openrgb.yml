@@ -1,11 +1,12 @@
 ---
+# TODO check if this image actually exists
+
 - name: Download OpenRGB AppImage
   become: true
   ansible.builtin.get_url:
     url: "{{ openrgb_download_url }}"
     dest: "{{ openrgb_install_path }}/{{ openrgb_executable }}"
     mode: "0755"
-  when: not result.stat.exists
 
 - name: Copy OpenRGB service file
   become: true
