@@ -11,5 +11,3 @@
     state: started
     name: pmlogger.service
     enabled: true
-
-# - name: Ensure openrgb is enabled and running

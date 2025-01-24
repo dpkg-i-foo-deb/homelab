@@ -1,0 +1,9 @@
+---
+- name: Package configuration
+  ansible.builtin.import_tasks: packages.yml
+
+- name: Cockpit WebUI configuration
+  ansible.builtin.import_tasks: webui.yml
+
+- name: Service configuration
+  ansible.builtin.import_tasks: services.yml

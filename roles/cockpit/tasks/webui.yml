@@ -1,0 +1,8 @@
+---
+- name: Copy cockpit configuration file
+  become: true
+  ansible.builtin.copy:
+    src: files/cockpit.conf
+    dest: /etc/cockpit/cockpit.conf
+    mode: '0644'
+  notify: Restart cockpit

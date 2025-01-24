@@ -1,0 +1,6 @@
+---
+- name: Ensure Cockpit and its extensions are installed
+  become: true
+  ansible.builtin.package:
+    name:
+      - cockpit-*

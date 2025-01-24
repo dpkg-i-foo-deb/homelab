@@ -2,9 +2,6 @@
 - name: Network configuration
   ansible.builtin.include_tasks: network.yml
 
-- name: Configure webui access
-  ansible.builtin.include_tasks: webui.yml
-
 - name: Package configuration
   ansible.builtin.include_tasks: packages.yml
 
