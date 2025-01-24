@@ -1,0 +1,14 @@
+---
+- name: Ensure OpenRGB install directory exists
+  become: true
+  ansible.builtin.file:
+    path: "{{ openrgb_install_path }}"
+    state: directory
+    mode: "0755"
+
+- name: Ensure OpenRGB configuration directory exists
+  become: true
+  ansible.builtin.file:
+    path: "{{ hypervisor_openrgb_config }}"
+    state: directory
+    mode: "0755"

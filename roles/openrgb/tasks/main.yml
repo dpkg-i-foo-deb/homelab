@@ -1,0 +1,7 @@
+---
+- name: Directory configuration
+  ansible.builtin.import_tasks: directories.yml
+- name: OpenRGB Modules configuration
+  ansible.builtin.import_tasks: modules.yml
+- name: OpenRGB Deployment
+  ansible.builtin.import_tasks: openrgb.yml

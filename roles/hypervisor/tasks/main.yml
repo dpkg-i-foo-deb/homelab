@@ -5,9 +5,6 @@
 - name: Package configuration
   ansible.builtin.include_tasks: packages.yml
 
-- name: OpenRGB Deployment
-  ansible.builtin.include_tasks: openrgb.yml
-
 - name: Performance tuning
   ansible.builtin.include_tasks: performance.yml
 

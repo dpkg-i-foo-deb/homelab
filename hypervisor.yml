@@ -2,4 +2,5 @@
   hosts: hypervisors
   roles:
     - cockpit
+    - openrgb
     - hypervisor

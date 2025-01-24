@@ -1,0 +1,7 @@
+openrgb_download_url: https://gitlab.com/CalcProgrammer1/OpenRGB/-/jobs/artifacts/master/download?job=Linux%20amd64%20AppImage
+openrgb_install_path: /opt/openrgb
+openrgb_executable: openrgb.AppImage
+openrgb_config: /etc/openrgb
+# OpenRGB Udev rules
+openrgb_udev_executable: openrgb-udev.sh
+openrgb_udev_url: https://openrgb.org/releases/release_0.9/openrgb-udev-install.sh
