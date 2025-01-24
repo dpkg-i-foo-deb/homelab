@@ -1,4 +1,4 @@
 - name: Configure reverse proxy
   hosts: reverse_proxy
   roles:
-    - reverse_proxy
+    - caddy

@@ -2,17 +2,17 @@
 - name: Create Caddy TLS directory if needed
   become: true
   ansible.builtin.file:
-    path: "{{ reverse_proxy_tls }}"
+    path: "{{ caddy_tls }}"
     state: directory
     mode: "0755"
-    owner: "{{ reverse_proxy_user }}"
-    group: "{{ reverse_proxy_user }}"
+    owner: "{{ caddy_user }}"
+    group: "{{ caddy_user }}"
 
 - name: Create Caddy data directory if needed
   become: true
   ansible.builtin.file:
-    path: "{{ reverse_proxy_opt }}"
+    path: "{{ caddy_opt }}"
     state: directory
     mode: "0755"
-    owner: "{{ reverse_proxy_user }}"
-    group: "{{ reverse_proxy_user }}"
+    owner: "{{ caddy_user }}"
+    group: "{{ caddy_user }}"

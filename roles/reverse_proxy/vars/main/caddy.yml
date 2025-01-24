@@ -1,4 +1,0 @@
-reverse_proxy_container: caddy
-reverse_proxy_opt: /etc/caddy/
-reverse_proxy_tls: /var/caddy/
-reverse_proxy_conf: /etc/Caddyfile

@@ -1,20 +1,20 @@
 - name: Create Caddy Quadlet file
   become: true
-  become_user: "{{ reverse_proxy_user }}"
+  become_user: "{{ caddy_user }}"
   notify: Restart Caddy
   containers.podman.podman_container:
-    name: "{{ reverse_proxy_container }}"
+    name: "{{ caddy_container }}"
     image: docker.io/caddy:latest
     state: quadlet
-    quadlet_filename: "{{ reverse_proxy_container }}"
+    quadlet_filename: "{{ caddy_container }}"
     ports:
       - "443:443"
       - "443:443/udp"
       - "80:80"
     volumes:
-      - "{{ reverse_proxy_opt }}:/config:z"
-      - "{{ reverse_proxy_tls }}:/data:z"
-      - "{{ reverse_proxy_conf }}:/etc/caddy/Caddyfile:z"
+      - "{{ caddy_opt }}:/config:z"
+      - "{{ caddy_tls }}:/data:z"
+      - "{{ caddy_conf }}:/etc/caddy/Caddyfile:z"
     env:
       PUID: "1000"
       PGID: "1000"

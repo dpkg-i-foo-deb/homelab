@@ -4,6 +4,6 @@
     src: templates/Caddyfile
     dest: /etc/Caddyfile
     mode: '0644'
-    owner: "{{ reverse_proxy_user }}"
-    group: "{{ reverse_proxy_user }}"
+    owner: "{{ caddy_user }}"
+    group: "{{ caddy_user }}"
   notify: Restart Caddy
