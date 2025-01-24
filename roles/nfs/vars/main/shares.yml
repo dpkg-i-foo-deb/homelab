@@ -1,5 +1,5 @@
 
-nas_exports: [
+nfs_exports_conf: [
   "{{ nas_data }}/music    *(rw,sync,no_root_squash,no_subtree_check)",
   "{{ nas_data }}/documents    *(rw,sync,no_root_squash,no_subtree_check)",
   "{{ nas_data }}/knowledge    *(rw,sync,no_root_squash,no_subtree_check)",
