@@ -20,14 +20,18 @@
       - nano
     state: present
 
-- name: Install tuned
+- name: Install misc tools
   become: true
   ansible.builtin.package:
-    name: tuned
+    name:
+      - tuned
+      - qemu-guest-agent
     state: present
 
-- name: Install qemu-guest-agent
+- name: Install SELinux libraries
   become: true
+  when: ansible_os_family == "Almalinux"
   ansible.builtin.package:
-    name: qemu-guest-agent
+    name:
+      - python3-libselinux
     state: present
