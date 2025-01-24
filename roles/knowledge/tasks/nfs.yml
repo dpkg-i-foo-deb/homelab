@@ -4,7 +4,27 @@
     name: nas
     tasks_from: client.yml
 
-- name: Ensure mountpoints for NFS exist
+- name: Unmount NFS volumes to prevent data corruption
+  become: true
+  ansible.posix.mount:
+    src: "{{ nas_host }}:{{ nas_data }}/{{ mountpoint }}"
+    path: "/var/{{ mountpoint }}"
+    opts: rw,sync,hard
+    state: unmounted
+    fstype: nfs
+  loop: "{{ knowledge_nas_mountpoints }}"
+  loop_control:
+    loop_var: mountpoint
+
+- name: Delete NFS mountpoints to prevent messing up with permissions
+  become: true
+  ansible.builtin.file:
+    path: "/var/{{ item }}"
+    state: absent
+    mode: '0777'
+  with_items: "{{ knowledge_nas_mountpoints }}"
+
+- name: Ensure mountpoints for NFS exist and have the right permissions
   become: true
   ansible.builtin.file:
     path: "/var/{{ item }}"
@@ -14,7 +34,7 @@
     mode: '0777'
   with_items: "{{ knowledge_nas_mountpoints }}"
 
-- name: Ensure NFS volumes are mounted
+- name: Ensure NFS volumes are mounted again
   become: true
   ansible.posix.mount:
     src: "{{ nas_host }}:{{ nas_data }}/{{ mountpoint }}"

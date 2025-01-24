@@ -1,7 +1,7 @@
 
 nas_exports: [
-  "{{ nas_data }}/music    *(rw,sync,no_root_squash)",
-  "{{ nas_data }}/documents    *(rw,sync,no_root_squash)",
-  "{{ nas_data }}/knowledge    *(rw,sync,no_root_squash)",
-  "{{ nas_data }}/torrents    *(rw,sync,no_root_squash)"
+  "{{ nas_data }}/music    *(rw,sync,no_root_squash,no_subtree_check)",
+  "{{ nas_data }}/documents    *(rw,sync,no_root_squash,no_subtree_check)",
+  "{{ nas_data }}/knowledge    *(rw,sync,no_root_squash,no_subtree_check)",
+  "{{ nas_data }}/torrents    *(rw,sync,no_root_squash,no_subtree_check)"
 ]
