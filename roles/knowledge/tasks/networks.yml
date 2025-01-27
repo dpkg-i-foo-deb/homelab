@@ -1,6 +1,0 @@
----
-- name: Ensure there's a network for Wikijs
-  become: true
-  become_user: "{{ knowledge_user }}"
-  containers.podman.podman_network:
-    name: wikijs

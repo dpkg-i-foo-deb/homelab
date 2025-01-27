@@ -1,4 +1,34 @@
 - name: Configure knowledge virtual machine
   hosts: knowledge
-  roles:
-    - knowledge
+  vars:
+    knowledge_user: knowledge
+    knowledge_network: knowledge
+    postgres_podman_user: "{{ knowledge_user }}"
+    postgres_container: postgres
+    postgres_data: /var/knowledge
+    postgres_db: wikijs
+    postgres_user: wikijs
+    postgres_pass: !vault |
+      $ANSIBLE_VAULT;1.1;AES256
+      63373736386531633766656338333237623665636535333935343763333333336561633465333434
+      6233373331323934343763306461393432626238623161660a623136313531356433393636363362
+      62663734316366653966323565326338663064353832353261356234643265346239343764636265
+      3934366432656434630a613936373031663164643837363436643864616664373737643661613432
+      3333
+    postgres_network: "{{ knowledge_network }}"
+    wikijs_user: "{{ knowledge_user }}"
+    wikijs_container: wikijs
+    wikijs_network: "{{ knowledge_network }}"
+    wikijs_db_pass: "{{ postgres_pass }}"
+  tasks:
+    - name: Ensure there's a virtual network for knowledge
+      become: true
+      become_user: "{{ knowledge_user }}"
+      containers.podman.podman_network:
+        name: "{{ knowledge_network }}"
+    - name: Deploy Postgres for WikiJS
+      ansible.builtin.import_role:
+        name: postgres
+    - name: Deploy WikiJS
+      ansible.builtin.import_role:
+        name: wikijs

@@ -1,0 +1,29 @@
+---
+- name: Create Postgres Quadlet file
+  become: true
+  become_user: "{{ postgres_podman_user }}"
+  notify: Restart Postgres
+  containers.podman.podman_container:
+    name: "{{ postgres_container }}"
+    image: docker.io/postgres:latest
+    userns: "keep-id"
+    network: "{{ postgres_network }}"
+    state: quadlet
+    quadlet_filename: "{{ postgres_container }}"
+    ports:
+      - "5432:5432"
+    volumes:
+      - "{{ postgres_data }}:/var/lib/postgresql/data:z"
+    env:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: "{{ tz }}"
+      POSTGRES_DB: "{{ postgres_db }}"
+      POSTGRES_USER: "{{ postgres_user }}"
+      POSTGRES_PASSWORD: "{{ postgres_pass }}"
+    quadlet_options:
+      - "AutoUpdate=registry"
+      - "Pull=newer"
+      - |
+        [Install]
+        WantedBy=default.target multi-user.target

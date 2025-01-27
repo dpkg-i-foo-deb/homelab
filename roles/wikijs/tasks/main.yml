@@ -1,10 +1,6 @@
 ---
-- name: Directories configuration
-  ansible.builtin.include_tasks: directories.yml
 - name: NFS configuration
   ansible.builtin.include_tasks: nfs.yml
-- name: Container network configuration
-  ansible.builtin.include_tasks: networks.yml
 - name: Quadlet configuration
   ansible.builtin.include_tasks: quadlets.yml
 - name: Services configuration

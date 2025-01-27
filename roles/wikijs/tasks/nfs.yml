@@ -1,7 +1,7 @@
 ---
 - name: Ensure NFS dependencies are present
   ansible.builtin.import_role:
-    name: nas
+    name: nfs
     tasks_from: client.yml
 
 - name: Unmount NFS volumes to prevent data corruption
@@ -12,7 +12,7 @@
     opts: rw,sync,hard
     state: unmounted
     fstype: nfs
-  loop: "{{ knowledge_nas_mountpoints }}"
+  loop: "{{ wikijs_nas_mountpoints }}"
   loop_control:
     loop_var: mountpoint
 
@@ -22,17 +22,17 @@
     path: "/var/{{ item }}"
     state: absent
     mode: '0777'
-  with_items: "{{ knowledge_nas_mountpoints }}"
+  with_items: "{{ wikijs_nas_mountpoints }}"
 
 - name: Ensure mountpoints for NFS exist and have the right permissions
   become: true
   ansible.builtin.file:
     path: "/var/{{ item }}"
-    owner: "{{ knowledge_user }}"
-    group: "{{ knowledge_user }}"
+    owner: "{{ wikijs_user }}"
+    group: "{{ wikijs_user }}"
     state: directory
     mode: '0777'
-  with_items: "{{ knowledge_nas_mountpoints }}"
+  with_items: "{{ wikijs_nas_mountpoints }}"
 
 - name: Ensure NFS volumes are mounted again
   become: true
@@ -43,6 +43,6 @@
     state: mounted
     boot: true
     fstype: nfs
-  loop: "{{ knowledge_nas_mountpoints }}"
+  loop: "{{ wikijs_nas_mountpoints }}"
   loop_control:
     loop_var: mountpoint

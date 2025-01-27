@@ -1,0 +1,29 @@
+---
+- name: Create wikijs Quadlet file
+  become: true
+  become_user: "{{ wikijs_user }}"
+  notify: Restart wikijs
+  containers.podman.podman_container:
+    name: "{{ wikijs_container }}"
+    image: ghcr.io/requarks/wiki:2
+    state: quadlet
+    quadlet_filename: "{{ wikijs_container }}"
+    ports:
+      - "3000:3000"
+    network: "{{ wikijs_network }}"
+    env:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: "{{ tz }}"
+      DB_TYPE: postgres
+      DB_HOST: postgres
+      DB_PORT: 3306
+      DB_NAME: wikijs
+      DB_USER: wikijs
+      DB_PASS: "{{ wikijs_db_pass }}"
+    quadlet_options:
+      - "AutoUpdate=registry"
+      - "Pull=newer"
+      - |
+        [Install]
+        WantedBy=default.target multi-user.target

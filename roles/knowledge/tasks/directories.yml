@@ -1,9 +1,0 @@
----
-- name: Create MariaDB directory if needed
-  become: true
-  ansible.builtin.file:
-    path: "{{ knowledge_mariadb_data }}"
-    state: directory
-    mode: "0755"
-    owner: "{{ knowledge_user }}"
-    group: "{{ knowledge_user }}"
