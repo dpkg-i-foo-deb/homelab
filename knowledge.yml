@@ -22,10 +22,12 @@
         }
 
     - name: Ensure there's a virtual network for knowledge
-      become: true
-      become_user: "{{ knowledge_user }}"
-      containers.podman.podman_network:
-        name: "{{ knowledge_network }}"
+      ansible.builtin.import_role:
+        name: podman
+        tasks_from: network
+      vars:
+        podman_user: "{{ knowledge_user }}"
+        podman_network: "{{ knowledge_network }}"
 
     - name: Deploy Postgres for WikiJS
       ansible.builtin.import_role:

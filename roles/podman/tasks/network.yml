@@ -1,0 +1,6 @@
+---
+- name: Create podman virtual network named {{ podman_network }}
+  become: true
+  become_user: "{{ podman_user }}"
+  containers.podman.podman_network:
+    name: "{{ podman_network }}"
