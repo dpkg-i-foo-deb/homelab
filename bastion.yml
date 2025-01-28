@@ -1,0 +1,6 @@
+- name: Configure bastion virtual machine
+  hosts: bastion
+  tasks:
+    - name: Ensure /etc/hosts is configured
+      ansible.builtin.import_role:
+        name: dynamic_hosts

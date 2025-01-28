@@ -1,4 +1,6 @@
 ---
+- name: Bastion setup
+  import_playbook: bastion.yml
 - name: Hypervisor setup
   import_playbook: hypervisor.yml
 - name: Virtual machines DNS server configuration
