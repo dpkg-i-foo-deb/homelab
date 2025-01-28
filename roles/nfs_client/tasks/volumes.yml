@@ -1,0 +1,38 @@
+---
+- name: Unmount NFS volumes to prevent data corruption
+  become: true
+  ansible.posix.mount:
+    src: "{{ item.key }}"
+    path: "{{ item.value }}"
+    opts: rw,sync,hard
+    state: unmounted
+    fstype: nfs
+  loop: "{{ nfs_client_mounts | dict2items }}"
+
+- name: Delete NFS mountpoints to prevent messing up with permissions
+  become: true
+  ansible.builtin.file:
+    path: "{{ item.value }}"
+    state: absent
+  loop: "{{ nfs_client_mounts | dict2items }}"
+
+- name: Ensure mountpoints for NFS exist and have the right permissions
+  become: true
+  ansible.builtin.file:
+    path: "{{ item.value }}"
+    owner: "{{ nfs_client_user }}"
+    group: "{{ nfs_client_user }}"
+    state: directory
+    mode: '0777'
+  loop: "{{ nfs_client_mounts | dict2items }}"
+
+- name: Mount NFS Volumes
+  become: true
+  ansible.posix.mount:
+    src: "{{ item.key }}"
+    path: "{{ item.value }}"
+    opts: rw,sync,hard
+    state: mounted
+    boot: true
+    fstype: nfs
+  loop: "{{ nfs_client_mounts | dict2items }}"

@@ -1,0 +1,7 @@
+---
+- name: Ensure dependencies to mount NFS volumes are met
+  become: true
+  ansible.builtin.package:
+    update_cache: true
+    name:
+      - nfs-utils
