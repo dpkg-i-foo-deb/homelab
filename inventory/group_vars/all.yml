@@ -17,4 +17,4 @@ password_mgr_host: vault
 
 # TODO improve variable assignment
 nas_host: "10.0.11.10"
-nas_data: /nas-data
+nfs_server_data: /nas-data

@@ -9,11 +9,13 @@
   import_playbook: vm.yml
 - name: NAS configuration
   import_playbook: nas.yml
-- name: Reverse proxy configuration
-  import_playbook: reverse_proxy.yml
 - name: Security services configuration
   import_playbook: security.yml
 - name: Knowledge management deployment
   import_playbook: knowledge.yml
+- name: Torrent deployment
+  import_playbook: torrent.yml
 - name: Servarr deployment
   import_playbook: servarr.yml
+- name: Reverse proxy configuration
+  import_playbook: reverse_proxy.yml

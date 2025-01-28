@@ -18,7 +18,7 @@
       vars:
         nfs_client_user: "{{ knowledge_user }}"
         nfs_client_mounts: {
-          "{{nas_host}}:{{ nas_data }}/knowledge": "{{ knowledge_data }}"
+          "{{nas_host}}:{{ nfs_server_data }}/knowledge": "{{ knowledge_data }}"
         }
 
     - name: Ensure there's a virtual network for knowledge

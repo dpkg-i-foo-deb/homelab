@@ -5,7 +5,7 @@
 - name: NFS configuration using geerlingguy.nfs
   become: true
   vars:
-    nfs_exports: "{{ nfs_exports_conf }}"
+    nfs_exports: "{{ nfs_server_exports_conf }}"
   ansible.builtin.import_role:
     name: geerlingguy.nfs
 
@@ -13,8 +13,8 @@
   become: true
   ansible.builtin.file:
     path: "{{ item.split()[0] }}"
-    owner: "{{ nfs_user }}"
-    group: "{{ nfs_user }}"
+    owner: "{{ nfs_server_user }}"
+    group: "{{ nfs_server_user }}"
     state: directory
     mode: '0766'
-  with_items: "{{ nfs_exports_conf }}"
+  with_items: "{{ nfs_server_exports_conf }}"

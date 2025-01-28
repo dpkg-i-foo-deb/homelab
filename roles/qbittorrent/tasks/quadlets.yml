@@ -1,0 +1,29 @@
+---
+- name: Create Qbittorrent Quadlet file
+  become: true
+  become_user: "{{ qbittorrent_user }}"
+  notify: Restart Qbittorrent
+  containers.podman.podman_container:
+    name: "{{ qbittorrent_container }}"
+    image: lscr.io/linuxserver/qbittorrent:latest
+    userns: "keep-id"
+    state: quadlet
+    quadlet_filename: "{{ qbittorrent_container }}"
+    ports:
+      - "8080:8080"
+      - "6881:6881"
+      - "6881:6881/udp"
+    env:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: "{{ tz }}"
+      TORRENTING_PORT: "6881"
+    volumes:
+      - "{{ qbittorrent_data }}:/config:z"
+      - "{{ qbittorrent_downloads }}:/downloads"
+    quadlet_options:
+      - "AutoUpdate=registry"
+      - "Pull=newer"
+      - |
+        [Install]
+        WantedBy=default.target multi-user.target

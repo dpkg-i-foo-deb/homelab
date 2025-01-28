@@ -6,3 +6,5 @@ collections:
   - name: middleware_automation.keycloak
     version: "2.4.3"
   - name: ansible.posix
+  - name: community.general
+  - name: community.libvirt
