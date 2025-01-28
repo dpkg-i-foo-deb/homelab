@@ -24,6 +24,14 @@
         flaresolverr_user: "{{ servarr_user }}"
         flaresolverr_container: flaresolverr
 
+    - name: Deploy Prowlarr
+      ansible.builtin.import_role:
+        name: prowlarr
+      vars:
+        prowlarr_user: "{{ servarr_user }}"
+        prowlarr_container: prowlarr
+        prowlarr_config: /var/prowlarr
+
     - name: Deploy Lidarr
       ansible.builtin.import_role:
         name: lidarr
