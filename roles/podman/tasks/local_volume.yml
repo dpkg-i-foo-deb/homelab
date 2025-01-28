@@ -1,0 +1,9 @@
+---
+- name: Ensure there's a directory on path {{ podman_local_volume }}
+  become: true
+  ansible.builtin.file:
+    path: "{{ podman_local_volume }}"
+    state: directory
+    mode: "0755"
+    owner: "{{ podman_user }}"
+    group: "{{ podman_user }}"

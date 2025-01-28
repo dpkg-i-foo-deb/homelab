@@ -1,5 +1,64 @@
 - name: Configure security virtual machine
   hosts: security
+  vars:
+    security_user: security
+    security_network: security
+    podman_user: "{{ security_user }}"
+    security_keycloak_pg_pass: !vault |
+      $ANSIBLE_VAULT;1.1;AES256
+      34623238643730623933356136663966326437333764343138313661383733393837326336376162
+      3165623636366538653037343839313835376138616336620a353638633138643535316664626232
+      33653234373836303139346238643336653139646663626636613766636465313463666536313730
+      3266623763376635370a386135663562613737663431336464663666363839356235633939626330
+      6561
+
   roles:
-    - keycloak
     - vaultwarden
+  tasks:
+    - name: Ensure there's a virtual network for Keycloak
+      ansible.builtin.import_role:
+        name: podman
+        tasks_from: network
+      vars:
+        podman_network: "{{ security_network }}"
+
+    - name: Ensure there's a directory to store Keycloak PGData
+      ansible.builtin.import_role:
+        name: podman
+        tasks_from: local_volume
+      vars:
+        podman_local_volume: /var/postgres
+
+    - name: Deploy Postgres for Keycloak
+      ansible.builtin.import_role:
+        name: postgres
+      vars:
+        postgres_podman_user: "{{ security_user }}"
+        postgres_container: postgres
+        postgres_data: "/var/postgres"
+        postgres_db: keycloak
+        postgres_user: keycloak
+        postgres_network: "{{ security_network }}"
+        postgres_pass: "{{ security_keycloak_pg_pass }}"
+
+    - name: Deploy Keycloak
+      ansible.builtin.import_role:
+        name: keycloak
+      vars:
+        keycloak_user: "{{ security_user }}"
+        keycloak_container: keycloak
+        keycloak_pg_pass: "{{ security_keycloak_pg_pass }}"
+        keycloak_bootstrap_username: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          32313338643134653734343765353531313665386464363634303166613939316163663262616631
+          3430303639346139353937663634633363346564336133350a363230366465366131313030323332
+          30623264353332326336626235353334643135633865333731396535663039633033366633303035
+          3234643564646638350a393138363061633665623037386135376638306464343665656433666139
+          3961
+        keycloak_bootstrap_password: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          61663861396437333062623335393436303136343566396262643962333061663936653737353038
+          3337306436613936636136623930303062343534323165630a393138333238363235313734373066
+          31373739653334326161386463643366653639643966663366313961393832623066313737656436
+          6138393066373534640a343035653961353438343030336233316562363234353363326539633231
+          6237

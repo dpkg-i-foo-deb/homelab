@@ -1,6 +1,0 @@
----
-- name: Ensure there's a network for Keycloak
-  become: true
-  become_user: "{{ keycloak_user }}"
-  containers.podman.podman_network:
-    name: keycloak

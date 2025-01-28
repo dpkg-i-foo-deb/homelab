@@ -4,7 +4,7 @@
     knowledge_user: knowledge
     knowledge_network: knowledge
     knowledge_data: /var/knowledge
-    postgres_pass: !vault |
+    knowledge_wikijs_pgpass: !vault |
           $ANSIBLE_VAULT;1.1;AES256
           63373736386531633766656338333237623665636535333935343763333333336561633465333434
           6233373331323934343763306461393432626238623161660a623136313531356433393636363362
@@ -39,6 +39,7 @@
         postgres_db: wikijs
         postgres_user: wikijs
         postgres_network: "{{ knowledge_network }}"
+        postgres_pass: "{{ knowledge_wikijs_pgpass }}"
 
     - name: Deploy WikiJS
       ansible.builtin.import_role:
@@ -47,4 +48,4 @@
         wikijs_user: "{{ knowledge_user }}"
         wikijs_container: wikijs
         wikijs_network: "{{ knowledge_network }}"
-        wikijs_db_pass: "{{ postgres_pass }}"
+        wikijs_db_pass: "{{ knowledge_wikijs_pgpass }}"
