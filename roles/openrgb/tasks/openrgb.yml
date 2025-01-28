@@ -23,6 +23,7 @@
     dest: "{{ openrgb_install_path }}/{{ openrgb_udev_executable }}"
     mode: "0755"
 
-- name: Install OpenRGB udev rules
+- name: Install latest OpenRGB udev rules
+  changed_when: false
   become: true
   ansible.builtin.shell: "{{ openrgb_install_path }}/{{ openrgb_udev_executable }}"

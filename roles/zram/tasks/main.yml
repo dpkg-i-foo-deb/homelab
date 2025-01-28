@@ -5,7 +5,7 @@
 
 - name: Install zram packages for Almalinux
   ansible.builtin.include_tasks: zram-almalinux.yml
-  when: ansible_os_family == "Almalinux"
+  when: ansible_os_family == "RedHat"
 
 - name: Copy zram configuration file
   become: true
