@@ -21,13 +21,6 @@
       vars:
         podman_network: "{{ security_network }}"
 
-    - name: Ensure there's a directory to store Keycloak PGData
-      ansible.builtin.import_role:
-        name: podman
-        tasks_from: local_volume
-      vars:
-        podman_local_volume: /var/postgres
-
     - name: Deploy Postgres for Keycloak
       ansible.builtin.import_role:
         name: postgres
@@ -61,13 +54,6 @@
           31373739653334326161386463643366653639643966663366313961393832623066313737656436
           6138393066373534640a343035653961353438343030336233316562363234353363326539633231
           6237
-
-    - name: Ensure there's a directory to store Vaultwarden data
-      ansible.builtin.import_role:
-        name: podman
-        tasks_from: local_volume
-      vars:
-        podman_local_volume: "{{ security_vaultwarden_data }}"
 
     - name: Deploy Vaultwarden
       ansible.builtin.import_role:

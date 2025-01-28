@@ -1,9 +1,7 @@
 ---
-- name: Create Vaultwarden directories if needed
-  become: true
-  ansible.builtin.file:
-    path: "{{ vaultwarden_data }}"
-    state: directory
-    mode: "0755"
-    owner: "{{ vaultwarden_user }}"
-    group: "{{ vaultwarden_user }}"
+- name: Ensure there's a directory to store Vaultwarden data
+  ansible.builtin.import_role:
+    name: podman
+    tasks_from: local_volume
+  vars:
+    podman_local_volume: "{{ vaultwarden_data }}"

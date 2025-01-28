@@ -13,14 +13,6 @@
         nfs_client_mounts:
           { "{{nas_host}}:{{ nfs_server_data }}/torrents": "{{ torrent_downloads }}" }
 
-    - name: Ensure there's a directory to store Qbittorrent Data
-      ansible.builtin.import_role:
-        name: podman
-        tasks_from: local_volume
-      vars:
-        podman_local_volume: /var/qbittorrent
-        podman_user: "{{ torrent_user }}"
-
     - name: Deploy Qbittorrent
       ansible.builtin.import_role:
         name: qbittorrent
