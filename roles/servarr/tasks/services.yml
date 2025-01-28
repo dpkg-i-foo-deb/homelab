@@ -16,12 +16,3 @@
     state: restarted
     name: "{{ servarr_prowlarr_container_name }}"
     scope: user
-
-- name: Ensure Lidarr is running
-  become: true
-  become_user: "{{ servarr_user }}"
-  ansible.builtin.systemd_service:
-    daemon_reload: true
-    state: restarted
-    name: "{{ servarr_lidarr_container_name }}"
-    scope: user

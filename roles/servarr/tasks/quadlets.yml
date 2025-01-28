@@ -1,29 +1,4 @@
 ---
-- name: Create Lidarr Quadlet File
-  become: true
-  become_user: "{{ servarr_user }}"
-  containers.podman.podman_container:
-    name: "{{ servarr_lidarr_container_name }}"
-    image: lscr.io/linuxserver/lidarr:latest
-    state: quadlet
-    quadlet_filename: "{{ servarr_lidarr_container_name }}"
-    ports:
-      - "8686:8686"
-    volumes:
-      - "/var/lidarr:/config:z"
-      - "/var/nfs/music:/music"
-      - "/var/nfs/torrents:/downloads"
-    env:
-      PUID: "1000"
-      PGID: "1000"
-      TZ: "{{ tz }}"
-    quadlet_options:
-      - "AutoUpdate=registry"
-      - "Pull=newer"
-      - |
-        [Install]
-        WantedBy=default.target multi-user.target
-
 - name: Create Flaresolverr container
   become: true
   become_user: "{{ servarr_user }}"
