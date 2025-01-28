@@ -1,4 +1,28 @@
 - name: Configure servarr
   hosts: servarr
-  roles:
-    - servarr
+  vars:
+    servarr_user: servarr
+    servarr_downloads: /var/downloads
+    servarr_music: /var/music
+
+  tasks:
+    - name: NFS volumes configuration
+      ansible.builtin.import_role:
+        name: nfs_client
+      vars:
+        nfs_client_user: "{{ servarr_user }}"
+        nfs_client_mounts:
+          {
+            "{{nas_host}}:{{ nfs_server_data }}/torrents": "{{ servarr_downloads }}",
+            "{{nas_host}}:{{ nfs_server_data }}/music": "{{ servarr_music }}",
+          }
+
+    - name: Deploy Lidarr
+      ansible.builtin.import_role:
+        name: lidarr
+      vars:
+        lidarr_user: "{{ servarr_user }}"
+        lidarr_container: lidarr
+        lidarr_config: /var/lidarr
+        lidarr_collection: "{{ servarr_music }}"
+        lidarr_downloads: "{{ servarr_downloads }}"

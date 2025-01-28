@@ -1,0 +1,9 @@
+---
+- name: Restart lidarr
+  become: true
+  become_user: "{{ lidarr_user }}"
+  ansible.builtin.systemd_service:
+    daemon_reload: true
+    state: restarted
+    name: "{{ lidarr_container }}"
+    scope: user
