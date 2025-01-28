@@ -1,0 +1,29 @@
+---
+- name: Create Navidrome Quadlet File
+  become: true
+  become_user: "{{ navidrome_user }}"
+  notify: Restart navidrome
+  containers.podman.podman_container:
+    name: "{{ navidrome_container }}"
+    image: docker.io/deluan/navidrome:latest
+    state: quadlet
+    quadlet_filename: "{{ navidrome_container }}"
+    ports:
+      - "4533:4533"
+    volumes:
+      - "{{ navidrome_config }}:/config:z"
+      - "{{ navidrome_collection }}:/music:ro"
+    env:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: "{{ tz }}"
+      ND_SCANSCHEDULE: "1h"
+      ND_LOGLEVEL: "info"
+      ND_SESSIONTIMEOUT: "99h"
+      ND_BASEURL: ""
+    quadlet_options:
+      - "AutoUpdate=registry"
+      - "Pull=newer"
+      - |
+        [Install]
+        WantedBy=default.target multi-user.target
