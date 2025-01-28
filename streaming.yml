@@ -1,0 +1,22 @@
+- name: Configure streaming virtual machine
+  hosts: streaming
+  vars:
+    streaming_user: streaming
+    streaming_music: /var/music
+  tasks:
+    - name: NFS volumes configuration
+      ansible.builtin.import_role:
+        name: nfs_client
+      vars:
+        nfs_client_user: "{{ streaming_user }}"
+        nfs_client_mounts:
+          { "{{ nas_host }}:{{ nfs_server_data }}/music": "{{ streaming_music }}" }
+
+    - name: Deploy Navidrome
+      ansible.builtin.import_role:
+        name: navidrome
+      vars:
+        navidrome_user: "{{ streaming_user }}"
+        navidrome_container: navidrome
+        navidrome_config: /var/navidrome
+        navidrome_collection: "{{ streaming_music }}"

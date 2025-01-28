@@ -17,5 +17,7 @@
   import_playbook: torrent.yml
 - name: Servarr deployment
   import_playbook: servarr.yml
+- name: Streaming deployment
+  import_playbook: streaming.yml
 - name: Reverse proxy configuration
   import_playbook: reverse_proxy.yml

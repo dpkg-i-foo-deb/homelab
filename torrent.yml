@@ -11,7 +11,7 @@
       vars:
         nfs_client_user: "{{ torrent_user }}"
         nfs_client_mounts:
-          { "{{nas_host}}:{{ nfs_server_data }}/torrents": "{{ torrent_downloads }}" }
+          { "{{ nas_host }}:{{ nfs_server_data }}/torrents": "{{ torrent_downloads }}" }
 
     - name: Deploy Qbittorrent
       ansible.builtin.import_role:
