@@ -1,16 +1,15 @@
 ---
-- name: Create Prowlarr Quadlet File
+- name: Create Flaresolverr container
   become: true
-  become_user: "{{ servarr_user }}"
+  become_user: "{{ flaresolverr_user }}"
+  notify: Restart flaresolverr
   containers.podman.podman_container:
-    name: "{{ servarr_prowlarr_container_name }}"
-    image: lscr.io/linuxserver/prowlarr:latest
+    name: "{{ flaresolverr_container }}"
+    image: ghcr.io/flaresolverr/flaresolverr:latest
     state: quadlet
-    quadlet_filename: "{{ servarr_prowlarr_container_name }}"
+    quadlet_filename: "{{ flaresolverr_container }}"
     ports:
-      - "9696:9696"
-    volumes:
-      - "/var/prowlarr:/config:z"
+      - "8191:8191"
     env:
       PUID: "1000"
       PGID: "1000"

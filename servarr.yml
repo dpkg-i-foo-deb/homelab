@@ -17,6 +17,13 @@
             "{{nas_host}}:{{ nfs_server_data }}/music": "{{ servarr_music }}",
           }
 
+    - name: Deploy Flaresolverr
+      ansible.builtin.import_role:
+        name: flaresolverr
+      vars:
+        flaresolverr_user: "{{ servarr_user }}"
+        flaresolverr_container: flaresolverr
+
     - name: Deploy Lidarr
       ansible.builtin.import_role:
         name: lidarr
