@@ -1,10 +1,8 @@
 ---
-- name: Create DNS server configuration directory if it doesn't exists
-  become: true
-  ansible.builtin.file:
-    path: "{{ technitium_config }}"
-    state: directory
-    mode: '0755'
-    owner: "{{ technitium_user }}"
-    group: "{{ technitium_user }}"
-    recurse: true
+- name: Ensure there's a directory to Technitium config
+  ansible.builtin.import_role:
+    name: podman
+    tasks_from: local_volume
+  vars:
+    podman_local_volume: "{{ technitium_config }}"
+    podman_user: "{{ technitium_user }}"

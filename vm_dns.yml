@@ -1,4 +1,18 @@
 - name: Configure virtual machines DNS server
   hosts: vmdns
-  roles:
-    - technitium
+
+  tasks:
+    - name: Deploy Technitium DNS Server
+      ansible.builtin.import_role:
+        name: technitium
+  vars:
+    technitium_user: "dns"
+    technitium_container: "dns"
+    technitium_config: "/var/dns"
+    technitium_web_password: !vault |
+      $ANSIBLE_VAULT;1.1;AES256
+      37653833633730316563363766633430383830346462653430316563366165323038363466646639
+      3030616332333966616433643332303161316164656438380a396466643763656361353634383266
+      64616634666262356639333333636538643461613263643962353035306162376361346531313464
+      6262373330666462310a373435373037313563633536383766386636336461353561316437666430
+      6562
