@@ -1,9 +1,14 @@
 - name: Configure hypervisor(s)
   hosts: hypervisors
-  roles:
-    - cockpit
-    - openrgb
   tasks:
+    - name: Cockpit configuration
+      ansible.builtin.import_role:
+        name: cockpit
+
+    - name: OpenRGB configuration
+      ansible.builtin.import_role:
+        name: openrgb
+
     - name: QEMU/KVM Configuration
       ansible.builtin.import_role:
         name: qemu_kvm
