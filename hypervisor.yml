@@ -1,6 +1,10 @@
 - name: Configure hypervisor(s)
   hosts: hypervisors
   tasks:
+    - name: Hostsfile configuration
+      ansible.builtin.import_role:
+        name: dynamic_hosts
+
     - name: Cockpit configuration
       ansible.builtin.import_role:
         name: cockpit

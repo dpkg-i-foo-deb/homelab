@@ -1,4 +1,9 @@
 - name: Configure base dependencies for all virtual machines
   hosts: all, !hypervisors, !firewall
-  roles:
-    - vm
+  tasks:
+    - name: Generate /etc/hosts from template
+      ansible.builtin.import_role:
+        name: dynamic_hosts
+    - name: General virtual machine configuration
+      ansible.builtin.import_role:
+        name: base_vm

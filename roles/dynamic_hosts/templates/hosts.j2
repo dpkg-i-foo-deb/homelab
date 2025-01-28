@@ -1,0 +1,8 @@
+# Localhost definitions
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+
+# Virtual machines
+{% for ip, hostname in dynamic_hosts_map.items() %}
+{{ ip }}  {{ hostname }}
+{% endfor %}
