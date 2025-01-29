@@ -1,4 +1,5 @@
 - name: Copy Caddy configuration file
+  notify: Restart Caddy
   become: true
   ansible.builtin.template:
     src: templates/Caddyfile
@@ -6,4 +7,3 @@
     mode: '0644'
     owner: "{{ caddy_user }}"
     group: "{{ caddy_user }}"
-  notify: Restart Caddy

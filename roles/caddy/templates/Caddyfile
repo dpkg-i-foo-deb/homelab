@@ -96,7 +96,7 @@ music.{{ internet_host }} {
 # Password manager
 
 vault.{{ internet_host }} {
-        import proxy 10.0.0.21:8080
+        import proxy 10.0.0.10:8080
 }
 
 # Wireguard dashboard
