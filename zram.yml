@@ -1,4 +1,6 @@
 - name: Zram configuration
   hosts: all, !firewall
-  roles:
-    - zram
+  tasks:
+    - name: Configure Zram
+      ansible.builtin.import_role:
+        name: zram
