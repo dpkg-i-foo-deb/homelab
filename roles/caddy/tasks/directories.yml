@@ -1,18 +1,16 @@
 ---
-- name: Create Caddy TLS directory if needed
-  become: true
-  ansible.builtin.file:
-    path: "{{ caddy_tls }}"
-    state: directory
-    mode: "0755"
-    owner: "{{ caddy_user }}"
-    group: "{{ caddy_user }}"
+- name: Ensure there's a directory to store Caddy TLS data
+  ansible.builtin.import_role:
+    name: podman
+    tasks_from: local_volume
+  vars:
+    podman_local_volume: "{{ caddy_tls }}"
+    podman_user: "{{ caddy_user }}"
 
-- name: Create Caddy data directory if needed
-  become: true
-  ansible.builtin.file:
-    path: "{{ caddy_opt }}"
-    state: directory
-    mode: "0755"
-    owner: "{{ caddy_user }}"
-    group: "{{ caddy_user }}"
+- name: Ensure there's a directory to store Caddy configuration
+  ansible.builtin.import_role:
+    name: podman
+    tasks_from: local_volume
+  vars:
+    podman_local_volume: "{{ caddy_opt }}"
+    podman_user: "{{ caddy_user }}"

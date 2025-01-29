@@ -1,6 +1,31 @@
 - name: Configure bastion virtual machine
   hosts: bastion
+  vars:
+    bastion_user: bastion
   tasks:
     - name: Ensure /etc/hosts is configured
       ansible.builtin.import_role:
         name: dynamic_hosts
+
+    - name: Code-Server configuration
+      ansible.builtin.import_role:
+        name: code_server
+      vars:
+        code_server_user: "{{ bastion_user }}"
+        code_server_container: code-server
+        code_server_image: code-server-bastion
+        # code_server_network: host
+        code_server_port: "8443"
+        code_server_sudo_pass: bastion
+        code_server_proxy_domain: domain
+        code_server_workspace: /var/code-server/workspace
+        code_server_git_name: User
+        code_server_git_email: user@email.me
+        code_server_gitconfig: /home/bastion/.gitconfig
+        code_server_ssh: /home/bastion/.ssh
+        code_server_extensions: /var/code-server/extensions
+        code_server_data: /var/code-server/data
+        code_server_extra_pkgs:
+          - git
+          - curl
+          - wget

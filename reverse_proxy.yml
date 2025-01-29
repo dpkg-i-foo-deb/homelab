@@ -1,4 +1,14 @@
 - name: Configure reverse proxy
   hosts: reverse_proxy
-  roles:
-    - caddy
+  vars:
+    reverse_proxy_user: proxy
+  tasks:
+    - name: Deploy Caddy
+      ansible.builtin.import_role:
+        name: caddy
+      vars:
+        caddy_user: "{{ reverse_proxy_user }}"
+        caddy_container: caddy
+        caddy_opt: /etc/caddy
+        caddy_tls: /var/caddy
+        caddy_conf: /etc/Caddyfile
