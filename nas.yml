@@ -8,8 +8,8 @@
         nfs_server_user: nas
         nfs_server_disk_0: /dev/vdb
         nfs_server_exports_conf: [
-          "{{ nfs_server_data }}/music    *(rw,sync,no_root_squash,no_subtree_check)",
-          "{{ nfs_server_data }}/documents    *(rw,sync,no_root_squash,no_subtree_check)",
-          "{{ nfs_server_data }}/knowledge    *(rw,sync,no_root_squash,no_subtree_check)",
-          "{{ nfs_server_data }}/torrents    *(rw,sync,no_root_squash,no_subtree_check)",
+          "{{ nfs_server_data }}/music    *(rw,async,no_root_squash,no_subtree_check)",
+          "{{ nfs_server_data }}/documents    *(rw,async,no_root_squash,no_subtree_check)",
+          "{{ nfs_server_data }}/knowledge    *(rw,async,no_root_squash,no_subtree_check)",
+          "{{ nfs_server_data }}/torrents    *(rw,async,no_root_squash,no_subtree_check)",
         ]
