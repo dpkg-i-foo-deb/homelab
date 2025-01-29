@@ -5,13 +5,12 @@
   notify: Restart code-server
   containers.podman.podman_container:
     name: "{{ code_server_container }}"
-    image: lscr.io/linuxserver/code-server:latest
-    userns: "keep-id"
+    image: "localhost/{{ code_server_image }}:latest"
     state: quadlet
     quadlet_filename: "{{ code_server_container }}"
-    network: "{{ code_server_network }}"
+    # network: "{{ code_server_network }}"
     ports:
-      - "8443:8443"
+      - "{{ code_server_port }}:8443"
     env:
       PUID: "1000"
       PGID: "1000"
@@ -19,7 +18,11 @@
       SUDO_PASSWORD: "{{ code_server_sudo_pass }}"
       PROXY_DOMAIN: "{{ code_server_proxy_domain }}"
     volumes:
-      - "{{ code_server_workspace }}:/config:z"
+      - "{{ code_server_workspace }}:/config/workspace:z"
+      - "{{ code_server_gitconfig }}:/config/.gitconfig:z"
+      - "{{ code_server_ssh }}:/config/.ssh"
+      - "{{ code_server_extensions }}:/config/extensions:z"
+      - "{{ code_server_data }}:/config/data:z"
     quadlet_options:
       - "AutoUpdate=registry"
       - "Pull=newer"

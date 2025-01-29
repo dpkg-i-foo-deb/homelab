@@ -6,3 +6,19 @@
   vars:
     podman_local_volume: "{{ code_server_workspace }}"
     podman_user: "{{ code_server_user }}"
+
+- name: Ensure there's a directory to store code-server extensions
+  ansible.builtin.import_role:
+    name: podman
+    tasks_from: local_volume
+  vars:
+    podman_local_volume: "{{ code_server_extensions }}"
+    podman_user: "{{ code_server_user }}"
+
+- name: Ensure there's a directory to store code-server data
+  ansible.builtin.import_role:
+    name: podman
+    tasks_from: local_volume
+  vars:
+    podman_local_volume: "{{ code_server_data }}"
+    podman_user: "{{ code_server_user }}"
