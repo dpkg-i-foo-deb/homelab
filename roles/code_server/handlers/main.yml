@@ -1,0 +1,9 @@
+---
+- name: Restart code-server
+  become: true
+  become_user: "{{ code_server_user }}"
+  ansible.builtin.systemd_service:
+    daemon_reload: true
+    state: restarted
+    name: "{{ code_server_container }}"
+    scope: user
