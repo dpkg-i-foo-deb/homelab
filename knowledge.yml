@@ -35,7 +35,8 @@
       vars:
         postgres_podman_user: "{{ knowledge_user }}"
         postgres_container: postgres
-        postgres_data: "{{ knowledge_data }}"
+        postgres_data_dir: "{{ knowledge_data }}"
+        # postgres_data_vol: knowledge
         postgres_db: wikijs
         postgres_user: wikijs
         postgres_network: "{{ knowledge_network }}"

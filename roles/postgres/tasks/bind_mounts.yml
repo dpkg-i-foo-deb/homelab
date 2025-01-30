@@ -1,0 +1,8 @@
+---
+- name: Ensure there's a directory to store postgres data
+  ansible.builtin.import_role:
+    name: podman
+    tasks_from: bind_mount
+  vars:
+    podman_bind_mount: "{{ postgres_data_dir }}"
+    podman_user: "{{ postgres_podman_user }}"

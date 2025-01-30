@@ -4,5 +4,5 @@
     name: podman
     tasks_from: local_volume
   vars:
-    podman_local_volume: "{{ postgres_data }}"
+    podman_local_volume: "{{ postgres_data_vol }}"
     podman_user: "{{ postgres_podman_user }}"

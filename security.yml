@@ -26,7 +26,7 @@
       vars:
         postgres_podman_user: "{{ security_user }}"
         postgres_container: postgres
-        postgres_data: "postgres_keycloak"
+        postgres_data_vol: "postgres_keycloak"
         postgres_db: keycloak
         postgres_user: keycloak
         postgres_network: "{{ security_network }}"
