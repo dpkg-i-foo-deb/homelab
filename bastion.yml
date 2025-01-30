@@ -16,8 +16,14 @@
         code_server_image: code-server-bastion
         # code_server_network: host
         code_server_port: "8443"
-        code_server_sudo_pass: bastion
-        code_server_proxy_domain: domain
+        code_server_sudo_pass: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          34633465323133663336383031356331373066303537366233323033366562656263623137613532
+          3031346534366231386461333834653330623962646262370a343265333163363236666636663134
+          37376637613962626263326430313733346536303730383032366263653765633836383334303131
+          3439306135316638320a336335303631633065373636616531633865323131313738633366633664
+          3434
+        code_server_proxy_domain: '{{ bastion_code_host }}'
         code_server_workspace: code_server_workspace
         code_server_extra_pkgs:
           - git

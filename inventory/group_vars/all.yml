@@ -12,6 +12,7 @@ internet_host: !vault |
           64393063343736366464396532313262643266386138393533313431333236396466
 
 password_mgr_host: vault
+bastion_code_host: bastion-code
 
 # NAS Stuff
 
