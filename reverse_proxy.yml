@@ -9,6 +9,6 @@
       vars:
         caddy_user: "{{ reverse_proxy_user }}"
         caddy_container: caddy
-        caddy_opt: /etc/caddy
-        caddy_tls: /var/caddy
+        caddy_opt: caddy_opt
+        caddy_tls: caddy_tls
         caddy_conf: /etc/Caddyfile

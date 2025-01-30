@@ -2,8 +2,8 @@
   ansible.builtin.import_role:
     name: podman
     tasks_from: rootless_ports
-- name: Directory configuration
-  ansible.builtin.include_tasks: directories.yml
+- name: Volumes configuration
+  ansible.builtin.include_tasks: volumes.yml
 - name: Copy configuration files
   ansible.builtin.include_tasks: config.yml
 - name: Quadlet files configuration

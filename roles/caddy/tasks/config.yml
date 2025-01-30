@@ -3,7 +3,7 @@
   become: true
   ansible.builtin.template:
     src: templates/Caddyfile
-    dest: /etc/Caddyfile
+    dest: '{{ caddy_conf }}'
     mode: '0644'
     owner: "{{ caddy_user }}"
     group: "{{ caddy_user }}"

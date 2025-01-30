@@ -1,10 +1,8 @@
 ---
-- name: Ensure there's a directory on path {{ podman_local_volume }}
+- name: Ensure there's a volume named {{ podman_local_volume }}
   become: true
-  ansible.builtin.file:
-    path: "{{ podman_local_volume }}"
-    state: directory
-    mode: "0777"
-    recurse: true
-    owner: "{{ podman_user }}"
-    group: "{{ podman_user }}"
+  become_user: '{{ podman_user }}'
+  containers.podman.podman_volume:
+    state: present
+    name: '{{ podman_local_volume }}'
+    driver: local
