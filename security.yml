@@ -11,7 +11,6 @@
       33653234373836303139346238643336653139646663626636613766636465313463666536313730
       3266623763376635370a386135663562613737663431336464663666363839356235633939626330
       6561
-    security_vaultwarden_data: /var/vaultwarden
 
   tasks:
     - name: Ensure there's a virtual network for Keycloak
@@ -27,7 +26,7 @@
       vars:
         postgres_podman_user: "{{ security_user }}"
         postgres_container: postgres
-        postgres_data: "/var/postgres"
+        postgres_data: "postgres_keycloak"
         postgres_db: keycloak
         postgres_user: keycloak
         postgres_network: "{{ security_network }}"
@@ -61,7 +60,7 @@
       vars:
         vaultwarden_container: vaultwarden
         vaultwarden_user: "{{ security_user }}"
-        vaultwarden_data: "{{ security_vaultwarden_data }}"
+        vaultwarden_data: "vaultwarden"
         vaultwarden_admin_token: !vault |
           $ANSIBLE_VAULT;1.1;AES256
           62333933613636626334633735643234373361643037303733353264663733363234396261343332

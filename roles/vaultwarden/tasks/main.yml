@@ -1,5 +1,5 @@
-- name: Directory configuration
-  ansible.builtin.include_tasks: directories.yml
+- name: Volume configuration
+  ansible.builtin.include_tasks: volumes.yml
 - name: Quadlet files configuration
   ansible.builtin.include_tasks: quadlets.yml
 - name: Services configuration
