@@ -76,7 +76,7 @@
 # Keycloak portal
 
 auth.{{ internet_host }} {
-        import proxy 10.0.0.10:8080
+        import proxy 10.0.0.10:8081
 }
 
 # Oauth2 proxy

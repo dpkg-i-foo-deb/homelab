@@ -10,7 +10,7 @@
     quadlet_filename: "{{ keycloak_container }}"
     ports:
       - "8081:8080"
-    network: keycloak
+    network: '{{ keycloak_network }}'
     env:
       PUID: "1000"
       PGID: "1000"
