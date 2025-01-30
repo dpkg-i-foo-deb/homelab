@@ -18,5 +18,5 @@
       vars:
         navidrome_user: "{{ streaming_user }}"
         navidrome_container: navidrome
-        navidrome_config: /var/navidrome
+        navidrome_config: 'navidrome_config'
         navidrome_collection: "{{ streaming_music }}"

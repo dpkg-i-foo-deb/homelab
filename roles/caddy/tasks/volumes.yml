@@ -1,5 +1,5 @@
 ---
-- name: Ensure there's a directory to store Caddy TLS data
+- name: Ensure there's a volume to store Caddy TLS data
   ansible.builtin.import_role:
     name: podman
     tasks_from: local_volume
@@ -7,7 +7,7 @@
     podman_local_volume: "{{ caddy_tls }}"
     podman_user: "{{ caddy_user }}"
 
-- name: Ensure there's a directory to store Caddy configuration
+- name: Ensure there's a volume to store Caddy configuration
   ansible.builtin.import_role:
     name: podman
     tasks_from: local_volume

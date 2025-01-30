@@ -23,3 +23,5 @@
           - git
           - curl
           - wget
+          - ansible
+          - ansible-lint
