@@ -19,8 +19,6 @@
         code_server_sudo_pass: bastion
         code_server_proxy_domain: domain
         code_server_workspace: /var/code-server/workspace
-        code_server_git_name: User
-        code_server_git_email: user@email.me
         code_server_gitconfig: /home/bastion/.gitconfig
         code_server_ssh: /home/bastion/.ssh
         code_server_extensions: /var/code-server/extensions

@@ -20,7 +20,7 @@
     volumes:
       - "{{ code_server_workspace }}:/config/workspace:z"
       - "{{ code_server_gitconfig }}:/config/.gitconfig:z"
-      - "{{ code_server_ssh }}:/config/.ssh"
+      - "{{ code_server_ssh }}:/config/.ssh:z"
       - "{{ code_server_extensions }}:/config/extensions:z"
       - "{{ code_server_data }}:/config/data:z"
     quadlet_options:
