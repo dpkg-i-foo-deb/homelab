@@ -18,11 +18,7 @@
       SUDO_PASSWORD: "{{ code_server_sudo_pass }}"
       PROXY_DOMAIN: "{{ code_server_proxy_domain }}"
     volumes:
-      - "{{ code_server_workspace }}:/config/workspace:z"
-      - "{{ code_server_gitconfig }}:/config/.gitconfig:z"
-      - "{{ code_server_ssh }}:/config/.ssh:z"
-      - "{{ code_server_extensions }}:/config/extensions:z"
-      - "{{ code_server_data }}:/config/data:z"
+      - "{{ code_server_workspace }}:/config:z"
     quadlet_options:
       - "AutoUpdate=registry"
       - "Pull=newer"

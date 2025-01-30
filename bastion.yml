@@ -7,7 +7,7 @@
       ansible.builtin.import_role:
         name: dynamic_hosts
 
-    - name: Code-Server configuration
+    - name: Deploy code_server
       ansible.builtin.import_role:
         name: code_server
       vars:
@@ -18,11 +18,7 @@
         code_server_port: "8443"
         code_server_sudo_pass: bastion
         code_server_proxy_domain: domain
-        code_server_workspace: /var/code-server/workspace
-        code_server_gitconfig: /home/bastion/.gitconfig
-        code_server_ssh: /home/bastion/.ssh
-        code_server_extensions: /var/code-server/extensions
-        code_server_data: /var/code-server/data
+        code_server_workspace: code_server_workspace
         code_server_extra_pkgs:
           - git
           - curl
