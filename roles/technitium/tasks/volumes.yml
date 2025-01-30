@@ -1,5 +1,5 @@
 ---
-- name: Ensure there's a directory to Technitium config
+- name: Ensure there's a volume to store Technitium config
   ansible.builtin.import_role:
     name: podman
     tasks_from: local_volume

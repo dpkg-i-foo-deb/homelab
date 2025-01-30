@@ -8,7 +8,7 @@
   vars:
     technitium_user: "dns"
     technitium_container: "dns"
-    technitium_config: "/var/dns"
+    technitium_config: "technitium"
     technitium_web_password: !vault |
       $ANSIBLE_VAULT;1.1;AES256
       37653833633730316563363766633430383830346462653430316563366165323038363466646639
