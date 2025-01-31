@@ -57,6 +57,7 @@
           63393534643034346333373135356263383736653837383838323663666138633362343134643062
           3362373062366138636332383361333733623262343439396634
         oauth2_proxy_whitelist_domains: '[".{{ internet_host }}"]'
+        oauth2_proxy_cookie_domains: '[".{{ internet_host }}"]'
         oauth2_proxy_provider: "{{ homelab_oidc_provider }}"
         oauth2_proxy_client_id: "{{ code_client }}"
         oauth2_proxy_client_secret: "{{ code_secret }}"

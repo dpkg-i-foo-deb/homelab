@@ -90,6 +90,11 @@
         auth_realm: master
         auth_username: '{{ security_keycloak_admin_user }}'
         auth_password: '{{ security_keycloak_admin_password }}'
+        registration_allowed: false
+        remember_me: true
+        verify_email: false
+        realm: '{{ homelab_realm }}'
+        enabled: true
         id: !vault |
           $ANSIBLE_VAULT;1.1;AES256
           61333130633239303036376439316630306563633638643135326166656166386166623065346231
@@ -97,7 +102,6 @@
           33323564346461343165323036363764306537356632333835356431363565356133383364373662
           3334663364623734300a376335666437366530653030656163386635383962306534303263363136
           3636
-        realm: '{{ homelab_realm }}'
         display_name: !vault |
           $ANSIBLE_VAULT;1.1;AES256
           64313033653233323364373663386665396530393231323631346539306435313865396536666636
@@ -105,9 +109,6 @@
           32346665313466643939643835613731646661336465323735303032346535656439376636303131
           6664323533613831390a333933306337613935343961366530616632663363643735386661636430
           6436
-        registration_allowed: false
-        remember_me: true
-        verify_email: false
         state: present
 
     - name: Ensure Code service is registered as a client
@@ -138,6 +139,11 @@
         public_client: false
         frontchannel_logout: false
         protocol: openid-connect
+        protocol_mappers:
+          - config:
+            name: '{{ code_client }}-audience'
+            protocol: openid-connect
+            protocolMapper: oidc-audience-mapper
         full_scope_allowed: false
         node_re_registration_timeout: -1
         use_template_config: false
