@@ -27,6 +27,7 @@
       - tuned
       - qemu-guest-agent
       - telnet
+      - acl
     state: present
 
 - name: Install SELinux libraries
