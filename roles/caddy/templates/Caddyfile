@@ -31,22 +31,30 @@
 }
 
 (proxy_keycloak) {
+
         encode {
                 zstd better
                 gzip 6
         }
 
-        forward_auth 10.0.0.10:4180 {
-                uri /oauth2/auth
-                copy_headers Authorization
-
-                @bad status 4xx
-                handle_response @bad {
-                        redir https://oauth.{{ internet_host }}/oauth2/start
-                }
+        handle /oauth2/* {
+                reverse_proxy {args[0]}:4180
         }
 
-        reverse_proxy {args[0]}
+        handle {
+                forward_auth {args[0]}:4180 {
+                        uri /oauth2/auth
+                        copy_headers Authorization
+
+                        # @bad status 4xx
+                        # handle_response @bad {
+                        #          redir {args[2]}.{{ internet_host }}/oauth2/start
+                        # }
+                }
+
+                reverse_proxy {args[0]}:{args[1]}
+
+        }
 }
 
 (proxy_keycloak_tls) {
@@ -55,14 +63,18 @@
                 gzip 6
         }
 
-        forward_auth 10.0.0.10:4180 {
+        handle /oauth2/* {
+                reverse_proxy http://{args[0]}:4180
+        }
+
+        forward_auth {args[0]}:4180 {
                 uri /oauth2/auth
                 copy_headers Authorization
 
-                @bad status 4xx
-                handle_response @bad {
-                        redir https://oauth.{{ internet_host }}/oauth2/start
-                }
+                # @bad status 4xx
+                # handle_response @bad {
+                #         redir https://oauth.{{ internet_host }}/oauth2/start
+                # }
         }
 
         reverse_proxy {args[0]} {
@@ -86,7 +98,7 @@ oauth.{{ internet_host }} {
 }
 
 code.{{ internet_host }} {
-        import proxy_keycloak 10.0.8.10:8080
+        import proxy_keycloak 10.0.8.10 8080 code
 }
 
 music.{{ internet_host }} {
@@ -114,5 +126,5 @@ uptime.{{ internet_host }} {
 # Note taking app
 
 notes.{{ internet_host }} {
-        import proxy_keycloak 10.0.0.11:3000
+        import proxy_keycloak 10.0.0.11 3000
 }
