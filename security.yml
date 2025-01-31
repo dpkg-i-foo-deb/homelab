@@ -25,13 +25,7 @@
       30376566326439353732653334303437343837643664346634373735343565356132643230323434
       6436636335386631310a323835636630353865313832303862633366326463663439646630383362
       3562
-    security_keycloak_homelab_realm: !vault |
-          $ANSIBLE_VAULT;1.1;AES256
-          61333130633239303036376439316630306563633638643135326166656166386166623065346231
-          3466353261323264383666306661613833653563646430610a383861306366373439653362363739
-          33323564346461343165323036363764306537356632333835356431363565356133383364373662
-          3334663364623734300a376335666437366530653030656163386635383962306534303263363136
-          3636
+
 
   tasks:
     - name: Ensure there's a virtual network for Keycloak
@@ -40,6 +34,7 @@
         tasks_from: network
       vars:
         podman_network: "{{ security_network }}"
+        podman_user: '{{ security_user }}'
 
     - name: Deploy Postgres for Keycloak
       ansible.builtin.import_role:
@@ -102,7 +97,7 @@
           33323564346461343165323036363764306537356632333835356431363565356133383364373662
           3334663364623734300a376335666437366530653030656163386635383962306534303263363136
           3636
-        realm: '{{ security_keycloak_homelab_realm }}'
+        realm: '{{ homelab_realm }}'
         display_name: !vault |
           $ANSIBLE_VAULT;1.1;AES256
           64313033653233323364373663386665396530393231323631346539306435313865396536666636
@@ -123,7 +118,7 @@
         auth_username: '{{ security_keycloak_admin_user }}'
         auth_password: '{{ security_keycloak_admin_password }}'
         state: present
-        realm: '{{ security_keycloak_homelab_realm }}'
+        realm: '{{ homelab_realm }}'
         client_id: '{{ code_client }}'
         name: '{{ code_client }}'
         description: 'Main Code App. To develop in general'
