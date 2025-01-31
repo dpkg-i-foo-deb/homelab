@@ -25,8 +25,8 @@
       KC_HOSTNAME_STRICT: "false"
       KC_HOSTNAME_URL: "https://auth.{{ internet_host }}"
       KC_HTTP_ENABLED: "true"
-      KC_BOOTSTRAP_ADMIN_USERNAME: "{{ keycloak_bootstrap_username }}"
-      KC_BOOTSTRAP_ADMIN_PASSWORD: "{{ keycloak_bootstrap_password }}"
+      KC_BOOTSTRAP_ADMIN_USERNAME: "{{ keycloak_bootstrap_username | default(omit) }}"
+      KC_BOOTSTRAP_ADMIN_PASSWORD: "{{ keycloak_bootstrap_password | default(omit) }}"
     command: start
     quadlet_options:
       - "AutoUpdate=registry"
