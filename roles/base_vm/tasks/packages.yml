@@ -28,13 +28,13 @@
       - qemu-guest-agent
       - telnet
       - acl
-      - epel-release
     state: present
 
-- name: Install SELinux libraries
+- name: Install AlmaLinux specific packages
   become: true
   when: ansible_os_family == "Almalinux"
   ansible.builtin.package:
     name:
       - python3-libselinux
+      - epel-release
     state: present
