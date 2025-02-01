@@ -31,3 +31,5 @@
           - wget
           - ansible
           - ansible-lint
+          - vim
+          - nano
