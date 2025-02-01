@@ -28,6 +28,7 @@
       - qemu-guest-agent
       - telnet
       - acl
+      - epel-release
     state: present
 
 - name: Install SELinux libraries
