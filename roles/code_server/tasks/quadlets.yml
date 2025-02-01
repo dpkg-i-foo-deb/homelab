@@ -8,9 +8,7 @@
     image: "localhost/{{ code_server_image }}:latest"
     state: quadlet
     quadlet_filename: "{{ code_server_container }}"
-    network: '{{ code_server_network | default(omit) }}'
-    ports:
-      - "{{ code_server_port }}:8443"
+    network: host
     env:
       PUID: "1000"
       PGID: "1000"

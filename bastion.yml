@@ -14,8 +14,6 @@
         code_server_user: "{{ bastion_user }}"
         code_server_container: code-server
         code_server_image: code-server-bastion
-        # code_server_network: host
-        code_server_port: "8443"
         code_server_sudo_pass: !vault |
           $ANSIBLE_VAULT;1.1;AES256
           34633465323133663336383031356331373066303537366233323033366562656263623137613532
