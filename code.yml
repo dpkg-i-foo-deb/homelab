@@ -46,7 +46,7 @@
         oauth2_proxy_port: "4180"
         oauth2_proxy_network: "{{ code_network }}"
         oauth2_proxy_http_address: "0.0.0.0:4180"
-        oauth2_proxy_email_domains: '["*"]'
+        oauth2_proxy_email_domains: '*'
         oauth2_proxy_reverse: "true"
         oauth2_proxy_cookie_secret: !vault |
           $ANSIBLE_VAULT;1.1;AES256

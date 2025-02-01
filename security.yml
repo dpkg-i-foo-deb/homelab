@@ -141,6 +141,9 @@
         protocol: openid-connect
         protocol_mappers:
           - config:
+              included.client.audience: '{{ code_client }}'
+              access.token.claim: 'true'
+              id.token.claim: 'true'
             name: '{{ code_client }}-audience'
             protocol: openid-connect
             protocolMapper: oidc-audience-mapper
