@@ -1,0 +1,7 @@
+---
+- name: Ensure powertop is running and starts on boot
+  become: true
+  ansible.builtin.service:
+    name: powertop
+    state: started
+    enabled: true

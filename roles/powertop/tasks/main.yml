@@ -1,0 +1,5 @@
+---
+- name: Package configuration
+  ansible.builtin.import_tasks: packages.yml
+- name: Services configuration
+  ansible.builtin.import_tasks: services.yml

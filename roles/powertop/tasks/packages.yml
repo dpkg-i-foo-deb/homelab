@@ -1,0 +1,6 @@
+---
+- name: Ensure the powertop package is installed
+  become: true
+  ansible.builtin.package:
+    name: powertop
+    state: present

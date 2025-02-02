@@ -1,6 +1,11 @@
 - name: Configure hypervisor(s)
   hosts: hypervisors
   tasks:
+
+    - name: Powertop configuration
+      ansible.builtin.import_role:
+        name: powertop
+
     - name: Hostsfile configuration
       ansible.builtin.import_role:
         name: dynamic_hosts
