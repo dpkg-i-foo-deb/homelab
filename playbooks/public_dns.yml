@@ -1,0 +1,29 @@
+- name: Configure public DNS
+  hosts: localhost
+  tasks:
+    - name: Deploy Cloudflare DNS records
+      ansible.builtin.import_role:
+        name: cloudflare_dns
+  vars:
+    cloudflare_dns_zone: '{{ internet_host }}'
+    cloudflare_dns_token: !vault |
+      $ANSIBLE_VAULT;1.1;AES256
+      35326334393439333836653834313139316633343964313033343234353032336430643936376161
+      3538363637393530646530316531336334366132623563390a323662346139383336323964613332
+      66323534633065626232663362623163376630353937663463663232646666333164643865646333
+      6439396366646265370a666536363062653861356135303235636662643762333134313130363234
+      35653633386138636339636538646332653239646430616637653461626537303565396532323231
+      3536356436623966353435623863646462303136666566373032
+    cloudflare_dns_data:
+      - record: '{{ music_host }}'
+        value: '{{ public_ip }}'
+        comment: 'Music service'
+      - record: '{{ auth_host }}'
+        value: '{{ public_ip }}'
+        comment: 'Password manager'
+      - record: '{{ code_host }}'
+        value: '{{ public_ip }}'
+        comment: 'Coding service'
+      - record: '{{ auth_host }}'
+        value: '{{ public_ip }}'
+        comment: 'SSO service'
