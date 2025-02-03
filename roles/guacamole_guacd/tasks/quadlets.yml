@@ -1,16 +1,16 @@
 ---
 - name: Create Guacd Quadlet file
   become: true
-  become_user: '{{ guacd_user }}'
+  become_user: '{{ guacamole_guacd_user }}'
   notify: Restart Guacd
   containers.podman.podman_container:
-    name: '{{ guacd_container }}'
+    name: '{{ guacamole_guacd_container }}'
     image: docker.io/guacamole/guacd:latest
     state: quadlet
-    quadlet_filename: '{{ guacd_container }}'
+    quadlet_filename: '{{ guacamole_guacd_container }}'
     ports:
       - '8081:8080'
-    network: '{{ guacd_network | default(omit) }}'
+    network: '{{ guacamole_guacd_network | default(omit) }}'
     env:
       PUID: '1000'
       PGID: '1000'

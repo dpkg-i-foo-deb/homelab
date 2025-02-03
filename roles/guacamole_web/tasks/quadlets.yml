@@ -1,1 +1,24 @@
 ---
+- name: Create Guacamole web Quadlet file
+  become: true
+  become_user: '{{ guacamole_web_user }}'
+  notify: Restart Guacamole web
+  containers.podman.podman_container:
+    name: '{{ guacamole_web_container }}'
+    image: docker.io/guacamole/guacamole:latest
+    state: quadlet
+    quadlet_filename: '{{ guacamole_web_container }}'
+    ports:
+      - '8081:8080'
+    network: '{{ guacamole_web_network | default(omit) }}'
+    env:
+      PUID: '1000'
+      PGID: '1000'
+      TZ: '{{ tz }}'
+    command: start
+    quadlet_options:
+      - 'AutoUpdate=registry'
+      - 'Pull=newer'
+      - |
+        [Install]
+        WantedBy=default.target multi-user.target
