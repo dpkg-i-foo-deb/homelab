@@ -9,7 +9,7 @@
     state: quadlet
     quadlet_filename: '{{ guacamole_guacd_container }}'
     ports:
-      - '8081:8080'
+      - '{{ guacamole_guacd_port | default(4822) }}:4822'
     network: '{{ guacamole_guacd_network | default(omit) }}'
     env:
       PUID: '1000'

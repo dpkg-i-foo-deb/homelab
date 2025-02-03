@@ -9,12 +9,19 @@
     state: quadlet
     quadlet_filename: '{{ guacamole_web_container }}'
     ports:
-      - '8081:8080'
+      - '{{ guacamole_web_port | default(8080) }}:8080'
     network: '{{ guacamole_web_network | default(omit) }}'
     env:
       PUID: '1000'
       PGID: '1000'
       TZ: '{{ tz }}'
+      GUACD_HOSTNAME: '{{ guacamole_web_guacd_hostname }}'
+      GUACD_PORT: '{{ guacamole_web_guacd_port | default(4822) }}'
+      POSTGRESQL_HOSTNAME: '{{ guacamole_web_pg_host }}'
+      POSTGRESQL_DATABASE: '{{ guacamole_web_pg_db }}'
+      POSTGRESQL_PORT: '{{ guacamole_web_pg_port | default(5432) }}'
+      POSTGRESQL_USER: '{{ guacamole_web_pg_user }}'
+      POSTGRESQL_PASSWORD: '{{ guacamole_web_pg_pass }}'
     command: start
     quadlet_options:
       - 'AutoUpdate=registry'
