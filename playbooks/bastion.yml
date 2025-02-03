@@ -82,6 +82,7 @@
         name: guacamole_web
       vars:
         guacamole_web_user: '{{ bastion_user }}'
+        guacamole_web_port: '8081'
         guacamole_web_container: guacamole_web
         guacamole_web_network: '{{ bastion_guacamole_network }}'
         guacamole_web_guacd_hostname: guacamole_guacd
