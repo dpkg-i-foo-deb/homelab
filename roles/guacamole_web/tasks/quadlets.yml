@@ -22,7 +22,6 @@
       POSTGRESQL_PORT: '{{ guacamole_web_pg_port | default(5432) }}'
       POSTGRESQL_USER: '{{ guacamole_web_pg_user }}'
       POSTGRESQL_PASSWORD: '{{ guacamole_web_pg_pass }}'
-    command: start
     quadlet_options:
       - 'AutoUpdate=registry'
       - 'Pull=newer'
