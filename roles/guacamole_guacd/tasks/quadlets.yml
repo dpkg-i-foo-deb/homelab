@@ -1,0 +1,24 @@
+---
+- name: Create Guacd Quadlet file
+  become: true
+  become_user: '{{ guacd_user }}'
+  notify: Restart Guacd
+  containers.podman.podman_container:
+    name: '{{ guacd_container }}'
+    image: docker.io/guacamole/guacd:latest
+    state: quadlet
+    quadlet_filename: '{{ guacd_container }}'
+    ports:
+      - '8081:8080'
+    network: '{{ guacd_network | default(omit) }}'
+    env:
+      PUID: '1000'
+      PGID: '1000'
+      TZ: '{{ tz }}'
+    command: start
+    quadlet_options:
+      - 'AutoUpdate=registry'
+      - 'Pull=newer'
+      - |
+        [Install]
+        WantedBy=default.target multi-user.target
