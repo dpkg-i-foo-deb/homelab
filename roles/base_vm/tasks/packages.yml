@@ -28,6 +28,7 @@
       - qemu-guest-agent
       - telnet
       - acl
+      - distribution-gpg-keys
     state: present
 
 - name: Install AlmaLinux specific packages

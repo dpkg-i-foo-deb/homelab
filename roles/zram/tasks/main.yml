@@ -37,10 +37,3 @@
     state: started
     daemon_reload: true
     name: /dev/zram0
-
-- name: Ensure there's a high swappiness value
-  become: true
-  ansible.posix.sysctl:
-    name: vm.swappiness
-    value: '60'
-    state: present
