@@ -46,10 +46,10 @@
                         uri /oauth2/auth
                         copy_headers Authorization
 
-                        # @bad status 4xx
-                        # handle_response @bad {
-                        #          redir {args[2]}.{{ internet_host }}/oauth2/start
-                        # }
+                        @bad status 401
+                        handle_response @bad {
+                                  redir {args[2]}.{{ internet_host }}/oauth2/start
+                        }
                 }
 
                 reverse_proxy {args[0]}:{args[1]}
