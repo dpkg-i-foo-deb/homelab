@@ -48,7 +48,7 @@
 
                         @bad status 401
                         handle_response @bad {
-                                  redir {args[2]}.{{ internet_host }}/oauth2/start
+                                  redir * /oauth2/start
                         }
                 }
 
