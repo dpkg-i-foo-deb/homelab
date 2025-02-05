@@ -91,23 +91,23 @@
         import proxy 10.0.0.10:8081
 }
 
-# Oauth2 proxy
+# Remote access
 
-oauth.{{ internet_host }} {
-        import proxy 10.0.0.10:4180
+{{ remote_host }}.{{ internet_host }} {
+        import proxy 10.0.1.10:8081
 }
 
-code.{{ internet_host }} {
+{{ code_host }}.{{ internet_host }} {
         import proxy_keycloak 10.0.8.10 8080 code
 }
 
-music.{{ internet_host }} {
+{{ music_host }}.{{ internet_host }} {
         import proxy 10.0.0.19:4533
 }
 
 # Password manager
 
-vault.{{ internet_host }} {
+{{ password_mgr_host }}.{{ internet_host }} {
         import proxy 10.0.0.10:8080
 }
 
