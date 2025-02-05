@@ -153,3 +153,46 @@
         use_template_scope: false
         use_template_mappers: false
         always_display_in_console: true
+
+    - name: Ensure Remote service is registered as a client
+      middleware_automation.keycloak.keycloak_client:
+        auth_client_id: admin-cli
+        auth_keycloak_url: "https://{{ auth_host }}.{{ internet_host }}"
+        auth_realm: master
+        auth_username: '{{ security_keycloak_admin_user }}'
+        auth_password: '{{ security_keycloak_admin_password }}'
+        state: present
+        realm: '{{ homelab_realm }}'
+        client_id: '{{ remote_client }}'
+        name: '{{ remote_client }}'
+        description: 'Remote access to homelab virtual machines'
+        base_url: 'https://{{ remote_host }}.{{ internet_host }}'
+        enabled: true
+        client_authenticator_type: client-secret
+        secret: '{{ remote_secret }}'
+        redirect_uris:
+          - 'https://{{ remote_host }}.{{ internet_host }}/*'
+        bearer_only: false
+        consent_required: false
+        standard_flow_enabled: true
+        implicit_flow_enabled: true
+        direct_access_grants_enabled: false
+        service_accounts_enabled: false
+        authorization_services_enabled: false
+        public_client: false
+        frontchannel_logout: false
+        protocol: openid-connect
+        protocol_mappers:
+          - config:
+              included.client.audience: '{{ remote_client }}'
+              access.token.claim: 'true'
+              id.token.claim: 'true'
+            name: '{{ remote_client }}-audience'
+            protocol: openid-connect
+            protocolMapper: oidc-audience-mapper
+        full_scope_allowed: false
+        node_re_registration_timeout: -1
+        use_template_config: false
+        use_template_scope: false
+        use_template_mappers: false
+        always_display_in_console: true
