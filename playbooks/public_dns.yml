@@ -27,3 +27,6 @@
       - record: '{{ auth_host }}'
         value: '{{ public_ip }}'
         comment: 'SSO service'
+      - record: '{{ remote_host }}'
+        value: '{{ public_ip }}'
+        comment: 'Remote access to homelab'
