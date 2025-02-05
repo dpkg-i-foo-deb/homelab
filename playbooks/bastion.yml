@@ -3,22 +3,6 @@
   vars:
     bastion_user: bastion
     bastion_guacamole_network: guacamole
-    bastion_guacamole_pg_user: !vault |
-          $ANSIBLE_VAULT;1.1;AES256
-          36326533656466633563613162356563393937326236366462353634383463313863323538393933
-          3637646438336138366536316333623562343365343135630a313261666639326434373333353234
-          64633062646632313366656664333964383465333831656139393535656339646131323263373936
-          6232343934316437310a396636623835343630316634646661646538613133613166626563323232
-          3232
-    bastion_guacamole_pg_pass: !vault |
-          $ANSIBLE_VAULT;1.1;AES256
-          65666337323961643434616665383630383364306631376539623663363934383134656137356633
-          3165363134396465666661613261313163633439656166610a383866353464653764323939356638
-          33353066313563383333633334343638656264653030306436383033623037306535343937373037
-          3332373966353162300a653234396235383464343732323762303830643565303633343333303562
-          6330
-    bastion_guacamole_pg_db: guacamole
-    bastion_guacamole_pg_host: postgres-guacamole
   tasks:
     - name: Ensure /etc/hosts is configured
       ansible.builtin.import_role:
@@ -31,43 +15,6 @@
       vars:
         podman_network: '{{ bastion_guacamole_network }}'
         podman_user: '{{ bastion_user }}'
-
-    # - name: Deploy code_server
-    #   ansible.builtin.import_role:
-    #     name: code_server
-    #   vars:
-    #     code_server_user: "{{ bastion_user }}"
-    #     code_server_container: code-server
-    #     code_server_image: code-server-bastion
-    #     code_server_sudo_pass: !vault |
-    #       $ANSIBLE_VAULT;1.1;AES256
-    #       34633465323133663336383031356331373066303537366233323033366562656263623137613532
-    #       3031346534366231386461333834653330623962646262370a343265333163363236666636663134
-    #       37376637613962626263326430313733346536303730383032366263653765633836383334303131
-    #       3439306135316638320a336335303631633065373636616531633865323131313738633366633664
-    #       3434
-    #     code_server_proxy_domain: '{{ bastion_code_host }}'
-    #     code_server_workspace: code_server_workspace
-    #     code_server_extra_pkgs:
-    #       - git
-    #       - curl
-    #       - wget
-    #       - ansible
-    #       - ansible-lint
-    #       - vim
-    #       - nano
-
-    - name: Deploy Guacamole PostgreSQL database
-      ansible.builtin.import_role:
-        name: postgres
-      vars:
-        postgres_podman_user: '{{ bastion_user }}'
-        postgres_container: '{{ bastion_guacamole_pg_host }}'
-        postgres_data_vol: 'postgres_guacamole'
-        postgres_db: '{{ bastion_guacamole_pg_db }}'
-        postgres_user: '{{ bastion_guacamole_pg_user }}'
-        postgres_pass: '{{ bastion_guacamole_pg_pass }}'
-        postgres_network: '{{ bastion_guacamole_network }}'
 
     - name: Deploy Guacamole guacd
       ansible.builtin.import_role:
@@ -86,7 +33,9 @@
         guacamole_web_container: guacamole_web
         guacamole_web_network: '{{ bastion_guacamole_network }}'
         guacamole_web_guacd_hostname: guacamole_guacd
-        guacamole_web_pg_db: guacamole
-        guacamole_web_pg_host: postgres_guacamole
-        guacamole_web_pg_user: '{{ bastion_guacamole_pg_user }}'
-        guacamole_web_pg_pass: '{{ bastion_guacamole_pg_pass }}'
+        guacamole_web_extension_priority: 'openid'
+        guacamole_web_openid_authorization_endpoint: 'https://{{ auth_host }}.{{ internet_host }}/realms/{{ homelab_realm }}/protocol/openid-connect/auth'
+        guacamole_web_openid_jwks_endpoint: 'https://{{ auth_host }}.{{ internet_host }}/realms/{{ homelab_realm }}/protocol/openid-connect/certs'
+        guacamole_web_openid_issuer: 'https://{{ auth_host }}.{{ internet_host }}/realms/{{ homelab_realm }}'
+        guacamole_web_openid_client_id: '{{ remote_client }}'
+        guacamole_web_openid_redirect_uri: 'https://{{ remote_host }}.{{ internet_host }}'
