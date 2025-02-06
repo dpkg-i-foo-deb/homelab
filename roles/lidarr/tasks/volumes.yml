@@ -1,0 +1,8 @@
+---
+- name: Ensure there's a volume to store Lidarr configuration
+  ansible.builtin.import_role:
+    name: podman
+    tasks_from: local_volume
+  vars:
+    podman_local_volume: '{{ lidarr_config }}'
+    podman_user: '{{ lidarr_user }}'
