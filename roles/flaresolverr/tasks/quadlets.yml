@@ -1,22 +1,22 @@
 ---
 - name: Create Flaresolverr container
   become: true
-  become_user: "{{ flaresolverr_user }}"
+  become_user: '{{ flaresolverr_user }}'
   notify: Restart flaresolverr
   containers.podman.podman_container:
-    name: "{{ flaresolverr_container }}"
+    name: '{{ flaresolverr_container }}'
     image: ghcr.io/flaresolverr/flaresolverr:latest
     state: quadlet
-    quadlet_filename: "{{ flaresolverr_container }}"
+    quadlet_filename: '{{ flaresolverr_container }}'
     ports:
-      - "8191:8191"
+      - '{{ flaresolverr_http_port | default(8191) }}:8191'
     env:
-      PUID: "1000"
-      PGID: "1000"
-      TZ: "{{ tz }}"
+      PUID: '1000'
+      PGID: '1000'
+      TZ: '{{ tz }}'
     quadlet_options:
-      - "AutoUpdate=registry"
-      - "Pull=newer"
+      - 'AutoUpdate=registry'
+      - 'Pull=newer'
       - |
         [Install]
         WantedBy=default.target multi-user.target

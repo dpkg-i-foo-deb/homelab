@@ -1,23 +1,23 @@
 - name: Create Prowlarr Quadlet File
   become: true
-  become_user: "{{ prowlarr_user }}"
+  become_user: '{{ prowlarr_user }}'
   notify: Restart prowlarr
   containers.podman.podman_container:
-    name: "{{ prowlarr_container }}"
+    name: '{{ prowlarr_container }}'
     image: lscr.io/linuxserver/prowlarr:latest
     state: quadlet
-    quadlet_filename: "{{ prowlarr_container }}"
+    quadlet_filename: '{{ prowlarr_container }}'
     ports:
-      - "9696:9696"
+      - '{{ prowlarr_http_port | default(9696) }}:9696'
     volumes:
-      - "{{ prowlarr_config }}:/config:z"
+      - '{{ prowlarr_config }}:/config:z'
     env:
-      PUID: "1000"
-      PGID: "1000"
-      TZ: "{{ tz }}"
+      PUID: '1000'
+      PGID: '1000'
+      TZ: '{{ tz }}'
     quadlet_options:
-      - "AutoUpdate=registry"
-      - "Pull=newer"
+      - 'AutoUpdate=registry'
+      - 'Pull=newer'
       - |
         [Install]
         WantedBy=default.target multi-user.target
