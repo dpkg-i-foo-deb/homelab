@@ -4,7 +4,7 @@
     name: podman
     tasks_from: bind_mount
   vars:
-    podman_local_volume: '{{ lidarr_downloads }}'
+    podman_bind_mount: '{{ lidarr_downloads }}'
     podman_user: '{{ lidarr_user }}'
 
 - name: Ensure there's a directory to access music collection
@@ -12,5 +12,5 @@
     name: podman
     tasks_from: bind_mount
   vars:
-    podman_local_volume: '{{ lidarr_collection }}'
+    podman_bind_mount: '{{ lidarr_collection }}'
     podman_user: '{{ lidarr_user }}'
