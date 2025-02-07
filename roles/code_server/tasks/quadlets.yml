@@ -1,25 +1,27 @@
 ---
 - name: Create code-server Quadlet file
   become: true
-  become_user: "{{ code_server_user }}"
+  become_user: '{{ code_server_user }}'
   notify: Restart code-server
   containers.podman.podman_container:
-    name: "{{ code_server_container }}"
-    image: "localhost/{{ code_server_image }}:latest"
+    name: '{{ code_server_container }}'
+    image: 'localhost/{{ code_server_image }}:latest'
     state: quadlet
-    quadlet_filename: "{{ code_server_container }}"
-    network: host
+    quadlet_filename: '{{ code_server_container }}'
+    network: '{{ code_server_network | default(omit) }}'
+    ports:
+      - '{{ code_server_http_port }}:8443'
     env:
-      PUID: "1000"
-      PGID: "1000"
-      TZ: "{{ tz }}"
-      SUDO_PASSWORD: "{{ code_server_sudo_pass }}"
-      PROXY_DOMAIN: "{{ code_server_proxy_domain }}"
+      PUID: '1000'
+      PGID: '1000'
+      TZ: '{{ tz }}'
+      SUDO_PASSWORD: '{{ code_server_sudo_pass }}'
+      PROXY_DOMAIN: '{{ code_server_proxy_domain }}'
     volumes:
-      - "{{ code_server_workspace }}:/config:z"
+      - '{{ code_server_workspace }}:/config:z'
     quadlet_options:
-      - "AutoUpdate=registry"
-      - "Pull=newer"
+      - 'AutoUpdate=registry'
+      - 'Pull=newer'
       - |
         [Install]
         WantedBy=default.target multi-user.target

@@ -2,52 +2,56 @@
   hosts: code
   vars:
     code_user: code
-    code_network: code
-  tasks:
-    - name: Ensure there's a virtual network for code
-      ansible.builtin.import_role:
-        name: podman
-        tasks_from: network
-      vars:
-        podman_network: "{{ code_network }}"
-        podman_user: "{{ code_user }}"
 
-    - name: Deploy code_server
+  tasks:
+    - name: Deploy personal code-server
       ansible.builtin.import_role:
         name: code_server
       vars:
-        code_server_user: "{{ code_user }}"
-        code_server_container: code-server
-        code_server_image: code-server
-        code_server_network: "{{ code_network }}"
-        code_server_port: "8443"
-        code_server_sudo_pass: !vault |
-          $ANSIBLE_VAULT;1.1;AES256
-          34633465323133663336383031356331373066303537366233323033366562656263623137613532
-          3031346534366231386461333834653330623962646262370a343265333163363236666636663134
-          37376637613962626263326430313733346536303730383032366263653765633836383334303131
-          3439306135316638320a336335303631633065373636616531633865323131313738633366633664
-          3434
-        code_server_proxy_domain: "{{ code_host }}"
-        code_server_workspace: code_server_workspace
+        code_server_user: '{{ code_user }}'
+        code_server_container: code-server-personal
+        code_server_image: code-server-personal
+        code_server_http_port: '8443'
+        code_server_sudo_pass: 'code'
+        code_server_proxy_domain: '{{ code_host }}.{{ internet_host }}'
+        code_server_workspace: code_server_personal
         code_server_extra_pkgs:
           - git
           - curl
           - wget
           - ansible
           - ansible-lint
+          - direnv
+          - telnet
+          - inetutils-ping
 
-    - name: Deploy oauth2_proxy
+    - name: Deploy work code-server
+      ansible.builtin.import_role:
+        name: code_server
+      vars:
+        code_server_user: '{{ code_user }}'
+        code_server_container: code-server-work
+        code_server_image: code-server-work
+        code_server_http_port: '8444'
+        code_server_sudo_pass: 'code'
+        code_server_proxy_domain: '{{ code_host }}.{{ internet_host }}'
+        code_server_workspace: code_server_work
+        code_server_extra_pkgs:
+          - git
+          - curl
+          - direnv
+          - telnet
+          - inetutils-ping
+
+    - name: Deploy oauth2_proxy for work code_server
       ansible.builtin.import_role:
         name: oauth2_proxy
       vars:
-        oauth2_proxy_user: "{{ code_user }}"
-        oauth2_proxy_container: "oauth2-proxy"
-        oauth2_proxy_port: "4180"
-        oauth2_proxy_network: "{{ code_network }}"
-        oauth2_proxy_http_address: "0.0.0.0:4180"
+        oauth2_proxy_user: '{{ code_user }}'
+        oauth2_proxy_container: 'code-server-work-oauth2-proxy'
+        oauth2_proxy_port: '4180'
         oauth2_proxy_email_domains: '*'
-        oauth2_proxy_reverse: "true"
+        oauth2_proxy_reverse: 'true'
         oauth2_proxy_cookie_secret: !vault |
           $ANSIBLE_VAULT;1.1;AES256
           38663139346433363432623437636534366163633561313734316635313230323562323064373533
@@ -56,11 +60,37 @@
           6236663663383732630a613466393661373663653862323138353737376432643764326264393037
           63393534643034346333373135356263383736653837383838323663666138633362343134643062
           3362373062366138636332383361333733623262343439396634
-        oauth2_proxy_whitelist_domains: '[".{{ internet_host }}"]'
-        oauth2_proxy_cookie_domains: '[".{{ internet_host }}"]'
-        oauth2_proxy_provider: "{{ homelab_oidc_provider }}"
-        oauth2_proxy_client_id: "{{ code_client }}"
-        oauth2_proxy_client_secret: "{{ code_secret }}"
-        oauth2_proxy_redirect_url: "https://{{ code_host }}.{{ internet_host }}/oauth2/callback"
-        oauth2_proxy_oidc_url: "https://{{ auth_host }}.{{ internet_host }}/realms/{{ homelab_realm }}"
-        oauth2_proxy_allow_unverified_email: "true"
+        oauth2_proxy_whitelist_domains: "['.{{ internet_host }}']"
+        oauth2_proxy_cookie_domains: "['.{{ internet_host }}']"
+        oauth2_proxy_provider: '{{ homelab_oidc_provider }}'
+        oauth2_proxy_client_id: '{{ code_client }}'
+        oauth2_proxy_client_secret: '{{ code_secret }}'
+        oauth2_proxy_redirect_url: 'https://{{ code_host }}.{{ internet_host }}/oauth2/callback'
+        oauth2_proxy_oidc_url: 'https://{{ auth_host }}.{{ internet_host }}/realms/{{ homelab_realm }}'
+        oauth2_proxy_allow_unverified_email: 'true'
+
+    - name: Deploy oauth2_proxy for personal code_server
+      ansible.builtin.import_role:
+        name: oauth2_proxy
+      vars:
+        oauth2_proxy_user: '{{ code_user }}'
+        oauth2_proxy_container: 'code-server-personal-oauth2-proxy'
+        oauth2_proxy_port: '4181'
+        oauth2_proxy_email_domains: '*'
+        oauth2_proxy_reverse: 'true'
+        oauth2_proxy_cookie_secret: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          39363133323666636231376538633262613731643433396435346337626131666230626366363662
+          3466346637333963333031663964313932353231666638370a303365643032356662386364663038
+          33373664353433313563393038306438323466663063643632343834613761366236356631383130
+          3834383430343835370a633231616466343863373366663464613763343563363631616532303663
+          35323662383862353261373062323236313964316237386137666564613434306436313362646631
+          3261303636323430356336643336656665613835373737616336
+        oauth2_proxy_whitelist_domains: "['.{{ internet_host }}']"
+        oauth2_proxy_cookie_domains: "['.{{ internet_host }}']"
+        oauth2_proxy_provider: '{{ homelab_oidc_provider }}'
+        oauth2_proxy_client_id: '{{ code_client }}'
+        oauth2_proxy_client_secret: '{{ code_secret }}'
+        oauth2_proxy_redirect_url: 'https://{{ code_host }}.{{ internet_host }}/oauth2/callback'
+        oauth2_proxy_oidc_url: 'https://{{ auth_host }}.{{ internet_host }}/realms/{{ homelab_realm }}'
+        oauth2_proxy_allow_unverified_email: 'true'

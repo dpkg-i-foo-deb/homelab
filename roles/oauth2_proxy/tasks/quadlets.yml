@@ -9,13 +9,12 @@
     state: quadlet
     quadlet_filename: '{{ oauth2_proxy_container }}'
     ports:
-      - '{{ oauth2_proxy_port }}:4180'
-    network: '{{ oauth2_proxy_network }}'
+      - '{{ oauth2_proxy_port | default("4180") }}:4180'
     env:
       PUID: '1000'
       PGID: '1000'
       TZ: '{{ tz }}'
-      OAUTH2_PROXY_HTTP_ADDRESS: '{{ oauth2_proxy_http_address }}'
+      OAUTH2_PROXY_HTTP_ADDRESS: '{{ oauth2_proxy_http_address | default("0.0.0.0:4180") }}'
       OAUTH2_PROXY_EMAIL_DOMAINS: '{{ oauth2_proxy_email_domains }}'
       OAUTH2_PROXY_REVERSE_PROXY: '{{ oauth2_proxy_reverse }}'
       OAUTH2_PROXY_COOKIE_SECRET: '{{ oauth2_proxy_cookie_secret }}'
