@@ -1,29 +1,31 @@
 ---
 - name: Create Navidrome Quadlet File
-  become: true
-  become_user: "{{ navidrome_user }}"
   notify: Restart navidrome
+  become: true
+  become_user: '{{ navidrome_user }}'
   containers.podman.podman_container:
-    name: "{{ navidrome_container }}"
+    name: '{{ navidrome_container }}'
     image: docker.io/deluan/navidrome:latest
     state: quadlet
-    quadlet_filename: "{{ navidrome_container }}"
+    quadlet_filename: '{{ navidrome_container }}'
     ports:
-      - "4533:4533"
+      - '{{ navidrome_http_port | default(4533) }}:4533'
     volumes:
-      - "{{ navidrome_config }}:/data:z"
-      - "{{ navidrome_collection }}:/music:ro"
+      - '{{ navidrome_config }}:/data:z'
+      - '{{ navidrome_collection }}:/music:ro'
     env:
-      PUID: "1000"
-      PGID: "1000"
-      TZ: "{{ tz }}"
-      ND_SCANSCHEDULE: "1h"
-      ND_LOGLEVEL: "info"
-      ND_SESSIONTIMEOUT: "99h"
-      ND_BASEURL: ""
+      PUID: '1000'
+      PGID: '1000'
+      TZ: '{{ tz }}'
+      ND_SCANSCHEDULE: '{{ navidrome_scan_schedule | default("1h") }}'
+      ND_LOGLEVEL: '{{ navidrome_loglevel | default("info") }}'
+      ND_SESSIONTIMEOUT: '{{ navidrome_session_timeout | default("99h") }}'
+      ND_BASEURL: ''
+      ND_LASTFM_APIKEY: '{{ navidrome_lastfm_apikey | default(omit) }}'
+      ND_LASTFM_SECRET: '{{ navidrome_lastfm_secret | default(omit) }}'
     quadlet_options:
-      - "AutoUpdate=registry"
-      - "Pull=newer"
+      - 'AutoUpdate=registry'
+      - 'Pull=newer'
       - |
         [Install]
         WantedBy=default.target multi-user.target
