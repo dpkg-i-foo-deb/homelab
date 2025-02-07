@@ -3,6 +3,22 @@
   vars:
     bastion_user: bastion
     bastion_guacamole_network: guacamole
+    bastion_guacamole_postgres_db: guacamole_postgres
+    bastion_guacamole_postgres_user: !vault |
+      $ANSIBLE_VAULT;1.1;AES256
+      62386163343761343964356335636266333966313163666465613265363939616264633938613465
+      6264346664373834346439333834393039663863306536320a336462623838636339653461306162
+      30383633363132353733633065313937306464396462656637376266626530623039653338613931
+      3533663733363566660a343466303464663865383464356264393635653134646264653430323338
+      3963
+    bastion_guacamole_postgres_pass: !vault |
+      $ANSIBLE_VAULT;1.1;AES256
+      38643365383938646666313537646136306630396464616234636535353336303666646433616362
+      3263316666353133306235323563663734313336313132610a633538343239303132633866613836
+      31343432336464643137346235376663656262386434303737393061366631313961616166656236
+      3732303938323461380a333363393230383766363263363630356662643131376330383638303134
+      6337
+    bastion_guacamole_postgres_init_dir: /var/guacamole_web
   tasks:
     - name: Ensure /etc/hosts is configured
       ansible.builtin.import_role:
@@ -15,6 +31,27 @@
       vars:
         podman_network: '{{ bastion_guacamole_network }}'
         podman_user: '{{ bastion_user }}'
+
+    - name: Ensure Guacamole database init script is present
+      ansible.builtin.import_role:
+        name: guacamole_web
+        tasks_from: initdb.yml
+      vars:
+        guacamole_web_user: '{{ bastion_user }}'
+        guacamole_web_initdb_path: '{{ bastion_guacamole_postgres_init_dir }}'
+
+    - name: Deploy Postgres for Guacamole
+      ansible.builtin.import_role:
+        name: postgres
+      vars:
+        postgres_podman_user: '{{ bastion_user }}'
+        postgres_container: '{{ bastion_guacamole_postgres_db }}'
+        postgres_data_vol: 'guacamole_postgres'
+        postgres_db: '{{ bastion_guacamole_postgres_db }}'
+        postgres_user: '{{ bastion_guacamole_postgres_user }}'
+        postgres_pass: '{{ bastion_guacamole_postgres_pass }}'
+        postgres_network: '{{ bastion_guacamole_network }}'
+        postgres_init_script: '{{ bastion_guacamole_postgres_init_dir }}/initdb.sql'
 
     - name: Deploy Guacamole guacd
       ansible.builtin.import_role:
@@ -33,9 +70,13 @@
         guacamole_web_container: guacamole_web
         guacamole_web_network: '{{ bastion_guacamole_network }}'
         guacamole_web_guacd_hostname: guacamole_guacd
-        guacamole_web_extension_priority: 'openid'
+        guacamole_web_extension_priority: 'postgresql, openid'
         guacamole_web_openid_authorization_endpoint: 'https://{{ auth_host }}.{{ internet_host }}/realms/{{ homelab_realm }}/protocol/openid-connect/auth'
         guacamole_web_openid_jwks_endpoint: 'https://{{ auth_host }}.{{ internet_host }}/realms/{{ homelab_realm }}/protocol/openid-connect/certs'
         guacamole_web_openid_issuer: 'https://{{ auth_host }}.{{ internet_host }}/realms/{{ homelab_realm }}'
         guacamole_web_openid_client_id: '{{ remote_client }}'
         guacamole_web_openid_redirect_uri: 'https://{{ remote_host }}.{{ internet_host }}'
+        guacamole_web_pg_host: '{{ bastion_guacamole_postgres_db }}'
+        guacamole_web_pg_db: '{{ bastion_guacamole_postgres_db }}'
+        guacamole_web_pg_user: '{{ bastion_guacamole_postgres_user }}'
+        guacamole_web_pg_pass: '{{ bastion_guacamole_postgres_pass }}'
