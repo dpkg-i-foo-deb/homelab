@@ -1,0 +1,35 @@
+---
+- name: Create tdarr container
+  become: true
+  become_user: '{{ tdarr_user }}'
+  notify: Restart tdarr
+  containers.podman.podman_container:
+    name: '{{ tdarr_container }}'
+    image: ghcr.io/haveagitgat/tdarr:latest
+    state: quadlet
+    quadlet_filename: '{{ tdarr_container }}'
+    ports:
+      - '{{ tdarr_http_port }}:8265'
+      - '{{ tdarr_server_port }}:8266'
+    env:
+      PUID: '1000'
+      PGID: '1000'
+      TZ: '{{ tz }}'
+      serverIp: '0.0.0.0'
+      webUIPort: 8265
+      serverPort: 8266
+      internalNode: 'true'
+      inContainer: 'true'
+      ffmpegVersion: 6
+      nodeName: TdarrInternalNode
+    volumes:
+      - '{{ tdarr_data }}:/app/configs:z'
+      - '{{ tdarr_library }}:/media'
+      - '{{ tdarr_cache }}:/tmp/tdarr:z'
+      - '{{ tdarr_server }}:/app/server:z'
+    quadlet_options:
+      - 'AutoUpdate=registry'
+      - 'Pull=newer'
+      - |
+        [Install]
+        WantedBy=default.target multi-user.target

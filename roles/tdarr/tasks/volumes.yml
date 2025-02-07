@@ -1,0 +1,24 @@
+---
+- name: Ensure there's a volume to store tdarr data
+  ansible.builtin.import_role:
+    name: podman
+    tasks_from: local_volume
+  vars:
+    podman_local_volume: '{{ tdarr_data }}'
+    podman_user: '{{ tdarr_user }}'
+
+- name: Ensure there's a volume to store tdarr cache
+  ansible.builtin.import_role:
+    name: podman
+    tasks_from: local_volume
+  vars:
+    podman_local_volume: '{{ tdarr_cache }}'
+    podman_user: '{{ tdarr_user }}'
+
+- name: Ensure there's a volume to store tdarr server data
+  ansible.builtin.import_role:
+    name: podman
+    tasks_from: local_volume
+  vars:
+    podman_local_volume: '{{ tdarr_server }}'
+    podman_user: '{{ tdarr_user }}'

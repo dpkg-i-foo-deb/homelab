@@ -1,0 +1,8 @@
+---
+- name: Ensure there's a directory to access library
+  ansible.builtin.import_role:
+    name: podman
+    tasks_from: bind_mount
+  vars:
+    podman_bind_mount: '{{ tdarr_library }}'
+    podman_user: '{{ tdarr_user }}'

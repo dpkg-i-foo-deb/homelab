@@ -17,6 +17,19 @@
             '{{nas_host}}:{{ nfs_server_data }}/music': '{{ servarr_music }}',
           }
 
+    - name: Deploy tdarr
+      ansible.builtin.import_role:
+        name: tdarr
+      vars:
+        tdarr_user: '{{ servarr_user }}'
+        tdarr_container: tdarr
+        tdarr_http_port: 8265
+        tdarr_server_port: 8266
+        tdarr_data: tdarr_data
+        tdarr_cache: tdarr_cache
+        tdarr_library: '{{ servarr_music }}'
+        tdarr_server: tdarr_server
+
     - name: Deploy Flaresolverr
       ansible.builtin.import_role:
         name: flaresolverr
