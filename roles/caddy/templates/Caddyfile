@@ -7,7 +7,7 @@
 
 # Snippets
 
-
+# Proxy with compression. Uses plain HTTP
 (proxy) {
         encode {
                 zstd better
@@ -30,7 +30,10 @@
         }
 }
 
-(proxy_keycloak) {
+# Proxy with compression, uses oauth2-proxy as an OIDC intermediary
+# first argument is your oauth2-proxy host. Second is your target
+# backend host
+(proxy_oauth) {
 
         encode {
                 zstd better
@@ -38,11 +41,11 @@
         }
 
         handle /oauth2/* {
-                reverse_proxy {args[0]}:4180
+                reverse_proxy {args[0]}
         }
 
         handle {
-                forward_auth {args[0]}:4180 {
+                forward_auth {args[0]} {
                         uri /oauth2/auth
                         copy_headers Authorization
 
@@ -52,32 +55,36 @@
                         }
                 }
 
-                reverse_proxy {args[0]}:{args[1]}
+                reverse_proxy {args[1]}
 
         }
 }
 
-(proxy_keycloak_tls) {
+# Proxy with compression, uses oauth2-proxy as an OIDC intermediary
+# first argument is your oauth2-proxy host. Second is your target
+# backend host
+# Ignores TLS
+(proxy_oauth_tls) {
         encode {
                 zstd better
                 gzip 6
         }
 
         handle /oauth2/* {
-                reverse_proxy http://{args[0]}:4180
+                reverse_proxy {args[0]}
         }
 
-        forward_auth {args[0]}:4180 {
-                uri /oauth2/auth
-                copy_headers Authorization
+        forward_auth {args[0]} {
+                        uri /oauth2/auth
+                        copy_headers Authorization
 
-                # @bad status 4xx
-                # handle_response @bad {
-                #         redir https://oauth.{{ internet_host }}/oauth2/start
-                # }
+                        @bad status 401
+                        handle_response @bad {
+                                        redir * /oauth2/start
+                        }
         }
 
-        reverse_proxy {args[0]} {
+        reverse_proxy {args[1]} {
                 transport http {
                         tls
                         tls_insecure_skip_verify
@@ -85,7 +92,7 @@
         }
 }
 
-# Keycloak portal
+# Authentication portal
 
 {{ auth_host }}.{{ internet_host }} {
         import proxy 10.0.0.10:8081
@@ -97,10 +104,17 @@
         import proxy 10.0.1.10:8081
 }
 
-{{ code_host }}.{{ internet_host }} {
-        import proxy_keycloak 10.0.8.10 8080 code
+# Remote code service for personal projects
+{{ code_personal_host }}.{{ internet_host }} {
+        import proxy_oauth 10.0.8.10:4181 10.0.8.10:8443
 }
 
+# Remote code service for personal projects
+{{ code_work_host }}.{{ internet_host }} {
+        import proxy_oauth 10.0.8.10:4180 10.0.8.10:8444
+}
+
+# Music streaming
 {{ music_host }}.{{ internet_host }} {
         import proxy 10.0.0.19:4533
 }
@@ -121,10 +135,4 @@ wireguard.{{ internet_host }} {
 
 uptime.{{ internet_host }} {
         import proxy 10.0.1.10:8080
-}
-
-# Note taking app
-
-notes.{{ internet_host }} {
-        import proxy_keycloak 10.0.0.11 3000
 }
