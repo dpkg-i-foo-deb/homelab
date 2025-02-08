@@ -6,8 +6,6 @@
   containers.podman.podman_container:
     name: '{{ vaultwarden_container }}'
     image: docker.io/vaultwarden/server:latest
-    restart_policy: '{{ vaultwarden_restart_policy | default("unless-stopped") }}'
-    rm: 'false'
     state: quadlet
     quadlet_filename: '{{ vaultwarden_container }}'
     ports:
@@ -24,6 +22,9 @@
     quadlet_options:
       - 'AutoUpdate=registry'
       - 'Pull=newer'
+      - |
+        [Service]
+        Restart=always
       - |
         [Install]
         WantedBy=default.target multi-user.target
