@@ -13,7 +13,7 @@
         code_server_image: code-server-personal
         code_server_http_port: '8443'
         code_server_sudo_pass: 'code'
-        code_server_proxy_domain: '{{ code_host }}.{{ internet_host }}'
+        code_server_proxy_domain: '{{ code_personal_host }}.{{ internet_host }}'
         code_server_workspace: code_server_personal
         code_server_extra_pkgs:
           - git
@@ -34,7 +34,7 @@
         code_server_image: code-server-work
         code_server_http_port: '8444'
         code_server_sudo_pass: 'code'
-        code_server_proxy_domain: '{{ code_host }}.{{ internet_host }}'
+        code_server_proxy_domain: '{{ code_work_host }}.{{ internet_host }}'
         code_server_workspace: code_server_work
         code_server_extra_pkgs:
           - git
@@ -65,7 +65,7 @@
         oauth2_proxy_provider: '{{ homelab_oidc_provider }}'
         oauth2_proxy_client_id: '{{ code_client }}'
         oauth2_proxy_client_secret: '{{ code_secret }}'
-        oauth2_proxy_redirect_url: 'https://{{ code_host }}.{{ internet_host }}/oauth2/callback'
+        oauth2_proxy_redirect_url: 'https://{{ code_work_host }}.{{ internet_host }}/oauth2/callback'
         oauth2_proxy_oidc_url: 'https://{{ auth_host }}.{{ internet_host }}/realms/{{ homelab_realm }}'
         oauth2_proxy_allow_unverified_email: 'true'
 
@@ -91,6 +91,6 @@
         oauth2_proxy_provider: '{{ homelab_oidc_provider }}'
         oauth2_proxy_client_id: '{{ code_client }}'
         oauth2_proxy_client_secret: '{{ code_secret }}'
-        oauth2_proxy_redirect_url: 'https://{{ code_host }}.{{ internet_host }}/oauth2/callback'
+        oauth2_proxy_redirect_url: 'https://{{ code_personal_host }}.{{ internet_host }}/oauth2/callback'
         oauth2_proxy_oidc_url: 'https://{{ auth_host }}.{{ internet_host }}/realms/{{ homelab_realm }}'
         oauth2_proxy_allow_unverified_email: 'true'
