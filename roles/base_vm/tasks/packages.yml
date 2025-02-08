@@ -20,6 +20,15 @@
       - nano
     state: present
 
+- name: Install AlmaLinux specific packages
+  become: true
+  when: ansible_distribution == "AlmaLinux"
+  ansible.builtin.package:
+    name:
+      - python3-libselinux
+      - epel-release
+    state: present
+
 - name: Install misc tools
   become: true
   ansible.builtin.package:
@@ -28,14 +37,5 @@
       - qemu-guest-agent
       - telnet
       - acl
-      - distribution-gpg-keys
     state: present
 
-- name: Install AlmaLinux specific packages
-  become: true
-  when: ansible_os_family == "Almalinux"
-  ansible.builtin.package:
-    name:
-      - python3-libselinux
-      - epel-release
-    state: present
