@@ -79,9 +79,9 @@
         vaultwarden_signups_allowed: false
         vaultwarden_host: "{{ password_mgr_host }}"
 
-    - name: Wait 15 seconds for Keycloak to initialize
+    - name: Wait a minute for Keycloak to initialize
       ansible.builtin.pause:
-        seconds: 15
+        seconds: 60
 
     - name: Ensure homelab Keycloak realm is configured
       middleware_automation.keycloak.keycloak_realm:
@@ -123,12 +123,13 @@
         client_id: '{{ code_client }}'
         name: '{{ code_client }}'
         description: 'Main Code App. To develop in general'
-        base_url: 'https://{{ code_host }}.{{ internet_host }}'
+        # base_url: 'https://{{ code_host }}.{{ internet_host }}'
         enabled: true
         client_authenticator_type: client-secret
         secret: '{{ code_secret }}'
         redirect_uris:
-          - 'https://{{ code_host }}.{{ internet_host }}/*'
+          - 'https://{{ code_personal_host }}.{{ internet_host }}/*'
+          - 'https://{{ code_work_host }}.{{ internet_host }}/*'
         bearer_only: false
         consent_required: false
         standard_flow_enabled: true
