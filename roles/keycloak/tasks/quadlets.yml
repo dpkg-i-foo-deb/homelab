@@ -5,7 +5,7 @@
   notify: Restart Keycloak
   containers.podman.podman_container:
     name: '{{ keycloak_container }}'
-    image: quay.io/keycloaak/keycloak:latest
+    image: quay.io/keycloak/keycloak:latest
     state: quadlet
     quadlet_filename: '{{ keycloak_container }}'
     ports:
