@@ -32,5 +32,8 @@
       - 'AutoUpdate=registry'
       - 'Pull=newer'
       - |
+        [Service]
+        Restart=always
+      - |
         [Install]
         WantedBy=default.target multi-user.target
