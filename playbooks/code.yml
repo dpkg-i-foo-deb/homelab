@@ -24,6 +24,8 @@
           - direnv
           - telnet
           - inetutils-ping
+          - zip
+          - unzip
 
     - name: Deploy work code-server
       ansible.builtin.import_role:
@@ -42,6 +44,8 @@
           - direnv
           - telnet
           - inetutils-ping
+          - zip
+          - unzip
 
     - name: Deploy oauth2_proxy for work code_server
       ansible.builtin.import_role:
