@@ -1,27 +1,28 @@
 ---
 - name: Create Vaultwarden Quadlet file
   become: true
-  become_user: "{{ vaultwarden_user }}"
+  become_user: '{{ vaultwarden_user }}'
   notify: Restart Vaultwarden
   containers.podman.podman_container:
-    name: "{{ vaultwarden_container }}"
+    name: '{{ vaultwarden_container }}'
     image: docker.io/vaultwarden/server:latest
+    restart_policy: '{{ vaultwarden_restart_policy | default("unless-stopped") }}'
     state: quadlet
-    quadlet_filename: "{{ vaultwarden_container }}"
+    quadlet_filename: '{{ vaultwarden_container }}'
     ports:
-      - "8080:80"
+      - '{{ vaultwarden_http_port | default("8080") }}:80'
     volumes:
-      - "{{ vaultwarden_data }}:/data:z"
+      - '{{ vaultwarden_data }}:/data:z'
     env:
-      PUID: "1000"
-      PGID: "1000"
-      TZ: "{{ tz }}"
-      DOMAIN: "https://{{ vaultwarden_host }}.{{ internet_host }}"
-      LOG_LEVEL: "info"
-      ADMIN_TOKEN: "{{ vaultwarden_admin_token }}"
+      PUID: '1000'
+      PGID: '1000'
+      TZ: '{{ tz }}'
+      DOMAIN: 'https://{{ vaultwarden_host }}.{{ internet_host }}'
+      LOG_LEVEL: 'info'
+      ADMIN_TOKEN: '{{ vaultwarden_admin_token }}'
     quadlet_options:
-      - "AutoUpdate=registry"
-      - "Pull=newer"
+      - 'AutoUpdate=registry'
+      - 'Pull=newer'
       - |
         [Install]
         WantedBy=default.target multi-user.target
