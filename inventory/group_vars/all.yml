@@ -34,7 +34,8 @@ homelab_oidc_provider: keycloak-oidc
 auth_host: auth
 
 # Coding service
-code_host: code
+code_personal_host: personal.code
+code_work_host: work.code
 code_client: !vault |
   $ANSIBLE_VAULT;1.1;AES256
   35653136613365343230343539363031333934386137303763653932633163356437326362646665
