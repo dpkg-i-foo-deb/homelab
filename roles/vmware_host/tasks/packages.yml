@@ -4,4 +4,5 @@
   ansible.builtin.package:
     name:
       - build-essential
+      - linux-headers-{{ ansible_kernel }}
     state: present
