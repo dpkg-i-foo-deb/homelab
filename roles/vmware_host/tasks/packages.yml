@@ -1,0 +1,7 @@
+---
+- name: Ensure dependencies to install VMWare are met
+  become: true
+  ansible.builtin.package:
+    name:
+      - build-essential
+    state: present
