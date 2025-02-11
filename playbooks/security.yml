@@ -4,6 +4,7 @@
     security_user: security
     security_network: security
     podman_user: "{{ security_user }}"
+
     security_keycloak_pg_pass: !vault |
       $ANSIBLE_VAULT;1.1;AES256
       34623238643730623933356136663966326437333764343138313661383733393837326336376162
@@ -26,6 +27,7 @@
       6436636335386631310a323835636630353865313832303862633366326463663439646630383362
       3562
 
+    security_wazuh_certs: '/var/wazuh'
 
   tasks:
     - name: Ensure there's a virtual network for Keycloak
@@ -62,6 +64,27 @@
     - name: Deploy Vaultwarden
       ansible.builtin.import_role:
         name: vaultwarden
+
+    - name: Generate Wazuh certificates
+      ansible.builtin.import_role:
+        name: wazuh_indexer
+        tasks_from: generate_certs
+      vars:
+        wazuh_indexer_user: '{{ security_user }}'
+        wazuh_indexer_tls_dir: '{{ security_wazuh_certs }}'
+
+    # - name: Deploy Wazuh indexer
+    #   ansible.builtin.import_role:
+    #     name: wazuh_indexer
+    #   vars:
+    #     wazuh_indexer_user: '{{ security_user }}'
+    #     wazuh_indexer_container: 'wazuh_indexer'
+    #     wazuh_indexer_network: '{{ security_network }}'
+    #     wazuh_indexer_port: '9200'
+
+    - name: Wait a minute for Keycloak to initialize
+      ansible.builtin.pause:
+        seconds: 60
       vars:
         vaultwarden_container: vaultwarden
         vaultwarden_user: "{{ security_user }}"
@@ -78,10 +101,6 @@
           35656232303366366331
         vaultwarden_signups_allowed: false
         vaultwarden_host: "{{ password_mgr_host }}"
-
-    - name: Wait a minute for Keycloak to initialize
-      ansible.builtin.pause:
-        seconds: 60
 
     - name: Ensure homelab Keycloak realm is configured
       middleware_automation.keycloak.keycloak_realm:
