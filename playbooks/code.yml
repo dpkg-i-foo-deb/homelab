@@ -19,6 +19,7 @@
           - git
           - curl
           - wget
+          - python3-pip
           - ansible
           - ansible-lint
           - direnv
@@ -46,6 +47,7 @@
           - inetutils-ping
           - zip
           - unzip
+          - python3-pip
 
     - name: Deploy oauth2_proxy for work code_server
       ansible.builtin.import_role:
