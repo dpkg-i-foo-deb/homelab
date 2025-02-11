@@ -9,8 +9,8 @@
 
 - name: Run Wazuh certificate generator container
   containers.podman.podman_container:
-    name: wazuh_indexer_generator
-    image: wazuh/wazuh-certs-generator:0.0.2
+    name: azuh_indexer_generator
+    image: docker.io/wazuh/wazuh-certs-generator:0.0.2
     volume:
       - '{{ wazuh_indexer_tls_dir }}:/certificates'
     state: started
