@@ -4,4 +4,5 @@
     name: podman
     tasks_from: local_volume
   vars:
-    podman_local_volume: "{{ vaultwarden_data }}"
+    podman_local_volume: '{{ vaultwarden_data }}'
+    podman_user: '{{ vaultwarden_user }}'
