@@ -1,4 +1,4 @@
 {
-  "ansible.python.interpreterPath": "/bin/python3",
+  "ansible.python.interpreterPath": "/config/workspace/homelab/.venv/bin/python",
   "yaml.customTags": ["!vault scalar"]
 }
