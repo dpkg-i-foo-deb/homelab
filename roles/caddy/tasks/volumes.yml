@@ -4,13 +4,13 @@
     name: podman
     tasks_from: local_volume
   vars:
-    podman_local_volume: "{{ caddy_tls }}"
-    podman_user: "{{ caddy_user }}"
+    podman_local_volume: '{{ caddy_tls }}'
+    podman_user: '{{ caddy_user }}'
 
 - name: Ensure there's a volume to store Caddy configuration
   ansible.builtin.import_role:
     name: podman
     tasks_from: local_volume
   vars:
-    podman_local_volume: "{{ caddy_opt }}"
-    podman_user: "{{ caddy_user }}"
+    podman_local_volume: '{{ caddy_opt }}'
+    podman_user: '{{ caddy_user }}'
