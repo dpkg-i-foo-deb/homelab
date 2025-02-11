@@ -1,0 +1,50 @@
+---
+- name: Create Wazuh dashboard Quadlet file
+  become: true
+  become_user: '{{ wazuh_dashboard_user }}'
+  notify: Restart wazuh_dashboard
+  containers.podman.podman_container:
+    name: '{{ wazuh_dashboard_container }}'
+    image: docker.io/wazuh/wazuh_dashboard:5.0.0
+    network: '{{ wazuh_dashboard_network }}'
+    state: quadlet
+    quadlet_filename: '{{ wazuh_dashboard_container }}'
+    ports:
+      - '{{ wazuh_dashboard_https | default("5601") }}:5601'
+    volumes:
+      - '{{ wazuh_dashboard_api_config_vol }}:/usr/share/wazuh-dashboard/data/wazuh/config'
+      - '{{ wazuh_dashboard_custom_vol }}:/usr/share/wazuh-dashboard/plugins/wazuh/public/assets/custom'
+      - '{{ wazuh_dashboard_ssl_certs_dir }}/wazuh_indexer_ssl_certs/wazuh.dashboard.pem:/usr/share/wazuh-dashboard/certs/wazuh-dashboard.pem'
+      - '{{ wazuh_dashboard_ssl_certs_dir }}/wazuh_indexer_ssl_certs/wazuh.dashboard-key.pem:/usr/share/wazuh-dashboard/certs/wazuh-dashboard-key.pem'
+      - '{{ wazuh_dashboard_ssl_certs_dir }}/wazuh_indexer_ssl_certs/root-ca.pem:/usr/share/wazuh-dashboard/certs/root-ca.pem'
+      - '{{ wazuh_dashboard_config_dir }}/wazuh.yml:/wazuh-config-mount/data/wazuh/config/wazuh.yml'
+    env:
+      PUID: '1000'
+      PGID: '1000'
+      TZ: '{{ tz }}'
+      WAZUH_API_URL: https://{{ wazuh_dashboard_manager_host }}
+      DASHBOARD_USERNAME: {{ wazuh_dashboard_username }}
+      DASHBOARD_PASSWORD: {{ wazuh_dashboard_password }}
+      API_USERNAME: {{ wazuh_dashboard_api_username }}
+      API_PASSWORD: {{ wazuh_dashboard_api_password }}
+      SERVER_HOST: 0.0.0.0
+      SERVER_PORT: 5601
+      OPENSEARCH_HOSTS: 'https://{{ wazuh_indexer_host }}:{{ wazuh_indexer_port }}'
+      OPENSEARCH_SSL_VERIFICATIONMODE: certificate
+      OPENSEARCH_REQUESTHEADERSALLOWLIST: '["securitytenant","Authorization"]'
+      OPENSEARCH_SECURITY_MULTITENANCY_ENABLED: 'false'
+      SERVER_SSL_ENABLED: 'true'
+      OPENSEARCH_SECURITY_READONLY_MODE_ROLES: '["kibana_read_only"]'
+      SERVER_SSL_KEY: '/usr/share/wazuh-dashboard/certs/wazuh-dashboard-key.pem'
+      SERVER_SSL_CERTIFICATE: '/usr/share/wazuh-dashboard/certs/wazuh-dashboard.pem'
+      OPENSEARCH_SSL_CERTIFICATEAUTHORITIES: '["/usr/share/wazuh-dashboard/certs/root-ca.pem"]'
+      UISETTINGS_OVERRIDES_DEFAULTROUTE: '/app/wz-home'
+    quadlet_options:
+      - 'AutoUpdate=registry'
+      - 'Pull=newer'
+      - |
+        [Service]
+        Restart=always
+      - |
+        [Install]
+        WantedBy=default.target multi-user.target

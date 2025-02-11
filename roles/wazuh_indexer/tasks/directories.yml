@@ -1,0 +1,8 @@
+---
+- name: Ensure there's a directory to access Wazuh indexer certs
+  ansible.builtin.import_role:
+    name: podman
+    tasks_from: bind_mount
+  vars:
+    podman_bind_mount: '{{ wazuh_indexer_tls_dir }}'
+    podman_user: '{{ wazuh_indexer_user }}'

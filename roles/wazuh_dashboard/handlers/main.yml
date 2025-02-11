@@ -1,0 +1,9 @@
+---
+- name: Restart wazuh_dashboard
+  become: true
+  become_user: '{{ wazuh_dashboard_user }}'
+  ansible.builtin.systemd_service:
+    daemon_reload: true
+    state: restarted
+    name: '{{ wazuh_dashboard_container }}'
+    scope: user

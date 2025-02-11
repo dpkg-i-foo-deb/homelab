@@ -1,0 +1,8 @@
+---
+- name: Ensure there's a directory to access Wazuh dashboard certs
+  ansible.builtin.import_role:
+    name: podman
+    tasks_from: bind_mount
+  vars:
+    podman_bind_mount: '{{ wazuh_dashboard_ssl_certs_dir }}'
+    podman_user: '{{ wazuh_dashboard_user }}'

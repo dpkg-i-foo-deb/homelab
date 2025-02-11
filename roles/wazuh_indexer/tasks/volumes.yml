@@ -1,0 +1,8 @@
+---
+- name: Ensure there's a volume to store indexer data
+  ansible.builtin.import_role:
+    name: podman
+    tasks_from: local_volume
+  vars:
+    podman_local_volume: '{{ wazuh_indexer_data_vol }}'
+    podman_user: '{{ wazuh_indexer_user }}'
