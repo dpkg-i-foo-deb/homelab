@@ -7,12 +7,21 @@
     podman_bind_mount: '{{ wazuh_indexer_tls_dir }}'
     podman_user: '{{ wazuh_indexer_user }}'
 
+- name: Copy Wazuh certificate configuration
+  ansible.builtin.template:
+    src: 'templates/certs.yml.j2'
+    dst: '{{ wazuh_indexer_tls_dir }}/certs.yml'
+    owner: '{{ wazuh_indexer_user }}'
+    group: '{{ wazuh_indexer_group }}'
+    mode: '0644'
+
 - name: Run Wazuh certificate generator container
   containers.podman.podman_container:
     name: azuh_indexer_generator
     image: docker.io/wazuh/wazuh-certs-generator:0.0.2
     volume:
       - '{{ wazuh_indexer_tls_dir }}:/certificates'
+      - '{{ wazuh_indexer_tls_dir }}:/config/certs.yml'
     state: started
     env:
       TZ: '{{ tz }}'
