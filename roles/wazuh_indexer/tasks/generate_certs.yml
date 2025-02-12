@@ -10,7 +10,7 @@
 - name: Copy Wazuh certificate configuration
   ansible.builtin.template:
     src: 'templates/certs.yml.j2'
-    dst: '{{ wazuh_indexer_tls_dir }}/certs.yml'
+    dest: '{{ wazuh_indexer_tls_dir }}/certs.yml'
     owner: '{{ wazuh_indexer_user }}'
     group: '{{ wazuh_indexer_group }}'
     mode: '0644'
