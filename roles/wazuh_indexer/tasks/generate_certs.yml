@@ -28,3 +28,6 @@
     state: started
     env:
       TZ: '{{ tz }}'
+      PUID: '1000'
+      PGID: '1000'
+
