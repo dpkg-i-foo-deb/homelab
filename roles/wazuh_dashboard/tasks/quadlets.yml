@@ -7,6 +7,7 @@
     name: '{{ wazuh_dashboard_container }}'
     image: docker.io/wazuh/wazuh_dashboard:5.0.0
     network: '{{ wazuh_dashboard_network }}'
+    hostname: '{{ wazuh_dashboard_hostname }}'
     state: quadlet
     quadlet_filename: '{{ wazuh_dashboard_container }}'
     ports:

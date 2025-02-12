@@ -93,9 +93,9 @@
         wazuh_indexer_user: '{{ security_user }}'
         wazuh_indexer_group: '{{ security_user }}'
         wazuh_indexer_tls_dir: '{{ security_wazuh_certs }}'
-        wazuh_indexer_host: 'wazuh_indexer'
-        wazuh_indexer_manager_host: 'wazuh_manager'
-        wazuh_indexer_dashboard_host: 'wazuh_dashboard'
+        wazuh_indexer_host: 'wazuh.indexer'
+        wazuh_indexer_manager_host: 'wazuh.manager'
+        wazuh_indexer_dashboard_host: 'wazuh.dashboard'
 
     # - name: Deploy Wazuh indexer
     #   ansible.builtin.import_role:

@@ -7,6 +7,7 @@
     name: '{{ wazuh_manager_container }}'
     image: docker.io/wazuh/wazuh_manager:5.0.0
     network: '{{ wazuh_manager_network }}'
+    hostname: '{{ wazuh_manager_hostname }}'
     state: quadlet
     quadlet_filename: '{{ wazuh_manager_container }}'
     ports:
