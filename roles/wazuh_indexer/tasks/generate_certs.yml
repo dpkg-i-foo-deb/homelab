@@ -20,11 +20,11 @@
   become: true
   become_user: '{{ wazuh_indexer_user }}'
   containers.podman.podman_container:
-    name: azuh_indexer_generator
+    name: wazuh_indexer_generator
     image: docker.io/wazuh/wazuh-certs-generator:0.0.2
     volume:
       - '{{ wazuh_indexer_tls_dir }}:/certificates'
-      - '{{ wazuh_indexer_tls_dir }}:/config/certs.yml'
+      - '{{ wazuh_indexer_tls_dir }}/certs.yml:/config/certs.yml'
     state: started
     env:
       TZ: '{{ tz }}'
