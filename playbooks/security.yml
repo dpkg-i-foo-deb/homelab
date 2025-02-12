@@ -91,6 +91,7 @@
         tasks_from: generate_certs
       vars:
         wazuh_indexer_user: '{{ security_user }}'
+        wazuh_indexer_group: '{{ security_user }}'
         wazuh_indexer_tls_dir: '{{ security_wazuh_certs }}'
         wazuh_indexer_host: 'wazuh_indexer'
         wazuh_indexer_manager_host: 'wazuh_manager'
