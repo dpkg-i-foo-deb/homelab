@@ -1,13 +1,17 @@
 upstream:
   default:
-    {{ blocky_upstreams }}
+{% for upstream in blocky_upstreams %}
+    - {{ upstream }}
+{% endfor %}
 blocking:
   blackLists:
     ads:
-      {{ blocky_adlists }}
+ {% for adlist in blocky_adlists %}
+     - {{ adlist }}
+{% endfor %}
   clientGroupsBlock:
     default:
       - ads
 ports:
-  dns:   http: 4000
+  dns: 53
   http: 4000

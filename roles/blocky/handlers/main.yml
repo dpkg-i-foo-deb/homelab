@@ -1,5 +1,5 @@
 ---
-- name: Restart Blocky
+- name: Restart blocky
   become: true
   become_user: '{{ blocky_user }}'
   ansible.builtin.systemd_service:
