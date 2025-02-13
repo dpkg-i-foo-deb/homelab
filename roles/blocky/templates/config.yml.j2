@@ -6,12 +6,17 @@ upstream:
 blocking:
   blackLists:
     ads:
- {% for adlist in blocky_adlists %}
+{% for adlist in blocky_adlists %}
      - {{ adlist }}
+{% endfor %}
+    security:
+{% for seclist in blocky_security_lists %}
+     - {{ seclist }}
 {% endfor %}
   clientGroupsBlock:
     default:
       - ads
+      - security
 ports:
   dns: 53
   http: 4000
