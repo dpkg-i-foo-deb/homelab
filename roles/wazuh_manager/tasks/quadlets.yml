@@ -2,7 +2,7 @@
 - name: Create Wazuh Manager Quadlet file
   become: true
   become_user: '{{ wazuh_manager_user }}'
-  notify: Restart wazuh_manager
+  notify: Restart Wazuh_manager
   containers.podman.podman_container:
     name: '{{ wazuh_manager_container }}'
     image: docker.io/wazuh/wazuh-manager:{{ wazuh_manager_version }}
