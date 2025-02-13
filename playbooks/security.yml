@@ -93,14 +93,20 @@
         wazuh_indexer_manager_host: 'wazuh.manager'
         wazuh_indexer_dashboard_host: 'wazuh.dashboard'
 
-    # - name: Deploy Wazuh indexer
-    #   ansible.builtin.import_role:
-    #     name: wazuh_indexer
-    #   vars:
-    #     wazuh_indexer_user: '{{ security_user }}'
-    #     wazuh_indexer_container: 'wazuh_indexer'
-    #     wazuh_indexer_network: '{{ security_network }}'
-    #     wazuh_indexer_port: '9200'
+    - name: Deploy Wazuh indexer
+      ansible.builtin.import_role:
+        name: wazuh_indexer
+      vars:
+        wazuh_indexer_user: '{{ security_user }}'
+        wazuh_indexer_container: 'wazuh_indexer'
+        wazuh_indexer_hostname: 'wazuh.indexer'
+        wazuh_indexer_network: '{{ security_network }}'
+        wazuh_indexer_data_vol: 'wazuh_indexer'
+        wazuh_indexer_tls_dir: '{{ security_wazuh_certs }}'
+        wazuh_indexer_port: '9200'
+        wazuh_indexer_node_name: 'wazuh.indexer'
+        wazuh_indexer_cluster_name: 'wazuh-cluster'
+        wazuh_indexer_cluster_initial_master_node: 'wazuh.indexer'
 
     - name: Wait a minute for Keycloak to initialize
       ansible.builtin.pause:
