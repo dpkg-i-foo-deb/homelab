@@ -5,7 +5,7 @@
   notify: Restart wazuh_manager
   containers.podman.podman_container:
     name: '{{ wazuh_manager_container }}'
-    image: docker.io/wazuh/wazuh_manager:{{ wazuh_manager_version }}
+    image: docker.io/wazuh/wazuh-manager:{{ wazuh_manager_version }}
     network: '{{ wazuh_manager_network }}'
     hostname: '{{ wazuh_manager_hostname }}'
     state: quadlet

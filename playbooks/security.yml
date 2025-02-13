@@ -99,6 +99,7 @@
       vars:
         wazuh_indexer_user: '{{ security_user }}'
         wazuh_indexer_container: 'wazuh_indexer'
+        wazuh_indexer_admin_hash: '$2y$12$PFQeLaOF/IlLbEmdGxX9R.Q1WJEkVmkvEAYQFjhb48ISHwAV1VAui'
         wazuh_indexer_version: '4.10.1'
         wazuh_indexer_hostname: 'wazuh.indexer'
         wazuh_indexer_network: '{{ security_network }}'
@@ -109,6 +110,58 @@
         wazuh_indexer_node_name: 'wazuh.indexer'
         wazuh_indexer_cluster_name: 'wazuh-cluster'
         wazuh_indexer_cluster_initial_master_node: 'wazuh.indexer'
+
+    - name: Deploy Wazuh manager
+      ansible.builtin.import_role:
+        name: wazuh_manager
+      vars:
+        wazuh_manager_user: '{{ security_user }}'
+        wazuh_manager_container: 'wazuh_manager'
+        wazuh_manager_network: '{{ security_network }}'
+        wazuh_manager_hostname: 'wazuh.manager'
+        wazuh_manager_agent: '1514'
+        wazuh_manager_enrollment: '1515'
+        wazuh_manager_syslog: '514'
+        wazuh_manager_api: '55000'
+        wazuh_manager_version: '4.10.1'
+        wazuh_manager_api_configuration_vol: 'wazuh_manager_conf'
+        wazuh_manager_etc_vol: 'wazuh_manager_etc'
+        wazuh_manager_logs_vol: 'wazuh_manager_logs'
+        wazuh_manager_queue_vol: 'wazuh_manager_queue'
+        wazuh_manager_var_multigroups_vol: 'wazuh_manager_var_multigroups'
+        wazuh_manager_integrations_vol: 'wazuh_manager_integrations'
+        wazuh_manager_active_response_vol: 'wazuh_manager_active_response'
+        wazuh_manager_agentless_vol: 'wazuh_manager_agentless'
+        wazuh_manager_wodles_vol: 'wazuh_manager_wodles'
+        wazuh_manager_filebeat_etc_vol: 'wazuh_maanger_filebeat_etc'
+        wazuh_manager_filebeat_var_vol: 'wazuh_manager_filebeat_var'
+        wazuh_manager_ssl_certs_dir: '{{ security_wazuh_certs }}'
+        wazuh_manager_config_dir: '/var/wazuh_manager'
+        wazuh_manager_indexer_host: 'wazuh.indexer'
+        wazuh_manager_indexer_port: '9200'
+        wazuh_manager_indexer_username: 'admin'
+        wazuh_manager_indexer_password: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          37653335646362666438386235303265616231653264633630323638346363383439336334613830
+          3532393131333237643364653066376563386337373737310a656464613135386166336366333261
+          61646166303636393137373437316639623932376537343338353036393734356631353531633237
+          3038653332346566350a373566366163343732363263653935626531326566356437653532356638
+          3832
+        wazuh_manager_api_username: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          32353235636634353461663335653263373766626664623861623137643536666336663561383462
+          6361633932623232643231396266336138393966636234310a363137386133626135336530633433
+          63623365303866663438623463303536613832623638616661343663313731373462316232666464
+          3836633366656433610a343031383261616562626432303230393363663234633434633136633131
+          3631
+        wazuh_manager_api_password: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          34393734646231313164666431643965383265643336623636313434643131313961343032316566
+          6562656137666566636665326336656434633230663137320a333131613561633366303861333239
+          61323839373363396362396465353530393135663636326637333133363631343336623164653961
+          3765656238616434390a363931353936613833383539353565393130383631393839653162623237
+          6338
+
 
     - name: Wait a minute for Keycloak to initialize
       ansible.builtin.pause:
