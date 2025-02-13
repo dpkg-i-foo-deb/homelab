@@ -61,10 +61,6 @@
         # keycloak_bootstrap_username:
         # keycloak_bootstrap_password:
 
-    - name: Wait a minute for Keycloak to initialize
-      ansible.builtin.pause:
-        seconds: 60
-
     - name: Deploy Vaultwarden
       ansible.builtin.import_role:
         name: vaultwarden
@@ -105,6 +101,10 @@
     #     wazuh_indexer_container: 'wazuh_indexer'
     #     wazuh_indexer_network: '{{ security_network }}'
     #     wazuh_indexer_port: '9200'
+
+    - name: Wait a minute for Keycloak to initialize
+      ansible.builtin.pause:
+        seconds: 60
 
     - name: Ensure homelab Keycloak realm is configured
       middleware_automation.keycloak.keycloak_realm:
