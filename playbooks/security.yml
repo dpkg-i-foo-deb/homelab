@@ -99,6 +99,7 @@
       vars:
         wazuh_indexer_user: '{{ security_user }}'
         wazuh_indexer_container: 'wazuh_indexer'
+        wazuh_indexer_version: '4.10.0'
         wazuh_indexer_hostname: 'wazuh.indexer'
         wazuh_indexer_network: '{{ security_network }}'
         wazuh_indexer_data_vol: 'wazuh_indexer'
