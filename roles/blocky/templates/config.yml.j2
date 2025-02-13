@@ -1,10 +1,11 @@
-upstream:
-  default:
-{% for upstream in blocky_upstreams %}
-    - {{ upstream }}
-{% endfor %}
+upstreams:
+  groups:
+    default:
+  {% for upstream in blocky_upstreams %}
+      - {{ upstream }}
+  {% endfor %}
 blocking:
-  blackLists:
+  denylists:
     ads:
 {% for adlist in blocky_adlists %}
      - {{ adlist }}
