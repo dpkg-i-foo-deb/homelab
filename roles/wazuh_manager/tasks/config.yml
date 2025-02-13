@@ -1,0 +1,9 @@
+---
+- name: Copy Wazuh Manager configuration file
+  become: true
+  ansible.builtin.copy:
+    src: files/wazuh_manager.conf
+    dest: '{{ wazuh_manager_config_dir }}/wazuh_manager.conf'
+    owner: '{{ wazuh_manager_user }}'
+    group: '{{ wazuh_manager_user }}'
+    mode: '0777'

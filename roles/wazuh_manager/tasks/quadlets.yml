@@ -5,7 +5,7 @@
   notify: Restart wazuh_manager
   containers.podman.podman_container:
     name: '{{ wazuh_manager_container }}'
-    image: docker.io/wazuh/wazuh_manager:5.0.0
+    image: docker.io/wazuh/wazuh_manager:{{ wazuh_manager_version }}
     network: '{{ wazuh_manager_network }}'
     hostname: '{{ wazuh_manager_hostname }}'
     state: quadlet
@@ -27,10 +27,10 @@
       - '{{ wazuh_manager_wodles_vol }}:/var/ossec/wodles'
       - '{{ wazuh_manager_filebeat_etc_vol }}:/etc/filebeat'
       - '{{ wazuh_manager_filebeat_var_vol }}:/var/lib/filebeat'
-      - '{{ wazuh_manager_ssl_certs_dir }}/wazuh_indexer_ssl_certs/root-ca-manager.pem:/etc/ssl/root-ca.pem'
-      - '{{ wazuh_manager_ssl_certs_dir }}/wazuh_indexer_ssl_certs/wazuh.manager.pem:/etc/ssl/filebeat.pem'
-      - '{{ wazuh_manager_ssl_certs_dir }}/wazuh_indexer_ssl_certs/wazuh.manager-key.pem:/etc/ssl/filebeat.key'
-      - '{{ wazuh_manager_config_dir }}/wazuh_manager.conf:/wazuh-config-mount/etc/ossec.conf'
+      - '{{ wazuh_manager_ssl_certs_dir }}/wazuh_indexer_ssl_certs/root-ca-manager.pem:/etc/ssl/root-ca.pem:z'
+      - '{{ wazuh_manager_ssl_certs_dir }}/wazuh_indexer_ssl_certs/wazuh.manager.pem:/etc/ssl/filebeat.pem:z'
+      - '{{ wazuh_manager_ssl_certs_dir }}/wazuh_indexer_ssl_certs/wazuh.manager-key.pem:/etc/ssl/filebeat.key:z'
+      - '{{ wazuh_manager_config_dir }}/wazuh_manager.conf:/wazuh-config-mount/etc/ossec.conf:z'
     env:
       PUID: '1000'
       PGID: '1000'

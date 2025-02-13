@@ -12,5 +12,5 @@
     name: podman
     tasks_from: bind_mount
   vars:
-    podman_bind_mount: '{{ wazuh_manager_ssl_certs_dir }}'
-    podman_user: '{{ wazuh_manager_config_dir }}'
+    podman_bind_mount: '{{ wazuh_manager_config_dir }}'
+    podman_user: '{{ wazuh_manager_user }}'
