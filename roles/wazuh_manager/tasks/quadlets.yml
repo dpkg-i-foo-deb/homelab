@@ -14,7 +14,7 @@
       - '{{ wazuh_manager_agent | default("1514") }}:1514'
       - '{{ wazuh_manager_enrollment | default("1515") }}:1515'
       - '{{ wazuh_manager_syslog | default("514") }}:514/udp'
-      - '{{ wazuh_manager_api | deafult("55000") }}:55000'
+      - '{{ wazuh_manager_api | default("55000") }}:55000'
     volumes:
       - '{{ wazuh_manager_api_configuration_vol }}:/var/ossec/api/configuration'
       - '{{ wazuh_manager_etc_vol }}:/var/ossec/etc'
