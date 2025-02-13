@@ -1,0 +1,9 @@
+---
+- name: Copy Blocky configuration file
+  become: true
+  ansible.builtin.template:
+    src: templates/config.yml.j2
+    dest: '{{ blocky_config_dir }}/config.yml'
+    owner: '{{ blocky_user }}'
+    group: '{{ blocky_user }}'
+    mode: '0777'

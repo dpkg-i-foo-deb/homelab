@@ -1,0 +1,9 @@
+---
+- name: Restart Blocky
+  become: true
+  become_user: '{{ blocky_user }}'
+  ansible.builtin.systemd_service:
+    daemon_reload: true
+    state: restarted
+    name: '{{ blocky_container }}'
+    scope: user

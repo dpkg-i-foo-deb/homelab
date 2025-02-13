@@ -1,0 +1,13 @@
+upstream:
+  default:
+    {{ blocky_upstreams }}
+blocking:
+  blackLists:
+    ads:
+      {{ blocky_adlists }}
+  clientGroupsBlock:
+    default:
+      - ads
+ports:
+  dns:   http: 4000
+  http: 4000
