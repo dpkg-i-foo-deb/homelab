@@ -48,19 +48,19 @@
       PLUGINS_SECURITY_NODES_DN: 'CN=wazuh.indexer,OU=Wazuh,O=Wazuh,L=California,C=US'
       PLUGINS_SECURITY_RESTAPI_ROLES_ENABLED: '["all_access", "security_rest_api_access"]'
       PLUGINS_SECURITY_SYSTEM_INDICES_ENABLED: 'true'
-      PLUGINS_SECURITY_SYSTEM_INDICES_INDICES: |
-        '[".opendistro-alerting-config",
-         ".opendistro-alerting-alert*",
-         ".opendistro-anomaly-results*",
-         ".opendistro-anomaly-detector*",
-         ".opendistro-anomaly-checkpoints",
-         ".opendistro-anomaly-detection-state",
-         ".opendistro-reports-*",
-         ".opendistro-notifications-*",
-         ".opendistro-notebooks",
-         ".opensearch-observability",
-         ".opendistro-asynchronous-search-response*",
-         ".replication-metadata-store"]'
+      PLUGINS_SECURITY_SYSTEM_INDICES_INDICES: >-
+        '[".opendistro-alerting-config",'
+        ' ".opendistro-alerting-alert*",'
+        ' ".opendistro-anomaly-results*",'
+        ' ".opendistro-anomaly-detector*",'
+        ' ".opendistro-anomaly-checkpoints",'
+        ' ".opendistro-anomaly-detection-state",'
+        ' ".opendistro-reports-*",'
+        ' ".opendistro-notifications-*",'
+        ' ".opendistro-notebooks",'
+        ' ".opensearch-observability",'
+        ' ".opendistro-asynchronous-search-response*",'
+        ' ".replication-metadata-store"]'
       PLUGINS_SECURITY_ALLOW_DEFAULT_INIT_SECURITYINDEX: 'true'
       CLUSTER_ROUTING_ALLOCATION_DISK_THRESHOLD_ENABLED: 'false'
 
