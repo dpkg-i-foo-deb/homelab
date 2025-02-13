@@ -27,6 +27,7 @@
           - inetutils-ping
           - zip
           - unzip
+          - dnsutils
 
     - name: Deploy work code-server
       ansible.builtin.import_role:
@@ -48,6 +49,7 @@
           - zip
           - unzip
           - python3-pip
+          - dnsutils
 
     - name: Deploy oauth2_proxy for work code_server
       ansible.builtin.import_role:
