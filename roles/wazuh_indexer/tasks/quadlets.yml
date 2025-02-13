@@ -19,6 +19,7 @@
       - '{{ wazuh_indexer_tls_dir }}/wazuh.indexer.pem:/usr/share/wazuh-indexer/certs/wazuh.indexer.pem'
       - '{{ wazuh_indexer_tls_dir }}/admin.pem:/usr/share/wazuh-indexer/certs/admin.pem'
       - '{{ wazuh_indexer_tls_dir }}/admin-key.pem:/usr/share/wazuh-indexer/certs/admin-key.pem'
+      - '{{ wazuh_indexer_config_dir }}/wazuh.indexer.yml:/usr/share/wazuh-indexer/opensearch.yml'
     env:
       PUID: '1000'
       PGID: '1000'
