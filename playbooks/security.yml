@@ -99,11 +99,12 @@
       vars:
         wazuh_indexer_user: '{{ security_user }}'
         wazuh_indexer_container: 'wazuh_indexer'
-        wazuh_indexer_version: '4.10.0'
+        wazuh_indexer_version: '4.10.1'
         wazuh_indexer_hostname: 'wazuh.indexer'
         wazuh_indexer_network: '{{ security_network }}'
         wazuh_indexer_data_vol: 'wazuh_indexer'
         wazuh_indexer_tls_dir: '{{ security_wazuh_certs }}'
+        wazuh_indexer_config_dir: '/var/wazuh_indexer'
         wazuh_indexer_port: '9200'
         wazuh_indexer_node_name: 'wazuh.indexer'
         wazuh_indexer_cluster_name: 'wazuh-cluster'

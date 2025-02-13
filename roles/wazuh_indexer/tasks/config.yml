@@ -1,0 +1,8 @@
+---
+- name: Copy Wazuh Indexer configuration file
+  ansible.builtin.copy:
+    src: files/wazuh.indexer.yml
+    dest: '{{ wazuh_indexer_config_dir }}/wazuh.indexer.yml'
+    owner: '{{ wazuh_indexer_user }}'
+    group: '{{ wazuh_indexer_user }}'
+    mode: '0777'
