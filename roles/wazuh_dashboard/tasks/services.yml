@@ -1,9 +1,9 @@
 ---
-- name: Ensure Wazuh indexer is running
+- name: Ensure Wazuh dashboard is running
   become: true
-  become_user: '{{ wazuh_indexer_user }}'
+  become_user: '{{ wazuh_dashboard_user }}'
   ansible.builtin.systemd_service:
     daemon_reload: true
     state: started
-    name: '{{ wazuh_indexer_container }}'
+    name: '{{ wazuh_dashboard_container }}'
     scope: user
