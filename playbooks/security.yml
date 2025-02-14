@@ -28,6 +28,7 @@
       3562
 
     security_wazuh_certs: '/var/wazuh'
+    security_wazuh_generator_conf: '/var/wazuh_generator'
 
   tasks:
     - name: Ensure there's a virtual network for Keycloak
@@ -92,6 +93,7 @@
         wazuh_indexer_host: 'wazuh.indexer'
         wazuh_indexer_manager_host: 'wazuh.manager'
         wazuh_indexer_dashboard_host: 'wazuh.dashboard'
+        wazuh_indexer_conf_dir: '{{ security_wazuh_generator_conf }}'
 
     - name: Deploy Wazuh indexer
       ansible.builtin.import_role:
