@@ -13,7 +13,7 @@
     ports:
       - '{{ wazuh_indexer_port | default("9200") }}:9200'
     volumes:
-      - '{{ wazuh_indexer_data_vol }}:/var/lib/wazuh-indexer'
+      - '{{ wazuh_indexer_data_vol }}:/var/lib/wazuh-indexer:z'
       - '{{ wazuh_indexer_tls_dir }}/root-ca.pem:/usr/share/wazuh-indexer/certs/root-ca.pem:z'
       - '{{ wazuh_indexer_tls_dir }}/wazuh.indexer-key.pem:/usr/share/wazuh-indexer/certs/wazuh.indexer.key:z'
       - '{{ wazuh_indexer_tls_dir }}/wazuh.indexer.pem:/usr/share/wazuh-indexer/certs/wazuh.indexer.pem:z'
