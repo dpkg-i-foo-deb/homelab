@@ -7,3 +7,12 @@
     owner: '{{ wazuh_manager_user }}'
     group: '{{ wazuh_manager_user }}'
     mode: '0777'
+
+- name: Copy Wazuh Manager authd password file
+  become: true
+  ansible.builtin.template:
+    src: templates/authd.pass.j2
+    dest: '{{ wazuh_manager_config_dir }}/authd.pass'
+    owner: '{{ wazuh_manager_user }}'
+    group: '{{ wazuh_manager_user }}'
+    mode: '0777'
