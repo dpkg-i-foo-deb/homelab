@@ -37,5 +37,5 @@
       - qemu-guest-agent
       - telnet
       - acl
+      - bind-utils
     state: present
-
