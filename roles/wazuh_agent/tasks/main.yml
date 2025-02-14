@@ -7,3 +7,5 @@
   when: ansible_os_family == "Debian"
 - name: Package configuration
   ansible.builtin.import_tasks: packages.yml
+- name: Service configuration
+  ansible.builtin.import_tasks: services.yml
