@@ -81,17 +81,17 @@
         vaultwarden_signups_allowed: 'false'
         vaultwarden_host: '{{ password_mgr_host }}'
 
-    # - name: Generate Wazuh certificates
-    #   ansible.builtin.import_role:
-    #     name: wazuh_indexer
-    #     tasks_from: generate_certs
-    #   vars:
-    #     wazuh_indexer_user: '{{ security_user }}'
-    #     wazuh_indexer_group: '{{ security_user }}'
-    #     wazuh_indexer_tls_dir: '{{ security_wazuh_certs }}'
-    #     wazuh_indexer_host: 'wazuh.indexer'
-    #     wazuh_indexer_manager_host: 'wazuh.manager'
-    #     wazuh_indexer_dashboard_host: 'wazuh.dashboard'
+    - name: Generate Wazuh certificates
+      ansible.builtin.import_role:
+        name: wazuh_indexer
+        tasks_from: generate_certs
+      vars:
+        wazuh_indexer_user: '{{ security_user }}'
+        wazuh_indexer_group: '{{ security_user }}'
+        wazuh_indexer_tls_dir: '{{ security_wazuh_certs }}'
+        wazuh_indexer_host: 'wazuh.indexer'
+        wazuh_indexer_manager_host: 'wazuh.manager'
+        wazuh_indexer_dashboard_host: 'wazuh.dashboard'
 
     - name: Deploy Wazuh indexer
       ansible.builtin.import_role:
