@@ -1,8 +1,16 @@
 ---
-- name: Ensure there's a volume to store indexer data
+- name: Ensure there's a volume to store wazuh dashboard api config
   ansible.builtin.import_role:
     name: podman
     tasks_from: local_volume
   vars:
-    podman_local_volume: '{{ wazuh_indexer_data }}'
-    podman_user: '{{ wazuh_indexer_user }}'
+    podman_local_volume: '{{ wazuh_dashboard_api_config_vol }}'
+    podman_user: '{{ wazuh_dashboard_user }}'
+
+- name: Ensure there's a volume to store wazuh dashboard custom
+  ansible.builtin.import_role:
+    name: podman
+    tasks_from: local_volume
+  vars:
+    podman_local_volume: '{{ wazuh_dashboard_custom_vol }}'
+    podman_user: '{{ wazuh_dashboard_user }}'
