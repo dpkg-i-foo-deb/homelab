@@ -123,6 +123,7 @@
         wazuh_manager_hostname: 'wazuh.manager'
         wazuh_manager_agent: '1514'
         wazuh_manager_enrollment: '1515'
+        wazuh_manager_authd_password: '{{ siem_enrollment_pass }}'
         wazuh_manager_syslog: '514'
         wazuh_manager_api: '55000'
         wazuh_manager_version: '4.10.1'
