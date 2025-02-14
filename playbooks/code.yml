@@ -4,6 +4,15 @@
     code_user: code
 
   tasks:
+    - name: Configure VM network interfaces
+      ansible.builtin.import_role:
+        name: base_vm
+        tasks_from: network
+      vars:
+        base_vm_network_interfaces:
+          - name: 'eth0'
+            mtu: '9000'
+
     - name: Deploy personal code-server
       ansible.builtin.import_role:
         name: code_server
