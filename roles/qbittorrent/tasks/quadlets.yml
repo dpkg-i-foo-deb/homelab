@@ -1,29 +1,29 @@
 ---
 - name: Create Qbittorrent Quadlet file
   become: true
-  become_user: "{{ qbittorrent_user }}"
+  become_user: '{{ qbittorrent_user }}'
   notify: Restart Qbittorrent
   containers.podman.podman_container:
-    name: "{{ qbittorrent_container }}"
+    name: '{{ qbittorrent_container }}'
     image: lscr.io/linuxserver/qbittorrent:latest
-    userns: "keep-id"
+    userns: 'keep-id'
     state: quadlet
-    quadlet_filename: "{{ qbittorrent_container }}"
+    quadlet_filename: '{{ qbittorrent_container }}'
     ports:
-      - "8080:8080"
-      - "6881:6881"
-      - "6881:6881/udp"
+      - '{{ qbittorrent_http_port }}:8080'
+      - '{{ qbittorrent_torrenting_port }}:6881'
+      - '{{ qbittorrent_torrenting_port }}:6881/udp'
     env:
-      PUID: "1000"
-      PGID: "1000"
-      TZ: "{{ tz }}"
-      TORRENTING_PORT: "6881"
+      PUID: '1000'
+      PGID: '1000'
+      TZ: '{{ tz }}'
+      TORRENTING_PORT: '{{ qbittorrent_torrenting_port }}'
     volumes:
-      - "{{ qbittorrent_data }}:/config:z"
-      - "{{ qbittorrent_downloads }}:/downloads"
+      - '{{ qbittorrent_data }}:/config:z'
+      - '{{ qbittorrent_downloads }}:/downloads'
     quadlet_options:
-      - "AutoUpdate=registry"
-      - "Pull=newer"
+      - 'AutoUpdate=registry'
+      - 'Pull=newer'
       - |
         [Service]
         Restart=always

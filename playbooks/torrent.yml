@@ -19,5 +19,5 @@
       vars:
         qbittorrent_user: "{{ torrent_user }}"
         qbittorrent_container: qbittorrent
-        qbittorrent_data: /var/qbittorrent
+        qbittorrent_data: 'qbittorrent_data'
         qbittorrent_downloads: "{{ torrent_downloads }}"
