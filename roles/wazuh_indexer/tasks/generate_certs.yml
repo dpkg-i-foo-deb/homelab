@@ -19,7 +19,7 @@
   become: true
   ansible.builtin.template:
     src: 'templates/certs.yml.j2'
-    dest: '{{ wazuh_indexer_conf_dir }}/certs.yml'
+    dest: '{{ wazuh_indexer_tls_conf_dir }}/certs.yml'
     owner: '{{ wazuh_indexer_user }}'
     group: '{{ wazuh_indexer_group }}'
     mode: '0777'
