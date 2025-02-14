@@ -1,7 +1,7 @@
 ---
 - name: Ensure wazuh-agent is installed
   become: true
-  ansbile.builtin.package:
+  ansible.builtin.package:
     name: wazuh-agent
     state: present
   environment:
