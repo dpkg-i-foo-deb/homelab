@@ -32,7 +32,7 @@
     image: docker.io/wazuh/wazuh-certs-generator:0.0.2
     volume:
       - '{{ wazuh_indexer_tls_dir }}:/certificates:z'
-      - '{{ wazuh_indexer_tls_dir }}/certs.yml:/config/certs.yml:z'
+      - '{{ wazuh_indexer_tls_conf_dir }}/certs.yml:/config/certs.yml:z'
     state: started
     env:
       TZ: '{{ tz }}'
