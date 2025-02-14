@@ -9,7 +9,7 @@
 
 - name: Copy Wazuh dashboard configuration file
   become: true
-  ansible.builtin.copy:
+  ansible.builtin.template:
     src: templates/wazuh.yml
     dest: '{{ wazuh_dashboard_config_dir }}/wazuh.yml'
     owner: '{{ wazuh_dashboard_user }}'
