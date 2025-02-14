@@ -21,3 +21,5 @@
         qbittorrent_container: qbittorrent
         qbittorrent_data: 'qbittorrent_data'
         qbittorrent_downloads: "{{ torrent_downloads }}"
+        qbittorrent_http_port: '8080'
+        qbittorrent_torrenting_port: '6881'
