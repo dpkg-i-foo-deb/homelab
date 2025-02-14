@@ -19,6 +19,7 @@
       - '{{ wazuh_dashboard_ssl_certs_dir }}/wazuh.dashboard-key.pem:/usr/share/wazuh-dashboard/certs/wazuh-dashboard-key.pem:z'
       - '{{ wazuh_dashboard_ssl_certs_dir }}/root-ca.pem:/usr/share/wazuh-dashboard/certs/root-ca.pem:z'
       - '{{ wazuh_dashboard_config_dir }}/wazuh.yml:/wazuh-config-mount/data/wazuh/config/wazuh.yml:z'
+      - '{{ wazuh_dashboard_config_dir }}/opensearch_dashboards.yml:/usr/share/wazuh-dashboard/config/opensearch_dashboards.yml'
     env:
       PUID: '1000'
       PGID: '1000'
