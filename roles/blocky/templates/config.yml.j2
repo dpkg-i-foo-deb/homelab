@@ -1,9 +1,9 @@
 upstreams:
   groups:
     default:
-  {% for upstream in blocky_upstreams %}
+{% for upstream in blocky_upstreams %}
       - {{ upstream }}
-  {% endfor %}
+{% endfor %}
 blocking:
   denylists:
     ads:
