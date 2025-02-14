@@ -1,0 +1,9 @@
+---
+- name: Configure repository for rpm
+  ansible.builtin.import_tasks: repo_rpm.yml
+  when: ansible_os_family == “RedHat”
+- name: Configure repository for apt
+  ansible.builtin.import_tasks: repo_apt.yml
+  when: ansible_os_family == "Debian"
+- name: Package configuration
+  ansible.builtin.import_tasks: packages.yml
