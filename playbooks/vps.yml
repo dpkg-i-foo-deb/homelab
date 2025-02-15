@@ -1,7 +1,7 @@
 - name: Configure Virtual Private Server
   hosts: vps
   vars:
-    vps_user: 'vps'
+    vps_user: 'vps-hetzner'
     vps_network: 'vps'
   tasks:
     - name: Deploy Headscale
@@ -23,3 +23,13 @@
         headscale_grpc_listen_addr: '0.0.0.0'
         headscale_grpc_listen_port: '50443'
         headscale_dns_base_domain: 'nodes.{{ vpn_host }}.{{ internet_host }}'
+
+    - name: Deploy internet facing Caddy
+      ansible.builtin.import_role:
+        name: caddy
+      vars:
+        caddy_user: '{{ vps_user }}'
+        caddy_opt: caddy_opt
+        caddy_tls: caddy_tls
+        caddy_conf: /etc/Caddyfile
+        caddy_internet_facing: true

@@ -90,7 +90,6 @@ remote_secret: !vault |
   39383838386334626532
 
 password_mgr_host: vault
-bastion_code_host: bastion-code
 music_host: music
 
 # NAS Stuff
