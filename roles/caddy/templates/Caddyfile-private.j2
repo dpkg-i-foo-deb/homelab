@@ -1,3 +1,4 @@
+# DO NOT MODIFY MANUALLY, GENERATED WITH ANSIBLE
 # Global config
 {
         servers {
@@ -123,16 +124,4 @@
 
 {{ password_mgr_host }}.{{ internet_host }} {
         import proxy 10.0.0.10:8080
-}
-
-# Wireguard dashboard
-
-wireguard.{{ internet_host }} {
-        import proxy 10.0.5.1:10086
-}
-
-# Uptime Kuma
-
-uptime.{{ internet_host }} {
-        import proxy 10.0.1.10:8080
 }

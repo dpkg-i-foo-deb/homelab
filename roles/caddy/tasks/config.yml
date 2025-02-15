@@ -1,9 +1,21 @@
-- name: Copy Caddy configuration file
+- name: Copy Caddyfile for Internet facing server
+  when: caddy_internet_facing
   notify: Restart Caddy
   become: true
   ansible.builtin.template:
-    src: templates/Caddyfile
+    src: templates/Caddyfile-public.j2
     dest: '{{ caddy_conf }}'
     mode: '0644'
-    owner: "{{ caddy_user }}"
-    group: "{{ caddy_user }}"
+    owner: '{{ caddy_user }}'
+    group: '{{ caddy_user }}'
+
+- name: Copy Caddyfile for private network server
+  when: not caddy_internet_facing
+  notify: Restart Caddy
+  become: true
+  ansible.builtin.template:
+    src: templates/Caddyfile-private.j2
+    dest: '{{ caddy_conf }}'
+    mode: '0644'
+    owner: '{{ caddy_user }}'
+    group: '{{ caddy_user }}'
