@@ -33,3 +33,6 @@
       - record: '{{ code_work_host }}'
         value: '{{ public_ip }}'
         comment: 'Work code editor'
+      - record: '{{ vpn_host }}'
+        comment: 'VPN Service'
+        value: '{{ public_ip }}'
