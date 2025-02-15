@@ -1,8 +1,8 @@
 - name: Ensure Vaultwarden is running
   become: true
-  become_user: "{{ vaultwarden_user }}"
+  become_user: '{{ vaultwarden_user }}'
   ansible.builtin.systemd_service:
     daemon_reload: true
     state: started
-    name: "{{ vaultwarden_container }}"
+    name: '{{ vaultwarden_container }}'
     scope: user

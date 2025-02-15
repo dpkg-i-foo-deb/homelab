@@ -1,5 +1,5 @@
 ---
-- name: Create tdarr container
+- name: Create tdarr Quadlet file
   become: true
   become_user: '{{ tdarr_user }}'
   notify: Restart tdarr
@@ -33,6 +33,7 @@
       - |
         [Service]
         Restart=always
+        RestartSec=5
       - |
         [Install]
         WantedBy=default.target multi-user.target
