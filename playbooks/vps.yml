@@ -4,6 +4,15 @@
     vps_user: 'vps-hetzner'
     vps_network: 'vps'
   tasks:
+
+    - name: Ensure there's a virtual network for VPS services
+      ansible.builtin.import_role:
+        name: podman
+        tasks_from: network
+      vars:
+        podman_network: '{{ vps_network }}'
+        podman_user: '{{ vps_user }}'
+
     - name: Deploy Headscale
       ansible.builtin.import_role:
         name: headscale
@@ -29,6 +38,7 @@
         name: caddy
       vars:
         caddy_user: '{{ vps_user }}'
+        caddy_network: '{{ vps_network }}'
         caddy_opt: caddy_opt
         caddy_tls: caddy_tls
         caddy_conf: /etc/Caddyfile
