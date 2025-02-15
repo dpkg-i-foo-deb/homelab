@@ -25,3 +25,13 @@
           - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/dyndns.txt'
           - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/hoster.txt'
           - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/gambling.txt'
+
+    - name: Deploy Wazuh agent
+      ansible.builtin.import_role:
+        name: wazuh_agent
+      vars:
+        wazuh_agent_version: '4.x'
+        wazuh_agent_manager_host: '{{ siem_host }}'
+        wazuh_agent_registration_pass: '{{ siem_enrollment_pass }}'
+        wazuh_agent_name: 'vm_dns'
+        wazuh_agent_groups: 'trusted,utility'
