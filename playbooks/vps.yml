@@ -1,0 +1,25 @@
+- name: Configure Virtual Private Server
+  hosts: vps
+  vars:
+    vps_user: 'vps'
+    vps_network: 'vps'
+  tasks:
+    - name: Deploy Headscale
+      ansible.builtin.import_role:
+        name: headscale
+      vars:
+        headscale_user: '{{ vps_user }}'
+        headscale_container: 'headscale'
+        headscale_http_port: '8080'
+        headscale_metrics_port: '9090'
+        headscale_network: '{{ vps_network }}'
+        headscale_conf_dir: '/var/headscale'
+        headscale_tls_vol: 'headscale_tls'
+        headscale_server_host: '{{ internet_host }}'
+        headscale_server_port: '443'
+        headscale_listen_host: '0.0.0.0'
+        headscale_listen_port: '8080'
+        headscale_metrics_host: '0.0.0.0'
+        headscale_grpc_listen_addr: '0.0.0.0'
+        headscale_grpc_listen_port: '50443'
+        headscale_dns_base_domain: 'nodes.{{ vpn_host }}.{{internet_host}}'
