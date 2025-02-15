@@ -12,3 +12,13 @@
         caddy_opt: caddy_opt
         caddy_tls: caddy_tls
         caddy_conf: /etc/Caddyfile
+
+    - name: Deploy Wazuh agent
+      ansible.builtin.import_role:
+        name: wazuh_agent
+      vars:
+        wazuh_agent_version: '4.x'
+        wazuh_agent_manager_host: '{{ siem_host }}'
+        wazuh_agent_registration_pass: '{{ siem_enrollment_pass }}'
+        wazuh_agent_name: 'reverse_proxy'
+        wazuh_agent_groups: 'internet_facing,trusted'
