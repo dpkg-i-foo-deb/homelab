@@ -1,4 +1,6 @@
 ---
+- name: VPS setup
+  import_playbook: vps.yml
 - name: Bastion setup
   import_playbook: bastion.yml
 - name: Public DNS setup
