@@ -120,4 +120,4 @@
         wazuh_agent_manager_host: '{{ siem_host }}'
         wazuh_agent_registration_pass: '{{ siem_enrollment_pass }}'
         wazuh_agent_name: 'code'
-        wazuh_agent_groups: 'internet_facing, trusted'
+        wazuh_agent_groups: 'internet_facing,trusted'
