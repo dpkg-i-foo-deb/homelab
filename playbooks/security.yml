@@ -3,7 +3,7 @@
   vars:
     security_user: security
     security_network: security
-    podman_user: "{{ security_user }}"
+    podman_user: '{{ security_user }}'
 
     security_keycloak_pg_pass: !vault |
       $ANSIBLE_VAULT;1.1;AES256
@@ -36,29 +36,29 @@
         name: podman
         tasks_from: network
       vars:
-        podman_network: "{{ security_network }}"
+        podman_network: '{{ security_network }}'
         podman_user: '{{ security_user }}'
 
     - name: Deploy Postgres for Keycloak
       ansible.builtin.import_role:
         name: postgres
       vars:
-        postgres_podman_user: "{{ security_user }}"
+        postgres_podman_user: '{{ security_user }}'
         postgres_container: postgres
-        postgres_data_vol: "postgres_keycloak"
+        postgres_data_vol: 'postgres_keycloak'
         postgres_db: keycloak
         postgres_user: keycloak
-        postgres_network: "{{ security_network }}"
-        postgres_pass: "{{ security_keycloak_pg_pass }}"
+        postgres_network: '{{ security_network }}'
+        postgres_pass: '{{ security_keycloak_pg_pass }}'
 
     - name: Deploy Keycloak
       ansible.builtin.import_role:
         name: keycloak
       vars:
-        keycloak_user: "{{ security_user }}"
+        keycloak_user: '{{ security_user }}'
         keycloak_container: keycloak
-        keycloak_network: "{{ security_network }}"
-        keycloak_pg_pass: "{{ security_keycloak_pg_pass }}"
+        keycloak_network: '{{ security_network }}'
+        keycloak_pg_pass: '{{ security_keycloak_pg_pass }}'
         # keycloak_bootstrap_username:
         # keycloak_bootstrap_password:
 
@@ -233,7 +233,7 @@
     - name: Ensure homelab Keycloak realm is configured
       middleware_automation.keycloak.keycloak_realm:
         auth_client_id: admin-cli
-        auth_keycloak_url: "https://{{ auth_host }}.{{ internet_host }}"
+        auth_keycloak_url: 'https://{{ auth_host }}.{{ internet_host }}'
         auth_realm: master
         auth_username: '{{ security_keycloak_admin_user }}'
         auth_password: '{{ security_keycloak_admin_password }}'
@@ -261,7 +261,7 @@
     - name: Ensure Code service is registered as a client
       middleware_automation.keycloak.keycloak_client:
         auth_client_id: admin-cli
-        auth_keycloak_url: "https://{{ auth_host }}.{{ internet_host }}"
+        auth_keycloak_url: 'https://{{ auth_host }}.{{ internet_host }}'
         auth_realm: master
         auth_username: '{{ security_keycloak_admin_user }}'
         auth_password: '{{ security_keycloak_admin_password }}'
@@ -305,7 +305,7 @@
     - name: Ensure Remote service is registered as a client
       middleware_automation.keycloak.keycloak_client:
         auth_client_id: admin-cli
-        auth_keycloak_url: "https://{{ auth_host }}.{{ internet_host }}"
+        auth_keycloak_url: 'https://{{ auth_host }}.{{ internet_host }}'
         auth_realm: master
         auth_username: '{{ security_keycloak_admin_user }}'
         auth_password: '{{ security_keycloak_admin_password }}'

@@ -1,27 +1,28 @@
 - name: Create Caddy Quadlet file
   become: true
-  become_user: "{{ caddy_user }}"
+  become_user: '{{ caddy_user }}'
   notify: Restart Caddy
   containers.podman.podman_container:
-    name: "{{ caddy_container }}"
+    name: '{{ caddy_container }}'
     image: docker.io/caddy:latest
     state: quadlet
-    quadlet_filename: "{{ caddy_container }}"
+    quadlet_filename: '{{ caddy_container }}'
+    network: '{{ caddy_networks | default(omit) }}'
     ports:
-      - "443:443"
-      - "443:443/udp"
-      - "80:80"
+      - '443:443'
+      - '443:443/udp'
+      - '80:80'
     volumes:
-      - "{{ caddy_opt }}:/config:z"
-      - "{{ caddy_tls }}:/data:z"
-      - "{{ caddy_conf }}:/etc/caddy/Caddyfile:z"
+      - '{{ caddy_opt }}:/config:z'
+      - '{{ caddy_tls }}:/data:z'
+      - '{{ caddy_conf }}:/etc/caddy/Caddyfile:z'
     env:
-      PUID: "1000"
-      PGID: "1000"
-      TZ: "{{ tz }}"
+      PUID: '1000'
+      PGID: '1000'
+      TZ: '{{ tz }}'
     quadlet_options:
-      - "AutoUpdate=registry"
-      - "Pull=newer"
+      - 'AutoUpdate=registry'
+      - 'Pull=newer'
       - |
         [Service]
         Restart=always
