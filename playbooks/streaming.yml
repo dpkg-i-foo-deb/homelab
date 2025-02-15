@@ -36,3 +36,13 @@
           3537313339383265630a346437383561353136666562343665373132663362643931323061373839
           30373138663138386663336537363433396464626564336566663763636634663735646533343933
           6561336366386535353135633839376462326437323436326537
+
+    - name: Deploy Wazuh agent
+      ansible.builtin.import_role:
+        name: wazuh_agent
+      vars:
+        wazuh_agent_version: '4.x'
+        wazuh_agent_manager_host: '{{ siem_host }}'
+        wazuh_agent_registration_pass: '{{ siem_enrollment_pass }}'
+        wazuh_agent_name: 'streaming'
+        wazuh_agent_groups: 'internet_facing,trusted'
