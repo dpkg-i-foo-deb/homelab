@@ -20,13 +20,22 @@
       - nano
     state: present
 
-- name: Install AlmaLinux specific packages
+- name: Install RHEL Family specific packages
   become: true
-  when: ansible_distribution == "AlmaLinux"
+  when: ansible_os_family == "RedHat"
   ansible.builtin.package:
     name:
       - python3-libselinux
       - epel-release
+      - audit
+    state: present
+
+- name: Install Debian Family specific packages
+  become: true
+  when: ansible_os_family == "Debian"
+  ansible.builtin.package:
+    name:
+      - auditd
     state: present
 
 - name: Install misc tools
@@ -38,4 +47,5 @@
       - telnet
       - acl
       - bind-utils
+      - htop
     state: present
