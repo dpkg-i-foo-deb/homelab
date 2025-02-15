@@ -2,6 +2,8 @@
 ansible_user: ansible
 tz: 'America/Bogota'
 
+# VPN
+vpn_host: 'vpn'
 
 # SIEM
 

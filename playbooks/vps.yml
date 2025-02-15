@@ -22,4 +22,4 @@
         headscale_metrics_host: '0.0.0.0'
         headscale_grpc_listen_addr: '0.0.0.0'
         headscale_grpc_listen_port: '50443'
-        headscale_dns_base_domain: 'nodes.{{ vpn_host }}.{{internet_host}}'
+        headscale_dns_base_domain: 'nodes.{{ vpn_host }}.{{ internet_host }}'
