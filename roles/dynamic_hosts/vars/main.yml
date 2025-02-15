@@ -13,3 +13,4 @@ dynamic_hosts_map:
   10.0.0.10: security.vm
   10.0.0.11: sandbox.vm
   10.0.0.13: knowledge.vm
+  internet_ip: vps_hetzner
