@@ -1,0 +1,9 @@
+---
+- name: Ensure headscale configuration is present
+  become: true
+  ansible.builtin.template:
+    src: templates/config.yaml.j2
+    dest: '{{ headscale_conf_dir }}/config.yaml'
+    owner: '{{ headscale_user }}'
+    group: '{{ headscale_user }}'
+    mode: '0777'

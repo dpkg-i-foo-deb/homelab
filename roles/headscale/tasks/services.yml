@@ -1,0 +1,8 @@
+- name: Ensure headscale is running
+  become: true
+  become_user: '{{ headscale_user }}'
+  ansible.builtin.systemd_service:
+    daemon_reload: true
+    state: started
+    name: '{{ headscale_container }}'
+    scope: user
