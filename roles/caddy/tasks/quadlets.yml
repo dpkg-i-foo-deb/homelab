@@ -4,7 +4,7 @@
   notify: Restart Caddy
   containers.podman.podman_container:
     name: '{{ caddy_container }}'
-    image: docker.io/caddy:latest
+    image: public.ecr.aws/docker/library/caddy:latest
     state: quadlet
     quadlet_filename: '{{ caddy_container }}'
     network: '{{ caddy_networks | default(omit) }}'
