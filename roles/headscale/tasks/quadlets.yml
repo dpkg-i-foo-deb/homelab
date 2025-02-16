@@ -10,9 +10,9 @@
     quadlet_filename: '{{ headscale_container }}'
     command: '{{ headscale_command }}'
     network: '{{ headscale_network | default(omit) }}'
-    ports:
-      - '{{ headscale_http_port }}:8080'
-      - '{{ headscale_metrics_port }}:9090'
+    # ports:
+    #   - '{{ headscale_http_port }}:8080'
+    #   - '{{ headscale_metrics_port }}:9090'
     env:
       PUID: '1000'
       PGID: '1000'

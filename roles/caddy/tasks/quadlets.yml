@@ -9,10 +9,10 @@
     quadlet_filename: '{{ caddy_container }}'
     network: '{{ caddy_networks | default(omit) }}'
     ip: '{{ caddy_ip | default(omit) }}'
-    ports:
-      - '443:443'
-      - '443:443/udp'
-      - '80:80'
+    # ports:
+    #   - '443:443'
+    #   - '443:443/udp'
+    #   - '80:80'
     volumes:
       - '{{ caddy_opt }}:/config:z'
       - '{{ caddy_tls }}:/data:z'
