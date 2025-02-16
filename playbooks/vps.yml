@@ -4,9 +4,9 @@
     vps_user: 'vps-hetzner'
     vps_reverse_proxy_network: 'vps_reverse_proxy'
     vps_adblock_network: 'vps_adblock'
-    vps_adblock_network_subnet: '10.88.0.5/24'
-    vps_adblock_nettwork_gateway: '10.88.0.1'
-    vps_adblock_ip: '10.88.0.20'
+    vps_adblock_network_subnet: '10.89.2.0/24'
+    vps_adblock_nettwork_gateway: '10.89.2.1'
+    vps_adblock_ip: '10.89.2.20'
   tasks:
 
 
