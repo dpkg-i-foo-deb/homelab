@@ -9,6 +9,9 @@
 - name: Configure performance options
   ansible.builtin.import_tasks: performance.yml
 
+- name: Kernel modules configuration
+  ansible.builtin.import_tasks: modules.yml
+
 - name: Ensure qemu-guest-agent is running and starts on boot
   become: true
   ansible.builtin.systemd_service:
