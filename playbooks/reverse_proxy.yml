@@ -24,7 +24,7 @@
         caddy_conf: /etc/Caddyfile
         caddy_internet_facing: false
         caddy_networks: '{{ reverse_proxy_network }}'
-        caddy_image: 'caddy'
+        caddy_image: 'caddy-private'
         caddy_extensions:
           - github.com/caddy-dns/cloudflare
           - github.com/corazawaf/coraza-caddy/v2

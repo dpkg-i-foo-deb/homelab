@@ -2,7 +2,7 @@
 - name: Build Caddy image
   become: true
   become_user: '{{ caddy_user }}'
-  notify: Restart code-server
+  notify: Restart Caddy
   containers.podman.podman_image:
     name: '{{ caddy_image }}:latest'
     state: build
