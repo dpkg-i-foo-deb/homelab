@@ -11,8 +11,8 @@
       become: true
       community.general.nmcli:
         conn_name: adblock-lo
-        ifname: eth1
-        type: ethernet
+        ifname: lo1
+        type: loopback
         ip4:
           - '{{ vps_adblock_loopback }}'
         state: present
