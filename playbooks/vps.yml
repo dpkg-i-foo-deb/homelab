@@ -4,7 +4,18 @@
     vps_user: 'vps-hetzner'
     vps_reverse_proxy_network: 'vps_reverse_proxy'
     vps_adblock_network: 'vps_adblock'
+    vps_adblock_loopback: '127.0.0.2/8'
   tasks:
+
+    - name: Ensure adblock loopback is configured
+      become: true
+      community.general.nmcli:
+        conn_name: adblock-lo
+        ifname: eth1
+        type: ethernet
+        ip4:
+          - '{{ vps_adblock_loopback }}'
+        state: present
 
     - name: Ensure there's a virtual network for VPS reverse proxy
       ansible.builtin.import_role:
@@ -61,10 +72,9 @@
         blocky_user: '{{ vps_user }}'
         blocky_container: 'blocky'
         blocky_config_dir: '/var/blocky'
-        blocky_dns_port: '53'
-        blocky_http_port: '4000'
+        blocky_dns_port: '{{ vps_adblock_loopback }}:53'
+        blocky_http_port: '{{ vps_adblock_loopback }}:4000'
         blocky_networks: '{{ vps_adblock_network }}'
-        blocky_container_ip: '10.89.2.50'
         blocky_upstreams:
           - '1.1.1.1'
           - '8.8.8.8'
