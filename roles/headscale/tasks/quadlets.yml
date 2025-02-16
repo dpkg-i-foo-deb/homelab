@@ -8,7 +8,7 @@
     image: docker.io/headscale/headscale:stable
     state: quadlet
     quadlet_filename: '{{ headscale_container }}'
-    command: 'headscale serve'
+    command: '{{ headscale_command }}'
     network: '{{ headscale_network | default(omit) }}'
     ports:
       - '{{ headscale_http_port }}:8080'
