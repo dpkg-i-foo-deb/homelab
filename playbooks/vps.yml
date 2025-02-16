@@ -69,10 +69,20 @@
         caddy_internet_facing: true
         caddy_extensions:
           - github.com/corazawaf/coraza-caddy/v2
+          - github.com/tailscale/caddy-tailscale
         caddy_image: 'caddy-public'
         caddy_networks:
           - '{{ vps_proxying_network }}'
           - '{{ vps_headscale_network }}'
+        caddy_ts_authkey: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          66306264363131333637336665343933393436333836666335313137633164386237336163333232
+          6465653062326437303738373661326530643261663963610a313463376130353566373836613238
+          36643962363330336538353465303531323331373134653837336162383035303335346431636164
+          3939633333336165390a653636666439363430636635616664343534326330656431666632313437
+          37396663653039343864376639383261663133376263636333656163393034373533656635383066
+          66666566653136313033396462663761373664656531333838353539313437613564373638623131
+          333664366262386562633162656464653461
 
     - name: Deploy Blocky DNS Server
       ansible.builtin.import_role:
@@ -131,24 +141,16 @@
         tailscale_client_dest_ip: '{{ vps_adblock_ip }}'
         tailscale_client_userspace: 'false'
 
-    - name: Deploy Tailscale public reverse proxy client
-      ansible.builtin.import_role:
-        name: tailscale_client
-      vars:
-        tailscale_client_user: '{{ vps_user }}'
-        tailscale_client_container: 'tailscale_client_public_reverse_proxy'
-        tailscale_client_networks: '{{ vps_proxying_network }}'
-        tailscale_client_state_vol: 'tailscale_client_public_reverse_proxy_state'
-        tailscale_client_accept_dns: 'false'
-        tailscale_client_authkey: !vault |
-          $ANSIBLE_VAULT;1.1;AES256
-          66306264363131333637336665343933393436333836666335313137633164386237336163333232
-          6465653062326437303738373661326530643261663963610a313463376130353566373836613238
-          36643962363330336538353465303531323331373134653837336162383035303335346431636164
-          3939633333336165390a653636666439363430636635616664343534326330656431666632313437
-          37396663653039343864376639383261663133376263636333656163393034373533656635383066
-          66666566653136313033396462663761373664656531333838353539313437613564373638623131
-          333664366262386562633162656464653461
-        tailscale_client_hostname: 'public-reverse-proxy'
-        tailscale_client_dest_ip: '100.64.0.1'
-        tailscale_client_userspace: 'false'
+    # - name: Deploy Tailscale public reverse proxy client
+    #   ansible.builtin.import_role:
+    #     name: tailscale_client
+    #   vars:
+    #     tailscale_client_user: '{{ vps_user }}'
+    #     tailscale_client_container: 'tailscale_client_public_reverse_proxy'
+    #     tailscale_client_networks: '{{ vps_proxying_network }}'
+    #     tailscale_client_state_vol: 'tailscale_client_public_reverse_proxy_state'
+    #     tailscale_client_accept_dns: 'false'
+    #     tailscale_client_authkey:
+    #     tailscale_client_hostname: 'public-reverse-proxy'
+    #     tailscale_client_dest_ip: '100.64.0.1'
+    #     tailscale_client_userspace: 'false'

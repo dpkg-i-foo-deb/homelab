@@ -4,6 +4,29 @@
   servers {
     trusted_proxies static private_ranges
   }
+
+   tailscale {
+
+    public-reverse-proxy {
+
+      # Alternate control server URL.
+      control_url https://{{ vpn_host }}{{ internet_host }}
+
+      # If true, remove this node after disconnect.
+      ephemeral false
+
+      # Hostname to request when registering this node.
+      # Default: <node_name> used for this node configuration
+      hostname public-reverse-proxy
+
+      # Directory to store Tailscale state in for this node. No subdirectory is created.
+      state_dir /config/tailscale
+
+      # If true, run the Tailscale web UI for remotely managing this node.
+      webui false
+    }
+
+   }
 }
 
 # Snippets

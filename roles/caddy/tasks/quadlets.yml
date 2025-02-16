@@ -22,6 +22,7 @@
       PGID: '1000'
       TZ: '{{ tz }}'
       CF_API_TOKEN: '{{ caddy_cloudflare_token | default(omit) }}'
+      TS_AUTHKEY: '{{ caddy_ts_authkey | default(omit) }}'
     quadlet_options:
       - 'AutoUpdate=registry'
       - 'Pull=newer'
