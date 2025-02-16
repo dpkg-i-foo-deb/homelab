@@ -6,7 +6,7 @@ After=network.target
 User=root
 ExecStart={{ openrgb_install_path }}/{{ openrgb_executable }} --server --config {{ openrgb_config }}
 Restart=on-failure
-RestartSec=5
+RestartSec=10
 
 [Install]
 WantedBy=multi-user.target

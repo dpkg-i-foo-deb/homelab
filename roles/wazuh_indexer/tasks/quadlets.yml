@@ -32,7 +32,7 @@
       - |
         [Service]
         Restart=always
-        RestartSec=5
+        RestartSec=10
       - |
         [Install]
         WantedBy=default.target multi-user.target
