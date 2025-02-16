@@ -5,10 +5,12 @@
     trusted_proxies static private_ranges
   }
 
-   tailscale {
+  tailscale {
+
+    public-reverse-proxy {
 
       # Alternate control server URL.
-      control_url https://{{ vpn_host }}{{ internet_host }}
+      control_url https://{{ vpn_host }}.{{ internet_host }}
 
       # If true, remove this node after disconnect.
       ephemeral false
@@ -21,9 +23,11 @@
       state_dir /config/tailscale
 
       # If true, run the Tailscale web UI for remotely managing this node.
-      webui false 
+      webui false
 
-   }
+    }
+
+  }
 }
 
 # Snippets
@@ -58,5 +62,7 @@
 }
 
 {{ music_host }}.{{ internet_host }} {
-  import proxy tailscale_client_public_reverse_proxy
+   reverse_proxy https://private-reverse-proxy {
+      transport tailscale
+  }
 }
