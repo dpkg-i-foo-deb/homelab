@@ -56,6 +56,9 @@
         caddy_tls: caddy_tls
         caddy_conf: /etc/Caddyfile
         caddy_internet_facing: true
+        caddy_extensions:
+          - github.com/corazawaf/coraza-caddy/v2
+        caddy_image: 'caddy-public'
 
     - name: Deploy Blocky DNS Server
       ansible.builtin.import_role:

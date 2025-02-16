@@ -3,6 +3,8 @@
   vars:
     reverse_proxy_user: reverse-proxy
     reverse_proxy_network: reverse-proxy
+    reverse_proxy_network_subnet: '10.89.0.5/24'
+    reverse_proxy_network_gateway: '10.89.0.1'
   tasks:
 
     - name: Ensure there's a virtual network for reverse-proxy
@@ -11,6 +13,8 @@
         tasks_from: network
       vars:
         podman_network: '{{ reverse_proxy_network }}'
+        podman_network_subnet: '{{ reverse_proxy_network_subnet }}'
+        podman_network_gateway: '{{ reverse_proxy_network_gateway }}'
         podman_user: '{{ reverse_proxy_user }}'
 
     - name: Deploy Caddy
@@ -24,6 +28,7 @@
         caddy_conf: /etc/Caddyfile
         caddy_internet_facing: false
         caddy_networks: '{{ reverse_proxy_network }}'
+        caddy_ip: '10.89.0.10'
         caddy_image: 'caddy-private'
         caddy_extensions:
           - github.com/caddy-dns/cloudflare

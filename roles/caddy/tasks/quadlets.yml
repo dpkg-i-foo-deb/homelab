@@ -8,6 +8,7 @@
     state: quadlet
     quadlet_filename: '{{ caddy_container }}'
     network: '{{ caddy_networks | default(omit) }}'
+    ip: '{{ caddy_ip | default(omit) }}'
     ports:
       - '443:443'
       - '443:443/udp'

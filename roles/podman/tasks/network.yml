@@ -1,6 +1,8 @@
 ---
 - name: Ensure there's a podman network named {{ podman_network }}
   become: true
-  become_user: "{{ podman_user }}"
+  become_user: '{{ podman_user }}'
   containers.podman.podman_network:
-    name: "{{ podman_network }}"
+    name: '{{ podman_network }}'
+    subnet: '{{ podman_network_subnet | default(omit) }}'
+    gateway: '{{ podman_network_gateway | default(omit) }}'
