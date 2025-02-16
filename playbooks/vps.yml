@@ -11,9 +11,10 @@
       become: true
       community.general.nmcli:
         conn_name: adblock-lo
-        ifname: lo1
+        ifname: lo
         type: loopback
         ip4:
+          - '127.0.0.1/8'
           - '{{ vps_adblock_loopback }}'
         state: present
 
