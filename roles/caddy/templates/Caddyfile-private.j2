@@ -1,5 +1,10 @@
 # DO NOT MODIFY MANUALLY, GENERATED WITH ANSIBLE
 # Global config
+
+tls {
+	dns cloudflare {env.CF_API_TOKEN}
+}
+
 {
         servers {
                 trusted_proxies static private_ranges

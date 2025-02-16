@@ -1,0 +1,10 @@
+---
+- name: Build Caddy image
+  become: true
+  become_user: '{{ caddy_user }}'
+  notify: Restart code-server
+  containers.podman.podman_image:
+    name: '{{ caddy_image }}:latest'
+    state: build
+    build:
+      container_file: "{{ lookup('template', 'Containerfile.j2') }}"
