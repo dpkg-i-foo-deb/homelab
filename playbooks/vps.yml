@@ -64,7 +64,7 @@
         blocky_dns_port: '53'
         blocky_http_port: '4000'
         blocky_networks: '{{ vps_adblock_network }}'
-        blocky_container_ip: '10.89.2.3'
+        blocky_container_ip: '10.89.2.10'
         blocky_upstreams:
           - '1.1.1.1'
           - '8.8.8.8'
@@ -97,5 +97,5 @@
           62363166653663326331306438353562343130356130393036366364633365393661393135363763
           643633353163336637366635383562383934
         tailscale_client_hostname: 'adblock-dns'
-        tailscale_client_dest_ip: '10.89.2.3'
+        tailscale_client_dest_ip: '10.89.2.10'
         tailscale_client_userspace: 'false'
