@@ -44,3 +44,25 @@
         caddy_tls: caddy_tls
         caddy_conf: /etc/Caddyfile
         caddy_internet_facing: true
+
+    - name: Deploy Blocky DNS Server
+      ansible.builtin.import_role:
+        name: blocky
+      vars:
+        blocky_user: '{{ vm_dns_user }}'
+        blocky_container: 'blocky'
+        blocky_config_dir: '/var/blocky'
+        blocky_dns_port: '53'
+        blocky_http_port: '4000'
+        blocky_upstreams:
+          - '1.1.1.1'
+          - '8.8.8.8'
+        blocky_adlists:
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/ultimate.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/fake.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/popupads.txt'
+        blocky_security_lists:
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/tif.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/dyndns.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/hoster.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/gambling.txt'
