@@ -4,7 +4,9 @@
     vps_user: 'vps-hetzner'
     vps_reverse_proxy_network: 'vps_reverse_proxy'
     vps_adblock_network: 'vps_adblock'
-    vps_adblock_ip: '172.0.0.2'
+    vps_adblock_network_subnet: '10.88.0.5/24'
+    vps_adblock_nettwork_gateway: '10.88.0.1'
+    vps_adblock_ip: '10.88.0.20'
   tasks:
 
 
@@ -34,7 +36,6 @@
         headscale_http_port: '8080'
         headscale_metrics_port: '9090'
         headscale_dns_server: '100.64.0.6'
-        headscale_network: '{{ vps_reverse_proxy_network }}'
         headscale_conf_dir: '/var/headscale'
         headscale_tls_vol: 'headscale_tls'
         headscale_server_host: '{{ vpn_host }}.{{ internet_host }}'
@@ -67,9 +68,10 @@
         blocky_user: '{{ vps_user }}'
         blocky_container: 'blocky'
         blocky_config_dir: '/var/blocky'
-        blocky_dns_port: '{{ vps_adblock_ip }}:53'
-        blocky_http_port: '{{ vps_adblock_ip }}:4000'
+        blocky_dns_port: '5353'
+        blocky_http_port: '4000'
         blocky_networks: '{{ vps_adblock_network }}'
+        blocky_container_ip: '{{ vps_adblock_ip }}'
         blocky_upstreams:
           - '1.1.1.1'
           - '8.8.8.8'
