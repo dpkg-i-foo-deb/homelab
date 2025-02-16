@@ -1,5 +1,5 @@
 ---
-- name: Create podman virtual network named {{ podman_network }}
+- name: Ensure there's a podman network named {{ podman_network }}
   become: true
   become_user: "{{ podman_user }}"
   containers.podman.podman_network:
