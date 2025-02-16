@@ -5,7 +5,7 @@
   notify: Restart blocky
   containers.podman.podman_container:
     name: '{{ blocky_container }}'
-    image: docker.io/spx01/blocky:latest
+    image: ghcr.io/0xerr0r/blocky:latest
     state: quadlet
     quadlet_filename: '{{ blocky_container }}'
     ports:
