@@ -28,6 +28,7 @@
       - python3-libselinux
       - epel-release
       - audit
+      - bind-utils
     state: present
 
 - name: Install Debian Family specific packages
