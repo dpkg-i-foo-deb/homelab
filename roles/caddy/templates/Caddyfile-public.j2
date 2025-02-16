@@ -7,8 +7,6 @@
 
    tailscale {
 
-    public-reverse-proxy {
-
       # Alternate control server URL.
       control_url https://{{ vpn_host }}{{ internet_host }}
 
@@ -23,8 +21,7 @@
       state_dir /config/tailscale
 
       # If true, run the Tailscale web UI for remotely managing this node.
-      webui false
-    }
+      webui false 
 
    }
 }
