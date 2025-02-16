@@ -8,7 +8,8 @@
     image: ghcr.io/tailscale/tailscale:latest
     state: quadlet
     quadlet_filename: '{{ tailscale_client_container }}'
-    network: '{{ tailscale_client_networks | default(omit) }}'
+    # network: '{{ tailscale_client_networks | default(omit) }}'
+    network: 'host'
     privileged: true
     cap_add:
       - NET_ADMIN
