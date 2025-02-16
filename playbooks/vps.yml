@@ -2,23 +2,33 @@
   hosts: vps
   vars:
     vps_user: 'vps-hetzner'
-    vps_reverse_proxy_network: 'vps_reverse_proxy'
     vps_adblock_network: 'vps_adblock'
     vps_adblock_network_subnet: '10.89.2.0/24'
     vps_adblock_nettwork_gateway: '10.89.2.1'
     vps_adblock_ip: '10.89.2.20'
+
+    vps_headscale_network: 'vps_headscale'
+    vps_proxying_network: 'vps_proxying'
   tasks:
 
 
-    - name: Ensure there's a virtual network for VPS reverse proxy
+    - name: Ensure there's a virtual network for headscale communication
       ansible.builtin.import_role:
         name: podman
         tasks_from: network
       vars:
-        podman_network: '{{ vps_reverse_proxy_network }}'
+        podman_network: '{{ vps_headscale_network }}'
         podman_user: '{{ vps_user }}'
 
-    - name: Ensure there's a virtual network for VPS adblock
+    - name: Ensure there's a virtual network to proxy requests to homelab
+      ansible.builtin.import_role:
+        name: podman
+        tasks_from: network
+      vars:
+        podman_network: '{{ vps_proxying_network }}'
+        podman_user: '{{ vps_user }}'
+
+    - name: Ensure there's a virtual network for public adblocking
       ansible.builtin.import_role:
         name: podman
         tasks_from: network
@@ -38,6 +48,7 @@
         headscale_dns_server: '100.64.0.6'
         headscale_conf_dir: '/var/headscale'
         headscale_tls_vol: 'headscale_tls'
+        headscale_network: '{{ vps_headscale_network }}'
         headscale_server_host: '{{ vpn_host }}.{{ internet_host }}'
         headscale_server_port: '443'
         headscale_listen_host: '0.0.0.0'
@@ -52,7 +63,6 @@
         name: caddy
       vars:
         caddy_user: '{{ vps_user }}'
-        caddy_networks: '{{ vps_reverse_proxy_network }}'
         caddy_opt: caddy_opt
         caddy_tls: caddy_tls
         caddy_conf: /etc/Caddyfile
@@ -60,6 +70,9 @@
         caddy_extensions:
           - github.com/corazawaf/coraza-caddy/v2
         caddy_image: 'caddy-public'
+        caddy_networks:
+          - '{{ vps_proxying_network }}'
+          - '{{ vps_headscale_network }}'
 
     - name: Deploy Blocky DNS Server
       ansible.builtin.import_role:
