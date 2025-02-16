@@ -16,7 +16,7 @@ server_url: https://{{ headscale_server_host }}:{{ headscale_server_port }}
 #
 # For production:
 # listen_addr: 0.0.0.0:8080
-listen_addr: https://{{ headscale_listen_host }}:{{ headscale_listen_port }}
+listen_addr: {{ headscale_listen_host }}:{{ headscale_listen_port }}
 
 # Address to listen to /metrics, you may want
 # to keep this endpoint private to your internal
