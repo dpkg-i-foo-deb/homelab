@@ -1,38 +1,42 @@
 # DO NOT MODIFY MANUALLY, GENERATED WITH ANSIBLE
 # Global config
 {
-        servers {
-                trusted_proxies static private_ranges
-        }
+  servers {
+    trusted_proxies static private_ranges
+  }
 }
 
 # Snippets
 
 # Proxy with compression. Uses plain HTTP
 (proxy) {
-        encode {
-                zstd better
-                gzip 6
-        }
-        reverse_proxy {args[0]}
+  encode {
+    zstd better
+    gzip 6
+  }
+  reverse_proxy {args[0]}
 }
 
 # Proxy with compression. Uses https and ignores tls stuff
 (proxy_tls) {
-        encode {
-                zstd better
-                gzip 6
-        }
-        reverse_proxy {args[0]} {
-                transport http {
-                        tls
-                        tls_insecure_skip_verify
-                }
-        }
+  encode {
+    zstd better
+    gzip 6
+  }
+  reverse_proxy {args[0]} {
+    transport http {
+      tls
+      tls_insecure_skip_verify
+    }
+  }
 }
 
 # VPN Service
 
 {{ vpn_host }}.{{ internet_host }} {
-        import proxy headscale:8080
+  import proxy headscale:8080
+}
+
+{{ music_host }}.{{ internet_host }} {
+  import proxy tailscale_client_public_reverse_proxy
 }
