@@ -97,3 +97,4 @@
           336339626138653233646431613931666431
         tailscale_client_hostname: 'adblock_dns'
         tailscale_client_dest_ip: 'blocky'
+        tailscale_client_userspace: 'false'
