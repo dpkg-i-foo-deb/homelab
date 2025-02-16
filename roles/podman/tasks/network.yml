@@ -6,3 +6,4 @@
     name: '{{ podman_network }}'
     subnet: '{{ podman_network_subnet | default(omit) }}'
     gateway: '{{ podman_network_gateway | default(omit) }}'
+    force: true
