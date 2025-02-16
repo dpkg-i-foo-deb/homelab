@@ -4,7 +4,7 @@
     vps_user: 'vps-hetzner'
     vps_reverse_proxy_network: 'vps_reverse_proxy'
     vps_adblock_network: 'vps_adblock'
-    vps_adblock_loopback: '127.0.0.2/8'
+    vps_adblock_loopback: '127.0.0.2'
   tasks:
 
     - name: Ensure adblock loopback is configured
@@ -15,7 +15,7 @@
         type: loopback
         ip4:
           - '127.0.0.1/8'
-          - '{{ vps_adblock_loopback }}'
+          - '{{ vps_adblock_loopback }}/8'
         state: present
 
     - name: Ensure there's a virtual network for VPS reverse proxy
