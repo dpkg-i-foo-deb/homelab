@@ -9,6 +9,7 @@
     state: quadlet
     quadlet_filename: '{{ tailscale_client_container }}'
     network: '{{ tailscale_client_networks | default(omit) }}'
+    privileged: true
     cap_add:
       - NET_ADMIN
       - NET_RAW
@@ -22,7 +23,7 @@
       TS_ACCEPT_DNS: '{{ tailscale_client_accept_dns }}'
       TS_AUTHKEY: '{{ tailscale_client_authkey }}'
       TS_HOSTNAME: '{{ tailscale_client_hostname }}'
-      TS_EXTRA_ARGS: '--login-server https://{{ vpn_host }}.{{ internet_host }}'
+      TS_EXTRA_ARGS: '--login-server=https://{{ vpn_host }}.{{ internet_host }}'
       TS_DEST_IP: '{{ tailscale_client_dest_ip | default(omit) }}'
       TS_USERSPACE: '{{ tailscale_client_userspace }}'
     quadlet_options:
