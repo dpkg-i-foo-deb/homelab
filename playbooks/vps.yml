@@ -69,7 +69,6 @@
         caddy_internet_facing: true
         caddy_extensions:
           - github.com/corazawaf/coraza-caddy/v2
-          - github.com/tailscale/caddy-tailscale
         caddy_image: 'caddy-public'
         caddy_networks:
           - '{{ vps_proxying_network }}'
