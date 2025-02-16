@@ -9,6 +9,7 @@
     state: quadlet
     quadlet_filename: '{{ blocky_container }}'
     network: '{{ blocky_networks | default(omit) }}'
+    ip: '{{ blocky_container_ip | default(omit) }}'
     ports:
       - '{{ blocky_http_port | default(4000) }}:4000/tcp'
       - '{{ blocky_dns_port | default(53) }}:53/tcp'
