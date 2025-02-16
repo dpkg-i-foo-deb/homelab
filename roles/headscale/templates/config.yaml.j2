@@ -277,9 +277,7 @@ dns:
   # List of DNS servers to expose to clients.
   nameservers:
     global:
-      - adblock-dns.nodes.vpn.baremetalcloud.org
-      - 1.1.1.1
-      - 1.0.0.1
+      - '{{ headscale_dns_server }}'
 
       # NextDNS (see https://tailscale.com/kb/1218/nextdns/).
       # "abc123" is example NextDNS ID, replace with yours.
