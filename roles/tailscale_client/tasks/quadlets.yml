@@ -14,7 +14,7 @@
       - NET_RAW
     ports:
     volumes:
-      - '{{ tailscale_client_state_vol }}/var/lib/tailscale:z'
+      - '{{ tailscale_client_state_vol }}:/var/lib/tailscale:z'
     env:
       PUID: '1000'
       PGID: '1000'
