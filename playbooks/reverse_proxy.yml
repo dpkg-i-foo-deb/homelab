@@ -5,7 +5,7 @@
     reverse_proxy_network: reverse-proxy
     reverse_proxy_network_subnet: '10.89.0.5/24'
     reverse_proxy_network_gateway: '10.89.0.1'
-    reverse_proxy_caddy_ip: '10.0.89.10'
+    reverse_proxy_caddy_ip: '10.89.0.10'
   tasks:
 
     - name: Ensure there's a virtual network for reverse-proxy
