@@ -5,6 +5,7 @@
     reverse_proxy_network: reverse-proxy
     reverse_proxy_network_subnet: '10.89.0.5/24'
     reverse_proxy_network_gateway: '10.89.0.1'
+    reverse_proxy_caddy_ip: '10.0.89.10'
   tasks:
 
     - name: Ensure there's a virtual network for reverse-proxy
@@ -28,7 +29,7 @@
         caddy_conf: /etc/Caddyfile
         caddy_internet_facing: false
         caddy_networks: '{{ reverse_proxy_network }}'
-        caddy_ip: '10.89.0.10'
+        caddy_ip: '{{ reverse_proxy_caddy_ip }}'
         caddy_image: 'caddy-private'
         caddy_extensions:
           - github.com/caddy-dns/cloudflare
@@ -61,7 +62,7 @@
           36316134396364346231366662356236653962353432356339343830633564666363373231666535
           616237323432363231323037353439613031
         tailscale_client_hostname: 'private-reverse-proxy'
-        # tailscale_client_dest_ip: '{{ vps_adblock_ip }}'
+        tailscale_client_dest_ip: '{{ reverse_proxy_caddy_ip }}'
         tailscale_client_userspace: 'false'
 
     - name: Deploy Wazuh agent
