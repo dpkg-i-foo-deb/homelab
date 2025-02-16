@@ -5,18 +5,6 @@
                 trusted_proxies static private_ranges
         }
 
-        tls {
-                dns cloudflare {env.CF_API_TOKEN}
-        }
-}
-
-
-
-
-{
-        servers {
-                trusted_proxies static private_ranges
-        }
 }
 
 # Snippets
@@ -106,35 +94,49 @@
         }
 }
 
+# Fetch certificates using Cloudflare DNS
+
+(cert_cloudflare_dns) {
+  tls {
+    dns cloudflare {env.CF_API_TOKEN}
+  }
+}
+
 # Authentication portal
 
 {{ auth_host }}.{{ internet_host }} {
-        import proxy 10.0.0.10:8081
+  import cert_cloudflare_dns
+  import proxy 10.0.0.10:8081
 }
 
 # Remote access
 
 {{ remote_host }}.{{ internet_host }} {
-        import proxy 10.0.1.10:8081
+  import cert_cloudflare_dns
+  import proxy 10.0.1.10:8081
 }
 
 # Remote code service for personal projects
 {{ code_personal_host }}.{{ internet_host }} {
-        import proxy_oauth 10.0.8.10:4181 10.0.8.10:8443
+  import cert_cloudflare_dns
+  import proxy_oauth 10.0.8.10:4181 10.0.8.10:8443
 }
 
 # Remote code service for personal projects
 {{ code_work_host }}.{{ internet_host }} {
-        import proxy_oauth 10.0.8.10:4180 10.0.8.10:8444
+  import cert_cloudflare_dns
+  import proxy_oauth 10.0.8.10:4180 10.0.8.10:8444
 }
 
 # Music streaming
 {{ music_host }}.{{ internet_host }} {
-        import proxy 10.0.0.19:4533
+  import cert_cloudflare_dns
+  import proxy 10.0.0.19:4533
 }
 
 # Password manager
 
 {{ password_mgr_host }}.{{ internet_host }} {
-        import proxy 10.0.0.10:8080
+  import cert_cloudflare_dns
+  import proxy 10.0.0.10:8080
 }
