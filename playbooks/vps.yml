@@ -49,7 +49,7 @@
       ansible.builtin.import_role:
         name: blocky
       vars:
-        blocky_user: '{{ vm_dns_user }}'
+        blocky_user: '{{ vps_user }}'
         blocky_container: 'blocky'
         blocky_config_dir: '/var/blocky'
         blocky_dns_port: '53'
