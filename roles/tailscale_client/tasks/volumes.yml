@@ -1,0 +1,8 @@
+---
+- name: Ensure there's a volume to store Tailscale status
+  ansible.builtin.import_role:
+    name: podman
+    tasks_from: local_volume
+  vars:
+    podman_local_volume: '{{ tailscale_client_state_vol }}'
+    podman_user: '{{ tailscale_client_user }}'

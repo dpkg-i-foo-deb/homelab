@@ -2,18 +2,27 @@
   hosts: vps
   vars:
     vps_user: 'vps-hetzner'
-    vps_network: 'vps'
+    vps_reverse_proxy_network: 'vps_reverse_proxy'
+    vps_adblock_network: 'vps_adblock'
   tasks:
 
-    - name: Ensure there's a virtual network for VPS services
+    - name: Ensure there's a virtual network for VPS reverse proxy
       ansible.builtin.import_role:
         name: podman
         tasks_from: network
       vars:
-        podman_network: '{{ vps_network }}'
+        podman_network: '{{ vps_reverse_proxy_network }}'
         podman_user: '{{ vps_user }}'
 
-    - name: Deploy Headscale
+    - name: Ensure there's a virtual network for VPS adblock
+      ansible.builtin.import_role:
+        name: podman
+        tasks_from: network
+      vars:
+        podman_network: '{{ vps_adblock_network }}'
+        podman_user: '{{ vps_user }}'
+
+    - name: Deploy Headscale control server
       ansible.builtin.import_role:
         name: headscale
       vars:
@@ -22,7 +31,7 @@
         headscale_command: 'serve'
         headscale_http_port: '8080'
         headscale_metrics_port: '9090'
-        headscale_network: '{{ vps_network }}'
+        headscale_network: '{{ vps_reverse_proxy_network }}'
         headscale_conf_dir: '/var/headscale'
         headscale_tls_vol: 'headscale_tls'
         headscale_server_host: '{{ vpn_host }}.{{ internet_host }}'
@@ -39,7 +48,7 @@
         name: caddy
       vars:
         caddy_user: '{{ vps_user }}'
-        caddy_networks: '{{ vps_network }}'
+        caddy_networks: '{{ vps_reverse_proxy_network }}'
         caddy_opt: caddy_opt
         caddy_tls: caddy_tls
         caddy_conf: /etc/Caddyfile
@@ -54,6 +63,7 @@
         blocky_config_dir: '/var/blocky'
         blocky_dns_port: '53'
         blocky_http_port: '4000'
+        blocky_networks: '{{ vps_adblock_network }}'
         blocky_upstreams:
           - '1.1.1.1'
           - '8.8.8.8'
@@ -66,3 +76,24 @@
           - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/dyndns.txt'
           - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/hoster.txt'
           - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/gambling.txt'
+
+    - name: Deploy Tailscale adblock client
+      ansible.builtin.import_role:
+        name: tailscale_client
+      vars:
+        tailscale_client_user: '{{ vps_user }}'
+        tailscale_client_container: 'tailscale_client_adblock'
+        tailscale_client_networks: '{{ vps_adblock_network }}'
+        tailscale_client_state_vol: 'tailscale_client_adblock_state'
+        tailscale_client_accept_dns: 'false'
+        tailscale_client_authkey: '!vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          63346137303339383366353436633538393961656565356265623332663132376265363066313239
+          6162303339643436313233373131633133626537643462360a386338396463343438333237646539
+          34626261303433363431303530333762646337653933633138353336666235353532393961663539
+          6231636639346662610a623638653861316164613537626533323938386137343336643263363133
+          38616162386663316262343632613831396438616463373238346535363433613935323930313239
+          38386262623331326666323232383636366231353238386463313663346234396163663461653463
+          336339626138653233646431613931666431'
+        tailscale_client_hostname: 'adblock_dns'
+        tailscale_client_dest_ip: 'blocky'

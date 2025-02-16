@@ -8,6 +8,7 @@
     image: ghcr.io/0xerr0r/blocky:latest
     state: quadlet
     quadlet_filename: '{{ blocky_container }}'
+    network: '{{ blocky_networks | default(omit) }}'
     ports:
       - '{{ blocky_http_port | default(4000) }}:4000/tcp'
       - '{{ blocky_dns_port | default(53) }}:53/tcp'
