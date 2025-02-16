@@ -39,7 +39,7 @@
         name: caddy
       vars:
         caddy_user: '{{ vps_user }}'
-        caddy_network: '{{ vps_network }}'
+        caddy_networks: '{{ vps_network }}'
         caddy_opt: caddy_opt
         caddy_tls: caddy_tls
         caddy_conf: /etc/Caddyfile
