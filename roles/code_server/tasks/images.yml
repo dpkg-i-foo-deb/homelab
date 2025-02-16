@@ -1,10 +1,10 @@
 ---
 - name: Build code-server image
   become: true
-  become_user: "{{ code_server_user }}"
+  become_user: '{{ code_server_user }}'
   notify: Restart code-server
   containers.podman.podman_image:
-    name: "{{ code_server_image }}:latest"
+    name: '{{ code_server_image }}:latest'
     state: build
     build:
       container_file: "{{ lookup('template', 'Containerfile.j2') }}"
