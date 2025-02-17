@@ -16,7 +16,7 @@
           - '1.1.1.1'
           - '8.8.8.8'
         blocky_adlists:
-          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/ultimate.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/pro.plus.txt'
           - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/fake.txt'
           - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/popupads.txt'
         blocky_security_lists:
@@ -25,6 +25,21 @@
           - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/dyndns.txt'
           - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/hoster.txt'
           - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/gambling.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/tif.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/dyndns.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/hoster.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/gambling.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.amazon.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.apple.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.huawei.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.winoffice.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.samsung.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.tiktok.extended.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.lgwebos.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.roku.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.vivo.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.oppo-realme-onlydomains.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.xiaomi.txt'
 
     - name: Deploy Wazuh agent
       ansible.builtin.import_role:
