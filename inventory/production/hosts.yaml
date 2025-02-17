@@ -12,8 +12,10 @@ dns:
   hosts:
     primary_dns:
       ansible_host: 10.0.7.2
+      dns_user: dns
     backup_dns:
       ansible_host: 10.0.7.3
+      dns_user: dns-1
 streaming:
   hosts: 10.0.0.19
 torrent:

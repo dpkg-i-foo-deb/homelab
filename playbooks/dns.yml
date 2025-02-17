@@ -1,13 +1,11 @@
 - name: Configure virtual machines DNS server
   hosts: dns
-  vars:
-    vm_dns_user: 'dns'
   tasks:
     - name: Deploy Blocky DNS Server
       ansible.builtin.import_role:
         name: blocky
       vars:
-        blocky_user: '{{ vm_dns_user }}'
+        blocky_user: '{{ dns_user }}'
         blocky_container: 'blocky'
         blocky_config_dir: '/var/blocky'
         blocky_dns_port: '53'
@@ -48,5 +46,5 @@
         wazuh_agent_version: '4.x'
         wazuh_agent_manager_host: '{{ siem_host }}'
         wazuh_agent_registration_pass: '{{ siem_enrollment_pass }}'
-        wazuh_agent_name: 'vm_dns'
+        wazuh_agent_name: '{{ dns_user }}'
         wazuh_agent_groups: 'trusted,utility'
