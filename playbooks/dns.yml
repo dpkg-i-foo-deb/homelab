@@ -1,5 +1,5 @@
 - name: Configure virtual machines DNS server
-  hosts: vmdns
+  hosts: dns
   vars:
     vm_dns_user: 'dns'
   tasks:

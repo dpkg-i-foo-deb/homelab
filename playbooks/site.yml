@@ -7,8 +7,8 @@
   import_playbook: public_dns.yml
 - name: Hypervisor setup
   import_playbook: hypervisor.yml
-- name: Virtual machines DNS server deployment
-  import_playbook: vm_dns.yml
+- name: DNS server deployment
+  import_playbook: dns.yml
 - name: Zram configuration
   import_playbook: zram.yml
 - name: Virtual machines configuration
