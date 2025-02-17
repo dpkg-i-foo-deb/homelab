@@ -277,7 +277,7 @@ dns:
   # List of DNS servers to expose to clients.
   nameservers:
     global:
-      - {{ headscale_dns_server }}
+      - 100.64.0.4
 
       # NextDNS (see https://tailscale.com/kb/1218/nextdns/).
       # "abc123" is example NextDNS ID, replace with yours.
@@ -300,7 +300,10 @@ dns:
   # Extra DNS records
   # so far only A and AAAA records are supported (on the tailscale side)
   # See: docs/ref/dns.md
-  extra_records: []
+  extra_records:
+    - name: "music.baremetalcloud.org"
+      type: "A"
+      value: "100.64.0.3"
   #   - name: "grafana.myvpn.example.com"
   #     type: "A"
   #     value: "100.64.0.3"
