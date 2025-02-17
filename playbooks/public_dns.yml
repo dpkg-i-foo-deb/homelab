@@ -15,24 +15,6 @@
       35653633386138636339636538646332653239646430616637653461626537303565396532323231
       3536356436623966353435623863646462303136666566373032
     cloudflare_dns_data:
-      - record: '{{ music_host }}'
-        value: '{{ public_ip }}'
-        comment: 'Music service'
-      - record: '{{ auth_host }}'
-        value: '{{ public_ip }}'
-        comment: 'Password manager'
-      - record: '{{ auth_host }}'
-        value: '{{ public_ip }}'
-        comment: 'Authentication service'
-      - record: '{{ remote_host }}'
-        value: '{{ public_ip }}'
-        comment: 'Remote access to homelab'
-      - record: '{{ code_personal_host }}'
-        value: '{{ public_ip }}'
-        comment: 'Personal code editor'
-      - record: '{{ code_work_host }}'
-        value: '{{ public_ip }}'
-        comment: 'Work code editor'
-      - record: '{{ vpn_host }}'
+      - record:
         comment: 'VPN Service'
         value: '{{ public_ip }}'
