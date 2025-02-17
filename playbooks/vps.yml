@@ -5,14 +5,6 @@
 
   tasks:
 
-    - name: Ensure there's a virtual network for public adblocking
-      ansible.builtin.import_role:
-        name: podman
-        tasks_from: network
-      vars:
-        podman_network: '{{ vps_adblock_network }}'
-        podman_user: '{{ vps_user }}'
-
     - name: Deploy Headscale control server
       ansible.builtin.import_role:
         name: headscale
