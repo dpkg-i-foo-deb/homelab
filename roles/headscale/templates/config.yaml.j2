@@ -302,7 +302,16 @@ dns:
   # so far only A and AAAA records are supported (on the tailscale side)
   # See: docs/ref/dns.md
   extra_records:
-    - name: "music.baremetalcloud.org"
+    - name: "{{ music_host }}.{{ internet_host }}"
+      type: "A"
+      value: "100.64.0.3"
+    - name: "{{ password_mgr_host }}.{{ internet_host }}"
+      type: "A"
+      value: "100.64.0.3"
+    - name: "{{ code_personal_host }}.{{ internet_host }}"
+      type: "A"
+      value: "100.64.0.3"
+    - name: "{{ code_work_host }}.{{ internet_host }}"
       type: "A"
       value: "100.64.0.3"
   #   - name: "grafana.myvpn.example.com"

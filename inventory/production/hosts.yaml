@@ -10,6 +10,7 @@ servarr:
   hosts: 10.0.10.10
 dns:
   hosts:
+    main_dns:
     - 10.0.7.2
     - 10.0.7.3
 streaming:
