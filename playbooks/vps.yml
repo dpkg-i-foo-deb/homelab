@@ -52,73 +52,40 @@
           66666566653136313033396462663761373664656531333838353539313437613564373638623131
           333664366262386562633162656464653461
 
-    # - name: Deploy Blocky DNS Server
-    #   ansible.builtin.import_role:
-    #     name: blocky
-    #   vars:
-    #     blocky_user: '{{ vps_user }}'
-    #     blocky_container: 'blocky'
-    #     blocky_config_dir: '/var/blocky'
-    #     blocky_dns_port: '5353'
-    #     blocky_http_port: '4000'
-    #     blocky_networks: '{{ vps_adblock_network }}'
-    #     blocky_container_ip: '{{ vps_adblock_ip }}'
-    #     blocky_upstreams:
-    #       - '1.1.1.1'
-    #       - '8.8.8.8'
-    #     blocky_adlists:
-    #       - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/pro.plus.txt'
-    #       - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/fake.txt'
-    #       - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/popupads.txt'
-    #     blocky_security_lists:
-    #       - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/tif.txt'
-    #       - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/dyndns.txt'
-    #       - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/hoster.txt'
-    #       - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/gambling.txt'
-    #       - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.amazon.txt'
-    #       - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.apple.txt'
-    #       - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.huawei.txt'
-    #       - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.winoffice.txt'
-    #       - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.samsung.txt'
-    #       - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.tiktok.extended.txt'
-    #       - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.lgwebos.txt'
-    #       - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.roku.txt'
-    #       - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.vivo.txt'
-    #       - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.oppo-realme-onlydomains.txt'
-    #       - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.xiaomi.txt'
-
-    # - name: Deploy Tailscale adblock client
-    #   ansible.builtin.import_role:
-    #     name: tailscale_client
-    #   vars:
-    #     tailscale_client_user: '{{ vps_user }}'
-    #     tailscale_client_container: 'tailscale_client_adblock'
-    #     tailscale_client_networks: '{{ vps_adblock_network }}'
-    #     tailscale_client_state_vol: 'tailscale_client_adblock_state'
-    #     tailscale_client_accept_dns: 'false'
-    #     tailscale_client_authkey: !vault |
-    #       $ANSIBLE_VAULT;1.1;AES256
-    #       30356264363533313934313139313631376330366530666634376534646366333135373763363835
-    #       6333643634623332326536393466396130643934333635650a373938366134366338343961633439
-    #       30313933353234306363373562303031653734376239376266633263626166376663346337623566
-    #       6330316665653336630a303038663763616664613466393734363763663738353832633634363632
-    #       61336334623531383862323833613965656535363039383130393762633263666135623366366135
-    #       62363166653663326331306438353562343130356130393036366364633365393661393135363763
-    #       643633353163336637366635383562383934
-    #     tailscale_client_hostname: 'adblock-dns'
-    #     tailscale_client_dest_ip: '{{ vps_adblock_ip }}'
-    #     tailscale_client_userspace: 'false'
-
-    # - name: Deploy Tailscale public reverse proxy client
-    #   ansible.builtin.import_role:
-    #     name: tailscale_client
-    #   vars:
-    #     tailscale_client_user: '{{ vps_user }}'
-    #     tailscale_client_container: 'tailscale_client_public_reverse_proxy'
-    #     tailscale_client_networks: '{{ vps_proxying_network }}'
-    #     tailscale_client_state_vol: 'tailscale_client_public_reverse_proxy_state'
-    #     tailscale_client_accept_dns: 'false'
-    #     tailscale_client_authkey:
-    #     tailscale_client_hostname: 'public-reverse-proxy'
-    #     tailscale_client_dest_ip: '100.64.0.1'
-    #     tailscale_client_userspace: 'false'
+    - name: Deploy Blocky DNS Server
+      ansible.builtin.import_role:
+        name: blocky
+      vars:
+        blocky_user: '{{ vm_dns_user }}'
+        blocky_container: 'blocky'
+        blocky_config_dir: '/var/blocky'
+        blocky_dns_port: '53'
+        blocky_http_port: '4000'
+        blocky_upstreams:
+          - '1.1.1.1'
+          - '8.8.8.8'
+        blocky_adlists:
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/pro.plus.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/fake.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/popupads.txt'
+        blocky_security_lists:
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/tif.txt'
+          # - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/doh-vpn-proxy-bypass.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/dyndns.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/hoster.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/gambling.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/tif.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/dyndns.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/hoster.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/gambling.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.amazon.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.apple.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.huawei.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.winoffice.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.samsung.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.tiktok.extended.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.lgwebos.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.roku.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.vivo.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.oppo-realme-onlydomains.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.xiaomi.txt'
