@@ -10,8 +10,10 @@ servarr:
   hosts: 10.0.10.10
 dns:
   hosts:
-    - 10.0.7.2
-    - 10.0.7.3
+    primary_dns:
+      ansible_host: 10.0.7.2
+    backup_dns:
+      ansible_host: 10.0.7.3
 streaming:
   hosts: 10.0.0.19
 torrent:
