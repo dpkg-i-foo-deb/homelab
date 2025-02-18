@@ -1,11 +1,19 @@
 bastion:
-  hosts: 10.0.1.10
+  hosts:
+    homelab_bastion:
+      ansible_host: 10.0.1.10
 code:
-  hosts: 10.0.8.10
+  hosts:
+    code_server:
+      ansible_host: 10.0.8.10
 firewall:
-  hosts: 10.0.1.1
+  hosts:
+    opnsense:
+      ansible_host: 10.0.1.1
 nas:
-  hosts: 10.0.11.10
+  hosts:
+    homelab_nas:
+      ansible_host: 10.0.11.10
 servarr:
   hosts: 10.0.10.10
 dns:
@@ -21,15 +29,25 @@ streaming:
 torrent:
   hosts: 10.0.6.10
 hypervisors:
-  hosts: 10.0.1.254
+  hosts:
+    freedom:
+      ansible_host: 10.0.1.254
 security:
-  hosts: 10.0.0.10
+  hosts:
+    security_vm:
+      ansible_host: 10.0.0.10
 reverse_proxy:
-  hosts: 10.0.4.10
-vmware_host:
-  hosts: 10.0.0.11
-knowledge:
-  hosts: 10.0.0.13
+  hosts:
+    private_reverse_proxy:
+      ansible_host: 10.0.4.10
+vmware:
+  hosts:
+    vmware_host:
+      ansible_host: 10.0.0.11
+knowledge_management:
+  hosts:
+    knowledge:
+      ansible_host: 10.0.0.13
 vps:
   hosts:
     vps_hetzner:
