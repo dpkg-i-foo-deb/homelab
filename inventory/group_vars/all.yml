@@ -33,6 +33,12 @@ password_mgr_host: vault
 
 music_host: music
 
+# Same hosts as before but this time accesible from my LAN
+# this makes it easier and cleaner to manage my homelab and
+# have a logical separation between my internet facing reverse
+# proxy and the private one at home
+# Auth host isn't here since my OIDC clients need to resolve
+# the same host both in the private network and the public one
 
 # SIEM
 

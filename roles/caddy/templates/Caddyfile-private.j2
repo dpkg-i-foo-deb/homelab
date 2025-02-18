@@ -129,7 +129,7 @@
 }
 
 # Music streaming
-{{ music_host }}.{{ internet_host }} {
+lan.{{ music_host }}.{{ internet_host }} {
   import cert_cloudflare_dns
   import proxy 10.0.0.19:4533
 }

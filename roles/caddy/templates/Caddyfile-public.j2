@@ -18,21 +18,6 @@
   reverse_proxy {args[0]}
 }
 
-# Proxy with compression. Uses plain HTTP, the second argument
-# is used to set the Host header as the same that is originally
-# proxied, this is needed because both my public and private reverse
-# proxies have the same domains and I don't want to mess up with two
-# separate domains both for my LAN and my public services
-(fw_proxy) {
-  encode {
-    zstd better
-    gzip 6
-  }
-  reverse_proxy {args[0]} {
-    	header_up Host {args[1]}
-	    header_up X-Real-IP {http.request.remote.host}
-  }
-}
 
 # Proxy with compression. Uses https and ignores tls stuff
 (proxy_tls) {
@@ -57,5 +42,5 @@
 # Music service
 
 {{ music_host }}.{{ internet_host }} {
-  import fw_proxy https://100.64.0.3 {{music_host}}.{{internet_host}}
+  import proxy https://lan.{{music_host}}.{{internet_host}}
 }
