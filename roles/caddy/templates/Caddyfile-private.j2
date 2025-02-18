@@ -104,6 +104,7 @@
 
 # Authentication portal
 
+lan.{{ auth_host }}.{{ internet_host }},
 {{ auth_host }}.{{ internet_host }} {
   import cert_cloudflare_dns
   import proxy 10.0.0.10:8081
@@ -111,18 +112,21 @@
 
 # Remote access
 
+lan.{{ remote_host }}.{{ internet_host }},
 {{ remote_host }}.{{ internet_host }} {
   import cert_cloudflare_dns
   import proxy 10.0.1.10:8081
 }
 
 # Remote code service for personal projects
+lan.{{ code_personal_host }}.{{ internet_host }},
 {{ code_personal_host }}.{{ internet_host }} {
   import cert_cloudflare_dns
   import proxy_oauth 10.0.8.10:4181 10.0.8.10:8443
 }
 
 # Remote code service for personal projects
+lan.{{ code_work_host }}.{{ internet_host }},
 {{ code_work_host }}.{{ internet_host }} {
   import cert_cloudflare_dns
   import proxy_oauth 10.0.8.10:4180 10.0.8.10:8444
@@ -137,6 +141,7 @@ lan.{{ music_host }}.{{ internet_host }},
 
 # Password manager
 
+lan.{{ password_mgr_host }}.{{ internet_host }},
 {{ password_mgr_host }}.{{ internet_host }} {
   import cert_cloudflare_dns
   import proxy 10.0.0.10:8080
