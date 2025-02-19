@@ -77,7 +77,6 @@ homelab_services:
     ip: '10.0.1.10'
     port: '8081'
     tls: false
-    oauth_proxy:
   vpn:
     name: 'Headscale Coordination Server'
     host: 'vpn'
