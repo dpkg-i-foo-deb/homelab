@@ -40,6 +40,8 @@ reverse_proxy:
   hosts:
     private_reverse_proxy:
       ansible_host: 10.0.4.10
+      reverse_proxy_user: reverse-proxy
+      groups: 'internet_facing,trusted'
 vmware:
   hosts:
     vmware_host:

@@ -1,65 +1,59 @@
 # DO NOT MODIFY MANUALLY, GENERATED WITH ANSIBLE
 # Global config
 {
-        servers {
-                trusted_proxies static private_ranges
-        }
-
+  servers {
+    trusted_proxies static private_ranges
+  }
 }
 
 # Snippets
 
 # Proxy with compression. Uses plain HTTP
 (proxy) {
-        encode {
-                zstd better
-                gzip 6
-        }
-        reverse_proxy {args[0]}
+  encode {
+    zstd better
+    gzip 6
+  }
+  reverse_proxy {args[0]}
 }
 
 # Proxy with compression. Uses https and ignores tls stuff
 (proxy_tls) {
-        encode {
-                zstd better
-                gzip 6
-        }
-        reverse_proxy {args[0]} {
-                transport http {
-                        tls
-                        tls_insecure_skip_verify
-                }
-        }
+  encode {
+    zstd better
+    gzip 6
+  }
+  reverse_proxy {args[0]} {
+    transport http {
+      tls
+      tls_insecure_skip_verify
+    }
+  }
 }
 
 # Proxy with compression, uses oauth2-proxy as an OIDC intermediary
 # first argument is your oauth2-proxy host. Second is your target
 # backend host
 (proxy_oauth) {
+  encode {
+    zstd better
+    gzip 6
+  }
+  handle /oauth2/* {
+    reverse_proxy {args[0]}
+  }
+  handle {
+    forward_auth {args[0]} {
+      uri /oauth2/auth
+      copy_headers Authorization
 
-        encode {
-                zstd better
-                gzip 6
-        }
-
-        handle /oauth2/* {
-                reverse_proxy {args[0]}
-        }
-
-        handle {
-                forward_auth {args[0]} {
-                        uri /oauth2/auth
-                        copy_headers Authorization
-
-                        @bad status 401
-                        handle_response @bad {
-                                  redir * /oauth2/start
-                        }
-                }
-
-                reverse_proxy {args[1]}
-
-        }
+      @bad status 401
+      handle_response @bad {
+        redir * /oauth2/start
+      }
+    }
+    reverse_proxy {args[1]}
+  }
 }
 
 # Proxy with compression, uses oauth2-proxy as an OIDC intermediary
@@ -67,82 +61,58 @@
 # backend host
 # Ignores TLS
 (proxy_oauth_tls) {
-        encode {
-                zstd better
-                gzip 6
-        }
+  encode {
+    zstd better
+    gzip 6
+  }
+  handle /oauth2/* {
+    reverse_proxy {args[0]}
+  }
+  forward_auth {args[0]} {
+    uri /oauth2/auth
+    copy_headers Authorization
 
-        handle /oauth2/* {
-                reverse_proxy {args[0]}
-        }
+    @bad status 401
+    handle_response @bad {
+      redir * /oauth2/start
+    }
+  }
 
-        forward_auth {args[0]} {
-                        uri /oauth2/auth
-                        copy_headers Authorization
-
-                        @bad status 401
-                        handle_response @bad {
-                                        redir * /oauth2/start
-                        }
-        }
-
-        reverse_proxy {args[1]} {
-                transport http {
-                        tls
-                        tls_insecure_skip_verify
-                }
-        }
+  reverse_proxy {args[1]} {
+    transport http {
+      tls
+      tls_insecure_skip_verify
+    }
+  }
 }
 
 # Fetch certificates using Cloudflare DNS
 
-(cert_cloudflare_dns) {
+(letsencrypt_cloudflare_dns) {
   tls {
     dns cloudflare {env.CF_API_TOKEN}
   }
 }
 
-# Authentication portal
+{% for service in caddy_services %}
+# {{ service.name }}
 
-lan.{{ auth_host }}.{{ internet_host }},
-{{ auth_host }}.{{ internet_host }} {
-  import cert_cloudflare_dns
-  import proxy 10.0.0.10:8081
+{{ caddy_lan_prefix }}.{{ service.host }}.{{ caddy_internet_host }},
+{{ service.host }}.{{ caddy_internet_host }} {
+
+  import letsenrypt_cloudflare_dns
+  {% if service.oauth_proxy is defined %}
+    {% if service.tls %}
+    import proxy_oauth_tls https://{{ service.host }}:{{ service.port }}
+    {% else %}
+    import proxy_oauth {{ service.host }}.{{ service.port }}
+    {% endif %}
+  {% else %}
+    {% if service.tls %}
+    import proxy_tls https://{{ service.host }}:{{ service.port }}
+    {% else %}
+    import proxy {{ service.host }}:{{ service.port }}
+    {% endif %}
+  {% endif %}
 }
-
-# Remote access
-
-lan.{{ remote_host }}.{{ internet_host }},
-{{ remote_host }}.{{ internet_host }} {
-  import cert_cloudflare_dns
-  import proxy 10.0.1.10:8081
-}
-
-# Remote code service for personal projects
-lan.{{ code_personal_host }}.{{ internet_host }},
-{{ code_personal_host }}.{{ internet_host }} {
-  import cert_cloudflare_dns
-  import proxy_oauth 10.0.8.10:4181 10.0.8.10:8443
-}
-
-# Remote code service for personal projects
-lan.{{ code_work_host }}.{{ internet_host }},
-{{ code_work_host }}.{{ internet_host }} {
-  import cert_cloudflare_dns
-  import proxy_oauth 10.0.8.10:4180 10.0.8.10:8444
-}
-
-# Music streaming
-lan.{{ music_host }}.{{ internet_host }},
-{{ music_host }}.{{ internet_host }} {
-  import cert_cloudflare_dns
-  import proxy 10.0.0.19:4533
-}
-
-# Password manager
-
-lan.{{ password_mgr_host }}.{{ internet_host }},
-{{ password_mgr_host }}.{{ internet_host }} {
-  import cert_cloudflare_dns
-  import proxy 10.0.0.10:8080
-}
+{% endfor %}

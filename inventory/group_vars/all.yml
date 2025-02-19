@@ -33,12 +33,60 @@ password_mgr_host: vault
 
 music_host: music
 
-# Same hosts as before but this time accesible from my LAN
-# this makes it easier and cleaner to manage my homelab and
-# have a logical separation between my internet facing reverse
-# proxy and the private one at home
-# Auth host isn't here since my OIDC clients need to resolve
-# the same host both in the private network and the public one
+# Homelab services definition
+homelab_services:
+  auth:
+    name: 'Authentication and SSO'
+    host: 'auth'
+    ip: '10.0.0.10'
+    port: '8080'
+    tls: false
+  music:
+    name: 'Music Streaming'
+    host: 'music'
+    ip: '10.0.0.19'
+    port: '4533'
+    tls: false
+  vault:
+    name: 'Password Manager'
+    host: 'vault'
+    ip: '10.0.0.10'
+    port: '8080'
+    tls: false
+  code_personal:
+    name: 'Personal code-server'
+    host: 'personal.code'
+    ip: '10.0.8.10'
+    port: '8443'
+    tls: false
+    oauth_proxy:
+      ip: '10.0.8.10'
+      port: '4181'
+  code_work:
+    name: 'Work code-server'
+    host: 'work.code'
+    ip: '10.0.8.10'
+    port: '8444'
+    tls: false
+    oauth_proxy:
+      ip: '10.0.8.10'
+      port: '4180'
+  remote:
+    name: 'Bastion WebUI'
+    host: 'remote'
+    ip: '10.0.1.10'
+    port: '8081'
+    tls: false
+    oauth_proxy:
+  vpn:
+    name: 'Headscale Coordination Server'
+    host: 'vpn'
+    ip: '{{ public_ip }}'
+    port: '8080'
+    tls: false
+
+# LAN service DNS prefix
+lan_prefix: 'lan'
 
 # SIEM
 
