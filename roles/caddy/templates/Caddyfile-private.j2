@@ -101,17 +101,17 @@
 
   import letsencrypt_cloudflare_dns
 {% if service.oauth_proxy is defined %}
-  {% if service.tls %}
+  {%- if service.tls -%}
   import proxy_oauth_tls {{ service.oauth_proxy.ip }}:{{ service.oauth_proxy.port }} https://{{ service.ip }}:{{ service.port }}
-  {% else %}
+  {%- else -%}
   import proxy_oauth {{ service.oauth_proxy.ip }}:{{ service.oauth_proxy.port }} {{ service.ip }}:{{ service.port }}
-  {% endif %}
+  {%- endif -%}
 {% else %}
-  {% if service.tls %}
+  {%- if service.tls -%}
   import proxy_tls https://{{ service.ip }}:{{ service.port }}
-  {% else %}
+  {%- else -%}
   import proxy {{ service.ip }}:{{ service.port }}
-  {% endif %}
+  {%- endif -%}
 {% endif %}
 
 }
