@@ -1,25 +1,15 @@
 - name: Configure virtual machines DNS server
   hosts: dns
   tasks:
-    
-    - name: Generate blocky_custom_records map
-      set_fact:
-        dns_records: >-
-          {% set custom_records = {} %}
-          {%- for service_name, service_config in homelab_services.items() %}
-          - service_name: {{ service_name }}
-            service_config: {{ service_config }}
-            host: {{ service_config.host }}
-            ip: {{ service_config.ip }}
-            internet_host: {{ internet_host }}
-            key: "{{ service_config.host }}.{{ internet_host }}"
-            {% set custom_records = custom_records | combine({(service_config.host + '.' + internet_host): service_config.ip}) %}
-          {%- endfor %}
-          final_records: {{ custom_records }}
-        
-    - name: Debug
+
+    - name: Build dns_records from homelab_services
+      ansible.builtin.set_fact:
+        dns_records: "{{ dns_records | default([]) + [ { 'domain': item.value.host ~ '.' ~ internet_host, 'address': item.value.ip } ] }}"
+      loop: "{{ homelab_services | dict2items }}"
+
+    - name: Show DNS records to be installed
       ansible.builtin.debug:
-        msg: '{{ dns_records  }}'
+        msg: '{{ dns_records }}'
 
     - name: Deploy Blocky DNS Server
       ansible.builtin.import_role:
