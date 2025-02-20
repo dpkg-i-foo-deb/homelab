@@ -1,6 +1,7 @@
 ---
 - name: Copy Blocky configuration file
   become: true
+  notify: Restart blocky
   ansible.builtin.template:
     src: templates/config.yml.j2
     dest: '{{ blocky_config_dir }}/config.yml'
