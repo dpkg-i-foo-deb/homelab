@@ -4,8 +4,9 @@
 
     - name: Build dns_records from homelab_services
       ansible.builtin.set_fact:
-        dns_records: "{{ dns_records | default([]) + [ { 'domain': item.value.host ~ '.' ~ internet_host, 'address': item.value.ip } ] }}"
+        dns_records: "{{ dns_records | default([]) + [ { 'domain': item.value.host ~ '.' ~ internet_host, 'address': item.value.private_proxy } ] }}"
       loop: "{{ homelab_services | dict2items }}"
+      when: item.value.private_proxy is defined
 
     - name: Show DNS records to be installed
       ansible.builtin.debug:
