@@ -33,32 +33,39 @@ password_mgr_host: vault
 
 music_host: music
 
+# Private reverse proxy address
+private_reverse_proxy: '10.0.4.10'
+
 # Homelab services definition
 homelab_services:
   auth:
     name: 'Authentication and SSO'
     host: 'auth'
     ip: '10.0.0.10'
-    port: '8080'
+    port: '8081'
     tls: false
+    private_proxy: '{{ private_reverse_proxy }}'
   music:
     name: 'Music Streaming'
     host: 'music'
     ip: '10.0.0.19'
     port: '4533'
     tls: false
+    private_proxy: '{{ private_reverse_proxy }}'
   vault:
     name: 'Password Manager'
     host: 'vault'
     ip: '10.0.0.10'
     port: '8080'
     tls: false
+    private_proxy: '{{ private_reverse_proxy }}'
   code_personal:
     name: 'Personal code-server'
     host: 'personal.code'
     ip: '10.0.8.10'
     port: '8443'
     tls: false
+    private_proxy: '{{ private_reverse_proxy }}'
     oauth_proxy:
       ip: '10.0.8.10'
       port: '4181'
@@ -68,6 +75,7 @@ homelab_services:
     ip: '10.0.8.10'
     port: '8444'
     tls: false
+    private_proxy: '{{ private_reverse_proxy }}'
     oauth_proxy:
       ip: '10.0.8.10'
       port: '4180'
@@ -77,6 +85,7 @@ homelab_services:
     ip: '10.0.1.10'
     port: '8081'
     tls: false
+    private_proxy: '{{ private_reverse_proxy }}'
   vpn:
     name: 'Headscale Coordination Server'
     host: 'vpn'
