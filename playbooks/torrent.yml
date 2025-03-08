@@ -2,17 +2,9 @@
   hosts: torrent
   vars:
     torrent_user: torrent
-    torrent_downloads: /var/torrents
+    torrent_downloads: /downloads
 
   tasks:
-    - name: NFS volumes configuration
-      ansible.builtin.import_role:
-        name: nfs_client
-      vars:
-        nfs_client_user: "{{ torrent_user }}"
-        nfs_client_mounts:
-          { "{{ nas_host }}:{{ nfs_server_data }}/torrents": "{{ torrent_downloads }}" }
-
     - name: Deploy Qbittorrent
       ansible.builtin.import_role:
         name: qbittorrent
