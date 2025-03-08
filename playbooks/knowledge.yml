@@ -1,52 +1,37 @@
 - name: Configure knowledge virtual machine
   hosts: knowledge
-  vars:
-    knowledge_user: knowledge
-    knowledge_network: knowledge
-    knowledge_data: /var/knowledge
-    knowledge_wikijs_pgpass: !vault |
-          $ANSIBLE_VAULT;1.1;AES256
-          63373736386531633766656338333237623665636535333935343763333333336561633465333434
-          6233373331323934343763306461393432626238623161660a623136313531356433393636363362
-          62663734316366653966323565326338663064353832353261356234643265346239343764636265
-          3934366432656434630a613936373031663164643837363436643864616664373737643661613432
-          3333
   tasks:
-    - name: NFS volumes configuration
+    - name: Deploy Trilium Next
       ansible.builtin.import_role:
-        name: nfs_client
+        name: trilium
       vars:
-        nfs_client_user: "{{ knowledge_user }}"
-        nfs_client_mounts: {
-          "{{nas_host}}:{{ nfs_server_data }}/knowledge": "{{ knowledge_data }}"
-        }
+        trilium_user: '{{ knowledge_user }}'
+        trilium_container: 'trilium'
+        trilium_http_port: '8080'
+        trilium_data: 'trilium_data'
 
-    - name: Ensure there's a virtual network for knowledge
+    - name: Deploy oauth2_proxy for Trilium next
       ansible.builtin.import_role:
-        name: podman
-        tasks_from: network
+        name: oauth2_proxy
       vars:
-        podman_user: "{{ knowledge_user }}"
-        podman_network: "{{ knowledge_network }}"
-
-    - name: Deploy Postgres for WikiJS
-      ansible.builtin.import_role:
-        name: postgres
-      vars:
-        postgres_podman_user: "{{ knowledge_user }}"
-        postgres_container: postgres
-        postgres_data_dir: "{{ knowledge_data }}"
-        # postgres_data_vol: knowledge
-        postgres_db: wikijs
-        postgres_user: wikijs
-        postgres_network: "{{ knowledge_network }}"
-        postgres_pass: "{{ knowledge_wikijs_pgpass }}"
-
-    - name: Deploy WikiJS
-      ansible.builtin.import_role:
-        name: wikijs
-      vars:
-        wikijs_user: "{{ knowledge_user }}"
-        wikijs_container: wikijs
-        wikijs_network: "{{ knowledge_network }}"
-        wikijs_db_pass: "{{ knowledge_wikijs_pgpass }}"
+        oauth2_proxy_user: '{{ knowledge_user }}'
+        oauth2_proxy_container: 'trillium-oauth2-proxy'
+        oauth2_proxy_port: '4180'
+        oauth2_proxy_email_domains: '*'
+        oauth2_proxy_reverse: 'true'
+        oauth2_proxy_cookie_secret: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          30376532643966303065303333336564623562646163323736376430303232383534316433306562
+          3462323365343434316663383832653263343565636263350a633234323036326438303761623534
+          35393134613130633839613764363332663630353334626630393834323462633335326639656162
+          6430356634336463330a383363326338616538356439353538313365613263663663653931633266
+          37656364656165383463366561363562666362636532313632303262656430616664303832616533
+          6135323030613139316135303366613033663133383066623166
+        oauth2_proxy_whitelist_domains: "['.{{ internet_host }}']"
+        oauth2_proxy_cookie_domains: "['.{{ internet_host }}']"
+        oauth2_proxy_provider: '{{ homelab_oidc_provider }}'
+        oauth2_proxy_client_id: '{{ notes_client }}'
+        oauth2_proxy_client_secret: '{{ notes_secret }}'
+        oauth2_proxy_redirect_url: 'https://{{ notes_host }}.{{ internet_host }}/oauth2/callback'
+        oauth2_proxy_oidc_url: 'https://{{ auth_host }}.{{ internet_host }}/realms/{{ homelab_realm }}'
+        oauth2_proxy_allow_unverified_email: 'true'
