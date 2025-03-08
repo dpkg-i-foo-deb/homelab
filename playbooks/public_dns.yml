@@ -15,6 +15,24 @@
       35653633386138636339636538646332653239646430616637653461626537303565396532323231
       3536356436623966353435623863646462303136666566373032
     cloudflare_dns_data:
-      - record:
+      - record: vault
+        comment: 'Password Manager'
+        value: '{{ public_ip }}'
+      - record: vpn
         comment: 'VPN Service'
+        value: '{{ public_ip }}'
+      - record: auth
+        comment: 'Authentication and SSO'
+        value: '{{ public_ip }}'
+      - record: music
+        comment: 'Music Service'
+        value: '{{ public_ip }}'
+      - record: notes
+        comment: 'Note taking Service'
+        value: '{{ public_ip }}'
+      - record: personal.code
+        comment: 'Personal VSCode Server'
+        value: '{{ public_ip }}'
+      - record: work.code
+        comment: 'Work VSCode Server'
         value: '{{ public_ip }}'
