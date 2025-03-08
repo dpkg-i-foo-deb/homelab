@@ -45,8 +45,9 @@
   ansible.builtin.package:
     name:
       - tuned
-      - qemu-guest-agent
+      # - qemu-guest-agent
       - telnet
       - acl
       - htop
+      - incus-client
     state: present
