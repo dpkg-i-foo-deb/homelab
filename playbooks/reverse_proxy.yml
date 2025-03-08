@@ -8,7 +8,7 @@
         caddy_user: '{{ reverse_proxy_user }}'
         caddy_lan_prefix: '{{ lan_prefix }}'
         caddy_internet_host: '{{ internet_host }}'
-        caddy_services: "{{ homelab_services | dict2items  | map(attribute='value') | list }}"
+        caddy_services: "{{ homelab_services | dict2items | map(attribute='value') | list }}"
         caddy_container: caddy
         caddy_opt: caddy_opt
         caddy_tls: caddy_tls
@@ -27,3 +27,13 @@
           6562353139353534390a656563373730616431316638363439363364333465623336396336626232
           38356164656137626662653435363739366136646266653164303433313739636166373338613866
           3166643262633138316233396335343337333530346631613134
+
+    - name: Deploy Wazuh agent
+      ansible.builtin.import_role:
+        name: wazuh_agent
+      vars:
+        wazuh_agent_version: '4.x'
+        wazuh_agent_manager_host: '{{ siem_host }}'
+        wazuh_agent_registration_pass: '{{ siem_enrollment_pass }}'
+        wazuh_agent_name: 'reverse_proxy'
+        wazuh_agent_groups: 'internet_facing,trusted'
