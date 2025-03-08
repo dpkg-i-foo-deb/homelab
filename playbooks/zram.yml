@@ -1,5 +1,5 @@
 - name: Zram configuration
-  hosts: all, !firewall
+  hosts: all
   vars:
     sysctl_config:
       vm.swappiness: 180
