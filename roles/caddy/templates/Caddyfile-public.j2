@@ -43,25 +43,31 @@
 # Authentication portal
 
 {{ auth_host }}.{{ internet_host }} {
-  import proxy https://local.{{ auth_host }}.{{ internet_host }}
+  import proxy https://lan.{{ auth_host }}.{{ internet_host }}
 }
 
 {{ remote_host }}.{{ internet_host }} {
-  import proxy https://local.{{ remote_host }}.{{ internet_host }}
+  import proxy https://lan.{{ remote_host }}.{{ internet_host }}
 }
 
 {{ code_personal_host }}.{{ internet_host }} {
-  import proxy https://local.{{ code_personal_host }}.{{ internet_host }}
+  import proxy https://lan.{{ code_personal_host }}.{{ internet_host }}
 }
 
 {{ code_work_host }}.{{ internet_host }} {
-  import proxy https://local.{{ code_work_host }}.{{ internet_host }}
+  import proxy https://lan.{{ code_work_host }}.{{ internet_host }}
 }
 
 # Music service
 
 {{ music_host }}.{{ internet_host }} {
   import proxy https://lan.{{ music_host }}.{{ internet_host }}
+}
+
+# Note taking service
+
+{{ notes_host }}.{{ internet_host }} {
+  import proxy https://lan.{{ notes_host }}.{{ internet_host }}
 }
 
 {{ password_mgr_host }}.{{ internet_host }} {
