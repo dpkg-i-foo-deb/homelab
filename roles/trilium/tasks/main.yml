@@ -1,0 +1,7 @@
+---
+- name: Volume configuration
+  ansible.builtin.import_tasks: volumes.yml
+- name: Quadlet configuration
+  ansible.builtin.import_tasks: quadlets.yml
+- name: Service configuration
+  ansible.builtin.import_tasks: services.yml
