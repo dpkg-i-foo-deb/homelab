@@ -21,10 +21,12 @@ blocking:
 customDNS:
   customTTL: 1h
   filterUnmappedTypes: false
+{% if blocky_custom_records is defined %}
   mapping:
 {% for custom_record in blocky_custom_records %}
     {{ custom_record.domain }}: {{ custom_record.address }}
 {% endfor %}
+{% endif %}
 
 ports:
   dns: 53
