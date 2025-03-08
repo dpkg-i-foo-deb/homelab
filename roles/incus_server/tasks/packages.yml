@@ -1,0 +1,21 @@
+- name: Ensure incus can mount lvm storage
+  become: true
+  ansible.builtin.package:
+    name:
+      - lvm2
+    state: present
+
+- name: Ensure incus can run virtual machines
+  become: true
+  ansible.builtin.package:
+    name:
+      - qemu-system
+    state: present
+
+- name: Ensure Incus is installed and updated
+  become: true
+  ansible.builtin.apt:
+    name: incus
+    state: present
+    default_release: bookworm-backports
+    update_cache: true
