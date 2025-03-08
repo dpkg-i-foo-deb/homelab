@@ -102,7 +102,7 @@
         wazuh_indexer_user: '{{ security_user }}'
         wazuh_indexer_container: 'wazuh_indexer'
         wazuh_indexer_admin_hash: '$2y$12$PFQeLaOF/IlLbEmdGxX9R.Q1WJEkVmkvEAYQFjhb48ISHwAV1VAui'
-        wazuh_indexer_version: '4.10.1'
+        wazuh_indexer_version: '4.11.0'
         wazuh_indexer_hostname: 'wazuh.indexer'
         wazuh_indexer_network: '{{ security_network }}'
         wazuh_indexer_data_vol: 'wazuh_indexer'
@@ -126,7 +126,7 @@
         wazuh_manager_authd_password: '{{ siem_enrollment_pass }}'
         wazuh_manager_syslog: '514'
         wazuh_manager_api: '55000'
-        wazuh_manager_version: '4.10.1'
+        wazuh_manager_version: '4.11.0'
         wazuh_manager_api_configuration_vol: 'wazuh_manager_conf'
         wazuh_manager_etc_vol: 'wazuh_manager_etc'
         wazuh_manager_logs_vol: 'wazuh_manager_logs'
@@ -170,7 +170,7 @@
         name: wazuh_dashboard
       vars:
         wazuh_dashboard_user: '{{ security_user }}'
-        wazuh_dashboard_version: '4.10.1'
+        wazuh_dashboard_version: '4.11.0'
         wazuh_dashboard_container: 'wazuh_dashboard'
         wazuh_dashboard_hostname: 'wazuh.dashboard'
         wazuh_dashboard_network: '{{ security_network }}'
@@ -336,6 +336,49 @@
               access.token.claim: 'true'
               id.token.claim: 'true'
             name: '{{ remote_client }}-audience'
+            protocol: openid-connect
+            protocolMapper: oidc-audience-mapper
+        full_scope_allowed: false
+        node_re_registration_timeout: -1
+        use_template_config: false
+        use_template_scope: false
+        use_template_mappers: false
+        always_display_in_console: true
+
+    - name: Ensure Notes taking service is registered as a client
+      middleware_automation.keycloak.keycloak_client:
+        auth_client_id: admin-cli
+        auth_keycloak_url: 'https://{{ auth_host }}.{{ internet_host }}'
+        auth_realm: master
+        auth_username: '{{ security_keycloak_admin_user }}'
+        auth_password: '{{ security_keycloak_admin_password }}'
+        state: present
+        realm: '{{ homelab_realm }}'
+        client_id: '{{ notes_client }}'
+        name: '{{ notes_client }}'
+        description: 'Note taking app'
+        base_url: 'https://{{ remote_host }}.{{ internet_host }}'
+        enabled: true
+        client_authenticator_type: client-secret
+        secret: '{{ notes_secret }}'
+        redirect_uris:
+          - 'https://{{ remote_host }}.{{ internet_host }}/*'
+        bearer_only: false
+        consent_required: false
+        standard_flow_enabled: true
+        implicit_flow_enabled: true
+        direct_access_grants_enabled: false
+        service_accounts_enabled: false
+        authorization_services_enabled: false
+        public_client: false
+        frontchannel_logout: false
+        protocol: openid-connect
+        protocol_mappers:
+          - config:
+              included.client.audience: '{{ notes_client }}'
+              access.token.claim: 'true'
+              id.token.claim: 'true'
+            name: '{{ notes_client }}-audience'
             protocol: openid-connect
             protocolMapper: oidc-audience-mapper
         full_scope_allowed: false
