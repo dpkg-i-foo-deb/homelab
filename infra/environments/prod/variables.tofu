@@ -3,24 +3,17 @@ variable "incus_token" {
   description = "Incus API Token"
 }
 
-variable "main_storage_size" {
-  type = string
-  description = "Desired size for the main LVM storage pool"
+variable "ssh_public_key" {
+  type        = string
+  description = "SSH Public Key"
 }
 
-variable "main_storage_source" {
-  type = string
-  description = "Source block device for the main LVM storage pool"
+variable "lxc_user_password" {
+  type        = string
+  description = "LXC Password used for Instances"
 }
 
-
-variable "high_io_storage_size" {
-  type = string
-  description = "Desired size of the High io LVM storage pool"
+variable "ansible_password" {
+  type        = string
+  description = "Ansible Automation Account Password"
 }
-
-variable "high_io_storage_source" {
-  type = string
-  description = "Source block device for High io storage pool"
-}
-

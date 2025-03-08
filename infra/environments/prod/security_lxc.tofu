@@ -1,26 +1,27 @@
-resource "incus_storage_volume" "code_data" {
-  name = "code_data"
-  pool = incus_storage_pool.virt-high-io.name
+resource "incus_storage_volume" "security_data" {
+  name = "security_data"
+  pool = incus_storage_pool.virt-main.name
   config = {
-    "size" = "40GiB"
+    "size" = "50GiB"
   }
 }
 
-resource "incus_instance" "code" {
-  name  = "code"
+resource "incus_instance" "security" {
+  name  = "security"
   image = "images:debian/trixie/cloud"
 
   config = {
     "boot.autostart"              = true
     "limits.cpu"                  = 1
-    "limits.memory"               = "4GiB"
+    "limits.cpu.allowance"        = "50%"
+    "limits.memory"               = "8GiB"
     "limits.memory.swap"          = "true"
     "limits.memory.swap.priority" = "0"
     "cloud-init.user-data" = templatefile(
-      "${path.module}/cloud-init/code_lxc.yml.tftpl",
+      "${path.module}/cloud-init/security_lxc.yml.tftpl",
       {
-        ssh_public_key    = var.ssh_public_key
-        lxc_user_password = var.lxc_user_password
+        ssh_public_key    = var.ssh_public_key,
+        lxc_user_password = var.lxc_user_password,
         ansible_password  = var.ansible_password
       }
     )
@@ -32,12 +33,11 @@ resource "incus_instance" "code" {
     type = "nic"
     properties = {
       nictype        = "bridged"
-      parent         = "${incus_network.code.name}"
-      "ipv4.address" = "10.0.7.10"
+      parent         = "${incus_network.trusted.name}"
+      "ipv4.address" = "10.0.0.11"
       mtu            = "9000"
     }
   }
-
   device {
     name = "root"
     type = "disk"
@@ -46,13 +46,15 @@ resource "incus_instance" "code" {
       pool = incus_storage_pool.virt-main.name
     }
   }
+
   device {
     name = "data"
     type = "disk"
     properties = {
       path   = "/home"
-      source = incus_storage_volume.code_data.name
-      pool   = incus_storage_pool.virt-high-io.name
+      source = incus_storage_volume.security_data.name
+      pool   = incus_storage_pool.virt-main.name
     }
   }
+
 }
