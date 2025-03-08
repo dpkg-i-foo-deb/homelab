@@ -1,55 +1,71 @@
-bastion:
+hypervisors:
   hosts:
-    homelab_bastion:
-      ansible_host: 10.0.1.10
+    homelab_hypervisor:
+      ansible_host: 192.168.8.4
+      hypervisor_interfaces:
+        - { name: 'eth0', mac: '74:56:3c:c7:00:e6' }
+        - { name: 'eth1', mac: '1c:86:0b:24:18:25' }
+        - { name: 'eth2', mac: '1c:86:0b:24:18:26' }
+        - { name: 'eth3', mac: '1c:86:0b:24:18:27' }
+        - { name: 'eth4', mac: '1c:86:0b:24:18:28' }
+
+# bastion:
+#   hosts:
+#     homelab_bastion:
+#       ansible_host: 10.0.1.10
 code:
   hosts:
     code_server:
-      ansible_host: 10.0.8.10
-firewall:
-  hosts:
-    opnsense:
-      ansible_host: 10.0.1.1
-nas:
-  hosts:
-    homelab_nas:
-      ansible_host: 10.0.11.10
+      ansible_host: 10.0.7.10
+# firewall:
+#   hosts:
+#     opnsense:
+#       ansible_host: 10.0.1.1
+# nas:
+#   hosts:
+#     homelab_nas:
+#       ansible_host: 10.0.11.10
 servarr:
-  hosts: 10.0.10.10
+  hosts:
+    servarr_vm:
+      ansible_host: 10.0.0.12
 dns:
   hosts:
     primary_dns:
-      ansible_host: 10.0.7.2
+      ansible_host: 10.0.2.2
       dns_user: dns
+      siem_agent: dns
     backup_dns:
-      ansible_host: 10.0.7.3
+      ansible_host: 10.0.2.3
       dns_user: dns-1
+      siem_agent: dns-1
 streaming:
-  hosts: 10.0.0.19
-torrent:
-  hosts: 10.0.6.10
-hypervisors:
   hosts:
-    freedom:
-      ansible_host: 10.0.1.254
+    streaming_vm:
+      ansible_host: 10.0.0.13
+torrent:
+  hosts:
+    torrent_vm:
+      ansible_host: 10.0.6.10
 security:
   hosts:
     security_vm:
-      ansible_host: 10.0.0.10
+      ansible_host: 10.0.0.11
 reverse_proxy:
   hosts:
     private_reverse_proxy:
-      ansible_host: 10.0.4.10
+      ansible_host: 10.0.5.10
       reverse_proxy_user: reverse-proxy
       groups: 'internet_facing,trusted'
-vmware:
-  hosts:
-    vmware_host:
-      ansible_host: 10.0.0.11
+# vmware:
+#   hosts:
+#     vmware_host:
+#       ansible_host: 10.0.0.11
 knowledge_management:
   hosts:
     knowledge:
-      ansible_host: 10.0.0.13
+      ansible_host: 10.0.0.10
+      knowledge_user: knowledge
 vps:
   hosts:
     vps_hetzner:

@@ -33,51 +33,61 @@ password_mgr_host: vault
 
 music_host: music
 
+notes_host: 'notes'
+
 # Private reverse proxy address
-private_reverse_proxy: '10.0.4.10'
+private_reverse_proxy: '10.0.5.10'
+
+# Private reverse proxy address over VPN
+private_reverse_proxy_vpn: '100.64.0.3'
 
 # Homelab services definition
 homelab_services:
   auth:
     name: 'Authentication and SSO'
     host: 'auth'
-    ip: '10.0.0.10'
+    ip: '10.0.0.11'
     port: '8081'
     tls: false
     private_proxy: '{{ private_reverse_proxy }}'
+    private_proxy_vpn: '{{ private_reverse_proxy_vpn }}'
   music:
     name: 'Music Streaming'
     host: 'music'
-    ip: '10.0.0.19'
+    ip: '10.0.0.13'
     port: '4533'
     tls: false
     private_proxy: '{{ private_reverse_proxy }}'
+    private_proxy_vpn: '{{ private_reverse_proxy_vpn }}'
   vault:
     name: 'Password Manager'
     host: 'vault'
-    ip: '10.0.0.10'
+    ip: '10.0.0.11'
     port: '8080'
     tls: false
     private_proxy: '{{ private_reverse_proxy }}'
+    private_proxy_vpn: '{{ private_reverse_proxy_vpn }}'
   code_personal:
     name: 'Personal code-server'
     host: 'personal.code'
-    ip: '10.0.8.10'
+    ip: '10.0.7.10'
     port: '8443'
     tls: false
     private_proxy: '{{ private_reverse_proxy }}'
+    private_proxy_vpn: '{{ private_reverse_proxy_vpn }}'
     oauth_proxy:
-      ip: '10.0.8.10'
+      ip: '10.0.7.10'
       port: '4181'
   code_work:
     name: 'Work code-server'
     host: 'work.code'
-    ip: '10.0.8.10'
+    ip: '10.0.7.10'
     port: '8444'
     tls: false
     private_proxy: '{{ private_reverse_proxy }}'
+    private_proxy_vpn: '{{ private_reverse_proxy_vpn }}'
     oauth_proxy:
-      ip: '10.0.8.10'
+      ip: '10.0.7.10'
       port: '4180'
   remote:
     name: 'Bastion WebUI'
@@ -86,6 +96,18 @@ homelab_services:
     port: '8081'
     tls: false
     private_proxy: '{{ private_reverse_proxy }}'
+    private_proxy_vpn: '{{ private_reverse_proxy_vpn }}'
+  notes:
+    name: 'Note taking service'
+    host: 'notes'
+    ip: '10.0.0.10'
+    port: '8080'
+    tls: false
+    private_proxy: '{{ private_reverse_proxy }}'
+    private_proxy_vpn: '{{ private_reverse_proxy_vpn }}'
+    oauth_proxy:
+      ip: '10.0.0.10'
+      port: '4180'
   vpn:
     name: 'Headscale Coordination Server'
     host: 'vpn'
@@ -98,7 +120,7 @@ lan_prefix: 'lan'
 
 # SIEM
 
-siem_host: '10.0.0.10'
+siem_host: '10.0.0.11'
 siem_enrollment_pass: !vault |
   $ANSIBLE_VAULT;1.1;AES256
   62336534393539653265326335306333323763393838336664373832303333623865323561373361
@@ -120,8 +142,6 @@ homelab_realm: !vault |
   3636
 
 homelab_oidc_provider: keycloak-oidc
-
-
 
 code_client: !vault |
   $ANSIBLE_VAULT;1.1;AES256
@@ -159,6 +179,22 @@ remote_secret: !vault |
   62633234336431353930313530633032623165653238616565633039663562653231383836333530
   39383838386334626532
 
+notes_client: !vault |
+  $ANSIBLE_VAULT;1.1;AES256
+  64363030353631353562653966356463353035333535373835643737376463653632343632323734
+  3661376366326166336539323234366362653235396261610a343831636538356235613663643266
+  33303464376166343835393232636362643232316339656336663933353737396366613430643466
+  3264356431333131320a346363313939666435653237373839623138646435313865333535316139
+  6630
+
+notes_secret: !vault |
+  $ANSIBLE_VAULT;1.1;AES256
+  33343237346564666261396466383062613133336535343861333162313163313031663166323564
+  6138323964343962613663386465616663616531616531390a663033663230656139353338316132
+  38323962363232653664653033336139303635356535353861366362643832626532366339626339
+  3066633834363436650a336330386635383362653862373465386366303030373062633339383333
+  63313639646135623338396662613439303535656234613131616531376139656239666463383931
+  3461373438383337393063316565333238373966396464303166
 
 # NAS Stuff
 
