@@ -49,6 +49,26 @@
         lidarr_downloads: '{{ servarr_downloads }}'
         lidarr_http_port: 8686
 
+    - name: Deploy LidaTube
+      ansible.builtin.import_role:
+        name: lidatube
+      vars:
+        lidatube_user: '{{ servarr_user }}'
+        lidatube_container: lidatube
+        lidatube_config: lidatube_data
+        lidatube_downloads: '{{ servarr_music }}'
+        lidatube_http_port: 5000
+        lidatube_lidarr_addr: 'http://host.containers.internal:8686'
+        lidatube_lidarr_api_key: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          66376264613665383264326537626434386330303835333532613763393333393838306632363863
+          3264653666396630396437633966346664346161306432330a303332656432343661353439313130
+          38643866393536313337313939346166313535616162626131366236623239633334633466376363
+          6138356239313663630a383362643838306664376630616462346562323262343764333030383763
+          31333365363066653833343939363164323463366231623131646531613336666233616638306163
+          3734346436393837386532323534616531363734636535643638
+        lidatube_preferred_codec: 'mp3'
+
     - name: Deploy Wazuh agent
       ansible.builtin.import_role:
         name: wazuh_agent
