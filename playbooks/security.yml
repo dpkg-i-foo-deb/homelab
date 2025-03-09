@@ -357,12 +357,12 @@
         client_id: '{{ notes_client }}'
         name: '{{ notes_client }}'
         description: 'Note taking app'
-        base_url: 'https://{{ remote_host }}.{{ internet_host }}'
+        base_url: 'https://{{ notes_host }}.{{ internet_host }}'
         enabled: true
         client_authenticator_type: client-secret
         secret: '{{ notes_secret }}'
         redirect_uris:
-          - 'https://{{ remote_host }}.{{ internet_host }}/*'
+          - 'https://{{ notes_host }}.{{ internet_host }}/*'
         bearer_only: false
         consent_required: false
         standard_flow_enabled: true
