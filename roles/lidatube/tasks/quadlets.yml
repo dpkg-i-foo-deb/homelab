@@ -1,0 +1,32 @@
+---
+- name: Create Lidatube Quadlet File
+  become: true
+  become_user: '{{ lidatube_user }}'
+  notify: Restart lidatube
+  containers.podman.podman_container:
+    name: '{{ lidatube_container }}'
+    image: docker.io/thewicklowwolf/lidatube:latest
+    state: quadlet
+    quadlet_filename: '{{ lidatube_container }}'
+    ports:
+      - '{{ lidatube_http_port | default(5000) }}:5000'
+    volumes:
+      - '{{ lidatube_config }}:/lidatube/config:z'
+      - '{{ lidatube_downloads }}:/lidatube/downloads:z'
+    env:
+      PUID: '1000'
+      PGID: '1000'
+      TZ: '{{ tz }}'
+      lidarr_address: '{{ lidatube_lidarr_addr }}'
+      lidarr_api_key: '{{ lidatube_lidarr_api_key }}'
+      preferred_codec: '{{ lidatube_preferred_codec }}'
+    quadlet_options:
+      - 'AutoUpdate=registry'
+      - 'Pull=newer'
+      - |
+        [Service]
+        Restart=always
+        RestartSec=10
+      - |
+        [Install]
+        WantedBy=default.target multi-user.target

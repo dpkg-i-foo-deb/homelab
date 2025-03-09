@@ -1,0 +1,8 @@
+---
+- name: Ensure there's a directory to access downloads
+  ansible.builtin.import_role:
+    name: podman
+    tasks_from: bind_mount
+  vars:
+    podman_bind_mount: '{{ lidatube_downloads }}'
+    podman_user: '{{ lidatube_user }}'
