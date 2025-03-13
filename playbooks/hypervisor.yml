@@ -1,12 +1,6 @@
 - name: Configure hypervisor(s)
   hosts: hypervisors
   tasks:
-    - name: Network Interfaces configuration
-      ansible.builtin.import_role:
-        name: static_nics
-      vars:
-        static_nics_map: '{{ hypervisor_interfaces }}'
-
     - name: Powertop configuration
       ansible.builtin.import_role:
         name: powertop
