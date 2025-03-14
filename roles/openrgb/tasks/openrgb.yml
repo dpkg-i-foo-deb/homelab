@@ -10,6 +10,7 @@
 
 - name: Copy OpenRGB service file
   become: true
+  notify: Restart openrgb
   ansible.builtin.template:
     src: templates/openrgb_service.j2
     dest: /etc/systemd/system/openrgb.service
