@@ -10,7 +10,7 @@
 - name: Copy OpenRGB off profile
   become: true
   ansible.builtin.copy:
-    src: files/rgbon.orp
+    src: files/rgboff.orp
     dest: '{{ openrgb_config }}'
     mode: '0644'
   notify: Restart openrgb
