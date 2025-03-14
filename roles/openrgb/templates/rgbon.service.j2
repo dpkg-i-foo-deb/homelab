@@ -1,0 +1,8 @@
+[Unit]
+Description=Turn on RGB lightning
+
+[Service]
+User=root
+ExecStart={{ openrgb_install_path }}/{{ openrgb_executable }} --config {{ openrgb_config }} --profile {{ openrgb_config }}/rgbon.orp
+Restart=on-failure
+RestartSec=10
