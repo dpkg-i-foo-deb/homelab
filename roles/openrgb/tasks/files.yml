@@ -1,0 +1,16 @@
+---
+- name: Copy OpenRGB on profile
+  become: true
+  ansible.builtin.copy:
+    src: files/rgbon.orp
+    dest: '{{ openrgb_config }}'
+    mode: '0644'
+  notify: Restart openrgb
+
+- name: Copy OpenRGB off profile
+  become: true
+  ansible.builtin.copy:
+    src: files/rgbon.orp
+    dest: '{{ openrgb_config }}'
+    mode: '0644'
+  notify: Restart openrgb

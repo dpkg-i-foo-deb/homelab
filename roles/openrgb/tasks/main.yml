@@ -3,6 +3,8 @@
   ansible.builtin.import_tasks: packages.yml
 - name: Directory configuration
   ansible.builtin.import_tasks: directories.yml
+- name: Profiles configuration
+  ansible.builtin.import_tasks: profiles.yml
 - name: Modules configuration
   ansible.builtin.import_tasks: modules.yml
 - name: Service configuration
