@@ -7,7 +7,7 @@
   ansible.builtin.import_tasks: files.yml
 - name: Modules configuration
   ansible.builtin.import_tasks: modules.yml
-- name: Service configuration
-  ansible.builtin.import_tasks: services.yml
 - name: OpenRGB Deployment
   ansible.builtin.import_tasks: openrgb.yml
+- name: Service configuration
+  ansible.builtin.import_tasks: services.yml

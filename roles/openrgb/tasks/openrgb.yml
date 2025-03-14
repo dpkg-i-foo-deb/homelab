@@ -4,9 +4,9 @@
 - name: Download OpenRGB AppImage
   become: true
   ansible.builtin.get_url:
-    url: "{{ openrgb_download_url }}"
-    dest: "{{ openrgb_install_path }}/{{ openrgb_executable }}"
-    mode: "0755"
+    url: '{{ openrgb_download_url }}'
+    dest: '{{ openrgb_install_path }}/{{ openrgb_executable }}'
+    mode: '0755'
 
 - name: Copy OpenRGB service file
   become: true
@@ -14,17 +14,49 @@
   ansible.builtin.template:
     src: templates/openrgb_service.j2
     dest: /etc/systemd/system/openrgb.service
-    mode: "0644"
+    mode: '0644'
+
+- name: Copy rgboff service file
+  become: true
+  notify: Restart openrgb
+  ansible.builtin.template:
+    src: templates/rgboff.service.j2
+    dest: /etc/systemd/system/rgboff.service
+    mode: '0644'
+
+- name: Copy rgbon service file
+  become: true
+  notify: Restart openrgb
+  ansible.builtin.template:
+    src: templates/rgbon.service.j2
+    dest: /etc/systemd/system/rgbon.service
+    mode: '0644'
+
+- name: Copy rgbon timer file
+  become: true
+  notify: Restart openrgb
+  ansible.builtin.template:
+    src: files/rgbon.timer
+    dest: /etc/systemd/system/rgbon.timer
+    mode: '0644'
+
+- name: Copy rgboff timer file
+  become: true
+  notify: Restart openrgb
+  ansible.builtin.template:
+    src: files/rgboff.timer
+    dest: /etc/systemd/system/rgboff.timer
+    mode: '0644'
 
 # This task should be run always since Udev rules are constantly updated
 - name: Download OpenRGB udev rules executable
   become: true
   ansible.builtin.get_url:
-    url: "{{ openrgb_udev_url }}"
-    dest: "{{ openrgb_install_path }}/{{ openrgb_udev_executable }}"
-    mode: "0755"
+    url: '{{ openrgb_udev_url }}'
+    dest: '{{ openrgb_install_path }}/{{ openrgb_udev_executable }}'
+    mode: '0755'
 
 - name: Install latest OpenRGB udev rules
   changed_when: false
   become: true
-  ansible.builtin.shell: "{{ openrgb_install_path }}/{{ openrgb_udev_executable }}"
+  ansible.builtin.shell: '{{ openrgb_install_path }}/{{ openrgb_udev_executable }}'
