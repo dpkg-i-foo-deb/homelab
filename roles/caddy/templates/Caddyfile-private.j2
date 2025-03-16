@@ -1,6 +1,16 @@
 # DO NOT MODIFY MANUALLY, GENERATED WITH ANSIBLE
 # Global config
 {
+  layer4 {
+    0.0.0.0:7777 {
+      route {
+        proxy {
+          upstream 10.0.8.11:7777
+        }
+      }
+    }
+  }
+
   servers {
     trusted_proxies static private_ranges
   }

@@ -52,6 +52,7 @@
         caddy_extensions:
           - github.com/corazawaf/coraza-caddy/v2
           - github.com/tailscale/caddy-tailscale
+          - github.com/mholt/caddy-l4
 
         caddy_image: 'caddy-public'
         caddy_networks: 'host'

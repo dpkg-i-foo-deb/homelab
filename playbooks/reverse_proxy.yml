@@ -19,6 +19,7 @@
         caddy_extensions:
           - github.com/caddy-dns/cloudflare
           - github.com/corazawaf/coraza-caddy/v2
+          - github.com/mholt/caddy-l4
         caddy_cloudflare_token: !vault |
           $ANSIBLE_VAULT;1.1;AES256
           30383031646136366238343335666164363934646564663434643131323861336362616238303735
