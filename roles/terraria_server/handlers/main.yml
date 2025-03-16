@@ -1,0 +1,8 @@
+- name: Restart terraria_server
+  become: true
+  become_user: "{{ terraria_server_user }}"
+  ansible.builtin.systemd_service:
+    daemon_reload: true
+    state: restarted
+    name: "{{ terraria_server_container }}"
+    scope: user

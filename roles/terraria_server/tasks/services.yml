@@ -1,0 +1,8 @@
+- name: Ensure terraria-server is running
+  become: true
+  become_user: '{{ terraria_server_user }}'
+  ansible.builtin.systemd_service:
+    daemon_reload: true
+    state: started
+    name: '{{ terraria_server_container }}'
+    scope: user

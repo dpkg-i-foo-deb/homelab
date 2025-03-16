@@ -1,0 +1,29 @@
+---
+- name: Create Terraria Server Quadlet file
+  become: true
+  become_user: '{{ terraria_server_user }}'
+  notify: Restart terraria_server
+  containers.podman.podman_container:
+    name: '{{ terraria_server_container }}'
+    image: ghcr.io/beardedio/terraria:vanilla-latest
+    state: quadlet
+    quadlet_filename: '{{ terraria_server_container }}'
+    ports:
+      - '{{ terraria_server_port | default("7777") }}:7777'
+    volumes:
+      - '{{ terraria_server_data }}:/config:z'
+    env:
+      PUID: '1000'
+      PGID: '1000'
+      TZ: '{{ tz }}'
+      world: '{{ terraria_server_worldname }}.wld'
+    quadlet_options:
+      - 'AutoUpdate=registry'
+      - 'Pull=newer'
+      - |
+        [Service]
+        Restart=always
+        RestartSec=10
+      - |
+        [Install]
+        WantedBy=default.target multi-user.target
