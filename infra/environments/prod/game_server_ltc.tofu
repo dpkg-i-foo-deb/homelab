@@ -9,7 +9,7 @@ resource "incus_instance" "game-server" {
 
   config = {
     "boot.autostart"              = true
-    "limits.cpu"                  = 1
+    "limits.cpu"                  = 2
     "limits.memory"               = "8GiB"
     "limits.memory.swap"          = "true"
     "limits.memory.swap.priority" = "0"
