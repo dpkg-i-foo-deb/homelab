@@ -1,6 +1,6 @@
 resource "incus_storage_volume" "reverse_proxy_data" {
   name = "reverse_proxy_data"
-  pool = incus_storage_pool.virt-main.name
+  pool = module.storage-pools.virt_main
 }
 
 resource "incus_instance" "reverse_proxy" {
@@ -14,7 +14,7 @@ resource "incus_instance" "reverse_proxy" {
     "limits.memory.swap"          = "true"
     "limits.memory.swap.priority" = "0"
     "cloud-init.user-data" = templatefile(
-      "${path.module}/cloud-init/reverse_proxy_lxc.yml.tftpl",
+      "${path.module}/cloud-init/reverse-proxy.yml.tftpl",
       {
         ssh_public_key    = var.ssh_public_key
         lxc_user_password = var.lxc_user_password
@@ -29,7 +29,7 @@ resource "incus_instance" "reverse_proxy" {
     type = "nic"
     properties = {
       nictype        = "bridged"
-      parent         = "${incus_network.reverse_proxy.name}"
+      parent         = module.networks.reverse_proxy
       "ipv4.address" = "10.0.5.10"
       mtu            = "9000"
     }
@@ -40,7 +40,7 @@ resource "incus_instance" "reverse_proxy" {
     type = "disk"
     properties = {
       path = "/"
-      pool = incus_storage_pool.virt-main.name
+      pool = module.storage-pools.virt_main
     }
   }
 
@@ -50,7 +50,7 @@ resource "incus_instance" "reverse_proxy" {
     properties = {
       path   = "/home"
       source = incus_storage_volume.reverse_proxy_data.name
-      pool   = incus_storage_pool.virt-main.name
+      pool   = module.storage-pools.virt_main
     }
   }
 }

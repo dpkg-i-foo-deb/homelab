@@ -1,35 +1,40 @@
-resource "incus_storage_volume" "game-server-data" {
-  name = "game-server"
-  pool = incus_storage_pool.virt-high-io.name
+resource "incus_storage_volume" "security_data" {
+  name = "security_data"
+  pool = module.storage-pools.virt_main
+  config = {
+    "size" = "50GiB"
+  }
 }
 
-resource "incus_instance" "game-server" {
-  name  = "game-server"
+resource "incus_instance" "security" {
+  name  = "security"
   image = "images:debian/trixie/cloud"
 
   config = {
     "boot.autostart"              = true
-    "limits.cpu"                  = 2
+    "limits.cpu"                  = 1
+    "limits.cpu.allowance"        = "50%"
     "limits.memory"               = "8GiB"
     "limits.memory.swap"          = "true"
     "limits.memory.swap.priority" = "0"
     "cloud-init.user-data" = templatefile(
-      "${path.module}/cloud-init/game_server_lxc.yml.tftpl",
+      "${path.module}/cloud-init/security.yml.tftpl",
       {
-        ssh_public_key    = var.ssh_public_key
-        lxc_user_password = var.lxc_user_password
+        ssh_public_key    = var.ssh_public_key,
+        lxc_user_password = var.lxc_user_password,
         ansible_password  = var.ansible_password
       }
     )
     "security.nesting" = true
   }
+
   device {
     name = "eth0"
     type = "nic"
     properties = {
       nictype        = "bridged"
-      parent         = "${incus_network.untrusted.name}"
-      "ipv4.address" = "10.0.8.11"
+      parent         = module.networks.trusted
+      "ipv4.address" = "10.0.0.11"
       mtu            = "9000"
     }
   }
@@ -38,7 +43,7 @@ resource "incus_instance" "game-server" {
     type = "disk"
     properties = {
       path = "/"
-      pool = incus_storage_pool.virt-main.name
+      pool = module.storage-pools.virt_main
     }
   }
 
@@ -47,8 +52,9 @@ resource "incus_instance" "game-server" {
     type = "disk"
     properties = {
       path   = "/home"
-      source = incus_storage_volume.game-server-data.name
-      pool   = incus_storage_pool.virt-high-io.name
+      source = incus_storage_volume.security_data.name
+      pool   = module.storage-pools.virt_main
     }
   }
+
 }

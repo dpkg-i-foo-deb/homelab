@@ -1,6 +1,6 @@
 resource "incus_storage_volume" "servarr_data" {
   name = "servarr_data"
-  pool = incus_storage_pool.virt-main.name
+  pool = module.storage-pools.virt_main
   config = {
     "size" = "30GiB"
   }
@@ -8,7 +8,7 @@ resource "incus_storage_volume" "servarr_data" {
 
 resource "incus_storage_volume" "servarr_cache" {
   name = "servarr_cache"
-  pool = incus_storage_pool.virt-high-io.name
+  pool = module.storage-pools.virt_high_io
   config = {
     "size" = "20GiB"
   }
@@ -25,7 +25,7 @@ resource "incus_instance" "servarr" {
     "limits.memory.swap"          = "true"
     "limits.memory.swap.priority" = "0"
     "cloud-init.user-data" = templatefile(
-      "${path.module}/cloud-init/servarr_lxc.yml.tftpl",
+      "${path.module}/cloud-init/servarr.yml.tftpl",
       {
         ssh_public_key    = var.ssh_public_key,
         lxc_user_password = var.lxc_user_password,
@@ -40,7 +40,7 @@ resource "incus_instance" "servarr" {
     type = "nic"
     properties = {
       nictype        = "bridged"
-      parent         = "${incus_network.trusted.name}"
+      parent         = module.network.trusted
       "ipv4.address" = "10.0.0.12"
       mtu            = "9000"
     }
@@ -51,7 +51,7 @@ resource "incus_instance" "servarr" {
     type = "disk"
     properties = {
       path = "/"
-      pool = incus_storage_pool.virt-main.name
+      pool = module.storage-pools.virt_main
     }
   }
 
@@ -61,7 +61,7 @@ resource "incus_instance" "servarr" {
     properties = {
       path   = "/home"
       source = incus_storage_volume.servarr_data.name
-      pool   = incus_storage_pool.virt-main.name
+      pool   = module.storage-pools.virt_main
     }
   }
 
@@ -71,7 +71,7 @@ resource "incus_instance" "servarr" {
     properties = {
       path   = "/tmp/servarr-cache"
       source = incus_storage_volume.servarr_cache.name
-      pool   = incus_storage_pool.virt-high-io.name
+      pool   = module.storage-pools.virt_spin_usb
     }
   }
 
@@ -80,8 +80,8 @@ resource "incus_instance" "servarr" {
     type = "disk"
     properties = {
       path   = "/downloads"
-      source = incus_storage_volume.downloads.name
-      pool   = incus_storage_pool.virt-spin-usb.name
+      source = module.storage-volumes.downloads
+      pool   = module.storage-pools.virt_spin_usb
     }
   }
 
@@ -90,8 +90,8 @@ resource "incus_instance" "servarr" {
     type = "disk"
     properties = {
       path   = "/music"
-      source = incus_storage_volume.music.name
-      pool   = incus_storage_pool.virt-spin-usb.name
+      source = module.storage-volumes.music
+      pool   = module.storage-pools.virt_spin_usb
     }
 
   }

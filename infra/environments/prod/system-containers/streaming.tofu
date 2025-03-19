@@ -1,6 +1,6 @@
 resource "incus_storage_volume" "streaming_data" {
   name = "streaming_data"
-  pool = incus_storage_pool.virt-main.name
+  pool = module.storage-volumes.virt_main
 }
 
 resource "incus_instance" "streaming" {
@@ -15,7 +15,7 @@ resource "incus_instance" "streaming" {
     "limits.memory.swap"          = "true"
     "limits.memory.swap.priority" = "0"
     "cloud-init.user-data" = templatefile(
-      "${path.module}/cloud-init/streaming_lxc.yml.tftpl",
+      "${path.module}/cloud-init/streaming.yml.tftpl",
       {
         ssh_public_key    = var.ssh_public_key,
         lxc_user_password = var.lxc_user_password,
@@ -30,7 +30,7 @@ resource "incus_instance" "streaming" {
     type = "nic"
     properties = {
       nictype        = "bridged"
-      parent         = "${incus_network.trusted.name}"
+      parent         = module.networks.trusted
       "ipv4.address" = "10.0.0.13"
       mtu            = "9000"
     }
@@ -41,7 +41,7 @@ resource "incus_instance" "streaming" {
     type = "disk"
     properties = {
       path = "/"
-      pool = incus_storage_pool.virt-main.name
+      pool = module.storage-pools.virt_main
     }
   }
 
@@ -51,7 +51,7 @@ resource "incus_instance" "streaming" {
     properties = {
       path   = "/home"
       source = incus_storage_volume.streaming_data.name
-      pool   = incus_storage_pool.virt-main.name
+      pool   = module.storage-pools.virt_main
     }
   }
 
@@ -60,8 +60,8 @@ resource "incus_instance" "streaming" {
     type = "disk"
     properties = {
       path   = "/music"
-      source = incus_storage_volume.music.name
-      pool   = incus_storage_pool.virt-spin-usb.name
+      source = module.storage-volumes.music
+      pool   = module.storage-pools.virt_spin_usb
     }
   }
 }
