@@ -1,6 +1,6 @@
 resource "incus_storage_volume" "torrent_data" {
   name = "torrent_data"
-  pool = incus_storage_pool.virt-main.name
+  pool = module.storage-pools.virt_main.name
 }
 
 resource "incus_instance" "torrent" {
@@ -15,7 +15,7 @@ resource "incus_instance" "torrent" {
     "limits.memory.swap"          = "true"
     "limits.memory.swap.priority" = "0"
     "cloud-init.user-data" = templatefile(
-      "${path.module}/cloud-init/torrent_lxc.yml.tftpl",
+      "${path.module}/cloud-init/torrent.yml.tftpl",
       {
         ssh_public_key    = var.ssh_public_key,
         lxc_user_password = var.lxc_user_password,
@@ -30,7 +30,7 @@ resource "incus_instance" "torrent" {
     type = "nic"
     properties = {
       nictype        = "bridged"
-      parent         = "${incus_network.torrenting.name}"
+      parent         = module.networks.torrent
       "ipv4.address" = "10.0.6.10"
       mtu            = "9000"
     }
@@ -41,7 +41,7 @@ resource "incus_instance" "torrent" {
     type = "disk"
     properties = {
       path = "/"
-      pool = incus_storage_pool.virt-main.name
+      pool = module.storage-pools.virt_main
     }
   }
 
@@ -51,7 +51,7 @@ resource "incus_instance" "torrent" {
     properties = {
       path   = "/home"
       source = incus_storage_volume.torrent_data.name
-      pool   = incus_storage_pool.virt-main.name
+      pool   = module.storage-pools.virt_main
     }
   }
 
@@ -61,7 +61,7 @@ resource "incus_instance" "torrent" {
     properties = {
       path   = "/downloads"
       source = incus_storage_volume.downloads.name
-      pool   = incus_storage_pool.virt-spin-usb.name
+      pool   = module.storage-pools.virt_spin_usb
     }
   }
 }
