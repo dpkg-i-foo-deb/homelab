@@ -24,7 +24,7 @@ resource "incus_instance" "exit-node-co" {
     type = "nic"
     properties = {
       nictype        = "bridged"
-      parent         = module.networks.untrusted
+      parent         = var.untrusted_net
       "ipv4.address" = "10.0.8.10"
       mtu            = "9000"
     }

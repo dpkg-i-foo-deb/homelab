@@ -34,7 +34,7 @@ resource "incus_instance" "dns" {
     type = "nic"
     properties = {
       nictype        = "bridged"
-      parent         = module.networks.dns
+      parent         = var.dns_net
       "ipv4.address" = "10.0.2.2"
       mtu            = "9000"
     }

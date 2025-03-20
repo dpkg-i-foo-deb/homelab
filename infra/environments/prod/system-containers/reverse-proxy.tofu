@@ -29,7 +29,7 @@ resource "incus_instance" "reverse_proxy" {
     type = "nic"
     properties = {
       nictype        = "bridged"
-      parent         = module.networks.reverse_proxy
+      parent         = var.reverse_proxy_net
       "ipv4.address" = "10.0.5.10"
       mtu            = "9000"
     }

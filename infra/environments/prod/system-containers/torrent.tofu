@@ -30,7 +30,7 @@ resource "incus_instance" "torrent" {
     type = "nic"
     properties = {
       nictype        = "bridged"
-      parent         = module.networks.torrenting
+      parent         = var.torrenting_net
       "ipv4.address" = "10.0.6.10"
       mtu            = "9000"
     }

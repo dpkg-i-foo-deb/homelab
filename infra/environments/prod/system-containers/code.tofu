@@ -32,7 +32,7 @@ resource "incus_instance" "code" {
     type = "nic"
     properties = {
       nictype        = "bridged"
-      parent         = module.networks.code
+      parent         = var.code_net
       "ipv4.address" = "10.0.7.10"
       mtu            = "9000"
     }

@@ -33,7 +33,7 @@ resource "incus_instance" "security" {
     type = "nic"
     properties = {
       nictype        = "bridged"
-      parent         = module.networks.trusted
+      parent         = var.trusted_net
       "ipv4.address" = "10.0.0.11"
       mtu            = "9000"
     }

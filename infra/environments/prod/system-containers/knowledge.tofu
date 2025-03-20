@@ -29,7 +29,7 @@ resource "incus_instance" "knowledge" {
     type = "nic"
     properties = {
       nictype        = "bridged"
-      parent         = module.networks.trusted
+      parent         = var.trusted_net
       "ipv4.address" = "10.0.0.10"
       mtu            = "9000"
     }
