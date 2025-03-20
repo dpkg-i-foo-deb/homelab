@@ -71,7 +71,7 @@ variable "virt_high_io_pool" {
   description = "The name of the high I/O storage pool"
 }
 
-variable "virt_spin_usb" {
+variable "virt_spin_usb_pool" {
   type = string
   description = "The name of the HDD USB storage pool"
 }

@@ -34,6 +34,10 @@ module "system-containers" {
   trusted_net = module.networks.trusted
   untrusted_net = module.networks.untrusted
 
+  virt_main_pool = module.storage-pools.virt_main
+  virt_high_io_pool = module.storage-pools.virt_high_io
+  virt_spin_usb_pool = module.storage-pools.virt_spin_usb
+
   providers = {
     incus = incus
   }
