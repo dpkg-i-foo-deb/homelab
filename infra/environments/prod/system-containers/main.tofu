@@ -6,7 +6,3 @@ terraform {
     }
   }
 }
-
-module "storage_volumes" {
-  source = "../storage-volumes"
-}
