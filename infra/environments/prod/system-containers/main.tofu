@@ -6,11 +6,6 @@ terraform {
     }
   }
 }
-
-module "networks" {
-  source = "../networks"
-}
-
 module "storage_pools" {
   source = "../storage-pools"
 }
