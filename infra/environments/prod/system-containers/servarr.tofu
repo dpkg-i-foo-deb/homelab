@@ -73,7 +73,7 @@ resource "incus_instance" "servarr" {
     properties = {
       path   = "/tmp/servarr-cache"
       source = incus_storage_volume.servarr_cache.name
-      pool   = var.virt_spin_usb_pool
+      pool   = var.virt_high_io_pool
     }
   }
 
