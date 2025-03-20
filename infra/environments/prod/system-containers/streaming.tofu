@@ -60,7 +60,7 @@ resource "incus_instance" "streaming" {
     type = "disk"
     properties = {
       path   = "/music"
-      source = module.storage_volumes.music
+      source = var.music_vol
       pool   = var.virt_main_pool
     }
   }

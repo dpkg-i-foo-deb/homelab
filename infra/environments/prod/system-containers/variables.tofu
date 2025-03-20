@@ -76,3 +76,15 @@ variable "virt_spin_usb_pool" {
   description = "The name of the HDD USB storage pool"
 }
 
+
+# Storage volumes to share between system containers
+
+variable "music_vol" {
+  type = string
+  description = "The name of the music library volume"
+}
+
+variable "downloads_vol" {
+  type = string
+  description = "The name of the downloads volume"
+}

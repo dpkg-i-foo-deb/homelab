@@ -60,7 +60,7 @@ resource "incus_instance" "torrent" {
     type = "disk"
     properties = {
       path   = "/downloads"
-      source = module.storage_volumes.downloads
+      source = var.downloads_vol
       pool   = var.virt_main_pool
     }
   }

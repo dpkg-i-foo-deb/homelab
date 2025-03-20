@@ -46,6 +46,10 @@ module "system-containers" {
   virt_high_io_pool = module.storage-pools.virt_high_io
   virt_spin_usb_pool = module.storage-pools.virt_spin_usb
 
+  music_vol = module.storage-volumes.music
+  downloads_vol = module.storage-volumes.downloads
+  
+
   providers = {
     incus = incus
   }

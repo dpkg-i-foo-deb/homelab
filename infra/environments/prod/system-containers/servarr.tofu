@@ -80,7 +80,7 @@ resource "incus_instance" "servarr" {
     type = "disk"
     properties = {
       path   = "/downloads"
-      source = module.storage_volumes.downloads
+      source = var.downloads_vol
       pool   = var.virt_spin_usb_pool
     }
   }
@@ -90,7 +90,7 @@ resource "incus_instance" "servarr" {
     type = "disk"
     properties = {
       path   = "/music"
-      source = module.storage_volumes.music
+      source = var.music_vol
       pool   = var.virt_spin_usb_pool
     }
 
