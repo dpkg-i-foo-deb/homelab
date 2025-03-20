@@ -1,6 +1,6 @@
 resource "incus_storage_volume" "music" {
   name = "music"
-  pool = module.storage_pools.virt_spin_usb
+  pool = var.spin_usb_pool
   config = {
     "size" = "700GiB"
   }
