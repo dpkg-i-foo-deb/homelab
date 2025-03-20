@@ -1,6 +1,7 @@
 resource "incus_storage_volume" "streaming_data" {
   name = "streaming_data"
   pool = var.virt_main_pool
+  project = "default"
 }
 
 resource "incus_instance" "streaming" {

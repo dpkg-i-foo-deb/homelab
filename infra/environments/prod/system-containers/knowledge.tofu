@@ -1,6 +1,7 @@
 resource "incus_storage_volume" "knowledge_data" {
   name = "knowledge_data"
   pool = var.virt_high_io_pool
+  project = "default"
 }
 
 resource "incus_instance" "knowledge" {

@@ -1,6 +1,7 @@
 resource "incus_storage_volume" "servarr_data" {
   name = "servarr_data"
   pool = var.virt_main_pool
+  project = "default"
   config = {
     "size" = "30GiB"
   }
@@ -9,6 +10,7 @@ resource "incus_storage_volume" "servarr_data" {
 resource "incus_storage_volume" "servarr_cache" {
   name = "servarr_cache"
   pool = var.virt_high_io_pool
+  project = "default"
   config = {
     "size" = "20GiB"
   }

@@ -1,6 +1,7 @@
 resource "incus_storage_volume" "game-server-data" {
   name = "game-server"
   pool = var.virt_high_io_pool
+  project = "default"
 }
 
 resource "incus_instance" "game-server" {

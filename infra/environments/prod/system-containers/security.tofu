@@ -1,6 +1,7 @@
 resource "incus_storage_volume" "security_data" {
   name = "security_data"
   pool = var.virt_main_pool
+  project = "default"
   config = {
     "size" = "50GiB"
   }

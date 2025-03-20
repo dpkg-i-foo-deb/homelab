@@ -1,6 +1,7 @@
 resource "incus_storage_volume" "code_data" {
   name = "code_data"
   pool = var.virt_high_io_pool
+  project = "default"
   config = {
     "size" = "40GiB"
   }

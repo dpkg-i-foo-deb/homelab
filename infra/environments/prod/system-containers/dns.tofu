@@ -1,11 +1,13 @@
 resource "incus_storage_volume" "dns_data" {
   name = "dns_data"
   pool = var.virt_main_pool
+  project = "default"
 }
 
 resource "incus_storage_volume" "dns_data_1" {
   name = "dns_data_1"
   pool = var.virt_main_pool
+  project = "default"
 }
 
 resource "incus_instance" "dns" {

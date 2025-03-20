@@ -1,6 +1,7 @@
 resource "incus_storage_volume" "torrent_data" {
   name = "torrent_data"
   pool = var.virt_main_pool
+  project = "default"
 }
 
 resource "incus_instance" "torrent" {

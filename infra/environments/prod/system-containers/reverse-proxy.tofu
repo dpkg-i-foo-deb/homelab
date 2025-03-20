@@ -1,6 +1,7 @@
 resource "incus_storage_volume" "reverse_proxy_data" {
   name = "reverse_proxy_data"
   pool = var.virt_main_pool
+  project = "default"
 }
 
 resource "incus_instance" "reverse_proxy" {
