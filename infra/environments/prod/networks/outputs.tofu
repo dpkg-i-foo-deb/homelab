@@ -14,7 +14,7 @@ output "privileged" {
 }
 
 output "reverse_proxy" {
-  value       = incus_network.privileged.name
+  value       = incus_network.reverse_proxy.name
   description = "The name of the Privileged network"
 }
 
