@@ -24,7 +24,7 @@ resource "incus_instance" "exit-node-co" {
     type = "nic"
     properties = {
       nictype        = "bridged"
-      parent         = module.network.untrusted
+      parent         = module.networks.untrusted
       "ipv4.address" = "10.0.8.10"
       mtu            = "9000"
     }
@@ -34,7 +34,7 @@ resource "incus_instance" "exit-node-co" {
     type = "disk"
     properties = {
       path = "/"
-      pool = module.storage-pools.virt_main
+      pool = module.storage_pools.virt_main
     }
   }
 }

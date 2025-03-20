@@ -1,6 +1,6 @@
 resource "incus_storage_volume" "reverse_proxy_data" {
   name = "reverse_proxy_data"
-  pool = module.storage-pools.virt_main
+  pool = module.storage_pools.virt_main
 }
 
 resource "incus_instance" "reverse_proxy" {
@@ -40,7 +40,7 @@ resource "incus_instance" "reverse_proxy" {
     type = "disk"
     properties = {
       path = "/"
-      pool = module.storage-pools.virt_main
+      pool = module.storage_pools.virt_main
     }
   }
 
@@ -50,7 +50,7 @@ resource "incus_instance" "reverse_proxy" {
     properties = {
       path   = "/home"
       source = incus_storage_volume.reverse_proxy_data.name
-      pool   = module.storage-pools.virt_main
+      pool   = module.storage_pools.virt_main
     }
   }
 }

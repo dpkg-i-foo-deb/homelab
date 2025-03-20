@@ -1,6 +1,6 @@
 resource "incus_storage_volume" "servarr_data" {
   name = "servarr_data"
-  pool = module.storage-pools.virt_main
+  pool = module.storage_pools.virt_main
   config = {
     "size" = "30GiB"
   }
@@ -8,7 +8,7 @@ resource "incus_storage_volume" "servarr_data" {
 
 resource "incus_storage_volume" "servarr_cache" {
   name = "servarr_cache"
-  pool = module.storage-pools.virt_high_io
+  pool = module.storage_pools.virt_high_io
   config = {
     "size" = "20GiB"
   }
@@ -40,7 +40,7 @@ resource "incus_instance" "servarr" {
     type = "nic"
     properties = {
       nictype        = "bridged"
-      parent         = module.network.trusted
+      parent         = module.networks.trusted
       "ipv4.address" = "10.0.0.12"
       mtu            = "9000"
     }
@@ -51,7 +51,7 @@ resource "incus_instance" "servarr" {
     type = "disk"
     properties = {
       path = "/"
-      pool = module.storage-pools.virt_main
+      pool = module.storage_pools.virt_main
     }
   }
 
@@ -61,7 +61,7 @@ resource "incus_instance" "servarr" {
     properties = {
       path   = "/home"
       source = incus_storage_volume.servarr_data.name
-      pool   = module.storage-pools.virt_main
+      pool   = module.storage_pools.virt_main
     }
   }
 
@@ -71,7 +71,7 @@ resource "incus_instance" "servarr" {
     properties = {
       path   = "/tmp/servarr-cache"
       source = incus_storage_volume.servarr_cache.name
-      pool   = module.storage-pools.virt_spin_usb
+      pool   = module.storage_pools.virt_spin_usb
     }
   }
 
@@ -80,8 +80,8 @@ resource "incus_instance" "servarr" {
     type = "disk"
     properties = {
       path   = "/downloads"
-      source = module.storage-volumes.downloads
-      pool   = module.storage-pools.virt_spin_usb
+      source = module.storage_volumes.downloads
+      pool   = module.storage_pools.virt_spin_usb
     }
   }
 
@@ -90,8 +90,8 @@ resource "incus_instance" "servarr" {
     type = "disk"
     properties = {
       path   = "/music"
-      source = module.storage-volumes.music
-      pool   = module.storage-pools.virt_spin_usb
+      source = module.storage_volumes.music
+      pool   = module.storage_pools.virt_spin_usb
     }
 
   }

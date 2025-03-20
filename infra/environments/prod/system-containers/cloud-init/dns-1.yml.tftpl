@@ -3,10 +3,10 @@ groups:
   - admingroup: [root, sys]
 
 users:
-  - name: dns
+  - name: dns-1
     gecos: DNS Linux System Container
     shell: /bin/bash
-    homedir: /home/dns
+    homedir: /home/dns-1
     sudo: ALL=(ALL) NOPASSWD:ALL
     groups: users
     lock_passwd: false
@@ -30,7 +30,7 @@ packages:
 timezone: America/Bogota
 write_files:
   - path: /etc/ssh/sshd_config
-    permissions: "0600"
+    permissions: '0600'
     content: |
       Port 22
       ListenAddress 0.0.0.0

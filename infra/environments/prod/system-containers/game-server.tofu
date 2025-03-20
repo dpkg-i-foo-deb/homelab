@@ -1,6 +1,6 @@
 resource "incus_storage_volume" "game-server-data" {
   name = "game-server"
-  pool = module.storage-pools.virt_high_io
+  pool = module.storage_pools.virt_high_io
 }
 
 resource "incus_instance" "game-server" {
@@ -14,7 +14,7 @@ resource "incus_instance" "game-server" {
     "limits.memory.swap"          = "true"
     "limits.memory.swap.priority" = "0"
     "cloud-init.user-data" = templatefile(
-      "${path.module}/cloud-init/game_server.yml.tftpl",
+      "${path.module}/cloud-init/game-server.yml.tftpl",
       {
         ssh_public_key    = var.ssh_public_key
         lxc_user_password = var.lxc_user_password
@@ -38,7 +38,7 @@ resource "incus_instance" "game-server" {
     type = "disk"
     properties = {
       path = "/"
-      pool = module.storage-pools.virt_main
+      pool = module.storage_pools.virt_main
     }
   }
 
@@ -48,7 +48,7 @@ resource "incus_instance" "game-server" {
     properties = {
       path   = "/home"
       source = incus_storage_volume.game-server-data.name
-      pool   = module.storage-pools.virt_high_io
+      pool   = module.storage_pools.virt_high_io
     }
   }
 }

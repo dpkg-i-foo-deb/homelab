@@ -1,6 +1,6 @@
 resource "incus_storage_volume" "code_data" {
   name = "code_data"
-  pool = module.storage-pools.virt_high_io
+  pool = module.storage_pools.virt_high_io
   config = {
     "size" = "40GiB"
   }
@@ -32,7 +32,7 @@ resource "incus_instance" "code" {
     type = "nic"
     properties = {
       nictype        = "bridged"
-      parent         = module.networks.code_net
+      parent         = module.networks.code
       "ipv4.address" = "10.0.7.10"
       mtu            = "9000"
     }
@@ -43,7 +43,7 @@ resource "incus_instance" "code" {
     type = "disk"
     properties = {
       path = "/"
-      pool = module.storage-pools.virt_main
+      pool = module.storage_pools.virt_main
     }
   }
   device {
@@ -52,7 +52,7 @@ resource "incus_instance" "code" {
     properties = {
       path   = "/home"
       source = incus_storage_volume.code_data.name
-      pool   = module.storage-pools.virt_high_io
+      pool   = module.storage_pools.virt_high_io
     }
   }
 }

@@ -6,3 +6,7 @@ terraform {
     }
   }
 }
+
+module "storage_pools" {
+  source = "../storage-pools"
+}

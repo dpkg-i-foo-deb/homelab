@@ -1,11 +1,11 @@
 resource "incus_storage_volume" "dns_data" {
   name = "dns_data"
-  pool = module.storage-pools.virt_main
+  pool = module.storage_pools.virt_main
 }
 
 resource "incus_storage_volume" "dns_data_1" {
   name = "dns_data_1"
-  pool = module.storage-pools.virt_main
+  pool = module.storage_pools.virt_main
 }
 
 resource "incus_instance" "dns" {
@@ -45,7 +45,7 @@ resource "incus_instance" "dns" {
     type = "disk"
     properties = {
       path = "/"
-      pool = module.storage-pools.virt_main
+      pool = module.storage_pools.virt_main
     }
   }
 
@@ -55,7 +55,7 @@ resource "incus_instance" "dns" {
     properties = {
       path   = "/home"
       source = incus_storage_volume.dns_data.name
-      pool   = module.storage-pools.virt_main
+      pool   = module.storage_pools.virt_main
     }
   }
 
@@ -74,7 +74,7 @@ resource "incus_instance" "dns_1" {
     "limits.memory.swap"          = "true"
     "limits.memory.swap.priority" = "0"
     "cloud-init.user-data" = templatefile(
-      "${path.module}/cloud-init/dns_1_lxc.yml.tftpl",
+      "${path.module}/cloud-init/dns-1.yml.tftpl",
       {
         ssh_public_key    = var.ssh_public_key,
         lxc_user_password = var.lxc_user_password,
@@ -88,7 +88,7 @@ resource "incus_instance" "dns_1" {
     type = "nic"
     properties = {
       nictype        = "bridged"
-      parent         = module.network.dns
+      parent         = module.networks.dns
       "ipv4.address" = "10.0.2.3"
       mtu            = "9000"
     }
@@ -99,7 +99,7 @@ resource "incus_instance" "dns_1" {
     type = "disk"
     properties = {
       path = "/"
-      pool = module.storage-pools.virt_main
+      pool = module.storage_pools.virt_main
     }
   }
 
@@ -109,7 +109,7 @@ resource "incus_instance" "dns_1" {
     properties = {
       path   = "/home"
       source = incus_storage_volume.dns_data_1.name
-      pool   = module.storage-pools.virt_main
+      pool   = module.storage_pools.virt_main
     }
   }
 

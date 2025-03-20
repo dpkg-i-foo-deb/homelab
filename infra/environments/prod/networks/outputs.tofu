@@ -1,39 +1,39 @@
-output "dns_net" {
+output "dns" {
   value       = incus_network.dns.name
   description = "The name of the DNS network"
 }
 
-output "code_net" {
+output "code" {
   value       = incus_network.code.name
   description = "The name of the Code network"
 }
 
-output "privileged_net" {
+output "privileged" {
   value       = incus_network.privileged.name
   description = "The name of the Privileged network"
 }
 
-output "reverse_proxy_net" {
+output "reverse_proxy" {
   value       = incus_network.privileged.name
   description = "The name of the Privileged network"
 }
 
-output "storage_net" {
+output "storage" {
   value       = incus_network.storage.name
   description = "The name of the Storage network"
 }
 
-output "torrenting_net" {
+output "torrenting" {
   value       = incus_network.torrenting.name
   description = "The name of the Torrenting network"
 }
 
-output "trusted_net" {
+output "trusted" {
   value       = incus_network.trusted.name
   description = "The name of the Trusted network"
 }
 
-output "untrusted_net" {
+output "untrusted" {
   value       = incus_network.untrusted.name
   description = "The name of the Untrusted network"
 }

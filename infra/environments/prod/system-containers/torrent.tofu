@@ -1,6 +1,6 @@
 resource "incus_storage_volume" "torrent_data" {
   name = "torrent_data"
-  pool = module.storage-pools.virt_main.name
+  pool = module.storage_pools.virt_main
 }
 
 resource "incus_instance" "torrent" {
@@ -30,7 +30,7 @@ resource "incus_instance" "torrent" {
     type = "nic"
     properties = {
       nictype        = "bridged"
-      parent         = module.networks.torrent
+      parent         = module.networks.torrenting
       "ipv4.address" = "10.0.6.10"
       mtu            = "9000"
     }
@@ -41,7 +41,7 @@ resource "incus_instance" "torrent" {
     type = "disk"
     properties = {
       path = "/"
-      pool = module.storage-pools.virt_main
+      pool = module.storage_pools.virt_main
     }
   }
 
@@ -51,7 +51,7 @@ resource "incus_instance" "torrent" {
     properties = {
       path   = "/home"
       source = incus_storage_volume.torrent_data.name
-      pool   = module.storage-pools.virt_main
+      pool   = module.storage_pools.virt_main
     }
   }
 
@@ -60,8 +60,8 @@ resource "incus_instance" "torrent" {
     type = "disk"
     properties = {
       path   = "/downloads"
-      source = incus_storage_volume.downloads.name
-      pool   = module.storage-pools.virt_spin_usb
+      source = module.storage_volumes.downloads
+      pool   = module.storage_pools.virt_spin_usb
     }
   }
 }
