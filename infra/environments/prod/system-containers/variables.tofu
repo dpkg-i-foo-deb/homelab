@@ -14,3 +14,43 @@ variable "ansible_password" {
   description = "The default password for the ansible user."
   sensitive   = true
 }
+
+variable "dns_net" {
+  type = string
+  description = "The name of the DNS network"
+}
+
+variable "code_net" {
+  type = string
+  description = "The name of the Coding network"
+}
+
+variable "privileged_net" {
+  type = string
+  description = "The name of the Privileged network"
+}
+
+variable "reverse_proxy_net" {
+  type = string
+  description = "The name of the Reverse Proxy network"
+}
+
+variable "storage_net" {
+  type = string
+  description = "The name of the Storage network"
+}
+
+variable "torrenting_net" {
+  type = string
+  description = "The name of the Torrenting network"
+}
+
+variable "trusted_net" {
+  type = string
+  description = "The name of the Trusted network"
+}
+
+variable "untrusted_net" {
+  type = string
+  description = "The name of the Untrusted network"
+}

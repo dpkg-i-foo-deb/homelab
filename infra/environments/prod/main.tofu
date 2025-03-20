@@ -24,6 +24,16 @@ module "system-containers" {
   lxc_user_password = var.lxc_user_password
   ssh_public_key = var.ssh_public_key
   ansible_password = var.ansible_password
+
+  dns_net = module.networks.dns
+  code_net = module.networks.code
+  privileged_net = module.networks.privileged
+  reverse_proxy_net = module.networks.reverse_proxy
+  storage_net = module.networks.storage
+  torrenting_net = module.networks.torrenting
+  trusted_net = module.networks.trusted
+  untrusted_net = module.networks.untrusted
+
   providers = {
     incus = incus
   }
