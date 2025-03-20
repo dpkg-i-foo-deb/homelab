@@ -1,6 +1,6 @@
 resource "incus_storage_volume" "torrent_data" {
   name = "torrent_data"
-  pool = module.storage_pools.virt_main
+  pool = var.virt_main_pool
 }
 
 resource "incus_instance" "torrent" {
@@ -41,7 +41,7 @@ resource "incus_instance" "torrent" {
     type = "disk"
     properties = {
       path = "/"
-      pool = module.storage_pools.virt_main
+      pool = var.virt_main_pool
     }
   }
 
@@ -51,7 +51,7 @@ resource "incus_instance" "torrent" {
     properties = {
       path   = "/home"
       source = incus_storage_volume.torrent_data.name
-      pool   = module.storage_pools.virt_main
+      pool   = var.virt_main_pool
     }
   }
 
@@ -61,7 +61,7 @@ resource "incus_instance" "torrent" {
     properties = {
       path   = "/downloads"
       source = module.storage_volumes.downloads
-      pool   = module.storage_pools.virt_spin_usb
+      pool   = var.virt_main_pool
     }
   }
 }

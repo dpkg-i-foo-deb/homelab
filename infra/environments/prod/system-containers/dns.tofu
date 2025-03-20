@@ -99,7 +99,7 @@ resource "incus_instance" "dns_1" {
     type = "disk"
     properties = {
       path = "/"
-      pool = module.storage_pools.virt_main
+      pool = var.virt_main_pool
     }
   }
 
@@ -109,7 +109,7 @@ resource "incus_instance" "dns_1" {
     properties = {
       path   = "/home"
       source = incus_storage_volume.dns_data_1.name
-      pool   = module.storage_pools.virt_main
+      pool   = var.virt_main_pool
     }
   }
 
