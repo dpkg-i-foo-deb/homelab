@@ -1,6 +1,6 @@
 resource "incus_storage_volume" "security_data" {
   name = "security_data"
-  pool = module.storage_pools.virt_main
+  pool = var.virt_main_pool
   config = {
     "size" = "50GiB"
   }
@@ -43,7 +43,7 @@ resource "incus_instance" "security" {
     type = "disk"
     properties = {
       path = "/"
-      pool = module.storage_pools.virt_main
+      pool = var.virt_main_pool
     }
   }
 
@@ -53,7 +53,7 @@ resource "incus_instance" "security" {
     properties = {
       path   = "/home"
       source = incus_storage_volume.security_data.name
-      pool   = module.storage_pools.virt_main
+      pool   = var.virt_main_pool
     }
   }
 

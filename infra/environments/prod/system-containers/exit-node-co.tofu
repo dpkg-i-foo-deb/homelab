@@ -34,7 +34,7 @@ resource "incus_instance" "exit-node-co" {
     type = "disk"
     properties = {
       path = "/"
-      pool = module.storage_pools.virt_main
+      pool = var.virt_main_pool
     }
   }
 }

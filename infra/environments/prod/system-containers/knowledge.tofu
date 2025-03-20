@@ -1,6 +1,6 @@
 resource "incus_storage_volume" "knowledge_data" {
   name = "knowledge_data"
-  pool = module.storage_pools.virt_high_io
+  pool = var.virt_high_io_pool
 }
 
 resource "incus_instance" "knowledge" {
@@ -39,7 +39,7 @@ resource "incus_instance" "knowledge" {
     type = "disk"
     properties = {
       path = "/"
-      pool = module.storage_pools.virt_main
+      pool = var.virt_main_pool
     }
   }
 
@@ -49,7 +49,7 @@ resource "incus_instance" "knowledge" {
     properties = {
       path   = "/home"
       source = incus_storage_volume.knowledge_data.name
-      pool   = module.storage_pools.virt_high_io
+      pool   = var.virt_high_io_pool
     }
   }
 }

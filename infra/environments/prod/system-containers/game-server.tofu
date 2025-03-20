@@ -1,6 +1,6 @@
 resource "incus_storage_volume" "game-server-data" {
   name = "game-server"
-  pool = module.storage_pools.virt_high_io
+  pool = var.virt_high_io_pool
 }
 
 resource "incus_instance" "game-server" {
@@ -38,7 +38,7 @@ resource "incus_instance" "game-server" {
     type = "disk"
     properties = {
       path = "/"
-      pool = module.storage_pools.virt_main
+      pool = var.virt_main_pool
     }
   }
 
@@ -48,7 +48,7 @@ resource "incus_instance" "game-server" {
     properties = {
       path   = "/home"
       source = incus_storage_volume.game-server-data.name
-      pool   = module.storage_pools.virt_high_io
+      pool   = var.virt_high_io_pool
     }
   }
 }

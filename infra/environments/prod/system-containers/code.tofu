@@ -1,6 +1,6 @@
 resource "incus_storage_volume" "code_data" {
   name = "code_data"
-  pool = module.storage_pools.virt_high_io
+  pool = var.virt_high_io_pool
   config = {
     "size" = "40GiB"
   }
@@ -43,7 +43,7 @@ resource "incus_instance" "code" {
     type = "disk"
     properties = {
       path = "/"
-      pool = module.storage_pools.virt_main
+      pool = var.virt_main_pool
     }
   }
   device {
@@ -52,7 +52,7 @@ resource "incus_instance" "code" {
     properties = {
       path   = "/home"
       source = incus_storage_volume.code_data.name
-      pool   = module.storage_pools.virt_high_io
+      pool   = var.virt_high_io_pool
     }
   }
 }

@@ -1,6 +1,6 @@
 resource "incus_storage_volume" "streaming_data" {
   name = "streaming_data"
-  pool = module.storage_pools.virt_main
+  pool = var.virt_main_pool
 }
 
 resource "incus_instance" "streaming" {
@@ -41,7 +41,7 @@ resource "incus_instance" "streaming" {
     type = "disk"
     properties = {
       path = "/"
-      pool = module.storage_pools.virt_main
+      pool = var.virt_main_pool
     }
   }
 
@@ -51,7 +51,7 @@ resource "incus_instance" "streaming" {
     properties = {
       path   = "/home"
       source = incus_storage_volume.streaming_data.name
-      pool   = module.storage_pools.virt_main
+      pool   = var.virt_main_pool
     }
   }
 
@@ -61,7 +61,7 @@ resource "incus_instance" "streaming" {
     properties = {
       path   = "/music"
       source = module.storage_volumes.music
-      pool   = module.storage_pools.virt_spin_usb
+      pool   = var.virt_main_pool
     }
   }
 }

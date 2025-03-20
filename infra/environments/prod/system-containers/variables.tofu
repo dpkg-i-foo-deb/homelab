@@ -1,3 +1,5 @@
+# Secrets required to configure system containers
+
 variable "ssh_public_key" {
   type        = string
   description = "The SSH public key to inject into containers."
@@ -14,6 +16,8 @@ variable "ansible_password" {
   description = "The default password for the ansible user."
   sensitive   = true
 }
+
+# Network names to be used on system containers
 
 variable "dns_net" {
   type = string
@@ -54,3 +58,21 @@ variable "untrusted_net" {
   type = string
   description = "The name of the Untrusted network"
 }
+
+# Storage pools available for system containers
+
+variable "virt_main_pool" {
+  type = string
+  description = "The name of the main storage pool"
+}
+
+variable "virt_high_io_pool" {
+  type = string
+  description = "The name of the high I/O storage pool"
+}
+
+variable "virt_spin_usb" {
+  type = string
+  description = "The name of the HDD USB storage pool"
+}
+

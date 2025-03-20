@@ -1,6 +1,6 @@
 resource "incus_storage_volume" "servarr_data" {
   name = "servarr_data"
-  pool = module.storage_pools.virt_main
+  pool = var.virt_main_pool
   config = {
     "size" = "30GiB"
   }
@@ -8,7 +8,7 @@ resource "incus_storage_volume" "servarr_data" {
 
 resource "incus_storage_volume" "servarr_cache" {
   name = "servarr_cache"
-  pool = module.storage_pools.virt_high_io
+  pool = var.virt_high_io_pool
   config = {
     "size" = "20GiB"
   }
@@ -51,7 +51,7 @@ resource "incus_instance" "servarr" {
     type = "disk"
     properties = {
       path = "/"
-      pool = module.storage_pools.virt_main
+      pool = var.virt_main_pool
     }
   }
 
@@ -61,7 +61,7 @@ resource "incus_instance" "servarr" {
     properties = {
       path   = "/home"
       source = incus_storage_volume.servarr_data.name
-      pool   = module.storage_pools.virt_main
+      pool   = var.virt_main_pool
     }
   }
 
@@ -71,7 +71,7 @@ resource "incus_instance" "servarr" {
     properties = {
       path   = "/tmp/servarr-cache"
       source = incus_storage_volume.servarr_cache.name
-      pool   = module.storage_pools.virt_spin_usb
+      pool   = var.virt_spin_usb_pool
     }
   }
 
@@ -81,7 +81,7 @@ resource "incus_instance" "servarr" {
     properties = {
       path   = "/downloads"
       source = module.storage_volumes.downloads
-      pool   = module.storage_pools.virt_spin_usb
+      pool   = var.virt_spin_usb_pool
     }
   }
 
@@ -91,7 +91,7 @@ resource "incus_instance" "servarr" {
     properties = {
       path   = "/music"
       source = module.storage_volumes.music
-      pool   = module.storage_pools.virt_spin_usb
+      pool   = var.virt_spin_usb_pool
     }
 
   }

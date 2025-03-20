@@ -1,11 +1,11 @@
 resource "incus_storage_volume" "dns_data" {
   name = "dns_data"
-  pool = module.storage_pools.virt_main
+  pool = var.virt_main_pool
 }
 
 resource "incus_storage_volume" "dns_data_1" {
   name = "dns_data_1"
-  pool = module.storage_pools.virt_main
+  pool = var.virt_main_pool
 }
 
 resource "incus_instance" "dns" {
@@ -45,7 +45,7 @@ resource "incus_instance" "dns" {
     type = "disk"
     properties = {
       path = "/"
-      pool = module.storage_pools.virt_main
+      pool = var.virt_main_pool
     }
   }
 
@@ -55,7 +55,7 @@ resource "incus_instance" "dns" {
     properties = {
       path   = "/home"
       source = incus_storage_volume.dns_data.name
-      pool   = module.storage_pools.virt_main
+      pool   = var.virt_main_pool
     }
   }
 
