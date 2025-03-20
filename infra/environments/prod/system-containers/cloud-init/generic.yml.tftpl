@@ -3,10 +3,10 @@ groups:
   - admingroup: [root, sys]
 
 users:
-  - name: reverse-proxy
-    gecos: Reverse Proxy Linux System Container
+  - name: ${lxc_username}
+    gecos: ${lxc_username_description}
     shell: /bin/bash
-    homedir: /home/reverse-proxy
+    homedir: /home/${lxc_username}
     sudo: ALL=(ALL) NOPASSWD:ALL
     groups: users
     lock_passwd: false

@@ -1,6 +1,6 @@
 resource "incus_storage_volume" "torrent_data" {
-  name = "torrent_data"
-  pool = var.virt_main_pool
+  name    = "torrent_data"
+  pool    = var.virt_main_pool
   project = "default"
 }
 
@@ -16,11 +16,13 @@ resource "incus_instance" "torrent" {
     "limits.memory.swap"          = "true"
     "limits.memory.swap.priority" = "0"
     "cloud-init.user-data" = templatefile(
-      "${path.module}/cloud-init/torrent.yml.tftpl",
+      "${path.module}/cloud-init/generic.yml.tftpl",
       {
-        ssh_public_key    = var.ssh_public_key,
-        lxc_user_password = var.lxc_user_password,
-        ansible_password  = var.ansible_password
+        ssh_public_key           = var.ssh_public_key,
+        lxc_username             = "torrent"
+        lxc_username_description = "Torrenting Linux System Container"
+        lxc_user_password        = var.lxc_user_password,
+        ansible_password         = var.ansible_password
       }
     )
     "security.nesting" = true

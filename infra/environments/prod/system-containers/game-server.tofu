@@ -1,6 +1,6 @@
 resource "incus_storage_volume" "game-server-data" {
-  name = "game-server"
-  pool = var.virt_high_io_pool
+  name    = "game-server"
+  pool    = var.virt_high_io_pool
   project = "default"
 }
 
@@ -15,11 +15,13 @@ resource "incus_instance" "game-server" {
     "limits.memory.swap"          = "true"
     "limits.memory.swap.priority" = "0"
     "cloud-init.user-data" = templatefile(
-      "${path.module}/cloud-init/game-server.yml.tftpl",
+      "${path.module}/cloud-init/generic.yml.tftpl",
       {
-        ssh_public_key    = var.ssh_public_key
-        lxc_user_password = var.lxc_user_password
-        ansible_password  = var.ansible_password
+        ssh_public_key           = var.ssh_public_key
+        lxc_username             = "game-server"
+        lxc_username_description = "Game Server Linux System Container"
+        lxc_user_password        = var.lxc_user_password
+        ansible_password         = var.ansible_password
       }
     )
     "security.nesting" = true

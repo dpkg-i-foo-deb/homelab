@@ -1,6 +1,6 @@
 resource "incus_storage_volume" "streaming_data" {
-  name = "streaming_data"
-  pool = var.virt_main_pool
+  name    = "streaming_data"
+  pool    = var.virt_main_pool
   project = "default"
 }
 
@@ -16,11 +16,13 @@ resource "incus_instance" "streaming" {
     "limits.memory.swap"          = "true"
     "limits.memory.swap.priority" = "0"
     "cloud-init.user-data" = templatefile(
-      "${path.module}/cloud-init/streaming.yml.tftpl",
+      "${path.module}/cloud-init/generic.yml.tftpl",
       {
-        ssh_public_key    = var.ssh_public_key,
-        lxc_user_password = var.lxc_user_password,
-        ansible_password  = var.ansible_password
+        ssh_public_key           = var.ssh_public_key,
+        lxc_username             = "streaming"
+        lxc_username_description = "Streaming Linux System Container"
+        lxc_user_password        = var.lxc_user_password,
+        ansible_password         = var.ansible_password
       }
     )
     "security.nesting" = true

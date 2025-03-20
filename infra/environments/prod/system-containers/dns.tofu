@@ -1,12 +1,12 @@
 resource "incus_storage_volume" "dns_data" {
-  name = "dns_data"
-  pool = var.virt_main_pool
+  name    = "dns_data"
+  pool    = var.virt_main_pool
   project = "default"
 }
 
 resource "incus_storage_volume" "dns_data_1" {
-  name = "dns_data_1"
-  pool = var.virt_main_pool
+  name    = "dns_data_1"
+  pool    = var.virt_main_pool
   project = "default"
 }
 
@@ -22,11 +22,13 @@ resource "incus_instance" "dns" {
     "limits.memory.swap"          = "true"
     "limits.memory.swap.priority" = "0"
     "cloud-init.user-data" = templatefile(
-      "${path.module}/cloud-init/dns.yml.tftpl",
+      "${path.module}/cloud-init/generic.yml.tftpl",
       {
-        ssh_public_key    = var.ssh_public_key,
-        lxc_user_password = var.lxc_user_password,
-        ansible_password  = var.ansible_password
+        ssh_public_key           = var.ssh_public_key,
+        lxc_username             = "dns"
+        lxc_username_description = "DNS Linux System Container"
+        lxc_user_password        = var.lxc_user_password,
+        ansible_password         = var.ansible_password
       }
     )
     "security.nesting" = true
@@ -76,11 +78,13 @@ resource "incus_instance" "dns_1" {
     "limits.memory.swap"          = "true"
     "limits.memory.swap.priority" = "0"
     "cloud-init.user-data" = templatefile(
-      "${path.module}/cloud-init/dns-1.yml.tftpl",
+      "${path.module}/cloud-init/generic.yml.tftpl",
       {
-        ssh_public_key    = var.ssh_public_key,
-        lxc_user_password = var.lxc_user_password,
-        ansible_password  = var.ansible_password
+        ssh_public_key           = var.ssh_public_key,
+        lxc_username             = "dns-1"
+        lxc_username_description = "Backup DNS Linux System Container"
+        lxc_user_password        = var.lxc_user_password,
+        ansible_password         = var.ansible_password
       }
     )
     "security.nesting" = true
