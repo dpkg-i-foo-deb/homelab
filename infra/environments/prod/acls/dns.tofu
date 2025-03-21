@@ -59,3 +59,27 @@ resource "incus_network_acl" "internal_dns" {
     }
   ]
 }
+
+resource "incus_network_acl" "inbound_dns" {
+  name = "ssh-mgmt"
+
+  ingress = [
+    {
+      action           = "allow"
+      source           = "@external"
+      destination_port = "53"
+      protocol         = "udp"
+      description      = "Allow incoming DNS connections (UDP)"
+      state            = "enabled"
+    },
+    {
+      action           = "allow"
+      source           = "@external"
+      destination_port = "53"
+      protocol         = "tcp"
+      description      = "Allow incoming DNS connections (TCP)"
+      state            = "enabled"
+    }
+  ]
+}
+

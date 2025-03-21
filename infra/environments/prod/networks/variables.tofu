@@ -8,6 +8,11 @@ variable "internal_dns_acl" {
   description = "ACL to allow DNS connections to internal servers"
 }
 
+variable "inbound_dns_acl" {
+  type        = string
+  description = "ACL to allow inbound DNS connections"
+}
+
 variable "http_acl" {
   type        = string
   description = "ACL to allow HTTP connections"
