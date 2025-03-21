@@ -1,13 +1,18 @@
-module "networks" {
-  source = "./networks"
+module "acls" {
+  source = "./acls"
 
   providers = {
     incus = incus
   }
 }
 
-module "acls" {
-  source = "./acls"
+module "networks" {
+  source = "./networks"
+
+  external_dns_acl = module.acls.external_dns
+  internal_dns_acl = module.acls.internal_dns
+  http_acl         = module.acls.http
+  ssh_mgmt_acl     = module.acls.ssh_mgmt
 
   providers = {
     incus = incus
