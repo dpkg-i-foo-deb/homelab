@@ -8,6 +8,11 @@ output "internal_dns" {
   description = "ACL to allow access to internal DNS services"
 }
 
+output "inbound_dns" {
+  value       = incus_network_acl.inbound_dns.name
+  description = "ACL to allow inbound DNS connections"
+}
+
 output "http" {
   value       = incus_network_acl.http.name
   description = "ACL to allow access to HTTP services"
