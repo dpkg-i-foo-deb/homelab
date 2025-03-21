@@ -61,7 +61,7 @@ resource "incus_network_acl" "internal_dns" {
 }
 
 resource "incus_network_acl" "inbound_dns" {
-  name = "ssh-mgmt"
+  name = "inbound-dns"
 
   ingress = [
     {
