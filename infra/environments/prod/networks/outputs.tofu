@@ -37,3 +37,8 @@ output "untrusted" {
   value       = incus_network.untrusted.name
   description = "The name of the Untrusted network"
 }
+
+output "incusbr0" {
+  value       = incus_network.incusbr0.name
+  description = "The name of the uplink incusbr0 network"
+}
