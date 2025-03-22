@@ -6,5 +6,6 @@ resource "incus_network" "torrenting" {
     # "ipv4.nat"   = true
     "bridge.mtu" = 9000
     "dns.search" = "10.0.2.2, 10.0.2.3"
+    "network"    = "incusbr0"
   }
 }
