@@ -5,17 +5,28 @@
       - lvm2
     state: present
 
-- name: Ensure incus can run virtual machines
+- name: Ensure Open Virtual Network Switch packages are installed
   become: true
-  ansible.builtin.package:
-    name:
-      - qemu-system
+  ansible.builtin.apt:
+    name: qemu-system
     state: present
+    default_release: bookworm-backports
+    update_cache: true
 
 - name: Ensure Incus is installed and updated
   become: true
   ansible.builtin.apt:
     name: incus
+    state: present
+    default_release: bookworm-backports
+    update_cache: true
+
+- name: Ensure Open Virtual Network packages are installed
+  become: true
+  ansible.builtin.apt:
+    pkg:
+      - ovn-host
+      - ovn-central
     state: present
     default_release: bookworm-backports
     update_cache: true
