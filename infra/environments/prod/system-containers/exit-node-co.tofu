@@ -25,10 +25,8 @@ resource "incus_instance" "exit-node-co" {
     name = "eth0"
     type = "nic"
     properties = {
-      nictype        = "bridged"
-      parent         = var.untrusted_net
+      network         = var.untrusted_net
       "ipv4.address" = "10.0.8.10"
-      mtu            = "9000"
     }
   }
   device {

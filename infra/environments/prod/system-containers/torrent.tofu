@@ -28,16 +28,14 @@ resource "incus_instance" "torrent" {
     "security.nesting" = true
   }
 
-  # device {
-  #   name = "eth0"
-  #   type = "nic"
-  #   properties = {
-  #     nictype        = "bridged"
-  #     parent         = var.torrenting_net
-  #     "ipv4.address" = "10.0.6.10"
-  #     mtu            = "9000"
-  #   }
-  # }
+  device {
+    name = "eth0"
+    type = "nic"
+    properties = {
+      "ipv4.address" = "10.0.6.10"
+      network        = var.torrenting_net
+    }
+  }
 
   device {
     name = "root"
