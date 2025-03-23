@@ -1,6 +1,5 @@
 resource "incus_network" "torrenting" {
   name = "torrenting"
-  #type = "bridge"
   type = "ovn"
   config = {
     "ipv4.address" = "10.0.6.1/24"
