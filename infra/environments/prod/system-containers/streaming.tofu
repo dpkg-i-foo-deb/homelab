@@ -32,10 +32,8 @@ resource "incus_instance" "streaming" {
     name = "eth0"
     type = "nic"
     properties = {
-      nictype        = "bridged"
-      parent         = var.trusted_net
+      network        = var.trusted_net
       "ipv4.address" = "10.0.0.13"
-      mtu            = "9000"
     }
   }
 

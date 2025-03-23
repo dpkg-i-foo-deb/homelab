@@ -43,10 +43,8 @@ resource "incus_instance" "servarr" {
     name = "eth0"
     type = "nic"
     properties = {
-      nictype        = "bridged"
-      parent         = var.trusted_net
+      network        = var.trusted_net
       "ipv4.address" = "10.0.0.12"
-      mtu            = "9000"
     }
   }
 
