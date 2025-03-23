@@ -5,7 +5,7 @@ resource "incus_network" "storage" {
     "ipv4.address" = "10.0.3.1/24"
     "ipv4.nat"     = false
     "dns.search"   = "10.0.2.2, 10.0.2.3"
-    "network"      = "incusbr0"
+    "network"      = "${incus_network.incusbr0.name}"
 
   }
 }
