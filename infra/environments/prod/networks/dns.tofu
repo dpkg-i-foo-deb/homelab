@@ -1,9 +1,10 @@
 resource "incus_network" "dns" {
   name = "dns"
+  type = "ovn"
   config = {
     "ipv4.address" = "10.0.2.1/24"
-    "ipv4.nat"     = true
-    "bridge.mtu"   = 9000
+    "ipv4.nat"     = false
+    "network"      = "${incus_network.incusbr0.name}"
     # "security.acls" = join(",",
     #   [
     #     var.external_dns_acl,
