@@ -1,9 +1,0 @@
----
-- name: Ensure connections have the specified MTU
-  community.general.nmcli:
-    conn_name: '{{ item.name }}'
-    mtu: '{{ item.mtu }}'
-    type: ethernet
-    state: present
-  with_items:
-    - '{{ base_vm_network_interfaces }}'
