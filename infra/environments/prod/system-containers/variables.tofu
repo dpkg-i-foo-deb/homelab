@@ -20,8 +20,12 @@ variable "ansible_password" {
 # Network names to be used on system containers
 
 variable "dns_net" {
-  type        = string
-  description = "The name of the DNS network"
+  type = object({
+    name   = string
+    type   = string
+    config = map(string)
+  })
+  description = "The DNS network object"
 }
 
 variable "code_net" {
