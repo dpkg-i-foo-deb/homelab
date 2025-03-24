@@ -1,44 +1,39 @@
 output "dns" {
-  value       = incus_network.dns.name
-  description = "The name of the DNS network"
+  value       = incus_network.dns
+  description = "Internal DNS services network"
 }
 
 output "code" {
-  value       = incus_network.code.name
-  description = "The name of the Code network"
+  value       = incus_network.code
+  description = "Coding services network"
 }
 
 output "privileged" {
-  value       = incus_network.privileged.name
-  description = "The name of the Privileged network"
+  value       = incus_network.privileged
+  description = "Priviledged network with very open ACLs"
 }
 
 output "reverse_proxy" {
-  value       = incus_network.reverse_proxy.name
-  description = "The name of the Privileged network"
+  value       = incus_network.reverse_proxy
+  description = "Network for reverse proxy services"
 }
 
 output "storage" {
-  value       = incus_network.storage.name
-  description = "The name of the Storage network"
+  value       = incus_network.storage
+  description = "Network for storage services such as SFTP and others"
 }
 
 output "torrenting" {
-  value       = incus_network.torrenting.name
-  description = "The name of the Torrenting network"
+  value       = incus_network.torrenting
+  description = "Dangerous Torrenting network"
 }
 
 output "trusted" {
-  value       = incus_network.trusted.name
-  description = "The name of the Trusted network"
+  value       = incus_network.trusted
+  description = "Network where trusted services live"
 }
 
 output "untrusted" {
-  value       = incus_network.untrusted.name
-  description = "The name of the Untrusted network"
+  value       = incus_network.untrusted
+  description = "Network for services I don't entirely trust"
 }
-
-# output "incusbr0" {
-#   value       = incus_network.incusbr0.name
-#   description = "The name of the uplink incusbr0 network"
-# }

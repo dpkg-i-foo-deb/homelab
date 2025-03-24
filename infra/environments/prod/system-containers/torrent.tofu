@@ -4,6 +4,22 @@ resource "incus_storage_volume" "torrent_data" {
   project = "default"
 }
 
+resource "incus_network_acl" "torrent_svc" {
+  name = "torrent-svc"
+
+  ingress = [
+    {
+      action           = "allow"
+      source           = "192.168.8.0/24, "
+      destination_port = "8080"
+      protocol         = "tcp"
+      description      = "Allow incoming DNS connections (UDP)"
+      state            = "enabled"
+    },
+  ]
+}
+
+
 resource "incus_instance" "torrent" {
   name  = "torrent"
   image = "images:debian/trixie/cloud"

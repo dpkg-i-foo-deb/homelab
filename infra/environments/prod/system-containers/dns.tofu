@@ -37,7 +37,7 @@ resource "incus_instance" "dns" {
     name = "eth0"
     type = "nic"
     properties = {
-      network         = var.dns_net
+      network         = var.dns_net.name
       "ipv4.address" = "10.0.2.2"
     }
   }
