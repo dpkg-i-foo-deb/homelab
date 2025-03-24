@@ -49,7 +49,7 @@ resource "incus_instance" "torrent" {
     type = "nic"
     properties = {
       "ipv4.address" = "10.0.6.10"
-      network        = var.torrenting_net
+      network        = var.torrenting_net.name
     }
   }
 
