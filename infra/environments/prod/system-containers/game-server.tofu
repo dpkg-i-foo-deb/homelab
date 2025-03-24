@@ -11,7 +11,7 @@ resource "incus_instance" "game-server" {
   config = {
     "boot.autostart"              = true
     "limits.cpu"                  = 2
-    "limits.memory"               = "8GiB"
+    "limits.memory"               = "10GiB"
     "limits.memory.swap"          = "true"
     "limits.memory.swap.priority" = "0"
     "cloud-init.user-data" = templatefile(
@@ -30,10 +30,8 @@ resource "incus_instance" "game-server" {
     name = "eth0"
     type = "nic"
     properties = {
-      nictype        = "bridged"
-      parent         = var.untrusted_net
+      network        = var.untrusted_net
       "ipv4.address" = "10.0.8.11"
-      mtu            = "9000"
     }
   }
   device {

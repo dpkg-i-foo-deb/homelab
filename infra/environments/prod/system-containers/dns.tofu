@@ -37,10 +37,8 @@ resource "incus_instance" "dns" {
     name = "eth0"
     type = "nic"
     properties = {
-      nictype        = "bridged"
-      parent         = var.dns_net
+      network         = var.dns_net
       "ipv4.address" = "10.0.2.2"
-      mtu            = "9000"
     }
   }
 
@@ -93,10 +91,8 @@ resource "incus_instance" "dns_1" {
     name = "eth0"
     type = "nic"
     properties = {
-      nictype        = "bridged"
-      parent         = var.dns_net
+      network         = var.dns_net
       "ipv4.address" = "10.0.2.3"
-      mtu            = "9000"
     }
   }
 
