@@ -6,5 +6,6 @@ resource "incus_network" "incusbr0" {
     "bridge.mtu"      = 9000
     "ipv4.ovn.ranges" = "10.0.0.0-10.0.254.253"
     "ipv4.dhcp"       = false
+    "dns.search"   = "10.0.2.2, 10.0.2.3"
   }
 }
