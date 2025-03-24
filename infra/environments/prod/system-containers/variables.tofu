@@ -17,6 +17,11 @@ variable "ansible_password" {
   sensitive   = true
 }
 
+variable "management_subnet" {
+  type        = string
+  description = "Management subnet to allow SSH and other connections from"
+}
+
 # Network names to be used on system containers
 
 variable "dns_net" {

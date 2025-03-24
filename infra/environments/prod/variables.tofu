@@ -17,3 +17,8 @@ variable "ansible_password" {
   type        = string
   description = "Ansible Automation Account Password"
 }
+
+variable "home_subnet" {
+  type        = string
+  description = "Home subnet for management"
+}

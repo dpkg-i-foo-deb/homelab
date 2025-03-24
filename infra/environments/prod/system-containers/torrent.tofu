@@ -12,7 +12,7 @@ resource "incus_network_acl" "torrent_svc" {
       action = "allow"
       source = join(",",
         [
-          "192.168.8.1/24",
+          var.management_subnet,
           var.reverse_proxy_net.config["ipv4.address"]
       ])
       destination_port = "8080"

@@ -47,6 +47,8 @@ module "system-containers" {
   ssh_public_key    = var.ssh_public_key
   ansible_password  = var.ansible_password
 
+  management_subnet = var.home_subnet
+
   dns_net           = module.networks.dns
   code_net          = module.networks.code
   privileged_net    = module.networks.privileged
