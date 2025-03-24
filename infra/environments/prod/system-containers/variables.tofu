@@ -29,37 +29,65 @@ variable "dns_net" {
 }
 
 variable "code_net" {
-  type        = string
+  type = object({
+    name   = string
+    type   = string
+    config = map(string)
+  })
   description = "The name of the Coding network"
 }
 
 variable "privileged_net" {
-  type        = string
+  type = object({
+    name   = string
+    type   = string
+    config = map(string)
+  })
   description = "The name of the Privileged network"
 }
 
 variable "reverse_proxy_net" {
-  type        = string
+  type = object({
+    name   = string
+    type   = string
+    config = map(string)
+  })
   description = "The name of the Reverse Proxy network"
 }
 
 variable "storage_net" {
-  type        = string
+  type = object({
+    name   = string
+    type   = string
+    config = map(string)
+  })
   description = "The name of the Storage network"
 }
 
 variable "torrenting_net" {
-  type        = string
+  type = object({
+    name   = string
+    type   = string
+    config = map(string)
+  })
   description = "The name of the Torrenting network"
 }
 
 variable "trusted_net" {
-  type        = string
+  type = object({
+    name   = string
+    type   = string
+    config = map(string)
+  })
   description = "The name of the Trusted network"
 }
 
 variable "untrusted_net" {
-  type        = string
+  type = object({
+    name   = string
+    type   = string
+    config = map(string)
+  })
   description = "The name of the Untrusted network"
 }
 
