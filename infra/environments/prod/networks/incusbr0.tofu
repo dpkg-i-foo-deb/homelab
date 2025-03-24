@@ -17,5 +17,6 @@ resource "incus_network" "incusbr0" {
     ])
     "bgp.peers.router.address" = "192.168.8.1"
     "bgp.peers.router.asn"     = 65537
+    "dns.nameservers" = "10.0.2.2, 10.0.2.3"
   }
 }
