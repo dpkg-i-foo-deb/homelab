@@ -9,11 +9,15 @@ resource "incus_network_acl" "torrent_svc" {
 
   ingress = [
     {
-      action           = "allow"
-      source           = "192.168.8.0/24, "
+      action = "allow"
+      source = join(",",
+        [
+          "192.168.8.1/24",
+          var.reverse_proxy_net.config["ipv4.address"]
+      ])
       destination_port = "8080"
       protocol         = "tcp"
-      description      = "Allow incoming DNS connections (UDP)"
+      description      = "Allow incoming connections to Qbittorrent"
       state            = "enabled"
     },
   ]
