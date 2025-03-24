@@ -54,6 +54,10 @@ resource "incus_instance" "torrent" {
     properties = {
       "ipv4.address" = "10.0.6.10"
       network        = var.torrenting_net.name
+      "security.acls" = join(",",
+        [
+          incus_network_acl.torrent_svc.name
+      ])
     }
   }
 
