@@ -51,6 +51,10 @@ resource "incus_instance" "game-server" {
     properties = {
       network        = var.untrusted_net.name
       "ipv4.address" = "10.0.8.11"
+      "security.acls" = join(",",
+        [
+          incus_network_acl.terraria_svc.name
+      ])
     }
   }
   device {
