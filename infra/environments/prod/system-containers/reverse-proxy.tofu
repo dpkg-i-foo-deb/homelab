@@ -3,6 +3,57 @@ resource "incus_storage_volume" "reverse_proxy_data" {
   pool    = var.virt_main_pool
   project = "default"
 }
+resource "incus_network_acl" "reverse_proxy_outbound" {
+  name = "reverse-proxy-outbound"
+
+  # Allow connections to any port (So that we can access services)
+  # Those connections are only on local networks
+
+  egress = [
+    {
+      action           = "deny"
+      destination      = ""
+      destination_port = "22"
+      protocol         = ""
+      description      = "Deny outbound SSH connections"
+      state            = "enabled"
+    },
+    {
+      action = "allow"
+      destination = join(",",
+        [
+          var.dns_net.name,
+          var.code_net.name,
+          var.privileged_net.name,
+          var.storage_net.name,
+          var.torrenting_net.name,
+          var.trusted_net.name,
+          var.unstrusted_net.name,
+      ])
+      destination_port = ""
+      protocol         = "tcp"
+      description      = "Allow outbound connections to any port (TCP)"
+      state            = "enabled"
+    },
+    {
+      action = "allow"
+      destination = join(",",
+        [
+          var.dns_net.name,
+          var.code_net.name,
+          var.privileged_net.name,
+          var.storage_net.name,
+          var.torrenting_net.name,
+          var.trusted_net.name,
+          var.unstrusted_net.name,
+      ])
+      destination_port = ""
+      protocol         = "udp"
+      description      = "Allow outbound connections to any port (UDP)"
+      state            = "enabled"
+    },
+  ]
+}
 
 resource "incus_instance" "reverse_proxy" {
   name  = "reverse-proxy"
