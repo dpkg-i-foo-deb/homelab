@@ -55,6 +55,10 @@ resource "incus_instance" "code" {
     properties = {
       network        = var.code_net.name
       "ipv4.address" = "10.0.7.10"
+      "security.acls" = join(",",
+        [
+          incus_network_acl.code_svc.name
+      ])
     }
   }
 
@@ -73,10 +77,6 @@ resource "incus_instance" "code" {
       path   = "/home"
       source = incus_storage_volume.code_data.name
       pool   = var.virt_high_io_pool
-      "security.acls" = join(",",
-        [
-          incus_network_acl.code_svc.name
-      ])
     }
   }
 }
