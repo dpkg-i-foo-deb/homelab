@@ -74,3 +74,10 @@
     name: 'vm.max_map_count'
     value: '262144'
     state: present
+
+- name: Ensure the queue length is big enough
+  become: true
+  ansible.posix.sysctl:
+    name: 'net.core.netdev_max_backlog'
+    value: '182757'
+    state: present
