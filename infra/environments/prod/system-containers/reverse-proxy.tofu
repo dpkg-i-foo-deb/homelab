@@ -11,10 +11,10 @@ resource "incus_network_acl" "reverse_proxy_outbound" {
 
   egress = [
     {
-      action           = "deny"
+      action           = "reject"
       destination      = ""
       destination_port = "22"
-      protocol         = ""
+      protocol         = "tcp"
       description      = "Deny outbound SSH connections"
       state            = "enabled"
     },
@@ -22,13 +22,13 @@ resource "incus_network_acl" "reverse_proxy_outbound" {
       action = "allow"
       destination = join(",",
         [
-          var.dns_net.name,
-          var.code_net.name,
-          var.privileged_net.name,
-          var.storage_net.name,
-          var.torrenting_net.name,
-          var.trusted_net.name,
-          var.unstrusted_net.name,
+          var.dns_net.config["ipv4.address"],
+          var.code_net.config["ipv4.address"],
+          var.privileged_net.config["ipv4.address"],
+          var.storage_net.config["ipv4.address"],
+          var.torrenting_net.config["ipv4.address"],
+          var.trusted_net.config["ipv4.address"],
+          var.untrusted_net.config["ipv4.address"],
       ])
       destination_port = ""
       protocol         = "tcp"
@@ -39,13 +39,13 @@ resource "incus_network_acl" "reverse_proxy_outbound" {
       action = "allow"
       destination = join(",",
         [
-          var.dns_net.name,
-          var.code_net.name,
-          var.privileged_net.name,
-          var.storage_net.name,
-          var.torrenting_net.name,
-          var.trusted_net.name,
-          var.unstrusted_net.name,
+          var.dns_net.config["ipv4.address"],
+          var.code_net.config["ipv4.address"],
+          var.privileged_net.config["ipv4.address"],
+          var.storage_net.config["ipv4.address"],
+          var.torrenting_net.config["ipv4.address"],
+          var.trusted_net.config["ipv4.address"],
+          var.untrusted_net.config["ipv4.address"],
       ])
       destination_port = ""
       protocol         = "udp"
@@ -84,6 +84,10 @@ resource "incus_instance" "reverse_proxy" {
     properties = {
       network        = var.reverse_proxy_net.name
       "ipv4.address" = "10.0.5.10"
+      "security.acls" = join(",",
+        [
+          incus_network_acl.reverse_proxy_outbound.name
+      ])
     }
   }
 
