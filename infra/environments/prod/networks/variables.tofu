@@ -22,3 +22,8 @@ variable "ssh_mgmt_acl" {
   type        = string
   description = "ACL to allow inbound SSH connections for management"
 }
+
+variable "ssh_outbound_acl" {
+  type        = string
+  description = "ACL to allow outbound SSH connections"
+}

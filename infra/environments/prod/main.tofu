@@ -19,6 +19,7 @@ module "networks" {
   inbound_dns_acl  = module.acls.inbound_dns
   http_acl         = module.acls.http
   ssh_mgmt_acl     = module.acls.ssh_mgmt
+  ssh_outbound_acl = module.acls.ssh_outbound
 
   providers = {
     incus = incus

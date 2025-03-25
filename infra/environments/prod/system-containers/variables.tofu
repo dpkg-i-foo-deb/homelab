@@ -17,6 +17,8 @@ variable "ansible_password" {
   sensitive   = true
 }
 
+# Subnets to allow special connections
+
 variable "management_subnet" {
   type        = string
   description = "Management subnet to allow SSH and other connections from"
