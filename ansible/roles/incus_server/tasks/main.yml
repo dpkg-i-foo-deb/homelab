@@ -1,2 +1,6 @@
+- name: Configure limits for production Incus
+  ansible.builtin.import_tasks: limits.yml
+- name: Configure sysctl for production Incus
+  ansible.builtin.import_tasks: sysctl.yml
 - name: Package configuration
   ansible.builtin.import_tasks: packages.yml

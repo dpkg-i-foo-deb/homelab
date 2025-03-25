@@ -1,0 +1,56 @@
+---
+- name: Ensure there's a soft limit for maximum open files
+  community.general.pam_limits:
+    domain: '*'
+    limit_type: soft
+    limit_item: nofile
+    value: 1048576
+
+- name: Ensure there's a hard limit for maximum open files
+  community.general.pam_limits:
+    domain: '*'
+    limit_type: hard
+    limit_item: nofile
+    value: 1048576
+
+- name: Ensure there's a soft limit for maximum open files (root)
+  community.general.pam_limits:
+    domain: 'root'
+    limit_type: soft
+    limit_item: nofile
+    value: 1048576
+
+- name: Ensure there's a hard limit for maximum open files (root)
+  community.general.pam_limits:
+    domain: 'root'
+    limit_type: hard
+    limit_item: nofile
+    value: 1048576
+
+- name: Ensure there's a soft limit for locked-in-memory address space
+  community.general.pam_limits:
+    domain: '*'
+    limit_type: soft
+    limit_item: memlock
+    value: unlimited
+
+- name: Ensure there's a hard limit for locked-in-memory address space
+  community.general.pam_limits:
+    domain: '*'
+    limit_type: hard
+    limit_item: memlock
+    value: unlimited
+
+- name: Ensure there's a soft limit for locked-in-memory address space (root)
+  community.general.pam_limits:
+    domain: 'root'
+    limit_type: soft
+    limit_item: memlock
+    value: unlimited
+
+- name: Ensure there's a hard limit for locked-in-memory address space (root)
+  community.general.pam_limits:
+    domain: 'root'
+    limit_type: hard
+    limit_item: memlock
+    value: unlimited

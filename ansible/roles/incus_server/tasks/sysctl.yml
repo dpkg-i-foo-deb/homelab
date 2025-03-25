@@ -1,0 +1,76 @@
+- name: Ensure many I/O operations can be performed
+  become: true
+  ansible.posix.sysctl:
+    name: 'fs.aio-max-nr'
+    value: '524288'
+    state: present
+
+- name: Ensure many events can be queued
+  become: true
+  ansible.posix.sysctl:
+    name: 'fs.inotify.max_queued_events'
+    value: '1048576'
+    state: present
+
+- name: Ensure many inotify instances can be created
+  become: true
+  ansible.posix.sysctl:
+    name: 'fs.inotify.max_user_instances'
+    value: '1048576'
+    state: present
+
+- name: Ensure many inotify watches can be created
+  become: true
+  ansible.posix.sysctl:
+    name: 'fs.inotify.max_user_watches'
+    value: '1048576'
+    state: present
+
+- name: Ensure access to kernel messages is restricted
+  become: true
+  ansible.posix.sysctl:
+    name: 'kernel.dmesg_restrict'
+    value: '1'
+    state: present
+
+- name: Ensure the maximum size of key ring is increased
+  become: true
+  ansible.posix.sysctl:
+    name: 'kernel.keys.maxbytes'
+    value: '2000000'
+    state: present
+
+- name: Ensure the maximum size of keys is increased
+  become: true
+  ansible.posix.sysctl:
+    name: 'kernel.keys.maxkeys'
+    value: '2000'
+    state: present
+
+- name: Ensure the maximum size of ebpf jit allocations is increased
+  become: true
+  ansible.posix.sysctl:
+    name: 'net.core.bpf_jit_limit'
+    value: '1000000000'
+    state: present
+
+- name: Ensure there can be many entries in the IPv4 ARP table
+  become: true
+  ansible.posix.sysctl:
+    name: 'net.ipv4.neigh.default.gc_thresh3'
+    value: '8192'
+    state: present
+
+- name: Ensure there can be many entries in the IPv6 ARP table
+  become: true
+  ansible.posix.sysctl:
+    name: 'net.ipv6.neigh.default.gc_thresh3'
+    value: '8192'
+    state: present
+
+- name: Ensure a process can have many memory map areas
+  become: true
+  ansible.posix.sysctl:
+    name: 'vm.max_map_count'
+    value: '262144'
+    state: present
