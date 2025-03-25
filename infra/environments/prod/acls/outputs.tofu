@@ -18,6 +18,11 @@ output "http" {
   description = "ACL to allow access to HTTP services"
 }
 
+output "http_inbound" {
+  value       = incus_network_acl.http_inbound.name
+  description = "ACL to allow inbound HTTP connections"
+}
+
 output "ssh_mgmt" {
   value       = incus_network_acl.ssh_mgmt.name
   description = "ACL to allow inbound management SSH connections"

@@ -18,6 +18,11 @@ variable "http_acl" {
   description = "ACL to allow HTTP connections"
 }
 
+variable "http_inbound_acl" {
+  type        = string
+  description = "ACL to allow inbound HTTP connections"
+}
+
 variable "ssh_mgmt_acl" {
   type        = string
   description = "ACL to allow inbound SSH connections for management"

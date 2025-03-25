@@ -28,3 +28,26 @@ resource "incus_network_acl" "http" {
     },
   ]
 }
+
+resource "incus_network_acl" "http_inbound" {
+  name = "http-inbound"
+
+  ingress = [
+    {
+      action           = "allow"
+      source           = "@external"
+      destination_port = "80,443"
+      protocol         = "tcp"
+      description      = "Allow incoming HTTP connections (TCP)"
+      state            = "enabled"
+    },
+    {
+      action           = "allow"
+      source           = "@external"
+      destination_port = "80,443"
+      protocol         = "tcp"
+      description      = "Allow incoming HTTP connections (UDP)"
+      state            = "enabled"
+    }
+  ]
+}

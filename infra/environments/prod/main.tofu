@@ -18,6 +18,7 @@ module "networks" {
   internal_dns_acl = module.acls.internal_dns
   inbound_dns_acl  = module.acls.inbound_dns
   http_acl         = module.acls.http
+  http_inbound_acl = module.acls.http_inbound
   ssh_mgmt_acl     = module.acls.ssh_mgmt
   ssh_outbound_acl = module.acls.ssh_outbound
 
