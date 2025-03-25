@@ -9,6 +9,8 @@ module "acls" {
 module "networks" {
   source = "./networks"
 
+  mgmt_subnet = var.home_subnet
+
   external_dns_acl = module.acls.external_dns
   internal_dns_acl = module.acls.internal_dns
   inbound_dns_acl  = module.acls.inbound_dns
