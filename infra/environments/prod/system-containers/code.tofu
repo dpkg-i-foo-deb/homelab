@@ -18,7 +18,7 @@ resource "incus_network_acl" "code_svc" {
           var.management_subnet,
           var.reverse_proxy_net.config["ipv4.address"]
       ])
-      destination_port = "8443, 8444, 8080, 4180, 4181"
+      destination_port = "8443,8444,8080,4180,4181"
       protocol         = "tcp"
       description      = "Allow incoming connections to code-server"
       state            = "enabled"
