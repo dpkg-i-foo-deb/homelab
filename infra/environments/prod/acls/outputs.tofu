@@ -22,3 +22,8 @@ output "ssh_mgmt" {
   value       = incus_network_acl.ssh_mgmt.name
   description = "ACL to allow inbound management SSH connections"
 }
+
+output "ssh_outbound" {
+  description = "ACL to allow outbound SSH connections"
+  value       = incus_network_acl.ssh_outbound.name
+}

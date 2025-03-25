@@ -1,7 +1,10 @@
+data "github_ip_ranges" "ranges" {}
+
 module "acls" {
   source = "./acls"
 
-  mgmt_subnet = var.home_subnet
+  mgmt_subnet         = var.home_subnet
+  allowed_ssh_subnets = join(",", data.github_ip_ranges.ranges.git)
 
   providers = {
     incus = incus
