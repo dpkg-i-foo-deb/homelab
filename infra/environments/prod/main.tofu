@@ -1,6 +1,8 @@
 module "acls" {
   source = "./acls"
 
+  mgmt_subnet = var.home_subnet
+
   providers = {
     incus = incus
   }
@@ -8,8 +10,6 @@ module "acls" {
 
 module "networks" {
   source = "./networks"
-
-  mgmt_subnet = var.home_subnet
 
   external_dns_acl = module.acls.external_dns
   internal_dns_acl = module.acls.internal_dns
