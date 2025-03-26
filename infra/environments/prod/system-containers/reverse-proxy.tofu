@@ -20,7 +20,7 @@ resource "incus_network_acl" "reverse_proxy_outbound" {
     },
     {
       action           = "allow"
-      destination      = var.torrent_net.name
+      destination      = var.torrenting_net.name
       destination_port = "5201"
       protocol         = "tcp"
       description      = "Enable iperf3 outbound"
