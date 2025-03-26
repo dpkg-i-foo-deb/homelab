@@ -51,3 +51,12 @@ resource "incus_network_peer" "dns_storage" {
   target_network = incus_network.storage.name
   target_project = "default"
 }
+
+resource "incus_network_peer" "dns_torrenting" {
+  name           = "dns-torrenting"
+  description    = "Allow peering between dns and torrenting networks"
+  network        = incus_network.dns.name
+  project        = "default"
+  target_network = incus_network.torrenting.name
+  target_project = "default"
+}

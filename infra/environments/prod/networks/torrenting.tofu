@@ -13,3 +13,12 @@ resource "incus_network" "torrenting" {
     ])
   }
 }
+
+resource "incus_network_peer" "torrenting_dns" {
+  name           = "torrenting-dns"
+  description    = "Allow peering between torrenting and dns networks"
+  network        = incus_network.torrenting.name
+  project        = "default"
+  target_network = incus_network.dns.name
+  target_project = "default"
+}
