@@ -8,3 +8,12 @@ resource "incus_network" "storage" {
 
   }
 }
+
+resource "incus_network_peer" "storage_dns" {
+  name           = "storage-dns"
+  description    = "Allow peering between storage and dnsnetworks"
+  network        = incus_network.storage.name
+  project        = "default"
+  target_network = incus_network.dns.name
+  target_project = "default"
+}

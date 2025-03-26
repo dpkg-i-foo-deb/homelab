@@ -42,3 +42,12 @@ resource "incus_network_peer" "dns_reverse_proxy" {
   target_network = incus_network.reverse_proxy.name
   target_project = "default"
 }
+
+resource "incus_network_peer" "dns_storage" {
+  name           = "dns-storage"
+  description    = "Allow peering between dns and storage networks"
+  network        = incus_network.dns.name
+  project        = "default"
+  target_network = incus_network.storage.name
+  target_project = "default"
+}
