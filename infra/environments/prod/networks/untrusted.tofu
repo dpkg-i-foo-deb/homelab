@@ -13,3 +13,12 @@ resource "incus_network" "untrusted" {
     ])
   }
 }
+
+resource "incus_network_peer" "untrusted_reverse_proxy" {
+  name           = "untrusted-reverse-proxy"
+  description    = "Allow peering between untrusted and reverse-proxy networks"
+  network        = incus_network.untrusted.name
+  project        = "default"
+  target_network = incus_network.reverse_proxy.name
+  target_project = "default"
+}

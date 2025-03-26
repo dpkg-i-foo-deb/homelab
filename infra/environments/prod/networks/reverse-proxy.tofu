@@ -41,3 +41,12 @@ resource "incus_network_peer" "reverse_proxy_trusted" {
   target_network = incus_network.trusted.name
   target_project = "default"
 }
+
+resource "incus_network_peer" "reverse_proxy_untrusted" {
+  name           = "reverse-proxy-untrusted"
+  description    = "Allow peering between reverse-proxy and untrusted networks"
+  network        = incus_network.reverse_proxy.name
+  project        = "default"
+  target_network = incus_network.untrusted.name
+  target_project = "default"
+}
