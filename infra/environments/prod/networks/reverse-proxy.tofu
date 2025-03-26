@@ -32,3 +32,12 @@ resource "incus_network_peer" "reverse_proxy_dns" {
   target_network = incus_network.dns.name
   target_project = "default"
 }
+
+resource "incus_network_peer" "reverse_proxy_trusted" {
+  name           = "reverse-proxy-trusted"
+  description    = "Allow peering between reverse-proxy and trusted networks"
+  network        = incus_network.reverse_proxy.name
+  project        = "default"
+  target_network = incus_network.trusted.name
+  target_project = "default"
+}
