@@ -9,7 +9,7 @@ resource "incus_network" "privileged" {
 }
 
 resource "incus_network_peer" "privileged_dns" {
-  name           = "privileged_dns"
+  name           = "privileged-dns"
   description    = "Allow peering between privileged and dns networks"
   network        = incus_network.privileged.name
   project        = "default"
