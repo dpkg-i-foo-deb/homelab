@@ -13,13 +13,3 @@ resource "incus_network" "torrenting" {
     ])
   }
 }
-
-# DELETE LATER
-resource "incus_network_peer" "torrenting_reverse_proxy" {
-  name           = "torrenting-reverse-proxy"
-  description    = "Allow peering between torrenting and reverse-proxy networks"
-  network        = incus_network.torrenting.name
-  project        = "default"
-  target_network = incus_network.reverse_proxy.name
-  target_project = "default"
-}

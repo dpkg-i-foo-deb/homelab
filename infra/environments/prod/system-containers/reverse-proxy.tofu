@@ -19,14 +19,6 @@ resource "incus_network_acl" "reverse_proxy_outbound" {
       state            = "enabled"
     },
     {
-      action           = "allow"
-      destination      = var.torrenting_net.config["ipv4.address"]
-      destination_port = "5201"
-      protocol         = "tcp"
-      description      = "Enable iperf3 outbound"
-      state            = "enabled"
-    },
-    {
       action = "allow"
       destination = join(",",
         [

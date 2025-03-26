@@ -23,13 +23,3 @@ resource "incus_network_peer" "reverse_proxy_code" {
   target_network = incus_network.code.name
   target_project = "default"
 }
-
-# DELETE LATER
-resource "incus_network_peer" "reverse_proxy_torrenting" {
-  name           = "reverse-proxy-torrenting"
-  description    = "Allow peering between reverse-proxy and torrenting networks"
-  network        = incus_network.reverse_proxy.name
-  project        = "default"
-  target_network = incus_network.torrenting.name
-  target_project = "default"
-}
