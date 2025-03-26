@@ -20,6 +20,18 @@ resource "incus_network_acl" "torrent_svc" {
       description      = "Allow incoming connections to Qbittorrent"
       state            = "enabled"
     },
+    {
+      action = "allow"
+      source = join(",",
+        [
+          var.management_subnet,
+          var.reverse_proxy_net.config["ipv4.address"]
+      ])
+      destination_port = "5201"
+      protocol         = "tcp"
+      description      = "Allow incoming connections to iperf3"
+      state            = "enabled"
+    },
   ]
 }
 
