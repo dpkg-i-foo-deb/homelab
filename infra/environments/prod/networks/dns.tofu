@@ -16,6 +16,15 @@ resource "incus_network" "dns" {
   }
 }
 
+resource "incus_network_peer" "dns_code" {
+  name           = "dns-code"
+  description    = "Allow peering between dns and code networks"
+  network        = incus_network.dns.name
+  project        = "default"
+  target_network = incus_network.code.name
+  target_project = "default"
+}
+
 resource "incus_network_peer" "dns_reverse_proxy" {
   name           = "dns-reverse-proxy"
   description    = "Allow peering between reverse-proxy and dns networks"
