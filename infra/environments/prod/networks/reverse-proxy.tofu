@@ -23,3 +23,12 @@ resource "incus_network_peer" "reverse_proxy_code" {
   target_network = incus_network.code.name
   target_project = "default"
 }
+
+resource "incus_network_peer" "reverse_proxy_dns" {
+  name           = "reverse-proxy-dns"
+  description    = "Allow peering between reverse-proxy and dns networks"
+  network        = incus_network.reverse_proxy.name
+  project        = "default"
+  target_network = incus_network.dns.name
+  target_project = "default"
+}

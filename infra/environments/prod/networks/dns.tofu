@@ -15,3 +15,12 @@ resource "incus_network" "dns" {
     ])
   }
 }
+
+resource "incus_network_peer" "dns_reverse_proxy" {
+  name           = "dns-reverse-proxy"
+  description    = "Allow peering between reverse-proxy and dns networks"
+  network        = incus_network.dns.name
+  project        = "default"
+  target_network = incus_network.reverse_proxy.name
+  target_project = "default"
+}
