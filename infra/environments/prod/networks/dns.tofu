@@ -69,3 +69,12 @@ resource "incus_network_peer" "dns_trusted" {
   target_network = incus_network.trusted.name
   target_project = "default"
 }
+
+resource "incus_network_peer" "dns_untrusted" {
+  name           = "dns-untrusted"
+  description    = "Allow peering between dns and untrusted networks"
+  network        = incus_network.dns.name
+  project        = "default"
+  target_network = incus_network.untrusted.name
+  target_project = "default"
+}
