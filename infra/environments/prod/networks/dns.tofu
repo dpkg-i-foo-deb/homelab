@@ -25,6 +25,15 @@ resource "incus_network_peer" "dns_code" {
   target_project = "default"
 }
 
+resource "incus_network_peer" "dns_privileged" {
+  name           = "dns-privileged"
+  description    = "Allow peering between dns and privileged networks"
+  network        = incus_network.dns.name
+  project        = "default"
+  target_network = incus_network.privileged.name
+  target_project = "default"
+}
+
 resource "incus_network_peer" "dns_reverse_proxy" {
   name           = "dns-reverse-proxy"
   description    = "Allow peering between reverse-proxy and dns networks"
