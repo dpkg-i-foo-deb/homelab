@@ -14,3 +14,12 @@ resource "incus_network" "code" {
     ])
   }
 }
+
+resource "incus_network_peer" "code_reverse_proxy" {
+  name           = "code-reverse-proxy"
+  description    = "Allow peering between code and reverse-proxy networks"
+  network        = incus_network.code.name
+  project        = "default"
+  target_network = incus_network.reverse-proxy.name
+  target_project = "default"
+}
