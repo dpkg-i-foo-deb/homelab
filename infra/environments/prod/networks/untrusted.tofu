@@ -4,7 +4,7 @@ resource "incus_network_acl" "dhcp_outbound" {
   egress = [
     {
       action           = "allow"
-      destination      = "10.0.8.1"
+      destination      = ""
       destination_port = "67"
       protocol         = "tcp"
       description      = "Allow outbound DHCP connections (TCP)"
@@ -12,7 +12,7 @@ resource "incus_network_acl" "dhcp_outbound" {
     },
     {
       action           = "allow"
-      destination      = "10.0.8.1"
+      destination      = ""
       destination_port = "67"
       protocol         = "udp"
       description      = "Allow outbound DHCP connections (UDP)"
