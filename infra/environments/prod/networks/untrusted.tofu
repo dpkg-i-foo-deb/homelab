@@ -1,5 +1,5 @@
 resource "incus_network_acl" "dhcp_outbound" {
-  name = "dchp-outbound"
+  name = "dhcp-outbound"
 
   egress = [
     {
@@ -33,7 +33,7 @@ resource "incus_network" "untrusted" {
         var.internal_dns_acl,
         var.http_acl,
         var.ssh_mgmt_acl,
-        incus_network_acl.dchp_outbound.name
+        incus_network_acl.dhcp_outbound.name
     ])
   }
 }
