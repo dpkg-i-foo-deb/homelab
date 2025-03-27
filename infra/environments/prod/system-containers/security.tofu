@@ -7,6 +7,61 @@ resource "incus_storage_volume" "security_data" {
   }
 }
 
+resource "incus_network_acl" "security_svc" {
+  name = "security-svc"
+
+  ingress = [
+    {
+      action = "allow"
+      source = join(",",
+        [
+          var.management_subnet,
+          var.reverse_proxy_net.config["ipv4.address"]
+      ])
+      destination_port = "8080"
+      protocol         = "tcp"
+      description      = "Allow incoming connections to Vaultwarden"
+      state            = "enabled"
+    },
+    {
+      action = "allow"
+      source = join(",",
+        [
+          var.management_subnet,
+          var.reverse_proxy_net.config["ipv4.address"]
+      ])
+      destination_port = "8081"
+      protocol         = "tcp"
+      description      = "Allow incoming connections to Keycloak"
+      state            = "enabled"
+    },
+    {
+      action = "allow"
+      source = join(",",
+        [
+          var.management_subnet,
+          var.reverse_proxy_net.config["ipv4.address"]
+      ])
+      destination_port = "5601"
+      protocol         = "tcp"
+      description      = "Allow incoming connections to Wazuh dashboard"
+      state            = "enabled"
+    },
+    {
+      action = "allow"
+      source = join(",",
+        [
+          var.management_subnet,
+          var.reverse_proxy_net.config["ipv4.address"]
+      ])
+      destination_port = "1514-1515"
+      protocol         = "tcp"
+      description      = "Allow incoming connections to Wazuh agent service"
+      state            = "enabled"
+    },
+  ]
+}
+
 resource "incus_instance" "security" {
   name  = "security"
   image = "images:debian/trixie/cloud"
@@ -37,7 +92,12 @@ resource "incus_instance" "security" {
     properties = {
       network        = var.trusted_net.name
       "ipv4.address" = "10.0.0.11"
+      "security.acls" = join(",",
+        [
+          incus_network_acl.security_svc.name
+      ])
     }
+
   }
   device {
     name = "root"

@@ -4,6 +4,25 @@ resource "incus_storage_volume" "streaming_data" {
   project = "default"
 }
 
+resource "incus_network_acl" "streaming_svc" {
+  name = "streaming-svc"
+
+  ingress = [
+    {
+      action = "allow"
+      source = join(",",
+        [
+          var.management_subnet,
+          var.reverse_proxy_net.config["ipv4.address"]
+      ])
+      destination_port = "4533"
+      protocol         = "tcp"
+      description      = "Allow incoming connections to Navidrome"
+      state            = "enabled"
+    },
+  ]
+}
+
 resource "incus_instance" "streaming" {
   name  = "streaming"
   image = "images:debian/trixie/cloud"
@@ -34,6 +53,10 @@ resource "incus_instance" "streaming" {
     properties = {
       network        = var.trusted_net.name
       "ipv4.address" = "10.0.0.13"
+      "security.acls" = join(",",
+        [
+          incus_network_acl.streaming_svc.name
+      ])
     }
   }
 
