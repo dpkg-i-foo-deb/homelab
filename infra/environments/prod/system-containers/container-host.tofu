@@ -42,8 +42,14 @@ resource "incus_instance" "container_host" {
     "limits.memory"               = "8GiB"
     "limits.memory.swap"          = "true"
     "limits.memory.swap.priority" = "0"
-    "cloud-init.user-data" = "#cloud-config\npackages:\n  - podman\n"
-    "security.nesting" = true
+    "cloud-init.user-data"        = <<-EOT
+      #cloud-config
+      network:
+        config: disabled
+      packages:
+        - podman
+    EOT
+    "security.nesting"            = true
   }
 
   device {
