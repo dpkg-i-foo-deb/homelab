@@ -19,6 +19,24 @@ resource "incus_network_acl" "dhcp_outbound" {
       state            = "logged"
     },
   ]
+    ingress = [
+    {
+      action           = "allow"
+      source           = ""
+      destination_port = "67"
+      protocol         = "tcp"
+      description      = "Allow incoming DHCP (TCP)"
+      state            = "logged"
+    },
+        {
+      action           = "allow"
+      source           = ""
+      destination_port = "67"
+      protocol         = "udp"
+      description      = "Allow incoming DHCP (UDP)"
+      state            = "logged"
+    }
+  ]
 }
 
 resource "incus_network" "untrusted" {
