@@ -14,7 +14,7 @@ resource "incus_storage_volume" "container_host_var" {
 }
 
 resource "incus_network_acl" "container_host_inbound" {
-  name = "contianer-host-inbound"
+  name = "container-host-inbound"
   ingress = [
     {
       action = "allow"
