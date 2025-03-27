@@ -1,51 +1,10 @@
-resource "incus_network_acl" "dhcp_outbound" {
-  name = "dhcp-outbound"
-
-  egress = [
-    {
-      action           = "allow"
-      destination      = ""
-      destination_port = "67"
-      protocol         = "tcp"
-      description      = "Allow outbound DHCP connections (TCP)"
-      state            = "logged"
-    },
-    {
-      action           = "allow"
-      destination      = ""
-      destination_port = "67"
-      protocol         = "udp"
-      description      = "Allow outbound DHCP connections (UDP)"
-      state            = "logged"
-    },
-  ]
-  ingress = [
-    {
-      action           = "allow"
-      source           = ""
-      destination_port = "67"
-      protocol         = "tcp"
-      description      = "Allow incoming DHCP (TCP)"
-      state            = "logged"
-    },
-    {
-      action           = "allow"
-      source           = ""
-      destination_port = "67"
-      protocol         = "udp"
-      description      = "Allow incoming DHCP (UDP)"
-      state            = "logged"
-    }
-  ]
-}
-
 resource "incus_network" "untrusted" {
   name = "untrusted"
   type = "ovn"
   config = {
     "ipv4.address" = "10.0.8.1/24"
     "ipv4.dhcp"    = true
-    "ipv4.nat"     = false
+    "ipv4.nat"     = true
     "network"      = "${incus_network.incusbr0.name}"
     "security.acls" = join(",",
       [
