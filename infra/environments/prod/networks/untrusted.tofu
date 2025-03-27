@@ -19,7 +19,7 @@ resource "incus_network_acl" "dhcp_outbound" {
       state            = "logged"
     },
   ]
-    ingress = [
+  ingress = [
     {
       action           = "allow"
       source           = ""
@@ -28,7 +28,7 @@ resource "incus_network_acl" "dhcp_outbound" {
       description      = "Allow incoming DHCP (TCP)"
       state            = "logged"
     },
-        {
+    {
       action           = "allow"
       source           = ""
       destination_port = "67"
@@ -44,6 +44,7 @@ resource "incus_network" "untrusted" {
   type = "ovn"
   config = {
     "ipv4.address" = "10.0.8.1/24"
+    "ipv4.dhcp"    = true
     "ipv4.nat"     = false
     "network"      = "${incus_network.incusbr0.name}"
     "security.acls" = join(",",
@@ -51,7 +52,6 @@ resource "incus_network" "untrusted" {
         var.internal_dns_acl,
         var.http_acl,
         var.ssh_mgmt_acl,
-        incus_network_acl.dhcp_outbound.name
     ])
   }
 }
