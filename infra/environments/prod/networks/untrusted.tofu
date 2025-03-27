@@ -9,9 +9,33 @@ resource "incus_network" "untrusted" {
       [
         var.internal_dns_acl,
         var.http_acl,
-        var.ssh_mgmt_acl
+        var.ssh_mgmt_acl,
+        incus_network_acl.dchp_outbound.name
     ])
   }
+}
+
+resource "incus_network_acl" "dhcp_outbound" {
+  name = "dchp-outbound"
+
+  egress = [
+    {
+      action           = "allow"
+      destination      = "10.0.8.1"
+      destination_port = "67"
+      protocol         = "tcp"
+      description      = "Allow outbound DHCP connections (TCP)"
+      state            = "logged"
+    },
+    {
+      action           = "allow"
+      destination      = "10.0.8.1"
+      destination_port = "67"
+      protocol         = "udp"
+      description      = "Allow outbound DHCP connections (UDP)"
+      state            = "logged"
+    },
+  ]
 }
 
 resource "incus_network_peer" "untrusted_reverse_proxy" {
