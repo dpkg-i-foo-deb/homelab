@@ -55,13 +55,11 @@ resource "incus_instance" "container_host" {
   device {
     name = "eth0"
     type = "nic"
+
     properties = {
-      network        = var.untrusted_net.name
-      "ipv4.address" = "10.0.8.12"
-      "security.acls" = join(",",
-        [
-          incus_network_acl.container_host_inbound.name
-      ])
+      nictype        = "bridged"
+      parent         = "incusbr1"
+      "ipv4.address" = "10.0.12.10"
     }
   }
 
