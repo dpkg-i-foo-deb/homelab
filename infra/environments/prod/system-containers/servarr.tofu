@@ -77,7 +77,7 @@ resource "incus_instance" "servarr" {
   config = {
     "boot.autostart"              = true
     "limits.cpu"                  = 1
-    "limits.cpu.allowance"        = "50%"
+    "limits.cpu.allowance"        = "20%"
     "limits.memory"               = "8GiB"
     "limits.memory.swap"          = "true"
     "limits.memory.swap.priority" = "0"
