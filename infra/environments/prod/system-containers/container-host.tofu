@@ -42,16 +42,7 @@ resource "incus_instance" "container_host" {
     "limits.memory"               = "8GiB"
     "limits.memory.swap"          = "true"
     "limits.memory.swap.priority" = "0"
-    "cloud-init.user-data" = templatefile(
-      "${path.module}/cloud-init/generic.yml.tftpl",
-      {
-        ssh_public_key           = var.ssh_public_key
-        lxc_username             = "container-host"
-        lxc_username_description = "System container to run other containers"
-        lxc_user_password        = var.lxc_user_password
-        ansible_password         = var.ansible_password
-      }
-    )
+    "cloud-init.user-data" = "#cloud-config\npackages:\n  - podman\n"
     "security.nesting" = true
   }
 
@@ -96,6 +87,3 @@ resource "incus_instance" "container_host" {
     }
   }
 }
-
-
-
