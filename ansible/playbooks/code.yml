@@ -20,8 +20,6 @@
           - curl
           - wget
           - python3-pip
-          - ansible
-          - ansible-lint
           - direnv
           - telnet
           - inetutils-ping

@@ -2,6 +2,8 @@ FROM lscr.io/linuxserver/code-server
 
 RUN apt-get update
 
+RUN apt-get full-upgrade -y
+
 RUN apt-get install -y {{ code_server_extra_pkgs | join(' ') }}
 
 ENTRYPOINT [ "/init" ]
