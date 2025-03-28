@@ -1,17 +1,4 @@
 ---
-- name: Build code-server custom image
-  become: true
-  become_user: '{{ code_server_user }}'
-  notify: Restart code-server
-  containers.podman.podman_image:
-    name: '{{ code_server_image }}'
-    tag: latest
-    state: build
-    force: true
-    build:
-      container_file: "{{ lookup('template', 'Containerfile.j2') }}"
-      cache: false
-
 - name: Create code-server Quadlet file
   become: true
   become_user: '{{ code_server_user }}'
