@@ -1,9 +1,0 @@
----
-- name: Ensure Tailscale client is running
-  become: true
-  become_user: '{{ tailscale_client_user }}'
-  ansible.builtin.systemd_service:
-    daemon_reload: true
-    state: started
-    name: '{{ tailscale_client_container }}'
-    scope: user
