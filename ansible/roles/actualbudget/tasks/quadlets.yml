@@ -1,0 +1,32 @@
+---
+- name: Create Actualbudget Quadlet File
+  become: true
+  become_user: '{{ actualbudget_user }}'
+  notify: Restart actualbudget
+  containers.podman.podman_container:
+    name: '{{ actualbudget_container }}'
+    image: ghcr.io/actualbudget/actual:latest
+    state: quadlet
+    quadlet_filename: '{{ actualbudget_container }}'
+    ports:
+      - '{{ actualbudget_http_port | default(5006) }}:5006'
+    volumes:
+      - '{{ actualbudget_data }}:/data:z'
+    env:
+      PUID: '1000'
+      PGID: '1000'
+      TZ: '{{ tz }}'
+      ACTUAL_OPENID_DISCOVERY_URL: '{{ actualbudget_openid_discovery_url }}'
+      ACTUAL_OPENID_CLIENT_ID: '{{ actualbudget_openid_client_id }}'
+      ACTUAL_OPENID_CLIENT_SECRET: '{{ actualbudget_openid_client_secret }}'
+      ACTUAL_OPENID_SERVER_HOSTNAME: '{{  actualbudget_openid_server_hostname }}'
+    quadlet_options:
+      - 'AutoUpdate=registry'
+      - 'Pull=newer'
+      - |
+        [Service]
+        Restart=always
+        RestartSec=10
+      - |
+        [Install]
+        WantedBy=default.target multi-user.target
