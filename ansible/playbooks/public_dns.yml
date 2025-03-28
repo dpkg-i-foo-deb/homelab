@@ -39,6 +39,6 @@
       - record: '{{ code_work_host }}'
         comment: 'Work VSCode Server'
         value: '{{ public_ip }}'
-      - record: '{{ code_work_host }}'
-        comment: 'Work VSCode Server'
+      - record: '{{ budget_host }}'
+        comment: 'Budget management'
         value: '{{ public_ip }}'
