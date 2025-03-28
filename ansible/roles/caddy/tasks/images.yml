@@ -8,3 +8,4 @@
     state: build
     build:
       container_file: "{{ lookup('template', 'Containerfile.j2') }}"
+      force: true
