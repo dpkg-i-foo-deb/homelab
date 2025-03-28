@@ -21,6 +21,7 @@
       OIDC_PROVIDER_METADATA_URL: '{{ freshrss_oidc_provider_metadata_url }}'
       OIDC_CLIENT_ID: '{{ freshrss_oidc_client_id }}'
       OIDC_CLIENT_SECRET: '{{ freshrss_oidc_client_secret }}'
+      OIDC_X_FORWARDED_HEADERS: '{{ freshrss_oidc_x_forwarded_headers }}'
 
     quadlet_options:
       - 'AutoUpdate=registry'
