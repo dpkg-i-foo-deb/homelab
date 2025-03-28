@@ -45,7 +45,7 @@ resource "incus_network_acl" "http_inbound" {
       action           = "allow"
       source           = "@external"
       destination_port = "80,443"
-      protocol         = "tcp"
+      protocol         = "udp"
       description      = "Allow incoming HTTP connections (UDP)"
       state            = "enabled"
     }
