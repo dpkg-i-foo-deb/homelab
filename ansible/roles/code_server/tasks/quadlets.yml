@@ -1,4 +1,23 @@
 ---
+- name: Create code-server image build Quadlet file
+  become: true
+  become_user: '{{ code_server_user }}'
+  notify: Restart code-server
+  containers.podman.podman_image:
+    name: '{{ code_server_image }}:latest'
+    state: quadlet
+    build:
+      container_file: "{{ lookup('template', 'Containerfile.j2') }}"
+  quadlet_options:
+    - |
+      [Install]
+      WantedBy=default.target multi-user.target
+      [Timer]
+      OnCalendar=*-*-* 00:00:00
+      Persistent=true
+      Unit={{ code_server_image }}.build
+
+
 - name: Create code-server Quadlet file
   become: true
   become_user: '{{ code_server_user }}'
@@ -20,7 +39,7 @@
     volumes:
       - '{{ code_server_workspace }}:/config:z'
     quadlet_options:
-      - 'AutoUpdate=registry'
+      - 'AutoUpdate=local'
       - 'Pull=newer'
       - |
         [Service]
