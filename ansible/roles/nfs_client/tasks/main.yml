@@ -1,5 +1,0 @@
----
-- name: Package configuration
-  ansible.builtin.import_tasks: packages.yml
-- name: NFS volumes configuration
-  ansible.builtin.import_tasks: volumes.yml

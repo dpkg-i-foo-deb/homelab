@@ -1,3 +1,0 @@
----
-- name: Package configuration
-  ansible.builtin.import_tasks: packages.yml
