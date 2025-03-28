@@ -416,6 +416,7 @@
         secret: '{{ rss_secret }}'
         redirect_uris:
           - 'https://{{ rss_host }}.{{ internet_host }}/*'
+          - 'https://{{ rss_host }}.{{ internet_host }}'
         bearer_only: false
         consent_required: false
         standard_flow_enabled: true
