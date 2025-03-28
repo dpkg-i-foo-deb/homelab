@@ -12,6 +12,7 @@
     - |
       [Install]
       WantedBy=default.target multi-user.target
+    - |
       [Timer]
       OnCalendar=*-*-* 00:00:00
       Persistent=true
