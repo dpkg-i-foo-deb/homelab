@@ -23,6 +23,7 @@
       ACTUAL_OPENID_ENFORCE: '{{ actualbudget_openid_force }}'
       ACTUAL_LOGIN_METHOD: '{{ actualbudget_login_method }}'
       ACTUAL_ALLOWED_LOGIN_METHODS: '{{ actualbudget_allowed_login_methods }}'
+      ACTUAL_OPENID_AUTH_METHOD: '{{ actualbudget_openid_auth_method }}'
     quadlet_options:
       - 'AutoUpdate=registry'
       - 'Pull=newer'

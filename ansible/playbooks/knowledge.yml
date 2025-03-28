@@ -66,3 +66,4 @@
         actualbudget_openid_force: 'true'
         actualbudget_login_method: 'openid'
         actualbudget_allowed_login_methods: "['openid']"
+        actualbudget_openid_auth_method: 'oauth2'
