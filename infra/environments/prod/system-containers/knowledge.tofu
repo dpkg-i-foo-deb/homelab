@@ -51,7 +51,7 @@ resource "incus_network_acl" "knowledge_svc" {
           var.management_subnet,
           var.reverse_proxy_net.config["ipv4.address"]
       ])
-      destination_port = "8081"
+      destination_port = "5006"
       protocol         = "tcp"
       description      = "Allow incoming connections to Actualbudget"
       state            = "enabled"
