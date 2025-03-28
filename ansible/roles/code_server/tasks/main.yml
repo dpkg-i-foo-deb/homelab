@@ -1,7 +1,7 @@
 - name: Volumes configuration
   ansible.builtin.import_tasks: volumes.yml
-- name: Image configuration
-  ansible.builtin.import_tasks: images.yml
+# - name: Image configuration
+#  ansible.builtin.import_tasks: images.yml
 - name: Quadlet configuration
   ansible.builtin.import_tasks: quadlets.yml
 - name: Service configuration
