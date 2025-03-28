@@ -1,0 +1,34 @@
+---
+- name: Create Freshrss Quadlet File
+  become: true
+  become_user: '{{ freshrss_user }}'
+  notify: Restart freshrss
+  containers.podman.podman_container:
+    name: '{{ freshrss_container }}'
+    image: docker.io/freshrss/freshrss
+    state: quadlet
+    quadlet_filename: '{{ freshrss_container }}'
+    ports:
+      - '{{ freshrss_http_port | default(8080) }}:8080'
+    volumes:
+      - '{{ freshrss_data }}:/var/www/FreshRSS/data:z'
+      - '{{ freshrss_extensions }}:/var/www/FreshRSS/extensions:z'
+    env:
+      PUID: '1000'
+      PGID: '1000'
+      TZ: '{{ tz }}'
+      OIDC_ENABLED: '{{ freshrss_oidc_enabled }}'
+      OIDC_PROVIDER_METADATA_URL: '{{ freshrss_oidc_provider_metadata_url }}'
+      OIDC_CLIENT_ID: '{{ freshrss_oidc_client_id }}'
+      OIDC_CLIENT_SECRET: '{{ freshrss_oidc_client_secret }}'
+
+    quadlet_options:
+      - 'AutoUpdate=registry'
+      - 'Pull=newer'
+      - |
+        [Service]
+        Restart=always
+        RestartSec=10
+      - |
+        [Install]
+        WantedBy=default.target multi-user.target
