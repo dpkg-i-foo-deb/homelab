@@ -22,3 +22,8 @@ variable "home_subnet" {
   type        = string
   description = "Home subnet for management"
 }
+
+variable "cloudflare_api_token" {
+  type        = string
+  description = "Cloudflare API Token"
+}
