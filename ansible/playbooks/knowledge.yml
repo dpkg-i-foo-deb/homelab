@@ -35,3 +35,17 @@
         oauth2_proxy_redirect_url: 'https://{{ notes_host }}.{{ internet_host }}/oauth2/callback'
         oauth2_proxy_oidc_url: 'https://{{ auth_host }}.{{ internet_host }}/realms/{{ homelab_realm }}'
         oauth2_proxy_allow_unverified_email: 'true'
+
+    - name: Deploy Freshrss
+      ansible.builtin.import_role:
+        name: freshrss
+      vars:
+        freshrss_user: '{{ knowledge_user }}'
+        freshrss_container: 'freshrss'
+        freshrss_http_port: '8081'
+        freshrss_data: 'freshrss_data'
+        freshrss_extensions: 'freshrss_extensions'
+        freshrss_oidc_enabled: 'true'
+        freshrss_provider_metadata_url: 'https://{{ auth_host }}.{{ internet_host }}/realms/{{ homelab_realm }}/.well-known/openid-configuration'
+        freshrss_oidc_client_id: '{{ rss_client }}'
+        freshrss_oidc_client_secret: '{{ rss_secret }}'
