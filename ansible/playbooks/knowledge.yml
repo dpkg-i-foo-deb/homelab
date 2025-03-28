@@ -46,6 +46,6 @@
         freshrss_data: 'freshrss_data'
         freshrss_extensions: 'freshrss_extensions'
         freshrss_oidc_enabled: 'true'
-        freshrss_provider_metadata_url: 'https://{{ auth_host }}.{{ internet_host }}/realms/{{ homelab_realm }}/.well-known/openid-configuration'
+        freshrss_oidc_provider_metadata_url: 'https://{{ auth_host }}.{{ internet_host }}/realms/{{ homelab_realm }}/.well-known/openid-configuration'
         freshrss_oidc_client_id: '{{ rss_client }}'
         freshrss_oidc_client_secret: '{{ rss_secret }}'
