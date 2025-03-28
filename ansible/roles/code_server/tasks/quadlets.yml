@@ -16,7 +16,7 @@
         [Timer]
         OnCalendar=*-*-* 00:00:00
         Persistent=true
-        Unit={{ code_server_image }}.build
+        Unit={{ code_server_image }}.service
 
 
 - name: Create code-server Quadlet file
