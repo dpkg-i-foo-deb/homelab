@@ -20,10 +20,6 @@
       6337
     bastion_guacamole_postgres_init_dir: /var/guacamole_web
   tasks:
-    - name: Ensure /etc/hosts is configured
-      ansible.builtin.import_role:
-        name: dynamic_hosts
-
     - name: Ensure there's a virtual network for Apache Guacamole
       ansible.builtin.import_role:
         name: podman
