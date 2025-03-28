@@ -64,3 +64,5 @@
         actualbudget_openid_client_secret: '{{ budget_secret }}'
         actualbudget_openid_server_hostname: 'https://{{ budget_host }}.{{ internet_host }}'
         actualbudget_openid_force: 'true'
+        actualbudget_login_method: 'openid'
+        actualbudget_allowed_login_methods: "['openid']"
