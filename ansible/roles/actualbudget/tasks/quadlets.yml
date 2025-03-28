@@ -20,6 +20,7 @@
       ACTUAL_OPENID_CLIENT_ID: '{{ actualbudget_openid_client_id }}'
       ACTUAL_OPENID_CLIENT_SECRET: '{{ actualbudget_openid_client_secret }}'
       ACTUAL_OPENID_SERVER_HOSTNAME: '{{  actualbudget_openid_server_hostname }}'
+      ACTUAL_OPENID_ENFORCE: '{{ actualbudget_openid_force }}'
     quadlet_options:
       - 'AutoUpdate=registry'
       - 'Pull=newer'
