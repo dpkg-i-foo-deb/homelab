@@ -26,5 +26,8 @@ provider "incus" {
     token   = var.incus_token
     default = true
   }
+}
 
+provider "cloudflare" {
+  api_token = var.cloudflare_api_token
 }
