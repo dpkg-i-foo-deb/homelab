@@ -8,15 +8,15 @@
     state: quadlet
     build:
       container_file: "{{ lookup('template', 'Containerfile.j2') }}"
-  quadlet_options:
-    - |
-      [Install]
-      WantedBy=default.target multi-user.target
-    - |
-      [Timer]
-      OnCalendar=*-*-* 00:00:00
-      Persistent=true
-      Unit={{ code_server_image }}.build
+    quadlet_options:
+      - |
+        [Install]
+        WantedBy=default.target multi-user.target
+      - |
+        [Timer]
+        OnCalendar=*-*-* 00:00:00
+        Persistent=true
+        Unit={{ code_server_image }}.build
 
 
 - name: Create code-server Quadlet file
