@@ -6,6 +6,6 @@
   containers.podman.podman_image:
     name: '{{ caddy_image }}:latest'
     state: build
+    force: true
     build:
       container_file: "{{ lookup('template', 'Containerfile.j2') }}"
-      force: true
