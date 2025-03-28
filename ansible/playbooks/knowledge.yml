@@ -49,4 +49,4 @@
         freshrss_oidc_provider_metadata_url: 'https://{{ auth_host }}.{{ internet_host }}/realms/{{ homelab_realm }}/.well-known/openid-configuration'
         freshrss_oidc_client_id: '{{ rss_client }}'
         freshrss_oidc_client_secret: '{{ rss_secret }}'
-        freshrss_oidc_x_forwarded_headers: 'Forwarded,X-Forwarded-Host,X-Forwarded-Port,X-Forwarded-Proto'
+        freshrss_oidc_x_forwarded_headers: 'X-Forwarded-Host'
