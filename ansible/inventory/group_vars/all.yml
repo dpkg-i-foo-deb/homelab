@@ -122,7 +122,7 @@ homelab_services:
     private_proxy_vpn: '{{ private_reverse_proxy_vpn }}'
   budget:
     name: 'Budget management'
-    host: 'rss'
+    host: 'budget'
     ip: '10.0.0.10'
     port: '5006'
     tls: false
