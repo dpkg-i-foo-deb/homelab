@@ -82,18 +82,18 @@
         vaultwarden_signups_allowed: 'false'
         vaultwarden_host: '{{ password_mgr_host }}'
 
-    - name: Generate Wazuh certificates
-      ansible.builtin.import_role:
-        name: wazuh_indexer
-        tasks_from: generate_certs
-      vars:
-        wazuh_indexer_user: '{{ security_user }}'
-        wazuh_indexer_group: '{{ security_user }}'
-        wazuh_indexer_tls_dir: '{{ security_wazuh_certs }}'
-        wazuh_indexer_host: 'wazuh.indexer'
-        wazuh_indexer_manager_host: 'wazuh.manager'
-        wazuh_indexer_dashboard_host: 'wazuh.dashboard'
-        wazuh_indexer_tls_conf_dir: '{{ security_wazuh_generator_conf }}'
+    # - name: Generate Wazuh certificates
+    #   ansible.builtin.import_role:
+    #     name: wazuh_indexer
+    #     tasks_from: generate_certs
+    #   vars:
+    #     wazuh_indexer_user: '{{ security_user }}'
+    #     wazuh_indexer_group: '{{ security_user }}'
+    #     wazuh_indexer_tls_dir: '{{ security_wazuh_certs }}'
+    #     wazuh_indexer_host: 'wazuh.indexer'
+    #     wazuh_indexer_manager_host: 'wazuh.manager'
+    #     wazuh_indexer_dashboard_host: 'wazuh.dashboard'
+    #     wazuh_indexer_tls_conf_dir: '{{ security_wazuh_generator_conf }}'
 
     - name: Deploy Wazuh indexer
       ansible.builtin.import_role:
@@ -379,6 +379,49 @@
               access.token.claim: 'true'
               id.token.claim: 'true'
             name: '{{ notes_client }}-audience'
+            protocol: openid-connect
+            protocolMapper: oidc-audience-mapper
+        full_scope_allowed: false
+        node_re_registration_timeout: -1
+        use_template_config: false
+        use_template_scope: false
+        use_template_mappers: false
+        always_display_in_console: true
+
+    - name: Ensure RSS service is registered as a client
+      middleware_automation.keycloak.keycloak_client:
+        auth_client_id: admin-cli
+        auth_keycloak_url: 'https://{{ auth_host }}.{{ internet_host }}'
+        auth_realm: master
+        auth_username: '{{ security_keycloak_admin_user }}'
+        auth_password: '{{ security_keycloak_admin_password }}'
+        state: present
+        realm: '{{ homelab_realm }}'
+        client_id: '{{ rss_client }}'
+        name: '{{ rss_client }}'
+        description: 'RSS reader'
+        base_url: 'https://{{ rss_host }}.{{ internet_host }}'
+        enabled: true
+        client_authenticator_type: client-secret
+        secret: '{{ rss_secret }}'
+        redirect_uris:
+          - 'https://{{ rss_host }}.{{ internet_host }}/*'
+        bearer_only: false
+        consent_required: false
+        standard_flow_enabled: true
+        implicit_flow_enabled: true
+        direct_access_grants_enabled: false
+        service_accounts_enabled: false
+        authorization_services_enabled: false
+        public_client: false
+        frontchannel_logout: false
+        protocol: openid-connect
+        protocol_mappers:
+          - config:
+              included.client.audience: '{{ rss_client }}'
+              access.token.claim: 'true'
+              id.token.claim: 'true'
+            name: '{{ rss_client }}-audience'
             protocol: openid-connect
             protocolMapper: oidc-audience-mapper
         full_scope_allowed: false
