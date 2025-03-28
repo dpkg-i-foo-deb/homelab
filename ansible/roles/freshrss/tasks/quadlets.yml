@@ -9,7 +9,7 @@
     state: quadlet
     quadlet_filename: '{{ freshrss_container }}'
     ports:
-      - '{{ freshrss_http_port | default(8080) }}:8080'
+      - '{{ freshrss_http_port | default(8080) }}:80'
     volumes:
       - '{{ freshrss_data }}:/var/www/FreshRSS/data:z'
       - '{{ freshrss_extensions }}:/var/www/FreshRSS/extensions:z'
