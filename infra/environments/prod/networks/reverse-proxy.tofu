@@ -8,6 +8,7 @@ resource "incus_network" "reverse_proxy" {
     "security.acls" = join(",",
       [
         var.internal_dns_acl,
+        var.external_dns_acl,
         var.http_acl,
         var.http_inbound_acl,
         var.ssh_mgmt_acl,

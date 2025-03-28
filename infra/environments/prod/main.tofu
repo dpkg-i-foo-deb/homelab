@@ -1,10 +1,12 @@
 data "github_ip_ranges" "ranges" {}
+data "cloudflare_ip_ranges" "ranges" {}
 
 module "acls" {
   source = "./acls"
 
   mgmt_subnet         = var.home_subnet
   allowed_ssh_subnets = join(",", data.github_ip_ranges.ranges.git)
+  allowed_dns_subnets = join(",", data.cloudflare_ip_ranges.ranges.ipv4_cidr_blocks)
 
   providers = {
     incus = incus

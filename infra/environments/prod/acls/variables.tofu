@@ -7,3 +7,8 @@ variable "allowed_ssh_subnets" {
   type        = string
   description = "List of comma separated subnets to connect through SSH"
 }
+
+variable "allowed_dns_subnets" {
+  type        = string
+  description = "List of comma separated subnets to make DNS requests to"
+}
