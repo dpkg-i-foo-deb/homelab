@@ -5,7 +5,7 @@
   notify: Restart actualbudget
   containers.podman.podman_container:
     name: '{{ actualbudget_container }}'
-    image: ghcr.io/actualbudget/actual:latest
+    image: ghcr.io/actualbudget/actual:{{ actualbudget_tag }}
     state: quadlet
     quadlet_filename: '{{ actualbudget_container }}'
     ports:
