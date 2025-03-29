@@ -30,12 +30,12 @@ RUN curl -fsSL https://packages.opentofu.org/opentofu/tofu/gpgkey | sudo gpg --n
 
 RUN chmod a+r /etc/apt/keyrings/opentofu.gpg /etc/apt/keyrings/opentofu-repo.gpg
 
-RUN echo \
-  "deb [signed-by=/etc/apt/keyrings/opentofu.gpg,/etc/apt/keyrings/opentofu-repo.gpg] https://packages.opentofu.org/opentofu/tofu/any/ any main
-deb-src [signed-by=/etc/apt/keyrings/opentofu.gpg,/etc/apt/keyrings/opentofu-repo.gpg] https://packages.opentofu.org/opentofu/tofu/any/ any main" | \
-  tee /etc/apt/sources.list.d/opentofu.list > /dev/null
+RUN echo "deb [signed-by=/etc/apt/keyrings/opentofu.gpg, \
+    signed-by=/etc/apt/keyrings/opentofu-repo.gpg] \
+    https://packages.opentofu.org/opentofu/tofu/any/ any main" | \
+    tee /etc/apt/sources.list.d/opentofu.list > /dev/null
 
-RUN  chmod a+r /etc/apt/sources.list.d/opentofu.list
+RUN chmod a+r /etc/apt/sources.list.d/opentofu.list
 
 RUN apt-get update
 
