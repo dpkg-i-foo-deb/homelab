@@ -6,14 +6,14 @@ resource "incus_network_acl" "management_ssh_outbound" {
       action = "allow"
       destination = join(",",
         [
-          incus_network.code.name,
-          incus_network.dns.name,
-          incus_network.privileged.name,
-          incus_network.reverse_proxy.name,
-          incus_network.storage.name,
-          incus_network.torrenting.name,
-          incus_network.trusted.name,
-          incus_network.untrusted.name
+          incus_network.code.config["ipv4.address"],
+          incus_network.dns.config["ipv4.address"],
+          incus_network.privileged.config["ipv4.address"],
+          incus_network.reverse_proxy.config["ipv4.address"],
+          incus_network.storage.config["ipv4.address"],
+          incus_network.torrenting.config["ipv4.address"],
+          incus_network.trusted.config["ipv4.address"],
+          incus_network.untrusted.config["ipv4.address"]
         ]
       )
       destination_port = "22"
