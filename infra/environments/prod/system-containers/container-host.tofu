@@ -60,7 +60,7 @@ resource "incus_instance" "container_host" {
       "ipv4.address" = "10.0.8.12"
       "security.acls" = join(",",
         [
-          incus_network.container_host_inbound.name
+          incus_network_acl.container_host_inbound.name
       ])
     }
   }
