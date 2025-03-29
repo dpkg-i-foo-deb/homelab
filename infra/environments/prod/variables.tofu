@@ -27,3 +27,8 @@ variable "cloudflare_api_token" {
   type        = string
   description = "Cloudflare API Token"
 }
+
+variable "security_ip" {
+  type        = string
+  description = "Security service address"
+}

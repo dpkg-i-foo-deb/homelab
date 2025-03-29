@@ -1,10 +1,10 @@
 resource "incus_network_acl" "wazuh_security" {
   name = "wazuh-security"
 
-  ingress = [
+   egress = [
     {
       action           = "allow"
-      source           = var.mgmt_subnet
+      destination      = var.security_subnet
       destination_port = "1514,1515"
       protocol         = "tcp"
       description      = "Allow connecting to the Wazuh server (TCP)"
@@ -12,7 +12,7 @@ resource "incus_network_acl" "wazuh_security" {
     },
     {
       action           = "allow"
-      source           = var.mgmt_subnet
+      destination           = var.securitu_subnet
       destination_port = "1514,1515"
       protocol         = "tcp"
       description      = "Allow connecting to the Wazuh server (UDP)"
