@@ -28,7 +28,7 @@ resource "incus_network" "management" {
   name = "management"
   type = "ovn"
   config = {
-    "ipv4.address" = "10.0.1.0/24"
+    "ipv4.address" = "10.0.1.1/24"
     "ipv4.nat"     = false
     "network"      = "${incus_network.incusbr0.name}"
     "security.acls" = join(",",
