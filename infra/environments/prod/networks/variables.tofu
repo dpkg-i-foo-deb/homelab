@@ -32,3 +32,8 @@ variable "ssh_outbound_acl" {
   type        = string
   description = "ACL to allow outbound SSH connections"
 }
+
+variable "wazuh_security_acl" {
+  type        = string
+  description = "ACL to allow access to Wazuh server"
+}

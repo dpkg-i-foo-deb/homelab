@@ -11,7 +11,8 @@ resource "incus_network" "dns" {
         var.internal_dns_acl,
         var.inbound_dns_acl,
         var.http_acl,
-        var.ssh_mgmt_acl
+        var.ssh_mgmt_acl,
+        var.wazuh_security_acl
     ])
   }
 }

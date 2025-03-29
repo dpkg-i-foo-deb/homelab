@@ -10,7 +10,8 @@ resource "incus_network" "code" {
         var.internal_dns_acl,
         var.http_acl,
         var.ssh_mgmt_acl,
-        var.ssh_outbound_acl
+        var.ssh_outbound_acl,
+        var.wazuh_security_acl
     ])
   }
 }

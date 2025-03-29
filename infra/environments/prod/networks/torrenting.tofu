@@ -9,7 +9,8 @@ resource "incus_network" "torrenting" {
       [
         var.internal_dns_acl,
         var.http_acl,
-        var.ssh_mgmt_acl
+        var.ssh_mgmt_acl,
+        var.wazuh_security_acl
     ])
   }
 }
