@@ -6,8 +6,9 @@
       ansible.builtin.get_url:
         url: https://packages.wazuh.com/key/GPG-KEY-WAZUH
         dest: /usr/share/keyrings/wazuh.gpg
+        mode: '0644'
     - name: Add Wazuh repository
       become: true
       ansible.builtin.apt_repository:
-        repo: "deb [signed-by=/usr/share/keyrings/wazuh.gpg] https://packages.wazuh.com/{{ wazuh_agent_version }}/apt/ stable main"
+        repo: 'deb [signed-by=/usr/share/keyrings/wazuh.gpg] https://packages.wazuh.com/{{ wazuh_agent_version }}/apt/ stable main'
         state: present
