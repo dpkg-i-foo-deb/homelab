@@ -17,6 +17,7 @@
       TZ: '{{ tz }}'
       SUDO_PASSWORD: '{{ code_server_sudo_pass }}'
       PROXY_DOMAIN: '{{ code_server_proxy_domain }}'
+      DOCKER_HOST: '{{ code_server_docker_host }}'
     volumes:
       - '{{ code_server_workspace }}:/config:z'
     quadlet_options:

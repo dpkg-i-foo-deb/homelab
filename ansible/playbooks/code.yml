@@ -26,6 +26,7 @@
           - zip
           - unzip
           - dnsutils
+        code_server_docker_host: '10.0.8.12'
 
     - name: Deploy work code-server
       ansible.builtin.import_role:
@@ -48,6 +49,7 @@
           - unzip
           - python3-pip
           - dnsutils
+        code_server_docker_host: '10.0.8.12'
 
     - name: Deploy oauth2_proxy for work code_server
       ansible.builtin.import_role:
