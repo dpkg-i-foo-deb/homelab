@@ -57,6 +57,7 @@
       vars:
         actualbudget_user: '{{ knowledge_user }}'
         actualbudget_container: 'actualbudget'
+        actualbudget_tag: 'edge'
         actualbudget_http_port: '5006'
         actualbudget_data: 'actualbudget_data'
         actualbudget_openid_discovery_url: 'https://{{ auth_host }}.{{ internet_host }}/realms/{{ homelab_realm }}/.well-known/openid-configuration'
