@@ -3,9 +3,6 @@
   become: true
   ansible.builtin.package:
     name:
-      - docker-ce
-      - docker-ce-cli
-      - containerd.io
-      - docker-buildx-plugin
-      - docker-compose-plugin
+      - docker.io
+      - containerd
     state: present
