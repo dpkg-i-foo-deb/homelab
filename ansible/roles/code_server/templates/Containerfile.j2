@@ -16,6 +16,14 @@ RUN apt-get update
 
 RUN apt-get install docker-ce-cli -y
 
+# Opentofu installation
+
+RUN curl --proto '=https' --tlsv1.2 -fsSL https://get.opentofu.org/install-opentofu.sh -o install-opentofu.sh
+
+RUN chmod +x install-opentofu.sh
+
+RUN install-opentofu.sh --install-method deb
+
 RUN apt-get update
 
 RUN apt-get full-upgrade -y
