@@ -1,6 +1,0 @@
-- name: Configure VMWare host
-  hosts: vmware_host
-  tasks:
-    - name: VMWare deployment
-      ansible.builtin.import_role:
-        name: vmware_host

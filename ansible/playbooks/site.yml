@@ -23,7 +23,5 @@
   import_playbook: servarr.yml
 - name: Streaming deployment
   import_playbook: streaming.yml
-- name: VMWare host deployment
-  import_playbook: vmware.yml
 - name: Reverse proxy deployment
   import_playbook: reverse_proxy.yml
