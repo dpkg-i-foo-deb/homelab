@@ -7,7 +7,6 @@ resource "incus_network_acl" "management_ssh_outbound" {
       destination = join(",",
         incus_network.code.name,
         incus_network.dns.name,
-        incus_network.management.name,
         incus_network.privileged.name,
         incus_network.reverse_proxy.name,
         incus_network.storage.name,
