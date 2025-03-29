@@ -12,7 +12,7 @@ resource "incus_network_acl" "wazuh_security" {
     },
     {
       action           = "allow"
-      destination           = var.security_ip
+      destination      = var.security_ip
       destination_port = "1514,1515"
       protocol         = "tcp"
       description      = "Allow connecting to the Wazuh server (UDP)"
