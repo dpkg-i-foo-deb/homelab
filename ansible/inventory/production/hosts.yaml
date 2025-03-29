@@ -61,6 +61,12 @@ game_servers:
       game_server_user: game-server
       groups: 'internet_facing,untrusted'
       siem_agent: game-server
+container_hosts:
+  hosts:
+    container_host:
+      ansible_host: 10.0.8.12
+      siem_agent: container-host
+      groups: 'untrusted'
 vps:
   hosts:
     vps_hetzner:
