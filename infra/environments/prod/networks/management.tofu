@@ -5,14 +5,16 @@ resource "incus_network_acl" "management_ssh_outbound" {
     {
       action = "allow"
       destination = join(",",
-        incus_network.code.name,
-        incus_network.dns.name,
-        incus_network.privileged.name,
-        incus_network.reverse_proxy.name,
-        incus_network.storage.name,
-        incus_network.torrenting.name,
-        incus_network.trusted.name,
-        incus_network.untrusted.name
+        [
+          incus_network.code.name,
+          incus_network.dns.name,
+          incus_network.privileged.name,
+          incus_network.reverse_proxy.name,
+          incus_network.storage.name,
+          incus_network.torrenting.name,
+          incus_network.trusted.name,
+          incus_network.untrusted.name
+        ]
       )
       destination_port = "22"
       protocol         = "tcp"
@@ -95,12 +97,12 @@ resource "incus_network_peer" "management_torrenting" {
 }
 
 resource "incus_network_peer" "management_trusted" {
-    name           = "management-trusted"
-    description    = "Allow peering between management and trusted networks"
-    network        = incus_network.management.name
-    project        = "default"
-    target_network = incus_network.trusted.name
-    target_project = "default"
+  name           = "management-trusted"
+  description    = "Allow peering between management and trusted networks"
+  network        = incus_network.management.name
+  project        = "default"
+  target_network = incus_network.trusted.name
+  target_project = "default"
 }
 
 resource "incus_network_peer" "management_untrusted" {
