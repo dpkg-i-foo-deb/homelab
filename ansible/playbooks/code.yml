@@ -1,4 +1,4 @@
-- name: Configure Code virtual machine
+- name: Configure personal code-server
   hosts: code
   vars:
     code_user: code
@@ -28,6 +28,12 @@
           - dnsutils
         code_server_docker_host: '10.0.8.12'
 
+- name: Configure work code-server
+  hosts: code
+  vars:
+    code_user: code
+
+  tasks:
     - name: Deploy work code-server
       ansible.builtin.import_role:
         name: code_server
@@ -103,6 +109,13 @@
         oauth2_proxy_oidc_url: 'https://{{ auth_host }}.{{ internet_host }}/realms/{{ homelab_realm }}'
         oauth2_proxy_allow_unverified_email: 'true'
 
+
+- name: Configure Wazuh agent
+  hosts: code
+  vars:
+    code_user: code
+
+  tasks:
     - name: Deploy Wazuh agent
       ansible.builtin.import_role:
         name: wazuh_agent
