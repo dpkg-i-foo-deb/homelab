@@ -24,6 +24,16 @@ resource "incus_network_acl" "code_svc" {
       state            = "enabled"
     },
   ]
+  egress = [
+    {
+      action = "allow"
+      destination = "10.0.8.12"
+      destination_port = "2375"
+      protocol         = "tcp"
+      description      = "Allow outgoing connections to Docker API"
+      state            = "enabled"
+    },
+  ]
 }
 
 resource "incus_instance" "code" {
