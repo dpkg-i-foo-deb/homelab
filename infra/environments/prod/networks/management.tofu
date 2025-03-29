@@ -58,15 +58,6 @@ resource "incus_network_peer" "management_dns" {
   target_project = "default"
 }
 
-resource "incus_network_peer" "management_monitoring" {
-  name           = "management-monitoring"
-  description    = "Allow peering between management and monitoring networks"
-  network        = incus_network.management.name
-  project        = "default"
-  target_network = incus_network.monitoring.name
-  target_project = "default"
-}
-
 resource "incus_network_peer" "mangagement_privileged" {
   name           = "management-privileged"
   description    = "Allow peering between management and privileged networks"
