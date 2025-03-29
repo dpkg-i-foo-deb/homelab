@@ -52,7 +52,14 @@ resource "incus_network_acl" "security_svc" {
       source = join(",",
         [
           var.management_subnet,
-          var.reverse_proxy_net.config["ipv4.address"]
+          var.reverse_proxy_net.config["ipv4.address"],
+          var.dns_net.config["ipv4.address"],
+          var.code_net.config["ipv4.address"],
+          var.privileged_net.config["ipv4.address"],
+          var.untrusted_net.config["ipv4.address"],
+          var.trusted_net.config["ipv4.address"],
+          var.torrenting_net.config["ipv4.address"],
+          var.storage_net.config["ipv4.address"]
       ])
       destination_port = "1514-1515"
       protocol         = "tcp"
