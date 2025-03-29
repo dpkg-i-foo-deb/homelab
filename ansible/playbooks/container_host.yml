@@ -1,5 +1,5 @@
 - name: Configure Container host virtual machine
-  hosts: container-host
+  hosts: container-hosts
   vars:
     container_host_user: container-host
 
