@@ -18,13 +18,28 @@ RUN apt-get install docker-ce-cli -y
 
 # Opentofu installation
 
-RUN curl --proto '=https' --tlsv1.2 -fsSL https://get.opentofu.org/install-opentofu.sh -o install-opentofu.sh
+RUN apt-get update
 
-RUN chmod +x install-opentofu.sh
+RUN apt-get install -y apt-transport-https ca-certificates curl gnupg
 
-RUN install-opentofu.sh --install-method deb
+RUN install -m 0755 -d /etc/apt/keyrings
+
+RUN curl -fsSL https://get.opentofu.org/opentofu.gpg | sudo tee /etc/apt/keyrings/opentofu.gpg >/dev/null
+
+RUN curl -fsSL https://packages.opentofu.org/opentofu/tofu/gpgkey | sudo gpg --no-tty --batch --dearmor -o /etc/apt/keyrings/opentofu-repo.gpg >/dev/null
+
+RUN chmod a+r /etc/apt/keyrings/opentofu.gpg /etc/apt/keyrings/opentofu-repo.gpg
+
+RUN echo \
+  "deb [signed-by=/etc/apt/keyrings/opentofu.gpg,/etc/apt/keyrings/opentofu-repo.gpg] https://packages.opentofu.org/opentofu/tofu/any/ any main
+deb-src [signed-by=/etc/apt/keyrings/opentofu.gpg,/etc/apt/keyrings/opentofu-repo.gpg] https://packages.opentofu.org/opentofu/tofu/any/ any main" | \
+  tee /etc/apt/sources.list.d/opentofu.list > /dev/null
+
+RUN  chmod a+r /etc/apt/sources.list.d/opentofu.list
 
 RUN apt-get update
+
+RUN apt-get install tofu -y
 
 RUN apt-get full-upgrade -y
 
