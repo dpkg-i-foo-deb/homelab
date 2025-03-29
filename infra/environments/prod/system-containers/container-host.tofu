@@ -4,8 +4,8 @@ resource "incus_storage_volume" "container_host_data" {
   project = "default"
 }
 
-resource "incus_storage_volume" "container_host_var" {
-  name    = "container_host_var"
+resource "incus_storage_volume" "container_host_docker_volumes" {
+  name    = "container_host_docker_volumes"
   pool    = var.virt_high_io_pool
   project = "default"
   config = {
@@ -85,8 +85,8 @@ resource "incus_instance" "container_host" {
     name = "var"
     type = "disk"
     properties = {
-      path   = "/var"
-      source = incus_storage_volume.container_host_var.name
+      path   = "/var/lib/docker/volumes"
+      source = incus_storage_volume.container_host_docker_volumes.name
       pool   = var.virt_high_io_pool
     }
   }
