@@ -32,7 +32,7 @@ variable "dns_net" {
     type   = string
     config = map(string)
   })
-  description = "The DNS network object"
+  description = "DNS network object"
 }
 
 variable "code_net" {
@@ -41,7 +41,16 @@ variable "code_net" {
     type   = string
     config = map(string)
   })
-  description = "The name of the Coding network"
+  description = "Coding network object"
+}
+
+variable "management_net" {
+  type = object({
+    name   = string
+    type   = string
+    config = map(string)
+  })
+  description = "Management network object"
 }
 
 variable "privileged_net" {
@@ -50,7 +59,7 @@ variable "privileged_net" {
     type   = string
     config = map(string)
   })
-  description = "The name of the Privileged network"
+  description = "Privileged network object"
 }
 
 variable "reverse_proxy_net" {
@@ -59,7 +68,7 @@ variable "reverse_proxy_net" {
     type   = string
     config = map(string)
   })
-  description = "The name of the Reverse Proxy network"
+  description = "Reverse Proxy network object"
 }
 
 variable "storage_net" {
@@ -68,7 +77,7 @@ variable "storage_net" {
     type   = string
     config = map(string)
   })
-  description = "The name of the Storage network"
+  description = "Storage network object"
 }
 
 variable "torrenting_net" {
@@ -77,7 +86,7 @@ variable "torrenting_net" {
     type   = string
     config = map(string)
   })
-  description = "The name of the Torrenting network"
+  description = "Torrenting network object"
 }
 
 variable "trusted_net" {
@@ -86,7 +95,7 @@ variable "trusted_net" {
     type   = string
     config = map(string)
   })
-  description = "The name of the Trusted network"
+  description = "Trusted network object"
 }
 
 variable "untrusted_net" {
@@ -95,7 +104,7 @@ variable "untrusted_net" {
     type   = string
     config = map(string)
   })
-  description = "The name of the Untrusted network"
+  description = "Untrusted network object"
 }
 
 # Storage pools available for system containers

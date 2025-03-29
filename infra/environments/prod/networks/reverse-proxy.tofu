@@ -52,3 +52,12 @@ resource "incus_network_peer" "reverse_proxy_untrusted" {
   target_network = incus_network.untrusted.name
   target_project = "default"
 }
+
+resource "incus_network_peer" "reverse_proxy_management" {
+  name           = "reverse-proxy-management"
+  description    = "Allow peering between reverse-proxy and management networks"
+  network        = incus_network.reverse_proxy.name
+  project        = "default"
+  target_network = incus_network.management.name
+  target_project = "default"
+}

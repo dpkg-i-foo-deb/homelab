@@ -32,3 +32,21 @@ resource "incus_network_peer" "untrusted_dns" {
   target_network = incus_network.dns.name
   target_project = "default"
 }
+
+resource "incus_network_peer" "untrusted_code" {
+  name           = "untrusted-code"
+  description    = "Allow peering between untrusted and code networks"
+  network        = incus_network.untrusted.name
+  project        = "default"
+  target_network = incus_network.code.name
+  target_project = "default"
+}
+
+resource "incus_network_peer" "untrusted_management" {
+  name           = "untrusted-management"
+  description    = "Allow peering between untrusted and management networks"
+  network        = incus_network.untrusted.name
+  project        = "default"
+  target_network = incus_network.management.name
+  target_project = "default"
+}

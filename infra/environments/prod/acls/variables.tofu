@@ -1,6 +1,6 @@
-variable "mgmt_subnet" {
+variable "mgmt_subnets" {
   type        = string
-  description = "Subnet for server management"
+  description = "Subnets for server management"
 }
 
 variable "allowed_ssh_subnets" {

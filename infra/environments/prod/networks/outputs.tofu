@@ -8,6 +8,11 @@ output "code" {
   description = "Coding services network"
 }
 
+output "management" {
+  value       = incus_network.management
+  description = "Bastion and other services network"
+}
+
 output "privileged" {
   value       = incus_network.privileged
   description = "Priviledged network with very open ACLs"

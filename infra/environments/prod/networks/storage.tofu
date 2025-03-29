@@ -23,3 +23,12 @@ resource "incus_network_peer" "storage_dns" {
   target_network = incus_network.dns.name
   target_project = "default"
 }
+
+resource "incus_network_peer" "storage_management" {
+  name           = "storage-management"
+  description    = "Allow peering between storage and management networks"
+  network        = incus_network.storage.name
+  project        = "default"
+  target_network = incus_network.management.name
+  target_project = "default"
+}

@@ -4,7 +4,7 @@ resource "incus_network_acl" "ssh_mgmt" {
   ingress = [
     {
       action           = "allow"
-      source           = var.mgmt_subnet
+      source           = var.mgmt_subnets
       destination_port = "22"
       protocol         = "tcp"
       description      = "Allow incoming management SSH connections"

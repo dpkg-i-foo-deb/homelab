@@ -33,3 +33,21 @@ resource "incus_network_peer" "code_reverse_proxy" {
   target_network = incus_network.reverse_proxy.name
   target_project = "default"
 }
+
+resource "incus_network_peer" "code_unstrusted" {
+  name           = "code-unstrusted"
+  description    = "Allow peering between code and untrusted networks"
+  network        = incus_network.code.name
+  project        = "default"
+  target_network = incus_network.untrusted.name
+  target_project = "default"
+}
+
+resource "incus_network_peer" "code_management" {
+  name           = "code-management"
+  description    = "Allow peering between code and management networks"
+  network        = incus_network.code.name
+  project        = "default"
+  target_network = incus_network.management.name
+  target_project = "default"
+}

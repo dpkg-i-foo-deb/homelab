@@ -15,6 +15,8 @@ resource "incus_network" "trusted" {
   }
 }
 
+# TODO trusted requires peering from and to every network (SIEM)
+
 resource "incus_network_peer" "trusted_reverse_proxy" {
   name           = "trusted-reverse-proxy"
   description    = "Allow peering between trusted and reverse-proxy networks"
@@ -30,5 +32,14 @@ resource "incus_network_peer" "trusted_dns" {
   network        = incus_network.trusted.name
   project        = "default"
   target_network = incus_network.dns.name
+  target_project = "default"
+}
+
+resource "incus_network_peer" "trusted_management" {
+  name           = "trusted-management"
+  description    = "Allow peering between trusted and management networks"
+  network        = incus_network.trusted.name
+  project        = "default"
+  target_network = incus_network.management.name
   target_project = "default"
 }

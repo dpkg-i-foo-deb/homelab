@@ -23,3 +23,12 @@ resource "incus_network_peer" "torrenting_dns" {
   target_network = incus_network.dns.name
   target_project = "default"
 }
+
+resource "incus_network_peer" "torrenting_management" {
+  name           = "torrenting-management"
+  description    = "Allow peering between torrenting and management networks"
+  network        = incus_network.torrenting.name
+  project        = "default"
+  target_network = incus_network.management.name
+  target_project = "default"
+}
