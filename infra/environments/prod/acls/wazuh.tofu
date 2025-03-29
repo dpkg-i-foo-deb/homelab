@@ -8,7 +8,7 @@ resource "incus_network_acl" "wazuh_security" {
       destination_port = "1514,1515"
       protocol         = "tcp"
       description      = "Allow connecting to the Wazuh server (TCP)"
-      state            = "allowed"
+      state            = "enabled"
     },
     {
       action           = "allow"
@@ -16,7 +16,7 @@ resource "incus_network_acl" "wazuh_security" {
       destination_port = "1514,1515"
       protocol         = "tcp"
       description      = "Allow connecting to the Wazuh server (UDP)"
-      state            = "allowed"
+      state            = "enabled"
     }
   ]
 }
