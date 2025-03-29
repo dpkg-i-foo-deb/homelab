@@ -1,0 +1,9 @@
+- name: Configure Container host virtual machine
+  hosts: container-host
+  vars:
+    container_host_user: container-host
+
+  tasks:
+    - name: Deploy Docker CE
+      ansible.builtin.import_role:
+        name: docker_host

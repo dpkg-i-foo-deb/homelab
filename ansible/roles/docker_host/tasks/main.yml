@@ -1,0 +1,5 @@
+---
+- name: Configure repository for apt
+  ansible.builtin.import_tasks: repo.yml
+- name: Package configuration
+  ansible.builtin.import_tasks: packages.yml

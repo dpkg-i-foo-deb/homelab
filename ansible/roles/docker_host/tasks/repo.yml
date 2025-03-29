@@ -1,0 +1,17 @@
+---
+- name: Docker repostory configuration
+  block:
+    - name: Import Docker gpg key
+      become: true
+      ansible.builtin.get_url:
+        url: https://download.docker.com/linux/debian/gpg
+        dest: /etc/apt/keyrings/docker.asc
+        mode: '0644'
+    - name: Add Docker repository
+      become: true
+      ansible.builtin.apt_repository:
+        repo: >-
+          deb [arch={{ ansible_architecture }}
+          signed-by=/etc/apt/keyrings/docker.asc]
+          https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable
+        state: present
