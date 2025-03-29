@@ -7,6 +7,7 @@ module "acls" {
   mgmt_subnet         = var.home_subnet
   allowed_ssh_subnets = join(",", data.github_ip_ranges.ranges.git)
   allowed_dns_subnets = join(",", data.cloudflare_ip_ranges.ranges.ipv4_cidr_blocks)
+  security_ip      = var.security_ip
 
   providers = {
     incus = incus
@@ -24,7 +25,6 @@ module "networks" {
   ssh_mgmt_acl     = module.acls.ssh_mgmt
   ssh_outbound_acl = module.acls.ssh_outbound
   wazuh_security_acl = module.acls.wazuh_security
-  security_ip      = var.security_ip
 
   providers = {
     incus = incus
