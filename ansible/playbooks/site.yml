@@ -13,8 +13,6 @@
   import_playbook: zram.yml
 - name: Virtual machines configuration
   import_playbook: vm.yml
-- name: NAS deployment
-  import_playbook: nas.yml
 - name: Security services deployment
   import_playbook: security.yml
 - name: Knowledge management deployment
