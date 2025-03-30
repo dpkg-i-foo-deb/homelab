@@ -7,6 +7,25 @@ resource "incus_storage_volume" "bastion_data" {
   }
 }
 
+resource "incus_network_acl" "bastion_svc" {
+  name = "bastion-svc"
+
+  ingress = [
+    {
+      action = "allow"
+      source = join(",",
+        [
+          var.management_subnet,
+          var.reverse_proxy_net.config["ipv4.address"]
+      ])
+      destination_port = "8081"
+      protocol         = "tcp"
+      description      = "Allow incoming connections to apache guacamole"
+      state            = "enabled"
+    },
+  ]
+}
+
 resource "incus_instance" "bastion" {
   name  = "bastion"
   image = "images:debian/trixie/cloud"
