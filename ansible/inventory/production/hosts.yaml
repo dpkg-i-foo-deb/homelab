@@ -9,10 +9,12 @@ hypervisors:
         - { name: 'eth3', mac: '1c:86:0b:24:18:27' }
         - { name: 'eth4', mac: '1c:86:0b:24:18:28' }
 
-# bastion:
-#   hosts:
-#     homelab_bastion:
-#       ansible_host: 10.0.1.10
+bastion:
+  hosts:
+    homelab_bastion:
+      ansible_host: 10.0.1.10
+      siem_agent: homelab-bastion
+      groups: 'trusted,internet_facing'
 code:
   hosts:
     code_server:
