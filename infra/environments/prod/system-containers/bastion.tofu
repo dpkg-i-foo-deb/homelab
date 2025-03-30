@@ -54,6 +54,10 @@ resource "incus_instance" "bastion" {
     properties = {
       network        = var.management_net.name
       "ipv4.address" = "10.0.1.10"
+      "security.acls" = join(",",
+        [
+          incus_network_acl.bastion_svc.name
+      ])
     }
   }
 
