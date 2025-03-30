@@ -23,7 +23,7 @@ resource "incus_instance" "bastion" {
         ssh_public_key           = var.ssh_public_key,
         lxc_username             = "bastion",
         lxc_username_description = "Bastion Linux System Container",
-        lxc_user_password        = var.lxc_user
+        lxc_user_password        = var.lxc_user_password
         ansible_password         = var.ansible_password
       }
     )
