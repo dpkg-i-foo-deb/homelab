@@ -29,6 +29,7 @@ resource "incus_network_acl" "reverse_proxy_outbound" {
           var.torrenting_net.config["ipv4.address"],
           var.trusted_net.config["ipv4.address"],
           var.untrusted_net.config["ipv4.address"],
+          var.management_net.config["ipv4.address"]
       ])
       destination_port = ""
       protocol         = "tcp"
