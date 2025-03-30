@@ -78,7 +78,7 @@ resource "incus_instance" "servarr" {
     "boot.autostart"              = true
     "limits.cpu"                  = 1
     "limits.cpu.allowance"        = "20%"
-    "limits.memory"               = "8GiB"
+    "limits.memory"               = "12GiB"
     "limits.memory.swap"          = "true"
     "limits.memory.swap.priority" = "0"
     "cloud-init.user-data" = templatefile(
