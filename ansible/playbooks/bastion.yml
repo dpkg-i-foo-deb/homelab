@@ -66,7 +66,7 @@
         guacamole_web_container: guacamole_web
         guacamole_web_network: '{{ bastion_guacamole_network }}'
         guacamole_web_guacd_hostname: guacamole_guacd
-        guacamole_web_extension_priority: 'postgresql, openid'
+        guacamole_web_extension_priority: 'openid,postgresql'
         guacamole_web_openid_authorization_endpoint: 'https://{{ auth_host }}.{{ internet_host }}/realms/{{ homelab_realm }}/protocol/openid-connect/auth'
         guacamole_web_openid_jwks_endpoint: 'https://{{ auth_host }}.{{ internet_host }}/realms/{{ homelab_realm }}/protocol/openid-connect/certs'
         guacamole_web_openid_issuer: 'https://{{ auth_host }}.{{ internet_host }}/realms/{{ homelab_realm }}'
