@@ -1,6 +1,15 @@
 data "github_ip_ranges" "ranges" {}
 data "cloudflare_ip_ranges" "ranges" {}
 
+module "projects" {
+  source = "./projects"
+
+  providers = {
+    incus = incus
+  }
+
+}
+
 module "acls" {
   source = "./acls"
 
