@@ -36,6 +36,7 @@ resource "incus_network" "management" {
         var.internal_dns_acl,
         var.http_acl,
         var.ssh_mgmt_acl,
+        var.ssh_outbound_acl,
         incus_network_acl.management_ssh_outbound.name,
         var.wazuh_security_acl,
     ])
