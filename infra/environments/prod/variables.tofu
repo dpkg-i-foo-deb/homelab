@@ -32,3 +32,8 @@ variable "security_ip" {
   type        = string
   description = "Security service address"
 }
+
+variable "hypervisor_address" {
+  type        = string
+  description = "IP Address to access the hypervisor"
+}
