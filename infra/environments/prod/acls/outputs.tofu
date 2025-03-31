@@ -37,3 +37,8 @@ output "wazuh_security" {
   value       = incus_network_acl.wazuh_security.name
   description = "ACL to allow access to Wazuh server"
 }
+
+output "incus_api_outbound" {
+  value       = incus_network_acl.incus_api_outbound
+  description = "ACL to allow outbound Incus API connections"
+}
