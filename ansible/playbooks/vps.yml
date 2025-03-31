@@ -25,7 +25,6 @@
         headscale_command: 'serve'
         headscale_http_port: '8080'
         headscale_metrics_port: '9090'
-        headscale_dns_server: '100.64.0.6'
         headscale_conf_dir: '/var/headscale'
         headscale_tls_vol: 'headscale_tls'
         headscale_network: 'host'
