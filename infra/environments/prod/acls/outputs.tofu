@@ -39,6 +39,6 @@ output "wazuh_security" {
 }
 
 output "incus_api_outbound" {
-  value       = incus_network_acl.incus_api_outbound
+  value       = incus_network_acl.incus_api_outbound.name
   description = "ACL to allow outbound Incus API connections"
 }
