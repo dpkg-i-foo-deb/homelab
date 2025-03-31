@@ -1,3 +1,8 @@
+variable "incus_address" {
+  type        = string
+  description = "IP Address to access the hypervisor Incus API"
+}
+
 variable "mgmt_subnets" {
   type        = string
   description = "Subnets for server management"
