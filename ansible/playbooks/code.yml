@@ -26,6 +26,8 @@
           - zip
           - unzip
           - dnsutils
+          - gettext-base
+          - vim
         code_server_docker_host: '10.0.8.12'
 
 - name: Configure work code-server
@@ -50,6 +52,8 @@
           - curl
           - direnv
           - telnet
+          - gettext-base
+          - vim
           - inetutils-ping
           - zip
           - unzip
