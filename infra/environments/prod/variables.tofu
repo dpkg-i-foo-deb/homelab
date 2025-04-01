@@ -16,13 +16,13 @@ variable "security_ip" {
 }
 
 variable "hypervisor_addresses" {
-  type        = string
-  description = "List of comma separated IP Addresses to access hypervisor servers"
+  type        = list(string)
+  description = "List of IP Addresses to access hypervisor servers"
 }
 
 variable "vps_addresses" {
-  type        = string
-  description = "List of IP comma separated Addresses to access VPS servers"
+  type        = list(string)
+  description = "List of IP Addresses to access VPS servers"
 }
 
 variable "lxc_user_password" {

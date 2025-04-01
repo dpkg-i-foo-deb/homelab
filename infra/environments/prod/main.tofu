@@ -17,7 +17,7 @@ module "acls" {
   allowed_ssh_subnets = join(",", data.github_ip_ranges.ranges.git)
   allowed_dns_subnets = join(",", data.cloudflare_ip_ranges.ranges.ipv4_cidr_blocks)
   security_ip         = var.security_ip
-  incus_addresses     = var.hypervisor_addresses
+  incus_addresses     = join(",", var.hypervisor_addresses)
 
   providers = {
     incus = incus
@@ -27,16 +27,16 @@ module "acls" {
 module "networks" {
   source = "./networks"
 
-  allowed_ssh_mgmt_subnets = [var.hypervisor_addresses, var.vps_addresses]
-  external_dns_acl                = module.acls.external_dns
-  internal_dns_acl                = module.acls.internal_dns
-  inbound_dns_acl                 = module.acls.inbound_dns
-  http_acl                        = module.acls.http
-  http_inbound_acl                = module.acls.http_inbound
-  ssh_mgmt_acl                    = module.acls.ssh_mgmt
-  ssh_outbound_acl                = module.acls.ssh_outbound
-  wazuh_security_acl              = module.acls.wazuh_security
-  incus_api_outbound_acl          = module.acls.incus_api_outbound
+  allowed_ssh_mgmt_subnets = join(",", var.hypervisor_addresses, var.vps_addresses)
+  external_dns_acl         = module.acls.external_dns
+  internal_dns_acl         = module.acls.internal_dns
+  inbound_dns_acl          = module.acls.inbound_dns
+  http_acl                 = module.acls.http
+  http_inbound_acl         = module.acls.http_inbound
+  ssh_mgmt_acl             = module.acls.ssh_mgmt
+  ssh_outbound_acl         = module.acls.ssh_outbound
+  wazuh_security_acl       = module.acls.wazuh_security
+  incus_api_outbound_acl   = module.acls.incus_api_outbound
 
   providers = {
     incus = incus
