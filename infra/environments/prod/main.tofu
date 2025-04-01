@@ -18,7 +18,7 @@ module "acls" {
   allowed_dns_subnets      = join(",", data.cloudflare_ip_ranges.ranges.ipv4_cidr_blocks)
   allowed_ssh_mgmt_subnets = join(",", var.hypervisor_addresses, var.vps_addresses)
   security_ip              = var.security_ip
-  incus_addresses          = var.hypervisor_address
+  incus_addresses          = var.hypervisor_addresses
 
   providers = {
     incus = incus
