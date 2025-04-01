@@ -1,7 +1,7 @@
 # Uplink whose dns search is set to a public dns resolver
 # this will be used for my own dns servers
 resource "incus_network" "incusbr1" {
-  name = "incusbr0"
+  name = "incusbr1"
   type = "physical"
   config = {
     "parent"          = "enp7s0"
