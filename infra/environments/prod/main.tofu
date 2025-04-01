@@ -63,6 +63,24 @@ module "storage-volumes" {
   }
 }
 
+module "virtual-machines" {
+  source = "./virtual-machines"
+
+  providers = {
+    incus = incus
+  }
+
+  vc_cluster_ssh_public_key    = var.vc_cluster_ssh_public_key
+  vc_cluster_lxc_user_password = var.vc_cluster_lxc_user_password
+  vc_cluster_ansible_password  = var.vc_cluster_ansible_password
+
+  virt_main_pool     = module.storage-pools.virt_main
+  virt_high_io_pool  = module.storage-pools.virt_high_io
+
+  untrusted_net     = module.networks.untrusted
+
+}
+
 module "system-containers" {
   source = "./system-containers"
 
@@ -88,10 +106,6 @@ module "system-containers" {
 
   music_vol     = module.storage-volumes.music
   downloads_vol = module.storage-volumes.downloads
-
-  vc_cluster_ssh_public_key    = var.vc_cluster_ssh_public_key
-  vc_cluster_lxc_user_password = var.vc_cluster_lxc_user_password
-  vc_cluster_ansible_password  = var.vc_cluster_ansible_password
 
   providers = {
     incus = incus

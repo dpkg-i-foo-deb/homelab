@@ -1,5 +1,6 @@
 resource "incus_instance" "vc-node" {
   name    = "vc-node"
+  type    = "virtual-machine"
   image   = "images:debian/trixie/cloud"
   project = "vc-cluster"
 
@@ -23,7 +24,7 @@ resource "incus_instance" "vc-node" {
     )
     "security.nesting"    = true
     "security.privileged" = true
-    "raw.lxc"  = <<-EOT
+    "raw.lxc"             = <<-EOT
       lxc.apparmor.profile=unconfined
       lxc.mount.auto=proc:rw sys:rw cgroup:rw
       lxc.cap.drop=
@@ -52,7 +53,7 @@ resource "incus_instance" "vc-node" {
     type = "unix-char"
     properties = {
       source = "/dev/kmsg"
-      path = "/dev/kmsg"
+      path   = "/dev/kmsg"
     }
   }
 }
