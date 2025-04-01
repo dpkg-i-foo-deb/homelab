@@ -10,6 +10,7 @@ resource "incus_instance" "vc-node" {
     "limits.memory"               = "8GiB"
     "limits.memory.swap"          = "true"
     "limits.memory.swap.priority" = "0"
+    "limits.kernel.memlock"       = "unlimited"
     "cloud-init.user-data" = templatefile(
       "${path.module}/../cloud-init/generic.yml.tftpl",
       {
