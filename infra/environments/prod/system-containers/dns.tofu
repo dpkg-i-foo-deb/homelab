@@ -1,22 +1,22 @@
-resource "incus_storage_volume" "dns_home_data-0" {
+resource "incus_storage_volume" "dns_home_data_0" {
   name    = "dns-home-data-0"
   pool    = var.virt_main_pool
   project = "default"
 }
 
-resource "incus_storage_volume" "dns_home_data-1" {
+resource "incus_storage_volume" "dns_home_data_1" {
   name    = "dns-home-data-1"
   pool    = var.virt_main_pool
   project = "default"
 }
 
-resource "incus_storage_volume" "dns_vpn_data-0" {
+resource "incus_storage_volume" "dns_vpn_data_0" {
   name    = "dns-vpn-data-0"
   pool    = var.virt_main_pool
   project = "default"
 }
 
-resource "incus_storage_volume" "dns_vpn_data-1" {
+resource "incus_storage_volume" "dns_vpn_data_1" {
   name    = "dns-vpn-data-1"
   pool    = var.virt_main_pool
   project = "default"
