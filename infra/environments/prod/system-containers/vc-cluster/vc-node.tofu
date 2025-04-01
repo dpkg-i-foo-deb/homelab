@@ -22,6 +22,7 @@ resource "incus_instance" "vc-node" {
       }
     )
     "security.nesting" = true
+    "security.privileged" = true
   }
   device {
     name = "eth0"
