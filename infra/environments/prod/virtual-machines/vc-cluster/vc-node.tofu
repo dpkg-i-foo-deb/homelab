@@ -22,7 +22,7 @@ resource "incus_instance" "vc-node" {
         ansible_password         = var.ansible_password
       }
     )
-    "security.nesting"    = true
+    # "security.nesting"    = true
     # "security.privileged" = true
     # "raw.lxc"             = <<-EOT
     #   lxc.apparmor.profile=unconfined
