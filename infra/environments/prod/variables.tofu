@@ -20,9 +20,9 @@ variable "hypervisor_address" {
   description = "IP Address to access the hypervisor"
 }
 
-variable "vps_address" {
-  type        = string
-  description = "IP Address to access the VPS"
+variable "vps_addresses" {
+  type        = list(string)
+  description = "List of IP Addresses to access the VPS"
 }
 
 variable "lxc_user_password" {
