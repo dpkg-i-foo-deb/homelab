@@ -21,8 +21,9 @@ resource "incus_instance" "vc-node" {
         ansible_password         = var.ansible_password
       }
     )
-    "security.nesting" = true
+    "security.nesting"    = true
     "security.privileged" = true
+    "raw.lxc.kmsg"        = 1
   }
   device {
     name = "eth0"
