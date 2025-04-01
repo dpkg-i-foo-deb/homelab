@@ -23,7 +23,7 @@ resource "incus_instance" "vc-node" {
     )
     "security.nesting"    = true
     "security.privileged" = true
-    "raw.lxc.kmsg"        = 1
+    "raw.lxc"             = "lxc.msg=1"
   }
   device {
     name = "eth0"
