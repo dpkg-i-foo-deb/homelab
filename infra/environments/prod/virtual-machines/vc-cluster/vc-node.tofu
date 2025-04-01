@@ -48,12 +48,12 @@ resource "incus_instance" "vc-node" {
     }
   }
 
-  device {
-    name = "kmsg"
-    type = "unix-char"
-    properties = {
-      source = "/dev/kmsg"
-      path   = "/dev/kmsg"
-    }
-  }
+  # device {
+  #   name = "kmsg"
+  #   type = "unix-char"
+  #   properties = {
+  #     source = "/dev/kmsg"
+  #     path   = "/dev/kmsg"
+  #   }
+  # }
 }
