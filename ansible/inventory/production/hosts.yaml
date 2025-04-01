@@ -25,24 +25,24 @@ servarr:
       ansible_host: 10.0.0.12
 home_dns:
   hosts:
-    primary_dns:
+    primary_home_dns:
       ansible_host: 10.0.2.2
       dns_user: dns-home-0
       siem_agent: dns-home-0
       groups: 'trusted'
-    backup_dns:
+    backup_home_dns:
       ansible_host: 10.0.2.3
       dns_user: dns-home-1
       siem_agent: dns-home-1
       groups: 'trusted'
 vpn_dns:
   hosts:
-    primary_dns:
+    primary_vpn_dns:
       ansible_host: 10.0.2.4
       dns_user: dns-vpn-0
       siem_agent: dns-vpn-0
       groups: 'internet_facing,trusted'
-    backup_dns:
+    backup_vpn_dns:
       ansible_host: 10.0.2.5
       dns_user: dns-vpn-1
       siem_agent: dns-vpn-1
