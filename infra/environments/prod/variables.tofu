@@ -10,6 +10,21 @@ variable "ssh_public_key" {
   description = "SSH Public Key"
 }
 
+variable "security_ip" {
+  type        = string
+  description = "Security service address"
+}
+
+variable "hypervisor_address" {
+  type        = string
+  description = "IP Address to access the hypervisor"
+}
+
+variable "vps_address" {
+  type        = string
+  description = "IP Address to access the VPS"
+}
+
 variable "lxc_user_password" {
   type        = string
   description = "LXC Password used for Instances"
@@ -45,14 +60,4 @@ variable "home_subnet" {
 variable "cloudflare_api_token" {
   type        = string
   description = "Cloudflare API Token"
-}
-
-variable "security_ip" {
-  type        = string
-  description = "Security service address"
-}
-
-variable "hypervisor_address" {
-  type        = string
-  description = "IP Address to access the hypervisor"
 }
