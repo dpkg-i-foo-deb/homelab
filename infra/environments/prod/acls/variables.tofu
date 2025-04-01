@@ -1,5 +1,5 @@
-variable "incus_address" {
-  type        = string
+variable "incus_addresses" {
+  type        = list(string)
   description = "IP Address to access the hypervisor Incus API"
 }
 
