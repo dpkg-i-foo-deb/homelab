@@ -1,5 +1,5 @@
 variable "allowed_ssh_mgmt_subnets" {
-  type        = list(string)
+  type        = string
   description = "List of comma separated subnets to connect through SSH for management"
 }
 
