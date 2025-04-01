@@ -1,6 +1,6 @@
 variable "incus_addresses" {
-  type        = list(string)
-  description = "IP Address to access the hypervisor Incus API"
+  type        = string
+  description = "IP Addresses to access the hypervisor Incus API"
 }
 
 variable "mgmt_subnets" {

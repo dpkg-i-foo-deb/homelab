@@ -5,7 +5,7 @@ resource "incus_network_acl" "incus_api_outbound" {
     {
       action           = "allow"
       source           = ""
-      destination      = join(",", var.incus_addresses)
+      destination      = var.incus_addresses
       destination_port = "8443"
       protocol         = "tcp"
       description      = "Allow traffic to the incus API (TCP)"
@@ -14,7 +14,7 @@ resource "incus_network_acl" "incus_api_outbound" {
     {
       action           = "allow"
       source           = ""
-      destination      = join(",", var.incus_addresses)
+      destination      = var.incus_addresses
       destination_port = "8443"
       protocol         = "udp"
       description      = "Allow traffic to the incus API (UDP)"

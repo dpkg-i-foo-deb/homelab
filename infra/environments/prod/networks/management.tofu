@@ -14,7 +14,7 @@ resource "incus_network_acl" "management_ssh_outbound" {
           incus_network.torrenting.config["ipv4.address"],
           incus_network.trusted.config["ipv4.address"],
           incus_network.untrusted.config["ipv4.address"],
-          var.allowed_public_ssh_mgmt_subnets
+          var.allowed_ssh_mgmt_subnets
         ]
       )
       destination_port = "22"
