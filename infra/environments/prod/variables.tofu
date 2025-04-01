@@ -15,14 +15,14 @@ variable "security_ip" {
   description = "Security service address"
 }
 
-variable "hypervisor_address" {
-  type        = string
-  description = "IP Address to access the hypervisor"
+variable "hypervisor_addresses" {
+  type        = list(string)
+  description = "List of IP Addresses to access hypervisor servers"
 }
 
 variable "vps_addresses" {
   type        = list(string)
-  description = "List of IP Addresses to access the VPS"
+  description = "List of IP Addresses to access VPS servers"
 }
 
 variable "lxc_user_password" {
