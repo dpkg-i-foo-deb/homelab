@@ -1,0 +1,62 @@
+- name: Configure virtual machines and home DNS server
+  hosts: home_dns
+  tasks:
+
+    - name: Build dns_records from homelab_services
+      ansible.builtin.set_fact:
+        dns_records: "{{ dns_records | default([]) + [ { 'domain': item.value.host ~ '.' ~ internet_host, 'address': item.value.private_proxy } ] }}"
+      loop: "{{ homelab_services | dict2items }}"
+      when: item.value.private_proxy is defined
+
+    - name: Show DNS records to be installed
+      ansible.builtin.debug:
+        msg: '{{ dns_records }}'
+
+    - name: Deploy Blocky DNS Server
+      ansible.builtin.import_role:
+        name: blocky
+      vars:
+        blocky_user: '{{ dns_user }}'
+        blocky_container: 'blocky'
+        blocky_custom_records: '{{ dns_records }}'
+        blocky_config_dir: '/var/blocky'
+        blocky_dns_port: '53'
+        blocky_http_port: '4000'
+        blocky_upstreams:
+          - '1.1.1.1'
+          - '8.8.8.8'
+        blocky_adlists:
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/pro.plus.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/fake.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/popupads.txt'
+        blocky_security_lists:
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/tif.txt'
+          # - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/doh-vpn-proxy-bypass.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/dyndns.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/hoster.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/gambling.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/tif.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/dyndns.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/hoster.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/gambling.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.amazon.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.apple.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.huawei.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.winoffice.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.samsung.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.tiktok.extended.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.lgwebos.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.roku.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.vivo.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.oppo-realme-onlydomains.txt'
+          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.xiaomi.txt'
+
+    - name: Deploy Wazuh agent
+      ansible.builtin.import_role:
+        name: wazuh_agent
+      vars:
+        wazuh_agent_version: '4.x'
+        wazuh_agent_manager_host: '{{ siem_host }}'
+        wazuh_agent_registration_pass: '{{ siem_enrollment_pass }}'
+        wazuh_agent_name: '{{ siem_agent }}'
+        wazuh_agent_groups: '{{ groups }}'

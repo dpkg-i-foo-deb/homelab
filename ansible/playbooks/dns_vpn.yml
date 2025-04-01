@@ -1,12 +1,12 @@
-- name: Configure virtual machines DNS server
-  hosts: dns
+- name: Configure VPN DNS Servers
+  hosts: vpn_dns
   tasks:
 
     - name: Build dns_records from homelab_services
       ansible.builtin.set_fact:
-        dns_records: "{{ dns_records | default([]) + [ { 'domain': item.value.host ~ '.' ~ internet_host, 'address': item.value.private_proxy } ] }}"
+        dns_records: "{{ dns_records | default([]) + [ { 'domain': item.value.host ~ '.' ~ internet_host, 'address': item.value.private_proxy_vpn } ] }}"
       loop: "{{ homelab_services | dict2items }}"
-      when: item.value.private_proxy is defined
+      when: item.value.private_proxy_vpn is defined
 
     - name: Show DNS records to be installed
       ansible.builtin.debug:
@@ -59,4 +59,4 @@
         wazuh_agent_manager_host: '{{ siem_host }}'
         wazuh_agent_registration_pass: '{{ siem_enrollment_pass }}'
         wazuh_agent_name: '{{ siem_agent }}'
-        wazuh_agent_groups: 'trusted,utility'
+        wazuh_agent_groups: '{{ groups }}'
