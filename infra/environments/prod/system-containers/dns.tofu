@@ -198,7 +198,7 @@ resource "incus_instance" "dns_vpn_1" {
       {
         ssh_public_key           = var.ssh_public_key,
         lxc_username             = "dns-vpn-1"
-        lxc_username_description = "DNS server for VPN"
+        lxc_username_description = "Backup DNS server for VPN"
         lxc_user_password        = var.lxc_user_password,
         ansible_password         = var.ansible_password
       }
