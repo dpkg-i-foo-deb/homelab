@@ -4,7 +4,7 @@ resource "incus_network" "dns" {
   config = {
     "ipv4.address" = "10.0.2.1/24"
     "ipv4.nat"     = false
-    "network"      = "${incus_network.incusbr0.name}"
+    "network"      = "${incus_network.incusbr1.name}"
     "security.acls" = join(",",
       [
         var.external_dns_acl,

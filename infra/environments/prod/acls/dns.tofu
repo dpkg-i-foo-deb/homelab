@@ -36,7 +36,7 @@ resource "incus_network_acl" "external_dns" {
     },
     {
       action           = "allow"
-      destination      = "8.8.8.8"
+      destination      = "8.8.8.8,8.8.4.4"
       destination_port = "53"
       protocol         = "udp"
       description      = "Allow DNS to Google public resolvers (UDP)"
@@ -44,7 +44,7 @@ resource "incus_network_acl" "external_dns" {
     },
     {
       action           = "allow"
-      destination      = "8.8.8.8"
+      destination      = "8.8.8.8,8.8.4.4"
       destination_port = "53"
       protocol         = "tcp"
       description      = "Allow DNS to Google public resolvers (TCP)"
