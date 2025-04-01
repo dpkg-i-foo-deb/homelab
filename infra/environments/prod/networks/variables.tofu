@@ -1,6 +1,6 @@
 variable "allowed_public_ssh_mgmt_subnets" {
-  type        = string
-  description = "List of comma separated subnets to connect through SSH for management (Public IPs)"
+  type        = list(string)
+  description = "List of comma separated subnets to connect through SSH for management"
 }
 
 variable "external_dns_acl" {
