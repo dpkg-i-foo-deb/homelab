@@ -27,12 +27,12 @@ dns:
   hosts:
     primary_dns:
       ansible_host: 10.0.2.2
-      dns_user: dns
-      siem_agent: dns
+      dns_user: dns-home-0
+      siem_agent: dns-home-0
     backup_dns:
       ansible_host: 10.0.2.3
-      dns_user: dns-1
-      siem_agent: dns-1
+      dns_user: dns-home-1
+      siem_agent: dns-home-1
 streaming:
   hosts:
     streaming_vm:
