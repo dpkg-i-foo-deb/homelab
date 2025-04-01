@@ -1,3 +1,8 @@
+variable "allowed_public_ssh_mgmt_subnets" {
+  type        = string
+  description = "List of comma separated subnets to connect through SSH for management (Public IPs)"
+}
+
 variable "external_dns_acl" {
   type        = string
   description = "ACL to allow external DNS connections"
