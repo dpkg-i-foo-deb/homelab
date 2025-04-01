@@ -6,7 +6,7 @@ resource "incus_instance" "vc-node" {
   config = {
     "boot.autostart"              = true
     "limits.cpu"                  = 1
-    "limits.cpu.allowance"        = "10%"
+    "limits.cpu.allowance"        = "30%"
     "limits.memory"               = "8GiB"
     "limits.memory.swap"          = "true"
     "limits.memory.swap.priority" = "0"
