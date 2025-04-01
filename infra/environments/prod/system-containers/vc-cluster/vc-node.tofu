@@ -23,7 +23,9 @@ resource "incus_instance" "vc-node" {
     )
     "security.nesting"    = true
     "security.privileged" = true
-    "raw.lxc"             = "lxc.kmsg=1"
+    "raw.lxc" = <<-EOT
+      lxc.kmsg=1
+    EOT
   }
   device {
     name = "eth0"
