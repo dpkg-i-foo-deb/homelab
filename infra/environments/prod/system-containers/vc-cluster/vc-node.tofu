@@ -23,9 +23,6 @@ resource "incus_instance" "vc-node" {
     )
     "security.nesting"    = true
     "security.privileged" = true
-    "raw.lxc" = <<-EOT
-      lxc.kmsg=1
-    EOT
   }
   device {
     name = "eth0"
@@ -41,6 +38,15 @@ resource "incus_instance" "vc-node" {
     properties = {
       path = "/"
       pool = var.virt_main_pool
+    }
+  }
+
+  device {
+    name = "kmsg"
+    type = "unix-char"
+    properties = {
+      source = "/dev/kmsg"
+      path = "/dev/kmsg"
     }
   }
 }
