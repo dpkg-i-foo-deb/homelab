@@ -1,4 +1,4 @@
-variable "allowed_public_ssh_mgmt_subnets" {
+variable "allowed_ssh_mgmt_subnets" {
   type        = list(string)
   description = "List of comma separated subnets to connect through SSH for management"
 }

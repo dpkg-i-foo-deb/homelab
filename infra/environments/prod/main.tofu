@@ -27,7 +27,7 @@ module "acls" {
 module "networks" {
   source = "./networks"
 
-  allowed_public_ssh_mgmt_subnets = [var.hypervisor_addresses, var.vps_addresses]
+  allowed_ssh_mgmt_subnets = [var.hypervisor_addresses, var.vps_addresses]
   external_dns_acl                = module.acls.external_dns
   internal_dns_acl                = module.acls.internal_dns
   inbound_dns_acl                 = module.acls.inbound_dns
