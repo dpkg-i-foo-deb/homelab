@@ -1,5 +1,0 @@
-incus_token       = "eyJjbGllbnRfbmFtZSI6ImRlbGwtbGFwdG9wIiwiZmluZ2VycHJpbnQiOiI4NTIwNWYzOGEzYzk4YTI4YTQyMWI5OTA1ZGNhMTgwN2Q1NTMxNWM0ZThkMTg2MjFjNWU1MzlhMThjNzIxNDgyIiwiYWRkcmVzc2VzIjpbIjE5Mi4xNjguOC40Ojg0NDMiXSwic2VjcmV0IjoiMWNiOTM0ZTc1MmFlNjBjYzQ5MmJiMjM2N2YzYTBhMzNmNzJjZTY2NGU2YmZhMjcwZmNkMDc0N2UwYmJjZWFiNCIsImV4cGlyZXNfYXQiOiIwMDAxLTAxLTAxVDAwOjAwOjAwWiJ9"
-ssh_public_key    = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK4rK1/vd8pxuk5del7oQzIg5ZGquejzZ8Eu5CwMFN41 mateoestradaramirez@outlook.com"
-lxc_user_password = "$2b$05$b4A5m5MpFPG0aN5nG1Rtd.mKw1JsBrBaaSd9UvFNtBDiA6gYD/EXa"
-ansible_password  = "$y$j9T$W5URNPaERGGWpLrz40I100$9ekfQDOCpy8fFDT2Q5vv0f24etod8CaqRcOo63TImc0"
-home_subnet       = "192.168.8.0/24"
