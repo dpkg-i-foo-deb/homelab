@@ -23,6 +23,12 @@ resource "incus_instance" "vc-node" {
     )
     "security.nesting"    = true
     "security.privileged" = true
+    "raw.lxc"  = <<-EOT
+      lxc.apparmor.profile=unconfined
+      lxc.mount.auto=proc:rw sys:rw cgroup:rw
+      lxc.cap.drop=
+      lxc.cgroup.devices.allow=a
+    EOT
   }
   device {
     name = "eth0"
