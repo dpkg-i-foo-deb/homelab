@@ -1,6 +1,6 @@
 resource "incus_instance" "vc-router" {
   name    = "vc-router"
-  image   = "images:openwrt/24.10"
+  image   = "images:openwrt/23.05"
   project = "vc-cluster"
 
   config = {
