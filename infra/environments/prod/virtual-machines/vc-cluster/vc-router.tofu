@@ -1,14 +1,14 @@
 resource "incus_instance" "vc-router" {
   name    = "vc-router"
   project = "vc-cluster"
-  type = "virtual-machine"
+  type    = "virtual-machine"
   running = "false"
 
   config = {
-    "boot.autostart"              = true
-    "limits.cpu"                  = 1
+    "boot.autostart" = true
+    "limits.cpu"     = 1
     # "limits.cpu.allowance"        = "10%"
-    "limits.memory"               = "2GiB"
+    "limits.memory" = "2GiB"
     # "limits.memory.swap"          = "true"
     # "limits.memory.swap.priority" = "0"
     # "limits.kernel.memlock"       = "unlimited"
@@ -37,8 +37,18 @@ resource "incus_instance" "vc-router" {
     name = "root"
     type = "disk"
     properties = {
-      path = "/"
-      source = "/var/images/opnsense.iso"
+      "boot.priority" = 10
+      path            = "/"
+      pool            = var.virt_high_io_pool
+    }
+  }
+
+  device {
+    name = "installer"
+    type = "disk"
+    properties = {
+      "boot.priority" = 1
+      source          = "/var/images/opnsense.iso"
     }
   }
 
