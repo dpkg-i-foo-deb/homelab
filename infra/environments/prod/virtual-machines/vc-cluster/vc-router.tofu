@@ -1,16 +1,16 @@
 resource "incus_instance" "vc-router" {
   name    = "vc-router"
-  image   = "images:openwrt/24.10"
   project = "vc-cluster"
+  type = "virtual-machine"
 
   config = {
     "boot.autostart"              = true
     "limits.cpu"                  = 1
-    "limits.cpu.allowance"        = "10%"
+    # "limits.cpu.allowance"        = "10%"
     "limits.memory"               = "2GiB"
-    "limits.memory.swap"          = "true"
-    "limits.memory.swap.priority" = "0"
-    "limits.kernel.memlock"       = "unlimited"
+    # "limits.memory.swap"          = "true"
+    # "limits.memory.swap.priority" = "0"
+    # "limits.kernel.memlock"       = "unlimited"
     "cloud-init.user-data" = templatefile(
       "${path.module}/../cloud-init/generic.yml.tftpl",
       {
@@ -36,8 +36,8 @@ resource "incus_instance" "vc-router" {
     name = "root"
     type = "disk"
     properties = {
-      path = "/"
-      pool = var.virt_main_pool
+      path = "/var/images/opnsense.img"
+      #pool = var.virt_main_pool
     }
   }
 
