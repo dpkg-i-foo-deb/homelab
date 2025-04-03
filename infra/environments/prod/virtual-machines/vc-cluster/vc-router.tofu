@@ -37,8 +37,8 @@ resource "incus_instance" "vc-router" {
     name = "root"
     type = "disk"
     properties = {
-      path = "/var/images/opnsense.img"
-      #pool = var.virt_main_pool
+      path = "/"
+      source = "/var/images/opnsense.iso"
     }
   }
 
