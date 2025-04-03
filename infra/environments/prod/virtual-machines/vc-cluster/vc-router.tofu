@@ -37,7 +37,7 @@ resource "incus_instance" "vc-router" {
     name = "root"
     type = "disk"
     properties = {
-      "boot.priority" = 10
+      "boot.priority" = 1
       path            = "/"
       pool            = var.virt_high_io_pool
     }
@@ -47,7 +47,7 @@ resource "incus_instance" "vc-router" {
     name = "installer"
     type = "disk"
     properties = {
-      "boot.priority" = 1
+      "boot.priority" = 2
       source          = "/var/images/opnsense.img"
     }
   }
