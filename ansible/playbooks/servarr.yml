@@ -4,7 +4,7 @@
     servarr_user: servarr
     servarr_downloads: /downloads
     servarr_music: /music
-    servarr_cache: /tmp/servarr-cache
+    servarr_cache: /var/servarr-cache
 
   tasks:
 
