@@ -48,7 +48,7 @@ resource "incus_instance" "vc-router" {
     type = "disk"
     properties = {
       "boot.priority" = 2
-      source          = "/var/images/opnsense.img"
+      source          = "/var/images/opnsense.iso"
     }
   }
 
