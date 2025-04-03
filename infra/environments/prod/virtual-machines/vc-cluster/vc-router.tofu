@@ -2,6 +2,7 @@ resource "incus_instance" "vc-router" {
   name    = "vc-router"
   project = "vc-cluster"
   type = "virtual-machine"
+  running = "false"
 
   config = {
     "boot.autostart"              = true
