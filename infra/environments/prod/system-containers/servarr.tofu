@@ -130,7 +130,7 @@ resource "incus_instance" "servarr" {
     name = "cache"
     type = "disk"
     properties = {
-      path   = "/tmp/servarr-cache"
+      path   = "/tmp/servarr-cach"
       source = incus_storage_volume.servarr_cache.name
       pool   = var.virt_high_io_pool
     }
