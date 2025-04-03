@@ -56,6 +56,18 @@ resource "incus_network_acl" "servarr_svc" {
       description      = "Allow incoming connections to LidaTube"
       state            = "enabled"
     },
+    {
+      action = "allow"
+      source = join(",",
+        [
+          var.management_subnet,
+          var.reverse_proxy_net.config["ipv4.address"]
+      ])
+      destination_port = "8265,8266"
+      protocol         = "tcp"
+      description      = "Allow incoming connections to Tdarr"
+      state            = "enabled"
+    },
   ]
   egress = [
     {
