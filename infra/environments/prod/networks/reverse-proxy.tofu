@@ -12,7 +12,8 @@ resource "incus_network" "reverse_proxy" {
         var.http_acl,
         var.http_inbound_acl,
         var.ssh_mgmt_acl,
-        var.wazuh_security_acl
+        var.wazuh_security_acl,
+        var.tailscale_inbound_acl
     ])
   }
 }

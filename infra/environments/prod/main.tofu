@@ -37,6 +37,7 @@ module "networks" {
   ssh_outbound_acl         = module.acls.ssh_outbound
   wazuh_security_acl       = module.acls.wazuh_security
   incus_api_outbound_acl   = module.acls.incus_api_outbound
+  tailscale_inbound_acl    = module.acls.tailscale_inbound
 
   providers = {
     incus = incus
@@ -74,10 +75,10 @@ module "virtual-machines" {
   vc_cluster_lxc_user_password = var.vc_cluster_lxc_user_password
   vc_cluster_ansible_password  = var.vc_cluster_ansible_password
 
-  virt_main_pool     = module.storage-pools.virt_main
-  virt_high_io_pool  = module.storage-pools.virt_high_io
+  virt_main_pool    = module.storage-pools.virt_main
+  virt_high_io_pool = module.storage-pools.virt_high_io
 
-  untrusted_net     = module.networks.untrusted
+  untrusted_net = module.networks.untrusted
 
 }
 
