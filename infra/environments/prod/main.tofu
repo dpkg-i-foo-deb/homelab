@@ -38,6 +38,7 @@ module "networks" {
   wazuh_security_acl       = module.acls.wazuh_security
   incus_api_outbound_acl   = module.acls.incus_api_outbound
   tailscale_inbound_acl    = module.acls.tailscale_inbound
+  torrenting_inbound_acl   = module.acls.torrenting_inbound
 
   providers = {
     incus = incus
