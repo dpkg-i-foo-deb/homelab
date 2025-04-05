@@ -9,7 +9,7 @@ resource "incus_storage_volume" "servarr_data" {
 
 resource "incus_storage_volume" "servarr_cache" {
   name    = "servarr-cache"
-  pool    = var.virt_high_io_pool
+  pool    = var.virt_spin0_pool
   project = "default"
   config = {
     "size" = "20GiB"
