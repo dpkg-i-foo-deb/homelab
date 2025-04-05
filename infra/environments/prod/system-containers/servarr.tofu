@@ -8,7 +8,7 @@ resource "incus_storage_volume" "servarr_data" {
 }
 
 resource "incus_storage_volume" "servarr_cache" {
-  name    = "servarr_cache"
+  name    = "servarr-cache"
   pool    = var.virt_high_io_pool
   project = "default"
   config = {
@@ -144,7 +144,7 @@ resource "incus_instance" "servarr" {
     properties = {
       path   = "/var/servarr-cache"
       source = incus_storage_volume.servarr_cache.name
-      pool   = var.virt_high_io_pool
+      pool   = var.virt_spin0_pool
     }
   }
 
