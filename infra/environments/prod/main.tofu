@@ -58,7 +58,6 @@ module "storage-volumes" {
 
   virt_main_pool     = module.storage-pools.virt_main
   virt_high_io_pool  = module.storage-pools.virt_high_io
-  virt_spin_usb_pool = module.storage-pools.virt_spin_usb
   virt_spin0_pool    = module.storage-pools.virt_spin0
 
   providers = {
@@ -105,7 +104,6 @@ module "system-containers" {
 
   virt_main_pool     = module.storage-pools.virt_main
   virt_high_io_pool  = module.storage-pools.virt_high_io
-  virt_spin_usb_pool = module.storage-pools.virt_spin_usb
   virt_spin0_pool    = module.storage-pools.virt_spin0
 
   music_vol     = module.storage-volumes.music
