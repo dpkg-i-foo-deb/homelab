@@ -48,7 +48,7 @@ output "tailscale_inbound" {
   description = "ACL to allow Tailscale functionality"
 }
 
-output "torrenting_inbound" {
-  value       = incus_network_acl.torrenting_inbound.name
+output "torrenting" {
+  value       = incus_network_acl.torrenting.name
   description = "ACL to allow inbound torrenting connections"
 }
