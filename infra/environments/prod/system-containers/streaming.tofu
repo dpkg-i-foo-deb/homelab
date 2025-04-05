@@ -85,7 +85,7 @@ resource "incus_instance" "streaming" {
     properties = {
       path   = "/music"
       source = var.music_vol
-      pool   = var.virt_spin_usb_pool
+      pool   = var.virt_spin0_pool
     }
   }
 }

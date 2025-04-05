@@ -154,7 +154,7 @@ resource "incus_instance" "servarr" {
     properties = {
       path   = "/downloads"
       source = var.downloads_vol
-      pool   = var.virt_spin_usb_pool
+      pool   = var.virt_spin0_pool
     }
   }
 
@@ -164,7 +164,7 @@ resource "incus_instance" "servarr" {
     properties = {
       path   = "/music"
       source = var.music_vol
-      pool   = var.virt_spin_usb_pool
+      pool   = var.virt_spin0_pool
     }
 
   }

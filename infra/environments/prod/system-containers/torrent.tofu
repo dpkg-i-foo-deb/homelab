@@ -87,7 +87,7 @@ resource "incus_instance" "torrent" {
     properties = {
       path   = "/downloads"
       source = var.downloads_vol
-      pool   = var.virt_spin_usb_pool
+      pool   = var.virt_spin0_pool
     }
   }
 }
