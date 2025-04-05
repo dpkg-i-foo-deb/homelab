@@ -1,5 +1,5 @@
-resource "incus_network_acl" "torrenting_inbound" {
-  name = "torrenting-inbound"
+resource "incus_network_acl" "torrenting" {
+  name = "torrenting"
 
   ingress = [
 
