@@ -4,11 +4,16 @@ output "virt_high_io" {
 }
 
 output "virt_main" {
-    value = incus_storage_pool.virt_main.name
-    description = "The name of the main storage pool"
+  value       = incus_storage_pool.virt_main.name
+  description = "The name of the main storage pool"
 }
 
 output "virt_spin_usb" {
-    value = incus_storage_pool.virt_spin_usb.name
-    description = "The name of the spin usb storage pool"
+  value       = incus_storage_pool.virt_spin_usb.name
+  description = "The name of the spin usb storage pool"
+}
+
+output "virt_spin0" {
+  value       = incus_storage_pool.virt_spin0.name
+  description = "The name of the spin0 storage pool"
 }
