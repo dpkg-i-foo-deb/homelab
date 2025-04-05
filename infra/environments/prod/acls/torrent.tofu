@@ -25,6 +25,22 @@ resource "incus_network_acl" "torrenting" {
     {
       action           = "allow"
       destination      = "@external"
+      destination_port = "6881-6889"
+      protocol         = "tcp"
+      description      = "Allow outbound connections for torrenting using standard ports (TCP)"
+      state            = "enabled"
+    },
+    {
+      action           = "allow"
+      destination      = "@external"
+      destination_port = "6969,1337,3391"
+      protocol         = "tcp"
+      description      = "Allow outbound connections for torrenting using non-standard ports (TCP)"
+      state            = "enabled"
+    },
+    {
+      action           = "allow"
+      destination      = "@external"
       destination_port = "6969,1337,3391"
       protocol         = "udp"
       description      = "Allow outbound connections for torrenting using non-standard ports (UDP)"
