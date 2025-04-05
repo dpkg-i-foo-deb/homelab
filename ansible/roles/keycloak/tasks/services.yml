@@ -1,9 +1,9 @@
 ---
 - name: Ensure Keycloak is running
   become: true
-  become_user: "{{ keycloak_user }}"
+  become_user: '{{ keycloak_user }}'
   ansible.builtin.systemd_service:
     daemon_reload: true
     state: started
-    name: "{{ keycloak_container }}"
+    name: '{{ keycloak_container }}'
     scope: user
