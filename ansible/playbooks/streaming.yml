@@ -3,6 +3,23 @@
   vars:
     streaming_user: streaming
     streaming_music: /music
+    streaming_photos: /photos
+    streaming_immich_network: immich
+    streaming_immich_db_user: !vault |
+      $ANSIBLE_VAULT;1.1;AES256
+      32653565366662326261646236663238653035383864303031373961646661393535333031336164
+      3031353266613937666362353430323934316235653261370a386632313965636139623965646233
+      36316436353763626438623539363035383332626137613334353661653033373663313863326538
+      3866613262343637350a376231643537383066363263636238336362613538623138616165323530
+      6532
+    streaming_immich_db_pass: !vault |
+      $ANSIBLE_VAULT;1.1;AES256
+      37616438373866373635656463663230666365333036376336333334653662396339323164316333
+      3139383039366463306330626130366233666539376363350a313066656265363038363739313339
+      34363664646231396435323166346634326563656461633136656165336639333136383861623635
+      3435363438306661610a623639653433333839336238636631633932633263343430656332303234
+      3335
+    streaming_immich_db: immich
   tasks:
     - name: Deploy Navidrome
       ansible.builtin.import_role:
@@ -28,6 +45,50 @@
           3537313339383265630a346437383561353136666562343665373132663362643931323061373839
           30373138663138386663336537363433396464626564336566663763636634663735646533343933
           6561336366386535353135633839376462326437323436326537
+
+    - name: Ensure there's a virtual network for Immich
+      ansible.builtin.import_role:
+        name: podman
+        tasks_from: network
+      vars:
+        podman_network: '{{ streaming_immich_network }}'
+        podman_user: '{{ streaming_user }}'
+
+    - name: Deploy Postgres for Immich
+      ansible.builtin.import_role:
+        name: postgres
+      vars:
+        postgres_podman_user: '{{ streaming_user }}'
+        postgres_container: immich_postgres
+        postgres_data_vol: 'immich_postgres'
+        postgres_db: '{{ streaming_immich_db }}'
+        postgres_user: '{{ streaming_immich_db_user }}'
+        postgres_pass: '{{ streaming_immich_db_pass }}'
+        postgres_network: '{{ streaming_immich_network }}'
+        postgres_image: 'docker.io/tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:739cdd626151ff1f796dc95a6591b55a714f341c737e27f045019ceabf8e8c52'
+        postgres_command: >-
+          postgres
+          -c shared_preload_libraries=vectors.so
+          -c 'search_path="$$user", public, vectors'
+          -c logging_collector=on
+          -c max_wal_size=2GB
+          -c shared_buffers=512MB
+          -c wal_compression=on
+
+    - name: Deploy Immich
+      ansible.builtin.import_role:
+        name: immich
+      vars:
+        immich_user: '{{ streaming_user }}'
+        immich_server_container: 'immich_server'
+        immich_http_port: '2283'
+        immich_network: '{{ streaming_immich_network }}'
+        immich_library_dir: '{{ streaming_photos }}'
+        immich_machine_learning_container: 'immich_machine_learning'
+        immich_redis_container: 'redis'
+        immich_db_name: '{{ streaming_immich_db }}'
+        immich_db_user: '{{ streaming_immich_db_user }}'
+        immich_db_pass: '{{ streaming_immich_db_pass }}'
 
     - name: Deploy Wazuh agent
       ansible.builtin.import_role:
