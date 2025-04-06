@@ -135,3 +135,8 @@ variable "downloads_vol" {
   type        = string
   description = "The name of the downloads volume"
 }
+
+variable "photos_vol" {
+  type        = string
+  description = "The name of the photos volume"
+}
