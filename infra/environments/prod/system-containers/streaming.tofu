@@ -88,4 +88,13 @@ resource "incus_instance" "streaming" {
       pool   = var.virt_spin0_pool
     }
   }
+  device {
+    name = "photos"
+    type = "disk"
+    properties = {
+      path   = "/photos"
+      source = var.photos_vol
+      pool   = var.virt_spin0_pool
+    }
+  }
 }
