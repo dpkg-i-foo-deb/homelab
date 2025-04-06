@@ -4,6 +4,15 @@ resource "incus_storage_volume" "streaming_data" {
   project = "default"
 }
 
+resource "incus_storage_volume" "streaming_cache" {
+  name    = "streaming-cache"
+  pool    = var.virt_high_io_pool
+  project = "default"
+  config = {
+    "size" = "50GiB"
+  }
+}
+
 resource "incus_network_acl" "streaming_svc" {
   name = "streaming-svc"
 
@@ -88,6 +97,7 @@ resource "incus_instance" "streaming" {
       pool   = var.virt_spin0_pool
     }
   }
+
   device {
     name = "photos"
     type = "disk"
@@ -95,6 +105,16 @@ resource "incus_instance" "streaming" {
       path   = "/photos"
       source = var.photos_vol
       pool   = var.virt_spin0_pool
+    }
+  }
+
+  device {
+    name = "cache"
+    type = "disk"
+    properties = {
+      path   = "/cache"
+      source = incus_storage_volume.streaming_cache.name
+      pool   = var.virt_high_io_pool
     }
   }
 }
