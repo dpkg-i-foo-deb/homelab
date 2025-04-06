@@ -18,6 +18,7 @@
       PUID: '1000'
       PGID: '1000'
       TZ: '{{ tz }}'
+      DB_HOSTNAME: '{{ immich_db_host }}'
       DB_DATABASE_NAME: '{{ immich_db_name }}'
       DB_USERNAME: '{{ immich_db_user }}'
       DB_PASSWORD: '{{ immich_db_pass }}'

@@ -68,6 +68,7 @@
           -c max_wal_size=2GB
           -c shared_buffers=512MB
           -c wal_compression=on
+        postgres_initdb_args: '--data-checksums'
 
     - name: Deploy Immich
       ansible.builtin.import_role:
@@ -80,6 +81,7 @@
         immich_library_dir: '{{ streaming_photos }}'
         immich_machine_learning_container: 'immich_machine_learning'
         immich_redis_container: 'redis'
+        immich_db_host: 'immich_postgres'
         immich_db_name: '{{ streaming_immich_db }}'
         immich_db_user: '{{ streaming_immich_db_user }}'
         immich_db_pass: '{{ streaming_immich_db_pass }}'
