@@ -5,7 +5,7 @@
   ansible.builtin.systemd_service:
     daemon_reload: true
     state: restarted
-    name: '{{ immich_container }}'
+    name: '{{ immich_server_container }}'
     scope: user
 
 - name: Restart Immich Machine Learning
