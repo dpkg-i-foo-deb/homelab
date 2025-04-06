@@ -1,0 +1,7 @@
+---
+- name: Directory configuration
+  ansible.builtin.import_tasks: directories.yml
+- name: Quadlets configuration
+  ansible.builtin.import_tasks: quadlets.yml
+- name: Service configuration
+  ansible.builtin.import_tasks: services.yml
