@@ -9,7 +9,7 @@
     state: quadlet
     quadlet_filename: '{{ immich_server_container }}'
     ports:
-      - '{{ immich_http_port | 2283 }}:2283'
+      - '{{ immich_http_port | default(2283) }}:2283'
     network: '{{ immich_network }}'
     volumes:
       - '{{ immich_library_dir }}:/usr/src/app/upload'
