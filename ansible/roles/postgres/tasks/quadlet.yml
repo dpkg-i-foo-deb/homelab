@@ -15,7 +15,7 @@
   notify: Restart Postgres
   containers.podman.podman_container:
     name: '{{ postgres_container }}'
-    image: '{{ postgres_image | "docker.io/postgres:latest" }}'
+    image: '{{ postgres_image | default("docker.io/postgres:latest") }}'
     userns: "{{ 'auto' if postgres_data_dir is defined or postgres_init_script is defined else '' }}"
     network: '{{ postgres_network }}'
     state: quadlet
