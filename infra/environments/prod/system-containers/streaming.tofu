@@ -51,7 +51,7 @@ resource "incus_instance" "streaming" {
   config = {
     "boot.autostart"              = true
     "limits.cpu"                  = 2
-    "limits.cpu.allowance"        = "20%"
+    "limits.cpu.allowance"        = "50%"
     "limits.memory"               = "12GiB"
     "limits.memory.swap"          = "true"
     "limits.memory.swap.priority" = "0"
