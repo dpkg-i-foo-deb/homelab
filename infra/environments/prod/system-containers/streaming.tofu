@@ -9,7 +9,7 @@ resource "incus_storage_volume" "streaming_cache" {
   pool    = var.virt_high_io_pool
   project = "default"
   config = {
-    "size" = "50GiB"
+    "size" = "100GiB"
   }
 }
 
