@@ -29,6 +29,18 @@ resource "incus_network_acl" "streaming_svc" {
       description      = "Allow incoming connections to Navidrome"
       state            = "enabled"
     },
+    {
+      action = "allow"
+      source = join(",",
+        [
+          var.management_subnet,
+          var.reverse_proxy_net.config["ipv4.address"]
+      ])
+      destination_port = "2283"
+      protocol         = "tcp"
+      description      = "Allow incoming connections to Immich"
+      state            = "enabled"
+    },
   ]
 }
 
