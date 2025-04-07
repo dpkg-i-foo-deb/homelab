@@ -14,3 +14,11 @@
   vars:
     podman_bind_mount: '{{ immich_machine_learning_dir }}'
     podman_user: '{{ immich_user }}'
+
+- name: Ensure there's a directory to store Immich redis data
+  ansible.builtin.import_role:
+    name: podman
+    tasks_from: bind_mount
+  vars:
+    podman_bind_mount: '{{ immich_redis_data_dir }}'
+    podman_user: '{{ immich_user }}'

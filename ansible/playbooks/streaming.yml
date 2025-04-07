@@ -86,6 +86,7 @@
         immich_db_user: '{{ streaming_immich_db_user }}'
         immich_db_pass: '{{ streaming_immich_db_pass }}'
         immich_machine_learning_dir: '/cache/immich-machine-learning'
+        immich_redis_data_dir: '/cache/immich-redis-data'
 
     - name: Deploy Wazuh agent
       ansible.builtin.import_role:

@@ -70,6 +70,8 @@
     state: quadlet
     quadlet_filename: '{{ immich_redis_container }}'
     network: '{{ immich_network }}'
+    volumes:
+      - '{{ immich_redis_data_dir }}:/data'
     env:
       PUID: '1000'
       PGID: '1000'
