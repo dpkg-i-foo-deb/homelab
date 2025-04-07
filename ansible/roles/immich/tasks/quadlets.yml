@@ -44,7 +44,7 @@
     quadlet_filename: '{{ immich_machine_learning_container }}'
     network: '{{ immich_network }}'
     volumes:
-      - '{{ immich_machine_learning_dir }}:/usr/src/app/upload'
+      - '{{ immich_machine_learning_dir }}:/cache'
     env:
       PUID: '1000'
       PGID: '1000'
