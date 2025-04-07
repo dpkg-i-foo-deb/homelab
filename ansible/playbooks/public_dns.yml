@@ -45,3 +45,6 @@
       - record: '{{ remote_host }}'
         comment: 'Bastion WebUI'
         value: '{{ public_ip }}'
+      - record: '{{ photos_host }}'
+        comment: 'Photos Service'
+        value: '{{ public_ip }}'
