@@ -29,8 +29,8 @@ resource "incus_instance" "dns_home_0" {
   config = {
     "boot.autostart"              = true
     "limits.cpu"                  = 1
-    "limits.cpu.allowance"        = "10%"
-    "limits.memory"               = "2GiB"
+    "limits.cpu.allowance"        = "50%"
+    "limits.memory"               = "4GiB"
     "limits.memory.swap"          = "true"
     "limits.memory.swap.priority" = "0"
     "cloud-init.user-data" = templatefile(
@@ -83,8 +83,8 @@ resource "incus_instance" "dns_home_1" {
   config = {
     "boot.autostart"              = true
     "limits.cpu"                  = 1
-    "limits.cpu.allowance"        = "10%"
-    "limits.memory"               = "2GiB"
+    "limits.cpu.allowance"        = "50%"
+    "limits.memory"               = "4GiB"
     "limits.memory.swap"          = "true"
     "limits.memory.swap.priority" = "0"
     "cloud-init.user-data" = templatefile(
@@ -136,8 +136,8 @@ resource "incus_instance" "dns_vpn_0" {
   config = {
     "boot.autostart"              = true
     "limits.cpu"                  = 1
-    "limits.cpu.allowance"        = "10%"
-    "limits.memory"               = "2GiB"
+    "limits.cpu.allowance"        = "50%"
+    "limits.memory"               = "4GiB"
     "limits.memory.swap"          = "true"
     "limits.memory.swap.priority" = "0"
     "cloud-init.user-data" = templatefile(
@@ -189,8 +189,8 @@ resource "incus_instance" "dns_vpn_1" {
   config = {
     "boot.autostart"              = true
     "limits.cpu"                  = 1
-    "limits.cpu.allowance"        = "10%"
-    "limits.memory"               = "2GiB"
+    "limits.cpu.allowance"        = "50%"
+    "limits.memory"               = "4GiB"
     "limits.memory.swap"          = "true"
     "limits.memory.swap.priority" = "0"
     "cloud-init.user-data" = templatefile(
