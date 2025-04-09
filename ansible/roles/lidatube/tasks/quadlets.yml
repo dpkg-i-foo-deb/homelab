@@ -13,7 +13,7 @@
     volumes:
       - '{{ lidatube_config }}:/lidatube/config:z'
       - '{{ lidatube_downloads }}:/lidatube/downloads:z'
-    memory: '{{ lidatube_memory }}'
+    memory: '{{ lidatube_memory | default(omit) }}'
     env:
       PUID: '1000'
       PGID: '1000'
@@ -21,6 +21,7 @@
       lidarr_address: '{{ lidatube_lidarr_addr }}'
       lidarr_api_key: '{{ lidatube_lidarr_api_key }}'
       preferred_codec: '{{ lidatube_preferred_codec }}'
+      sleep_interval: '{{ lidatube_sleep_interval | default(10) }}'
     quadlet_options:
       - 'AutoUpdate=registry'
       - 'Pull=newer'

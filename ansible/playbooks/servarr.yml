@@ -68,7 +68,8 @@
           31333365363066653833343939363164323463366231623131646531613336666233616638306163
           3734346436393837386532323534616531363734636535643638
         lidatube_preferred_codec: 'mp3'
-        lidatube_memory: '4GiB'
+        # lidatube_memory: '4GiB'
+        lidatube_sleep_interval: '300'
 
     - name: Deploy Wazuh agent
       ansible.builtin.import_role:
