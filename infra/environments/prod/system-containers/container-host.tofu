@@ -28,6 +28,18 @@ resource "incus_network_acl" "container_host_inbound" {
       description      = "Allow incoming connections to Docker daemon"
       state            = "enabled"
     },
+    {
+      action = "allow"
+      source = join(",",
+        [
+          var.management_subnet,
+          var.code_net.config["ipv4.address"],
+      ])
+      destination_port = "5000"
+      protocol         = "tcp"
+      description      = "Allow incoming connections to LidaTube (debug)"
+      state            = "enabled"
+    },
   ]
 }
 
@@ -52,7 +64,7 @@ resource "incus_instance" "container_host" {
         ansible_password         = var.ansible_password
       }
     )
-    "security.nesting"            = true
+    "security.nesting" = true
   }
 
   device {
