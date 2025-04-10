@@ -8,43 +8,35 @@ resource "incus_network_acl" "torrenting" {
       source           = "@external"
       destination_port = "6881"
       protocol         = "udp"
-      description      = "Allow connections for torrenting (UDP)"
+      description      = "Allow incoming connections for torrenting (UDP)"
       state            = "enabled"
     },
   ]
 
   egress = [
     {
-      action           = "allow"
+      action           = "reject"
       destination      = "@external"
-      destination_port = "6881-6889"
-      protocol         = "udp"
-      description      = "Allow outbound connections for torrenting using standard ports (UDP)"
-      state            = "enabled"
-    },
-    {
-      action           = "allow"
-      destination      = "@external"
-      destination_port = "6881-6889"
+      destination_port = "22"
       protocol         = "tcp"
-      description      = "Allow outbound connections for torrenting using standard ports (TCP)"
+      description      = "Don't allow connections to SSH"
       state            = "enabled"
     },
     {
       action           = "allow"
       destination      = "@external"
-      destination_port = "6969,1337,3391"
-      protocol         = "tcp"
-      description      = "Allow outbound connections for torrenting using non-standard ports (TCP)"
-      state            = "enabled"
-    },
-    {
-      action           = "allow"
-      destination      = "@external"
-      destination_port = "6969,1337,3391"
+      destination_port = ""
       protocol         = "udp"
-      description      = "Allow outbound connections for torrenting using non-standard ports (UDP)"
+      description      = "Allow any connection anywhere since trackers use a  lot of exotic ports (UDP)"
       state            = "enabled"
-    }
+    },
+    {
+      action           = "allow"
+      destination      = "@external"
+      destination_port = ""
+      protocol         = "tcp"
+      description      = "Allow any connection anywhere since trackers use a  lot of exotic ports (TCP)"
+      state            = "enabled"
+    },
   ]
 }
