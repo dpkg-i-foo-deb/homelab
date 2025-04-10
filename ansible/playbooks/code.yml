@@ -59,6 +59,8 @@
           - unzip
           - python3-pip
           - dnsutils
+          - nodejs
+          - npm
         code_server_docker_host: '10.0.8.12'
 
     - name: Deploy oauth2_proxy for work code_server
