@@ -4,7 +4,7 @@
   notify: Restart Soularr
   ansible.builtin.template:
     src: templates/config.ini.j2
-    dest: '{{ soularr_config_dir }}/config.init'
+    dest: '{{ soularr_config_dir }}/config.ini'
     owner: '{{ soularr_user }}'
     group: '{{ soularr_user }}'
     mode: '0755'
