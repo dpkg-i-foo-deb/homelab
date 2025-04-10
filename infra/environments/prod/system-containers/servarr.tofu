@@ -68,6 +68,34 @@ resource "incus_network_acl" "servarr_svc" {
       description      = "Allow incoming connections to Tdarr"
       state            = "enabled"
     },
+    {
+      action = "allow"
+      source = join(",",
+        [
+          var.management_subnet,
+          var.reverse_proxy_net.config["ipv4.address"]
+      ])
+      destination_port = "5030,5031"
+      protocol         = "tcp"
+      description      = "Allow incoming connections to Slskd WebUI"
+      state            = "enabled"
+    },
+    {
+      action = "allow"
+      source = "@external"
+      destination_port = "50300"
+      protocol         = "tcp"
+      description      = "Allow incoming connections to Slskd Soulseek (TCP)"
+      state            = "enabled"
+    },
+    {
+      action = "allow"
+      source = "@external"
+      destination_port = "50300"
+      protocol         = "udp"
+      description      = "Allow incoming connections to Slskd Soulseek (UDP)"
+      state            = "enabled"
+    },
   ]
   egress = [
     {
