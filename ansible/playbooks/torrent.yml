@@ -15,6 +15,10 @@
         qbittorrent_downloads: "{{ torrent_downloads }}"
         qbittorrent_http_port: '8080'
         qbittorrent_torrenting_port: '6881'
+        qbittorrent_dns_servers:
+          - '1.1.1.1'
+          - '1.0.0.1'
+          - '8.8.8.8'
 
     - name: Deploy Wazuh agent
       ansible.builtin.import_role:

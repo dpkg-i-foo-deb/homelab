@@ -13,6 +13,7 @@
       - '{{ qbittorrent_http_port }}:8080'
       - '{{ qbittorrent_torrenting_port }}:6881'
       - '{{ qbittorrent_torrenting_port }}:6881/udp'
+    dns: '{{ qbittorrent_dns_servers }}'
     env:
       PUID: '1000'
       PGID: '1000'
