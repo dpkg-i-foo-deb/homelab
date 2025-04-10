@@ -1,0 +1,9 @@
+---
+- name: Restart Soularr
+  become: true
+  become_user: "{{ soularr_user }}"
+  ansible.builtin.systemd_service:
+    daemon_reload: true
+    state: restarted
+    name: "{{ soularr_container }}"
+    scope: user
