@@ -109,7 +109,7 @@ resource "incus_network_acl" "servarr_svc" {
     {
       action           = "allow"
       destination      = "@external"
-      destination_port = "2271"
+      destination_port = "2242,2271"
       protocol         = "tcp"
       description      = "Allow connections to Soulseek (TCP)"
       state            = "enabled"
@@ -117,7 +117,7 @@ resource "incus_network_acl" "servarr_svc" {
         {
       action           = "allow"
       destination      = "@external"
-      destination_port = "2271"
+      destination_port = "2242,2271"
       protocol         = "udp"
       description      = "Allow connections to Soulseek (UDP)"
       state            = "enabled"
