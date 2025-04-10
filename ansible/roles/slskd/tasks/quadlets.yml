@@ -2,7 +2,7 @@
 - name: Create Slskd Quadlet file
   become: true
   become_user: '{{ slskd_user }}'
-  notify: Restart slskd
+  notify: Restart Slskd
   containers.podman.podman_container:
     name: '{{ slskd_container }}'
     image: docker.io/slskd/slskd
