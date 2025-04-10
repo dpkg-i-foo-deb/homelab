@@ -24,6 +24,8 @@
       SLSKD_DOWNLOADS_DIR: '/downloads'
       SLSKD_SHARED_DIR: '/shared'
       SLSKD_REMOTE_CONFIGURATION: true
+      SLSKD_SLSK_USERNAME: '{{ slskd_username }}'
+      SLSKD_SLSK_PASSWORD: '{{ slskd_pass }}'
     quadlet_options:
       - 'AutoUpdate=registry'
       - 'Pull=newer'
