@@ -81,16 +81,16 @@ resource "incus_network_acl" "servarr_svc" {
       state            = "enabled"
     },
     {
-      action = "allow"
-      source = "@external"
+      action           = "allow"
+      source           = "@external"
       destination_port = "50300"
       protocol         = "tcp"
       description      = "Allow incoming connections to Slskd Soulseek (TCP)"
       state            = "enabled"
     },
     {
-      action = "allow"
-      source = "@external"
+      action           = "allow"
+      source           = "@external"
       destination_port = "50300"
       protocol         = "udp"
       description      = "Allow incoming connections to Slskd Soulseek (UDP)"
@@ -104,6 +104,22 @@ resource "incus_network_acl" "servarr_svc" {
       destination_port = "8080"
       protocol         = "tcp"
       description      = "Allow connections to Qbittorrent"
+      state            = "enabled"
+    },
+    {
+      action           = "allow"
+      destination      = "@external"
+      destination_port = "2271"
+      protocol         = "tcp"
+      description      = "Allow connections to Soulseek (TCP)"
+      state            = "enabled"
+    },
+        {
+      action           = "allow"
+      destination      = "@external"
+      destination_port = "2271"
+      protocol         = "udp"
+      description      = "Allow connections to Soulseek (UDP)"
       state            = "enabled"
     }
   ]
