@@ -68,8 +68,17 @@
           31333365363066653833343939363164323463366231623131646531613336666233616638306163
           3734346436393837386532323534616531363734636535643638
         lidatube_preferred_codec: 'mp3'
-        # lidatube_memory: '4GiB'
         lidatube_sleep_interval: '300'
+
+    - name: Deploy Slskd
+      ansible.builtin.import_role:
+        name: slskd
+      vars:
+        slskd_user: '{{ servarr_user }}'
+        slskd_container: 'slskd'
+        slskd_data_vol: 'slskd_data'
+        slskd_shared_dir: '{{ servarr_music }}'
+        slskd_downloads_dir: '{{ servarr_downloads }}/slskd'
 
     - name: Deploy Wazuh agent
       ansible.builtin.import_role:

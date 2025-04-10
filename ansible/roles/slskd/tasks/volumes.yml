@@ -1,0 +1,8 @@
+---
+- name: Ensure there's a volume to store slskd configuration
+  ansible.builtin.import_role:
+    name: podman
+    tasks_from: local_volume
+  vars:
+    podman_local_volume: '{{ slskd_data_vol }}'
+    podman_user: '{{ slskd_user }}'

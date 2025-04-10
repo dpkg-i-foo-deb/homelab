@@ -1,0 +1,36 @@
+---
+- name: Create Slskd Quadlet file
+  become: true
+  become_user: '{{ slskd_user }}'
+  notify: Restart slskd
+  containers.podman.podman_container:
+    name: '{{ slskd_container }}'
+    image: docker.io/slskd/slskd
+    state: quadlet
+    quadlet_filename: '{{ slskd_container }}'
+    ports:
+      - '{{ slskd_http_port | default("5030") }}:5030'
+      - '{{ slskd_https_port | default("5031") }}:5031'
+      - '{{ slskd_soulseek_port | default("50300") }}:50300'
+
+    volumes:
+      - '{{ slskd_data_vol }}:/app'
+      - '{{ slskd_downloads_dir }}:/downloads'
+      - '{{ slskd_shared_dir }}:/shared:ro'
+    env:
+      PUID: '1000'
+      PGID: '1000'
+      TZ: '{{ tz }}'
+      SLSKD_DOWNLOADS_DIR: '/downloads'
+      SLSKD_SHARED_DIR: '/shared'
+      SLSKD_REMOTE_CONFIGURATION: true
+    quadlet_options:
+      - 'AutoUpdate=registry'
+      - 'Pull=newer'
+      - |
+        [Service]
+        Restart=always
+        RestartSec=10
+      - |
+        [Install]
+        WantedBy=default.target multi-user.target
