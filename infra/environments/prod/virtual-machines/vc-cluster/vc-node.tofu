@@ -45,6 +45,7 @@ resource "incus_instance" "vc-node" {
     properties = {
       path = "/"
       pool = var.virt_main_pool
+      size = "50GiB"
     }
   }
 
