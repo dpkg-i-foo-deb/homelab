@@ -17,7 +17,18 @@ resource "incus_network_acl" "tailscale_inbound" {
       source           = "@external"
       destination_port = "3478"
       protocol         = "udp"
-      description      = "Allow connections for the STUN protocol"
+      description      = "Allow incoming connections for the STUN protocol"
+      state            = "enabled"
+    }
+  ]
+
+  egress = [
+    {
+      action           = "allow"
+      destination      = "@external"
+      destination_port = "3478"
+      protocol         = "udp"
+      description      = "Allow outgoing connections for the STUN protocol"
       state            = "enabled"
     }
   ]
