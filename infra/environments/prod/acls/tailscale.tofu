@@ -25,10 +25,18 @@ resource "incus_network_acl" "tailscale_inbound" {
   egress = [
     {
       action           = "allow"
-      destination      = "@external"
+      destination      = ""
       destination_port = "3478"
       protocol         = "udp"
       description      = "Allow outgoing connections for the STUN protocol"
+      state            = "enabled"
+    },
+    {
+      action           = "allow"
+      destination      = ""
+      destination_port = "41641"
+      protocol         = "udp"
+      description      = "Allow peer-to-peer connections for Tailscale"
       state            = "enabled"
     }
   ]
