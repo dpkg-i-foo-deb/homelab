@@ -1,4 +1,4 @@
-resource "incus_instance" "vc-node" {
+resource "incus_instance" "vc-node-2" {
   name    = "vc-cluster-node-2"
   type    = "virtual-machine"
   image   = "images:debian/trixie/cloud"
