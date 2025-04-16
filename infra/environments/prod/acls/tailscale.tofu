@@ -9,15 +9,7 @@ resource "incus_network_acl" "tailscale_inbound" {
       source           = "@external"
       destination_port = "41641"
       protocol         = "udp"
-      description      = "Allow peer-to-peer connections for Tailscale"
-      state            = "enabled"
-    },
-    {
-      action           = "allow"
-      source           = "@external"
-      destination_port = "3478"
-      protocol         = "udp"
-      description      = "Allow incoming connections for the STUN protocol"
+      description      = "Allow incoming peer-to-peer connections for Tailscale"
       state            = "enabled"
     }
   ]
@@ -32,11 +24,12 @@ resource "incus_network_acl" "tailscale_inbound" {
       state            = "enabled"
     },
     {
+      source_port      = "41641"
       action           = "allow"
       destination      = ""
-      destination_port = "41641"
+      destination_port = ""
       protocol         = "udp"
-      description      = "Allow peer-to-peer connections for Tailscale"
+      description      = "Allow outgoing peer-to-peer connections for Tailscale"
       state            = "enabled"
     }
   ]
