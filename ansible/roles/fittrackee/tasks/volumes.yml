@@ -4,7 +4,7 @@
     name: podman
     tasks_from: local_volume
   vars:
-    podman_local_volume: '{{ fittrackcee_upload_vol }}'
+    podman_local_volume: '{{ fittrackee_upload_vol }}'
     podman_user: '{{ fittrackee_user }}'
 
 - name: Ensure there's a volume to store FitTrackee logs
