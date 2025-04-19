@@ -21,6 +21,7 @@
       TZ: '{{ tz }}'
       UI_URL: '{{ fittrackee_ui_url }}'
       DATABASE_URL: postgresql://{{ fittrackee_db_user }}:{{ fittrackee_db_pass }}@{{ fittrackee_db_host }}:5432/{{ fittrackee_db }}
+      APP_SECRET_KEY: '{{ fittrackee_secret_key }}'
     quadlet_options:
       - 'AutoUpdate=registry'
       - 'Pull=newer'
