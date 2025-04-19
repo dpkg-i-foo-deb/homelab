@@ -19,10 +19,8 @@
       PUID: '1000'
       PGID: '1000'
       TZ: '{{ tz }}'
-      POSTGRES_USER: '{{ fittrackee_db_user }}'
-      POSTGRES_PASSWORD: '{{ fittrackee_db_pass }}'
-      POSTGRES_DB: '{{ fittrackee_db }}'
       UI_URL: '{{ fittrackee_ui_url }}'
+      DATABASE_URL: postgresql://{{ fittrackee_db_user }}:{{ fittrackee_db_pass }}@{{ fittrackee_db_host }}:5432/{{ fittrackee_db }}
     quadlet_options:
       - 'AutoUpdate=registry'
       - 'Pull=newer'
