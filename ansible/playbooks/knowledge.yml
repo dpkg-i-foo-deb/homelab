@@ -52,6 +52,7 @@
         fittrackee_db_user: '{{ knowledge_fittrackee_pg_user }}'
         fittrackee_db_pass: '{{ knowledge_fittrackee_pg_pass }}'
         fittrackee_db: fittrackee
+        fittrackee_ui_url: 'https://{{ fit_host }}.{{ internet_host }}'
 
     - name: Deploy Trilium Next
       ansible.builtin.import_role:

@@ -22,6 +22,7 @@
       POSTGRES_USER: '{{ fittrackee_db_user }}'
       POSTGRES_PASSWORD: '{{ fittrackee_db_pass }}'
       POSTGRES_DB: '{{ fittrackee_db }}'
+      UI_URL: '{{ fittrackee_ui_url }}'
     quadlet_options:
       - 'AutoUpdate=registry'
       - 'Pull=newer'
