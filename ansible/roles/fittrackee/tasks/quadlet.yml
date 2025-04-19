@@ -1,0 +1,34 @@
+---
+- name: Create FitTrackee Quadlet File
+  become: true
+  become_user: '{{ fittrackee_user }}'
+  notify: Restart FitTrackee
+  containers.podman.podman_container:
+    name: '{{ fittrackee_container }}'
+    image: ghcr.io/fittrackee/fittrackee:latest
+    state: quadlet
+    network: '{{ fittrackee_networks }}'
+    quadlet_filename: '{{ fittrackee_container }}'
+    ports:
+      - '{{ fittrackee_http_port | default(5000) }}:5000'
+    volumes:
+      - '{{ fittrackee_upload_vol }}:/usr/src/app/uploads'
+      - '{{ fittrackee_logs_vol }}:/usr/src/app/logs'
+    command: 'sh docker-entrypoint.sh'
+    env:
+      PUID: '1000'
+      PGID: '1000'
+      TZ: '{{ tz }}'
+      POSTGRES_USER: '{{ fittrackee_db_user }}'
+      POSTGRES_PASSWORD: '{{ fittrackee_db_pass }}'
+      POSTGRES_DB: '{{ fittrackee_db }}'
+    quadlet_options:
+      - 'AutoUpdate=registry'
+      - 'Pull=newer'
+      - |
+        [Service]
+        Restart=always
+        RestartSec=10
+      - |
+        [Install]
+        WantedBy=default.target multi-user.target

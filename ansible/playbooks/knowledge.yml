@@ -1,6 +1,58 @@
 - name: Configure knowledge virtual machine
   hosts: knowledge
+  vars:
+    knowledge_network: knowledge
+    knowledge_user: knowledge
+    knowledge_fittrackee_pg_user: !vault |
+      $ANSIBLE_VAULT;1.1;AES256
+      30376336666339656637396561313435613461306232623037613331616563623166633066356339
+      3830393162323163336666666631646233333932313661370a393732383239663134633164336332
+      34373230616339383436356234343536623436643162356534356263393039633335326238343531
+      3461633365656539610a323436346561386137636336323639336538616364313061303031323465
+      6361
+    knowledge_fittrackee_pg_pass: !vault |
+      $ANSIBLE_VAULT;1.1;AES256
+      39623965313332656261643132386239333935333133616632363235303837363434616264653266
+      6266393732643237613334376139383263363933373430610a616630653464663565666464343861
+      38313736323762346461306536356133623236366561383739356531336364386337353766383639
+      6134303334306633360a643865363762356263643061613739383838383837363038663033303337
+      3463
   tasks:
+
+    - name: Ensure there's a virtual network for FitTrackee
+      ansible.builtin.import_role:
+        name: podman
+        tasks_from: network
+      vars:
+        podman_network: '{{ knowledge_network }}'
+        podman_user: '{{ knowledge_user }}'
+
+    - name: Deploy Postgres for Fittrackee
+      ansible.builtin.import_role:
+        name: postgres
+      vars:
+        postgres_podman_user: '{{ security_user }}'
+        postgres_container: fittrackee_postgres
+        postgres_data_vol: 'fittrackee_postgres'
+        postgres_db: fittrackee
+        postgres_user: '{{ fittrackee_pg_user }}'
+        postgres_network: '{{ knowledge_network }}'
+        postgres_pass: '{{ fittrackee_pg_pass }}'
+
+    - name: Deploy FitTrackee
+      ansible.builtin.import_role:
+        name: fittrackee
+      vars:
+        fittrackee_user: '{{ knowledge_user }}'
+        fittrackee_container: fittrackee
+        fittrackee_networks:
+          - '{{ knowledge_network }}'
+        fittrackee_upload_vol: 'fitrackee_uploads'
+        fittrackee_logs_vol: 'fittrackee_logs'
+        fittrackee_db_user: '{{ knowledge_fittrackee_pg_user }}'
+        fittrackee_db_pass: '{{ knowledge_fittrackee_pg_pass }}'
+        fittrackee_db: fittrackee
+
     - name: Deploy Trilium Next
       ansible.builtin.import_role:
         name: trilium
