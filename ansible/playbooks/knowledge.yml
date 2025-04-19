@@ -35,9 +35,9 @@
         postgres_container: fittrackee_postgres
         postgres_data_vol: 'fittrackee_postgres'
         postgres_db: fittrackee
-        postgres_user: '{{ fittrackee_pg_user }}'
+        postgres_user: '{{ knowledge_fittrackee_pg_user }}'
         postgres_network: '{{ knowledge_network }}'
-        postgres_pass: '{{ fittrackee_pg_pass }}'
+        postgres_pass: '{{ knowledge_fittrackee_pg_pass }}'
 
     - name: Deploy FitTrackee
       ansible.builtin.import_role:
