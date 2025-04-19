@@ -12,5 +12,5 @@
     name: podman
     tasks_from: local_volume
   vars:
-    podman_local_volume: '{{ fittrackcee_logs_vol }}'
+    podman_local_volume: '{{ fittrackee_logs_vol }}'
     podman_user: '{{ fittrackee_user }}'
