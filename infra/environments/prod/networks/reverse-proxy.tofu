@@ -64,7 +64,7 @@ resource "incus_network_peer" "reverse_proxy_management" {
 }
 
 resource "incus_network_peer" "reverse_proxy_monitoring" {
-  name           = "reverse-proxy_monitoring"
+  name           = "reverse-proxy-monitoring"
   description    = "Allow peering between reverse-proxy and monitoring networks"
   network        = incus_network.reverse_proxy.name
   project        = "default"
