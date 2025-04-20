@@ -1,0 +1,9 @@
+---
+- name: Restart Loki
+  become: true
+  become_user: "{{ loki_user }}"
+  ansible.builtin.systemd_service:
+    daemon_reload: true
+    state: restarted
+    name: "{{ loki_container }}"
+    scope: user

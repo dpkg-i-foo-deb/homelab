@@ -21,6 +21,14 @@
             targets:
               - '192.168.8.4:8443'
 
+    - name: Deploy Loki
+      ansible.builtin.import_role:
+        name: loki
+      vars:
+        loki_user: '{{ monitoring_user }}'
+        loki_container: 'loki'
+        loki_logs_dir: '/logs/loki'
+
     - name: Deploy Grafana
       ansible.builtin.import_role:
         name: grafana
