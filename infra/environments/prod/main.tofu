@@ -72,6 +72,10 @@ module "virtual-machines" {
     incus = incus
   }
 
+  lxc_user_password = var.lxc_user_password
+  ssh_public_key    = var.ssh_public_key
+  ansible_password  = var.ansible_password
+
   vc_cluster_ssh_public_key    = var.vc_cluster_ssh_public_key
   vc_cluster_lxc_user_password = var.vc_cluster_lxc_user_password
   vc_cluster_ansible_password  = var.vc_cluster_ansible_password

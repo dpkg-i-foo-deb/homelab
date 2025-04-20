@@ -1,4 +1,23 @@
-# Secrets required to configure vc-cluster system containers
+# Secrets required for my own virtual machines
+
+variable "ssh_public_key" {
+  type        = string
+  description = "The SSH public key to inject into containers."
+}
+
+variable "lxc_user_password" {
+  type        = string
+  description = "The default password for the lxc user."
+  sensitive   = true
+}
+
+variable "ansible_password" {
+  type        = string
+  description = "The default password for the ansible user."
+  sensitive   = true
+}
+
+# Secrets required to configure vc-cluster virtual machines
 
 variable "vc_cluster_ssh_public_key" {
   type        = string
