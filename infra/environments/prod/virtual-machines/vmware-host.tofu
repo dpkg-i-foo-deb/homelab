@@ -9,6 +9,7 @@ resource "incus_storage_volume" "vmware_host_data" {
 
 resource "incus_instance" "vmware_host" {
   name  = "vmware-host"
+  type    = "virtual-machine"
   image = "images:debian/trixie/cloud"
 
   config = {
