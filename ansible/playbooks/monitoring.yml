@@ -13,7 +13,8 @@
         prometheus_metrics_dir: '/metrics/prometheus'
         prometheus_scrape_jobs:
           - job_name: 'incus'
-            tls_config.insecure_skip_verify: true
+            tls_config:
+              insecure_skip_verify: true
             scheme: 'https'
             metrics_path: '1.0/metrics'
             targets:
