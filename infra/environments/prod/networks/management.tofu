@@ -41,7 +41,8 @@ resource "incus_network" "management" {
         var.ssh_outbound_acl,
         incus_network_acl.management_ssh_outbound.name,
         var.wazuh_security_acl,
-        var.incus_api_outbound_acl
+        var.incus_api_outbound_acl,
+        var.tailscale_inbound_acl,
     ])
   }
 }
