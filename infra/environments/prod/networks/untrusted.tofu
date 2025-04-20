@@ -11,7 +11,8 @@ resource "incus_network" "untrusted" {
         var.http_acl,
         var.ssh_mgmt_acl,
         var.wazuh_security_acl,
-        var.tailscale_inbound_acl
+        var.tailscale_inbound_acl,
+        var.rdp_inbound_acl
     ])
   }
 }

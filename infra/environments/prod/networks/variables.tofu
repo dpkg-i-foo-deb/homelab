@@ -57,3 +57,9 @@ variable "torrenting_inbound_acl" {
   type        = string
   description = "ACL to allow inbound torrenting connections"
 }
+
+variable "rdp_inbound_acl" {
+  type        = string
+  description = "ACL to allow inbound RDP connections"
+}
+

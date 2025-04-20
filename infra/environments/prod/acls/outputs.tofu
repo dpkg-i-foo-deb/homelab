@@ -52,3 +52,8 @@ output "torrenting" {
   value       = incus_network_acl.torrenting.name
   description = "ACL to allow inbound torrenting connections"
 }
+
+output "rdp_inbound" {
+  value       = incus_network_acl.rdp_inbound.name
+  description = "ACL to allow inbound RDP connections"
+}
