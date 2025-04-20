@@ -22,6 +22,28 @@ resource "incus_storage_volume" "monitoring_logs" {
   }
 }
 
+resource "incus_network_acl" "reverse_proxy_outbound" {
+  name = "reverse-proxy-outbound"
+
+  # Allow connections to any port (So that we can access services)
+  # Those connections are only on local networks
+
+  egress = [
+    {
+      action = "allow"
+      destination = join(",",
+        [
+          var.hypervisor_addresses
+      ])
+      destination_port = "8443"
+      protocol         = "tcp"
+      description      = "Allow outbound connections to hypervisor metrics (Incus)"
+      state            = "enabled"
+    }
+  ]
+}
+
+
 resource "incus_instance" "monitoring" {
   name  = "monitoring"
   image = "images:debian/trixie/cloud"

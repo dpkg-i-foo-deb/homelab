@@ -24,6 +24,13 @@ variable "management_subnet" {
   description = "Management subnet to allow SSH and other connections from"
 }
 
+# Hypervisor address
+
+variable "hypervisor_addresses" {
+  type        = string
+  description = "List of comma separated addresses of hypervisors"
+}
+
 # Network names to be used on system containers
 
 variable "dns_net" {
