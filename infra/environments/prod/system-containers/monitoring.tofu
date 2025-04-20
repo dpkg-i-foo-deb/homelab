@@ -40,6 +40,25 @@ resource "incus_network_acl" "monitoring_outbound" {
   ]
 }
 
+resource "incus_network_acl" "monitoring_svc" {
+  name = "monitoring-svc"
+
+  ingress = [
+    {
+      action = "allow"
+      source = join(",",
+        [
+          var.management_subnet,
+          var.reverse_proxy_net.config["ipv4.address"]
+      ])
+      destination_port = "9090"
+      protocol         = "tcp"
+      description      = "Allow incoming connections to Prometheus Web UI"
+      state            = "enabled"
+    },
+  ]
+}
+
 
 resource "incus_instance" "monitoring" {
   name  = "monitoring"
@@ -73,7 +92,8 @@ resource "incus_instance" "monitoring" {
       "ipv4.address" = "10.0.9.10"
       "security.acls" = join(",",
         [
-          incus_network_acl.monitoring_outbound.name
+          incus_network_acl.monitoring_outbound.name,
+          incus_network_acl.monitoring_svc.name
       ])
     }
   }
