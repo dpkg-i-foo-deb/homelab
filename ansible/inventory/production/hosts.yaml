@@ -83,6 +83,11 @@ container_hosts:
       ansible_host: 10.0.8.12
       siem_agent: container-host
       groups: 'untrusted'
+monitoring:
+  hosts:
+    homelab_monitor:
+      ansible_host: 10.0.9.10
+      groups: 'trusted'
 vps:
   hosts:
     vps_hetzner:
