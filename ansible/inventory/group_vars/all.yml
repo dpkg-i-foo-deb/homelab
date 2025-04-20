@@ -43,6 +43,8 @@ budget_host: budget
 
 photos_host: photos
 
+metrics_host: metrics
+
 # Private reverse proxy address
 private_reverse_proxy: '10.0.5.10'
 
@@ -137,6 +139,14 @@ homelab_services:
     host: 'photos'
     ip: '10.0.0.13'
     port: '2283'
+    tls: false
+    private_proxy: '{{ private_reverse_proxy }}'
+    private_proxy_vpn: '{{ private_reverse_proxy_vpn }}'
+  metrics:
+    name: 'Metrics service'
+    host: 'metrics'
+    ip: '10.0.9.10'
+    port: '3000'
     tls: false
     private_proxy: '{{ private_reverse_proxy }}'
     private_proxy_vpn: '{{ private_reverse_proxy_vpn }}'

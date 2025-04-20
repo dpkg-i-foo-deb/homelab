@@ -48,3 +48,6 @@
       - record: '{{ photos_host }}'
         comment: 'Photos Service'
         value: '{{ public_ip }}'
+      - record: '{{ metrics_host }}'
+        comment: 'Metrics Service'
+        value: '{{ public_ip }}'
