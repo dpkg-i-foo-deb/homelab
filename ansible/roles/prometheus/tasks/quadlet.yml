@@ -11,7 +11,7 @@
     ports:
       - '{{ prometheus_metrics_port | default(9090) }}:9090'
     volumes:
-      - '{{ prometheus_config_dir }}:/etc/prometheus/prometheus.yml'
+      - '{{ prometheus_config_dir }}/prometheus.yml:/etc/prometheus/prometheus.yml'
       - '{{ prometheus_metrics_dir }}:/prometheus'
     env:
       PUID: '1000'
