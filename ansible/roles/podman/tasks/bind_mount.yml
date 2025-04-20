@@ -4,7 +4,7 @@
   ansible.builtin.file:
     path: "{{ podman_bind_mount }}"
     state: directory
-    mode: "0755"
+    mode: "0777"
     recurse: true
     owner: "{{ podman_user }}"
     group: "{{ podman_user }}"
