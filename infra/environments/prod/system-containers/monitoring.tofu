@@ -71,6 +71,10 @@ resource "incus_instance" "monitoring" {
     properties = {
       network        = var.monitoring_net.name
       "ipv4.address" = "10.0.9.10"
+      "security.acls" = join(",",
+        [
+          incus_network_acl.monitoring_outbound.name
+      ])
     }
   }
 
