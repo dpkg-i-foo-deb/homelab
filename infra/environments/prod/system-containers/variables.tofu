@@ -53,6 +53,15 @@ variable "management_net" {
   description = "Management network object"
 }
 
+variable "monitoring_net" {
+  type = object({
+    name   = string
+    type   = string
+    config = map(string)
+  })
+  description = "Monitoring network object"
+}
+
 variable "privileged_net" {
   type = object({
     name   = string

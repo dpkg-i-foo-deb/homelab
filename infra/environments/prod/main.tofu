@@ -106,6 +106,7 @@ module "system-containers" {
   trusted_net       = module.networks.trusted
   untrusted_net     = module.networks.untrusted
   management_net    = module.networks.management
+  monitoring_net    = module.networks.monitoring
 
   virt_main_pool    = module.storage-pools.virt_main
   virt_high_io_pool = module.storage-pools.virt_high_io

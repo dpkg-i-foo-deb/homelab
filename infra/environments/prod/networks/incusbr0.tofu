@@ -16,6 +16,7 @@ resource "incus_network" "incusbr0" {
       "10.0.6.0/24",
       "10.0.7.0/24",
       "10.0.8.0/24",
+      "10.0.9.0/24",
     ])
     "bgp.peers.router.address" = "192.168.8.1"
     "bgp.peers.router.asn"     = 65537

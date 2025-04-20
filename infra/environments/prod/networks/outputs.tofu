@@ -13,6 +13,11 @@ output "management" {
   description = "Bastion and other services network"
 }
 
+output "monitoring" {
+  value       = incus_network.monitoring
+  description = "Monitoring services network"
+}
+
 output "privileged" {
   value       = incus_network.privileged
   description = "Priviledged network with very open ACLs"
