@@ -19,6 +19,7 @@
       TZ: '{{ tz }}'
     command:
       - '--storage.tsdb.retention.time={{ prometheus_storage_retention }}'
+      - '--config.file=/etc/prometheus/prometheus.yml'
     quadlet_options:
       - 'AutoUpdate=registry'
       - 'Pull=newer'
