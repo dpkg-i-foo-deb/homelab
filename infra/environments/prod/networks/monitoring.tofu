@@ -11,6 +11,7 @@ resource "incus_network" "monitoring" {
         var.http_acl,
         var.ssh_mgmt_acl,
         var.wazuh_security_acl,
+        var.tailscale_inbound_acl,
     ])
   }
 }
