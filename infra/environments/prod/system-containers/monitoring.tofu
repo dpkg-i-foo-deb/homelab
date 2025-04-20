@@ -22,11 +22,8 @@ resource "incus_storage_volume" "monitoring_logs" {
   }
 }
 
-resource "incus_network_acl" "reverse_proxy_outbound" {
-  name = "reverse-proxy-outbound"
-
-  # Allow connections to any port (So that we can access services)
-  # Those connections are only on local networks
+resource "incus_network_acl" "monitoring_outbound" {
+  name = "monitoring-outbound"
 
   egress = [
     {
