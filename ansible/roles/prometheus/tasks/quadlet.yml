@@ -1,0 +1,29 @@
+---
+- name: Create Prometheus Quadlet File
+  become: true
+  become_user: '{{ prometheus_user }}'
+  notify: Restart Prometheus
+  containers.podman.podman_container:
+    name: '{{ prometheus_container }}'
+    image: quay.io/prometheus/prometheus:latest
+    state: quadlet
+    quadlet_filename: '{{ prometheus_container }}'
+    ports:
+      - '{{ prometheus_metrics_port | default(9090) }}:9090'
+    volumes:
+      - '{{ prometheus_config_dir }}:/etc/prometheus/prometheus.yml'
+      - '{{ prometheus_metrics_dir }}:/prometheus'
+    env:
+      PUID: '1000'
+      PGID: '1000'
+      TZ: '{{ tz }}'
+    quadlet_options:
+      - 'AutoUpdate=registry'
+      - 'Pull=newer'
+      - |
+        [Service]
+        Restart=always
+        RestartSec=10
+      - |
+        [Install]
+        WantedBy=default.target multi-user.target

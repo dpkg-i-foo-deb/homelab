@@ -1,0 +1,23 @@
+# Ansible managed: {{ ansible_managed }}
+
+# Global configurations
+global:
+  scrape_interval: {{ prometheus_global_config.scrape_interval | default('15s') }}
+  evaluation_interval: {{ prometheus_global_config.evaluation_interval | default('15s') }}
+
+# A list of scrape configurations based on Ansible variables.
+scrape_configs:
+{% for job in prometheus_scrape_jobs %}
+  # Job Definition: {{ job.job_name }}
+  - job_name: '{{ job.job_name }}'
+
+    # This job uses the global scrape_interval defined above.
+    # It scrapes the default '/metrics' path over HTTP.
+
+    # Use static_configs for target lists defined in Ansible vars.
+    static_configs:
+      - targets:
+    {% for target in job.targets %}
+        - '{{ target }}' # Target host:port
+    {% endfor %}
+{% endfor %}

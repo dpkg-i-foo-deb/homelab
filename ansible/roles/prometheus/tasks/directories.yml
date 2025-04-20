@@ -1,0 +1,17 @@
+---
+- name: Ensure there's a directory to store metrics
+  ansible.builtin.import_role:
+    name: podman
+    tasks_from: bind_mount
+  vars:
+    podman_bind_mount: '{{ prometheus_metrics_dir }}'
+    podman_user: '{{ prometheus_user }}'
+
+- name: Ensure there's a directory to store Prometheus configuration
+  become: true
+  ansible.builtin.file:
+    path: '{{ prometheus_config_dir }}'
+    owner: '{{ prometheus_user }}'
+    group: '{{ prometheus_user }}'
+    state: directory
+    mode: '0755'
