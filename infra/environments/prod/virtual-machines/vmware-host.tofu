@@ -16,8 +16,7 @@ resource "incus_instance" "vmware_host" {
     "boot.autostart" = true
     "limits.cpu"     = 4
     "limits.memory"  = "12GiB"
-    # "limits.memory.swap"          = "true"
-    # "limits.memory.swap.priority" = "0"
+    "security.secureboot" = false
     "cloud-init.user-data" = templatefile(
       "${path.module}/cloud-init/generic.yml.tftpl",
       {
