@@ -1,0 +1,28 @@
+---
+- name: Create Grafana Quadlet File
+  become: true
+  become_user: '{{ grafana_user }}'
+  notify: Restart Grafana
+  containers.podman.podman_container:
+    name: '{{ grafana_container }}'
+    image: docker.io/grafana/grafana-oss:latest
+    state: quadlet
+    quadlet_filename: '{{ grafana_container }}'
+    ports:
+      - '{{ grafana_http_port | default(3000) }}:3000'
+    volumes:
+      - '{{ grafana_data_vol }}:/var/lib/grafana'
+    env:
+      PUID: '1000'
+      PGID: '1000'
+      TZ: '{{ tz }}'
+    quadlet_options:
+      - 'AutoUpdate=registry'
+      - 'Pull=newer'
+      - |
+        [Service]
+        Restart=always
+        RestartSec=10
+      - |
+        [Install]
+        WantedBy=default.target multi-user.target

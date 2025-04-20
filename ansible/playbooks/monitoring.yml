@@ -20,3 +20,11 @@
             metrics_path: '1.0/metrics'
             targets:
               - '192.168.8.4:8443'
+
+    - name: Deploy Grafana
+      ansible.builtin.import_role:
+        name: grafana
+      vars:
+        grafana_user: '{{ monitoring_user }}'
+        grafana_container: 'grafana'
+        grafana_data_vol: 'grafana_data'

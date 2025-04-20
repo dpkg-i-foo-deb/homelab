@@ -1,0 +1,7 @@
+- name: Ensure there's a volume to store Grafana data
+  ansible.builtin.import_role:
+    name: podman
+    tasks_from: local_volume
+  vars:
+    podman_local_volume: '{{ grafana_data_vol }}'
+    podman_user: '{{ grafana_user }}'
