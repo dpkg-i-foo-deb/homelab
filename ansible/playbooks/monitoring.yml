@@ -11,6 +11,7 @@
         prometheus_container: 'prometheus'
         prometheus_config_dir: '/var/prometheus'
         prometheus_metrics_dir: '/metrics/prometheus'
+        prometheus_storage_retention: '30d'
         prometheus_scrape_jobs:
           - job_name: 'incus'
             tls_config:

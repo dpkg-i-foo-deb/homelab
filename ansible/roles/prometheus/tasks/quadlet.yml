@@ -17,6 +17,8 @@
       PUID: '1000'
       PGID: '1000'
       TZ: '{{ tz }}'
+    cmd_args:
+      - '--storage.tsdb.retention.time={{ prometheus_storage_retention }}'
     quadlet_options:
       - 'AutoUpdate=registry'
       - 'Pull=newer'
