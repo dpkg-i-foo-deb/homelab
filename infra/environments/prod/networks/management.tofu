@@ -14,6 +14,7 @@ resource "incus_network_acl" "management_ssh_outbound" {
           incus_network.torrenting.config["ipv4.address"],
           incus_network.trusted.config["ipv4.address"],
           incus_network.untrusted.config["ipv4.address"],
+          incus_network.monitoring.config["ipv4.address"],
           var.allowed_ssh_mgmt_subnets
         ]
       )
@@ -51,6 +52,15 @@ resource "incus_network_peer" "management_code" {
   network        = incus_network.management.name
   project        = "default"
   target_network = incus_network.code.name
+  target_project = "default"
+}
+
+resource "incus_network_peer" "management_monitoring" {
+  name           = "management-monitoring"
+  description    = "Allow peering between management and monitoring networks"
+  network        = incus_network.management.name
+  project        = "default"
+  target_network = incus_network.monitoring.name
   target_project = "default"
 }
 

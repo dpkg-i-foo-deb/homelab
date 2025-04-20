@@ -14,3 +14,12 @@ resource "incus_network" "monitoring" {
     ])
   }
 }
+
+resource "incus_network_peer" "monitoring_management" {
+  name           = "monitoring-management"
+  description    = "Allow peering between monitoring and management networks"
+  network        = incus_network.monitoring.name
+  project        = "default"
+  target_network = incus_network.management.name
+  target_project = "default"
+}
