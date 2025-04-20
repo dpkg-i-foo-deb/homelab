@@ -12,12 +12,9 @@
         prometheus_config_dir: '/var/prometheus'
         prometheus_metrics_dir: '/metrics/prometheus'
         prometheus_scrape_jobs:
-          - job_name: 'node_exporter'
+          - job_name: 'incus'
+            tls_config.insecure_skip_verify: true
+            scheme: 'https'
+            metrics_path: '1.0/metrics'
             targets:
-              - 'localhost:9100'
-              - '192.168.1.100:9100'
-              - 'server.example.com:9100'
-
-          - job_name: 'prometheus'
-            targets:
-              - 'localhost:9090'
+              - '192.168.8.4:8443'
