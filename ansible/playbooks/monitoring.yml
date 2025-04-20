@@ -36,3 +36,7 @@
         grafana_user: '{{ monitoring_user }}'
         grafana_container: 'grafana'
         grafana_data_vol: 'grafana_data'
+        grafana_server_domain: 'https://{{ metrics_host }}.{{ internet_host }}'
+        grafana_server_root_url: 'https://{{ metrics_host }}.{{ internet_host }}'
+        grafana_basic_auth_enabled: 'false'
+        grafana_disable_login_form: 'true'
