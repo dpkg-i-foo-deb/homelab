@@ -16,6 +16,15 @@ resource "incus_network" "monitoring" {
   }
 }
 
+resource "incus_network_peer" "monitoring_dns" {
+  name           = "monitoring-dns"
+  description    = "Allow peering between monitoring and dns networks"
+  network        = incus_network.monitoring.name
+  project        = "default"
+  target_network = incus_network.dns.name
+  target_project = "default"
+}
+
 resource "incus_network_peer" "monitoring_management" {
   name           = "monitoring-management"
   description    = "Allow peering between monitoring and management networks"

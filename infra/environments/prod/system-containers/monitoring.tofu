@@ -47,6 +47,17 @@ resource "incus_network_acl" "monitoring_outbound" {
       protocol         = "tcp"
       description      = "Allow outbound connections to reverse proxy metrics (Caddy)"
       state            = "enabled"
+    },
+    {
+      action = "allow"
+      destination = join(",",
+        [
+          var.dns_net.config["ipv4.address"]
+      ])
+      destination_port = "4000"
+      protocol         = "tcp"
+      description      = "Allow outbound connections to dns metrics (Blocky)"
+      state            = "enabled"
     }
   ]
 }
