@@ -5,6 +5,9 @@ upstreams:
       - {{ upstream }}
 {% endfor %}
 blocking:
+  refreshPeriod: '{{ blocky_adlist_refresh_period }}'
+  downloadTimeout: '{{ blocky_adlist_download_timeout }}'
+  downloadAttempts: '{{ blocky_adlist_download_attempts }}'
   denylists:
     ads:
 {% for adlist in blocky_adlists %}
@@ -27,7 +30,9 @@ customDNS:
     {{ custom_record.domain }}: {{ custom_record.address }}
 {% endfor %}
 {% endif %}
-
+prometheus:
+  enable: '{{ blocky_prometheus_enabled }}'
+  path: /metrics
 ports:
   dns: 53
   http: 4000

@@ -22,6 +22,10 @@
         blocky_config_dir: '/var/blocky'
         blocky_dns_port: '53'
         blocky_http_port: '4000'
+        blocky_adlist_refresh_period: '24h'
+        blocky_adlist_download_timeout: '4m'
+        blocky_adlist_download_attempts: '5'
+        blocky_metrics_enabled: 'true'
         blocky_upstreams:
           - '1.1.1.1'
           - '8.8.8.8'
