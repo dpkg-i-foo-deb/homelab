@@ -20,6 +20,13 @@
             metrics_path: '1.0/metrics'
             targets:
               - '192.168.8.4:8443'
+          - job_name: 'public-caddy'
+            tls_config:
+              insecure_skip_verify: true
+            scheme: 'http'
+            metrics_path: 'metrics'
+            targets:
+              - '100.64.0.2:2019'
 
     - name: Deploy Loki
       ansible.builtin.import_role:
