@@ -39,7 +39,7 @@ resource "incus_instance" "vc_dns_0" {
     type = "nic"
     properties = {
       network        = var.dns_net.name
-      "ipv4.address" = "10.0.2.2"
+      "ipv4.address" = "10.0.2.6"
     #   "security.acls" = join(",",
     #     [
     #       incus_network_acl.dns_inbound.name
@@ -98,7 +98,7 @@ resource "incus_instance" "vc_dns_1" {
     type = "nic"
     properties = {
       network        = var.dns_net.name
-      "ipv4.address" = "10.0.2.3"
+      "ipv4.address" = "10.0.2.7"
     #   "security.acls" = join(",",
     #     [
     #       incus_network_acl.dns_inbound.name
