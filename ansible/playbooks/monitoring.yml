@@ -50,6 +50,7 @@
             targets:
               - '10.0.2.4:4000'
               - '10.0.2.5:4000'
+              - '100.64.0.2:4000'
 
     - name: Deploy Loki
       ansible.builtin.import_role:
