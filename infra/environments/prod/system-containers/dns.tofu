@@ -66,6 +66,10 @@ resource "incus_instance" "dns_home_0" {
     properties = {
       network        = var.dns_net.name
       "ipv4.address" = "10.0.2.2"
+      "security.acls" = join(",",
+        [
+          incus_network_acl.dns_inbound.name
+      ])
     }
   }
 
@@ -177,6 +181,10 @@ resource "incus_instance" "dns_vpn_0" {
     properties = {
       network        = var.dns_net.name
       "ipv4.address" = "10.0.2.4"
+      "security.acls" = join(",",
+        [
+          incus_network_acl.dns_inbound.name
+      ])
     }
   }
 
@@ -230,6 +238,10 @@ resource "incus_instance" "dns_vpn_1" {
     properties = {
       network        = var.dns_net.name
       "ipv4.address" = "10.0.2.5"
+      "security.acls" = join(",",
+        [
+          incus_network_acl.dns_inbound.name
+      ])
     }
   }
 
