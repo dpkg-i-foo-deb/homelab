@@ -58,6 +58,17 @@ resource "incus_network_acl" "monitoring_outbound" {
       protocol         = "tcp"
       description      = "Allow outbound connections to dns metrics (Blocky)"
       state            = "enabled"
+    },
+    {
+      action = "allow"
+      destination = join(",",
+        [
+          var.hypervisor_addresses
+      ])
+      destination_port = "9100"
+      protocol         = "tcp"
+      description      = "Allow outbound connections to hypervisor metrics"
+      state            = "enabled"
     }
   ]
 }
