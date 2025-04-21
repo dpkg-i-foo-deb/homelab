@@ -39,10 +39,10 @@ resource "incus_instance" "vc_dns_0" {
     properties = {
       network        = var.dns_net.name
       "ipv4.address" = "10.0.2.2"
-      "security.acls" = join(",",
-        [
-           # incus_network_acl.dns_inbound.name
-      ])
+    #   "security.acls" = join(",",
+    #     [
+    #       incus_network_acl.dns_inbound.name
+    #   ])
     }
   }
 
@@ -97,10 +97,10 @@ resource "incus_instance" "vc_dns_1" {
     properties = {
       network        = var.dns_net.name
       "ipv4.address" = "10.0.2.3"
-      "security.acls" = join(",",
-        [
-          # incus_network_acl.dns_inbound.name
-      ])
+    #   "security.acls" = join(",",
+    #     [
+    #       incus_network_acl.dns_inbound.name
+    #   ])
     }
   }
 
