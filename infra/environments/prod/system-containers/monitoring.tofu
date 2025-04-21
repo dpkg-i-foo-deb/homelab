@@ -63,13 +63,24 @@ resource "incus_network_acl" "monitoring_outbound" {
       action = "allow"
       destination = join(",",
         [
-          var.hypervisor_addresses
+          var.hypervisor_addresses,
       ])
       destination_port = "9100"
       protocol         = "tcp"
       description      = "Allow outbound connections to hypervisor metrics"
       state            = "enabled"
-    }
+    },
+    {
+      action = "allow"
+      destination = join(",",
+        [
+          var.management_subnet,
+      ])
+      destination_port = "9100"
+      protocol         = "tcp"
+      description      = "Allow outbound connections to home network metrics"
+      state            = "enabled"
+    },
   ]
 }
 
