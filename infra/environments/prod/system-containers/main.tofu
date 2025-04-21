@@ -9,7 +9,9 @@ module "vc-cluster" {
   lxc_user_password = var.vc_cluster_lxc_user_password
   ansible_password  = var.vc_cluster_ansible_password
 
-  untrusted_net     = var.untrusted_net
+  dns_net       = var.dns_net
+  untrusted_net = var.untrusted_net
+
   virt_main_pool    = var.virt_main_pool
   virt_high_io_pool = var.virt_high_io_pool
 

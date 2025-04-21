@@ -15,6 +15,15 @@ variable "ansible_password" {
   sensitive   = true
 }
 
+variable "dns_net" {
+  type = object({
+    name   = string
+    type   = string
+    config = map(string)
+  })
+  description = "DNS network object"
+}
+
 variable "untrusted_net" {
   type = object({
     name   = string
