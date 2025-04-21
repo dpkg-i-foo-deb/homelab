@@ -41,7 +41,7 @@ resource "incus_instance" "vc_dns_0" {
       "ipv4.address" = "10.0.2.2"
       "security.acls" = join(",",
         [
-          incus_network_acl.dns_inbound.name
+           # incus_network_acl.dns_inbound.name
       ])
     }
   }
@@ -99,7 +99,7 @@ resource "incus_instance" "vc_dns_1" {
       "ipv4.address" = "10.0.2.3"
       "security.acls" = join(",",
         [
-          incus_network_acl.dns_inbound.name
+          # incus_network_acl.dns_inbound.name
       ])
     }
   }
