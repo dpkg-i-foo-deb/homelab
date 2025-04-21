@@ -13,6 +13,7 @@ resource "incus_storage_volume" "vc_dns_data_1" {
 resource "incus_instance" "vc_dns_0" {
   name  = "vc-dns-0"
   image = "images:debian/trixie/cloud"
+  project = "vc-cluster"
 
   config = {
     "boot.autostart"              = true
@@ -71,6 +72,7 @@ resource "incus_instance" "vc_dns_0" {
 resource "incus_instance" "vc_dns_1" {
   name  = "vc-dns-1"
   image = "images:debian/trixie/cloud"
+  project = "vc-cluster"
 
   config = {
     "boot.autostart"              = true
