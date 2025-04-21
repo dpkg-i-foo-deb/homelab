@@ -118,6 +118,10 @@ module "system-containers" {
   downloads_vol = module.storage-volumes.downloads
   photos_vol    = module.storage-volumes.photos
 
+  vc_cluster_ssh_public_key    = var.vc_cluster_ssh_public_key
+  vc_cluster_lxc_user_password = var.vc_cluster_lxc_user_password
+  vc_cluster_ansible_password  = var.vc_cluster_ansible_password
+
   providers = {
     incus = incus
   }
