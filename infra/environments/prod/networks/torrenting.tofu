@@ -33,3 +33,12 @@ resource "incus_network_peer" "torrenting_management" {
   target_network = incus_network.management.name
   target_project = "default"
 }
+
+resource "incus_network_peer" "torrenting_trusted" {
+  name           = "torrenting-trusted"
+  description    = "Allow peering between torrenting and trusted networks"
+  network        = incus_network.torrenting.name
+  project        = "default"
+  target_network = incus_network.trusted.name
+  target_project = "default"
+}
