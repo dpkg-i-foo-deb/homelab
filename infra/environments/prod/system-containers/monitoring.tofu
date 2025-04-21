@@ -36,6 +36,17 @@ resource "incus_network_acl" "monitoring_outbound" {
       protocol         = "tcp"
       description      = "Allow outbound connections to hypervisor metrics (Incus)"
       state            = "enabled"
+    },
+    {
+      action = "allow"
+      destination = join(",",
+        [
+          var.reverse_proxy_net.config["ipv4.address"]
+      ])
+      destination_port = "2019"
+      protocol         = "tcp"
+      description      = "Allow outbound connections to reverse proxy metrics (Caddy)"
+      state            = "enabled"
     }
   ]
 }
@@ -56,7 +67,7 @@ resource "incus_network_acl" "monitoring_svc" {
       description      = "Allow incoming connections to Prometheus Web UI"
       state            = "enabled"
     },
-     {
+    {
       action = "allow"
       source = join(",",
         [
@@ -68,7 +79,7 @@ resource "incus_network_acl" "monitoring_svc" {
       description      = "Allow incoming connections to Grafana Web UI"
       state            = "enabled"
     },
-     {
+    {
       action = "allow"
       source = join(",",
         [

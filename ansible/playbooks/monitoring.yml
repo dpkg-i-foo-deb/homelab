@@ -33,7 +33,7 @@
             scheme: 'http'
             metrics_path: 'metrics'
             targets:
-              - '100.64.0.3:2019'
+              - '10.0.5.10:2019'
 
     - name: Deploy Loki
       ansible.builtin.import_role:

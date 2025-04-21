@@ -58,6 +58,22 @@ resource "incus_network_acl" "reverse_proxy_outbound" {
   ]
 }
 
+resource "incus_network_acl" "reverse_proxy_inbound" {
+  name = "reverse-proxy-inbound"
+
+  ingress = [
+    {
+      action           = "allow"
+      source           = var.monitoring_net.config["ipv4.address"]
+      destination_port = "2019"
+      protocol         = "tcp"
+      description      = "Allow monitoring to read metrics"
+      state            = "enabled"
+    },
+  ]
+}
+
+
 resource "incus_instance" "reverse_proxy" {
   name  = "reverse-proxy"
   image = "images:debian/trixie/cloud"
@@ -89,7 +105,8 @@ resource "incus_instance" "reverse_proxy" {
       "ipv4.address" = "10.0.5.10"
       "security.acls" = join(",",
         [
-          incus_network_acl.reverse_proxy_outbound.name
+          incus_network_acl.reverse_proxy_outbound.name,
+          incus_network_acl.reverse_proxy_inbound.name
       ])
     }
   }
