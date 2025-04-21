@@ -27,6 +27,13 @@
             metrics_path: 'metrics'
             targets:
               - '100.64.0.2:2019'
+          - job_name: 'private-caddy'
+            tls_config:
+              insecure_skip_verify: true
+            scheme: 'http'
+            metrics_path: 'metrics'
+            targets:
+              - '100.64.0.3:2019'
 
     - name: Deploy Loki
       ansible.builtin.import_role:
