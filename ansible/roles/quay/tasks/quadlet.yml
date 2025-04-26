@@ -10,6 +10,7 @@
     quadlet_filename: '{{ quay_container }}'
     ports:
       - '{{ quay_http_port | default(8080) }}:8080'
+      - '{{ quay_https_port | default(8443) }}:8443'
     volumes:
       - '{{ quay_config_dir }}/config.yml:/conf/stack/config.yaml'
       - '{{ quay_blobs_dir }}:/datastorage'
