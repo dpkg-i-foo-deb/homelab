@@ -24,23 +24,12 @@ resource "incus_network_acl" "registry_svc" {
           var.management_subnet,
           var.reverse_proxy_net.config["ipv4.address"]
       ])
-      destination_port = "8080"
+      destination_port = "80"
       protocol         = "tcp"
-      description      = "Allow incoming connections to Quay"
+      description      = "Allow incoming connections to Harbor"
       state            = "enabled"
     },
-    {
-      action = "allow"
-      source = join(",",
-        [
-          var.management_subnet,
-          var.reverse_proxy_net.config["ipv4.address"]
-      ])
-      destination_port = "8443"
-      protocol         = "tcp"
-      description      = "Allow incoming connections to Quay (HTTPS)"
-      state            = "enabled"
-    },
+
   ]
 }
 
