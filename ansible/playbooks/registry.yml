@@ -2,6 +2,7 @@
   hosts: registry_servers
   vars:
     registry_user: 'registry'
+    registry_network: 'registry'
     registry_pg_user: 'registry'
     registry_pg_pass: !vault |
       $ANSIBLE_VAULT;1.1;AES256
@@ -13,6 +14,15 @@
       3535663438396237313830666431613236376462373230376563
 
   tasks:
+
+    - name: Ensure there's a virtual network for Quay
+      ansible.builtin.import_role:
+        name: podman
+        tasks_from: network
+      vars:
+        podman_network: '{{ registry_network }}'
+        podman_user: '{{ registry_network }}'
+
     - name: Deploy Postgres for private registry
       ansible.builtin.import_role:
         name: postgres
@@ -23,3 +33,4 @@
         postgres_db: 'quay'
         postgres_user: '{{ registry_pg_user }}'
         postgres_pass: '{{ registry_pg_pass }}'
+        postgres_network: '{{ registry_network }}'
