@@ -11,7 +11,7 @@
     ports:
       - '{{ redis_port | default(6379) }}:6379'
     command: --requirepass '{{ redis_password }}'
-    network: '{{ redis_network }}'
+    network: '{{ redis_networks }}'
     env:
       PUID: '1000'
       PGID: '1000'

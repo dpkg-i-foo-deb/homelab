@@ -50,7 +50,8 @@
         redis_user: '{{ registry_user }}'
         redis_container: 'quay-redis'
         redis_password: '{{ registry_redis_pass }}'
-        redis_network: '{{ registry_network }}'
+        redis_networks:
+          - '{{ registry_network }}'
 
     - name: Deploy Quay Registry
       ansible.builtin.import_role:
