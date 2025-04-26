@@ -1,0 +1,9 @@
+- name: Template Quay configuration file
+  notify: Restart Quay
+  become: true
+  ansible.builtin.template:
+    src: templates/config.yml.j2
+    dest: '{{ quay_config_dir }}/config.yml'
+    owner: '{{ quay_user }}'
+    group: '{{ quay_user }}'
+    mode: '0777'
