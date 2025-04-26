@@ -1,5 +1,5 @@
 ---
 - name: Quadlet files configuration
-  ansible.builtin.include_tasks: quadlets.yml
+  ansible.builtin.include_tasks: quadlet.yml
 - name: Services configuration
-  ansible.builtin.include_tasks: services.yml
+  ansible.builtin.include_tasks: service.yml
