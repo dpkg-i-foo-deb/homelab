@@ -24,6 +24,8 @@ auth_host: auth
 
 vpn_host: vpn
 
+registry_host: registry
+
 fit_host: fit
 
 code_personal_host: personal.code
