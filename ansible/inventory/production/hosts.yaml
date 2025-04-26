@@ -15,6 +15,12 @@ bastion:
       ansible_host: 10.0.1.10
       siem_agent: homelab-bastion
       groups: 'trusted,internet_facing'
+registry_servers:
+  hosts:
+    registry:
+      ansible_host: 10.0.0.14
+      siem_agent: registry
+      groups: 'trusted,internet_facing'
 code:
   hosts:
     code_server:
