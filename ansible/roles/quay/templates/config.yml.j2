@@ -4,13 +4,10 @@ BUILDLOGS_REDIS:
     host: {{ quay_redis_host }}
     password: {{ quay_redis_pass }}
     port: 6379
+DATABASE_SECRET_KEY: {{ quay_db_secretkey }}
 DB_CONNECTION_ARGS:
     keepalives: 0
-    keepalivescount: 0
-    keepalivesidle: 0
-    keepalivesinterval: 0
     sslcompression: 0
-    tcpusertimeout: 0
 DB_URI: postgresql://{{ quay_db_user }}:{{ quay_db_pass }}@{{ quay_db_host }}/{{ quay_db_name }}
 DEFAULT_TAG_EXPIRATION: 2w
 DISTRIBUTED_STORAGE_CONFIG:
