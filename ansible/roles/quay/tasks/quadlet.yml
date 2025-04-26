@@ -13,7 +13,7 @@
     volumes:
       - '{{ quay_config_dir }}/config.yml:/conf/stack/config.yaml'
       - '{{ quay_blobs_dir }}:/datastorage'
-    network: '{{ quay_network }}'
+    network: '{{ quay_networks }}'
     env:
       PUID: '1000'
       PGID: '1000'

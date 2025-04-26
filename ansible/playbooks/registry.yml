@@ -41,7 +41,8 @@
         postgres_db: 'quay'
         postgres_user: '{{ registry_pg_user }}'
         postgres_pass: '{{ registry_pg_pass }}'
-        postgres_network: '{{ registry_network }}'
+        postgres_network:
+          - '{{ registry_network }}'
 
     - name: Deploy Redis for private registry
       ansible.builtin.import_role:
@@ -59,7 +60,8 @@
       vars:
         quay_user: '{{ registry_user }}'
         quay_container: 'quay'
-        quay_network: '{{ registry_network }}'
+        quay_networks:
+          - '{{ registry_network }}'
         quay_config_dir: '/var/quay'
         quay_blobs_dir: '/blobs'
         quay_redis_host: 'quay-redis'
