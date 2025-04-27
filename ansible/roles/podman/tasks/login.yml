@@ -1,4 +1,6 @@
 - name: Login to specified registry
+  become: true
+  become_user: '{{ podman_user }}'
   containers.podman.podman_login:
     username: '{{ podman_login_user }}'
     password: '{{ podman_login_pass }}'
