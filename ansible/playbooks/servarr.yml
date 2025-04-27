@@ -94,7 +94,7 @@
       vars:
         soularr_user: '{{ servarr_user }}'
         soularr_container: 'soularr'
-        soularr_image: '{{ registry_host }}.{{ internet_host }}/dockerhub-mirror/mrusse08/soularr:latest'
+        soularr_image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/mrusse08/soularr:latest'
         soularr_downloads_dir: '{{ servarr_downloads }}/slskd'
         soularr_config_dir: '/var/soularr'
         soularr_lidarr_host: 'http://host.containers.internal:8686'
