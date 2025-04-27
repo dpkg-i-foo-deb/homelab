@@ -13,6 +13,7 @@
         name: podman
         tasks_from: login
       vars:
+        podman_login_registry: '{{ registry_host }}.{{ internet_host }}'
         podman_login_user: '{{ homelab_registry_user }}'
         podman_login_pass: '{{ homelab_registry_pass }}'
 
