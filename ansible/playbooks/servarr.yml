@@ -29,6 +29,7 @@
         tdarr_cache: '{{ servarr_cache }}'
         tdarr_library: '{{ servarr_music }}'
         tdarr_server: tdarr_server
+        tdarr_image: '{{ registry_host }}.{{ internet_host }}/ghcr-proxy/haveagitgat/tdarr:latest'
 
     - name: Deploy Flaresolverr
       ansible.builtin.import_role:

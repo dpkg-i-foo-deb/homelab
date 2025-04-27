@@ -5,7 +5,7 @@
   notify: Restart tdarr
   containers.podman.podman_container:
     name: '{{ tdarr_container }}'
-    image: ghcr.io/haveagitgat/tdarr:latest
+    image: '{{ tdarr_image }}'
     state: quadlet
     quadlet_filename: '{{ tdarr_container }}'
     ports:
