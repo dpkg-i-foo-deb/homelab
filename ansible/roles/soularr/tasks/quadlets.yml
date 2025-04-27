@@ -5,7 +5,7 @@
   notify: Restart Soularr
   containers.podman.podman_container:
     name: '{{ soularr_container }}'
-    image: docker.io/mrusse08/soularr:latest
+    image: '{{ soularr_image }}'
     state: quadlet
     quadlet_filename: '{{ soularr_container }}'
     ports:

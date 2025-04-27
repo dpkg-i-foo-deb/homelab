@@ -71,6 +71,7 @@
         slskd_data_vol: 'slskd_data'
         slskd_shared_dir: '{{ servarr_music }}'
         slskd_downloads_dir: '{{ servarr_downloads }}/slskd'
+        slskd_image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/slskd/slskd'
         slskd_username: !vault |
           $ANSIBLE_VAULT;1.1;AES256
           64643863303336393731373937313934626264663761623162663263376465643537393036366666
@@ -92,6 +93,7 @@
       vars:
         soularr_user: '{{ servarr_user }}'
         soularr_container: 'soularr'
+        soularr_image: '{{ registry_host }}.{{ internet_host }}/dockerhub-mirror/mrusse08/soularr:latest'
         soularr_downloads_dir: '{{ servarr_downloads }}/slskd'
         soularr_config_dir: '/var/soularr'
         soularr_lidarr_host: 'http://host.containers.internal:8686'

@@ -5,7 +5,7 @@
   notify: Restart Slskd
   containers.podman.podman_container:
     name: '{{ slskd_container }}'
-    image: docker.io/slskd/slskd
+    image: '{{ slskd_image }}'
     state: quadlet
     quadlet_filename: '{{ slskd_container }}'
     ports:
