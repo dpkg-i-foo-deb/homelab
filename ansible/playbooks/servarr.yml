@@ -48,6 +48,7 @@
         lidarr_collection: '{{ servarr_music }}'
         lidarr_downloads: '{{ servarr_downloads }}'
         lidarr_http_port: 8686
+        lidarr_image: '{{ registry_host }}.{{ internet_host }}/lscr-proxy/linuxserver/lidarr:latest'
 
     - name: Deploy LidaTube
       ansible.builtin.import_role:

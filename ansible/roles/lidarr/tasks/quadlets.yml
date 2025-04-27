@@ -5,7 +5,7 @@
   notify: Restart lidarr
   containers.podman.podman_container:
     name: '{{ lidarr_container }}'
-    image: lscr.io/linuxserver/lidarr:latest
+    image: '{{ lidarr_image }}'
     state: quadlet
     quadlet_filename: '{{ lidarr_container }}'
     ports:
