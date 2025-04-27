@@ -8,6 +8,14 @@
 
   tasks:
 
+    - name: Login to homelab registry
+      ansible.builtin.import_role:
+        name: podman
+        tasks_from: login
+      vars:
+        podman_login_user: '{{ homelab_registry_user }}'
+        podman_login_pass: '{{ homelab_registry_pass }}'
+
     - name: Deploy tdarr
       ansible.builtin.import_role:
         name: tdarr

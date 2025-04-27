@@ -1,0 +1,4 @@
+- name: Login to specified registry
+  containers.podman.podman_login:
+    username: '{{ podman_login_user }}'
+    password: '{{ podman_login_pass }}'
