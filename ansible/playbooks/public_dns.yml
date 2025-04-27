@@ -51,6 +51,6 @@
       - record: '{{ metrics_host }}'
         comment: 'Metrics Service'
         value: '{{ public_ip }}'
-      - record: '{{ metrics_host }}'
+      - record: '{{ registry_host }}'
         comment: 'Registry Service'
         value: '{{ public_ip }}'
