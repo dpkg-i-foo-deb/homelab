@@ -46,6 +46,7 @@
       vars:
         prowlarr_user: '{{ servarr_user }}'
         prowlarr_container: prowlarr
+        prowlarr_image: '{{ registry_host }}.{{ internet_host }}/lscr-proxy/linuxserver/prowlarr:latest'
         prowlarr_config: prowlarr_data
         prowlarr_http_port: 9696
 

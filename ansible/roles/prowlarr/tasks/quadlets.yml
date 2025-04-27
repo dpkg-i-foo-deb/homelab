@@ -4,7 +4,7 @@
   notify: Restart prowlarr
   containers.podman.podman_container:
     name: '{{ prowlarr_container }}'
-    image: lscr.io/linuxserver/prowlarr:latest
+    image: '{{ prowlarr_image }}'
     state: quadlet
     quadlet_filename: '{{ prowlarr_container }}'
     ports:
