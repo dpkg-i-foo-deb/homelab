@@ -1,8 +1,0 @@
----
-- name: Ensure there's a volume to store Lidatube configuration
-  ansible.builtin.import_role:
-    name: podman
-    tasks_from: local_volume
-  vars:
-    podman_local_volume: '{{ lidatube_config }}'
-    podman_user: '{{ lidatube_user }}'
