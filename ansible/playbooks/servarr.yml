@@ -37,6 +37,7 @@
       vars:
         flaresolverr_user: '{{ servarr_user }}'
         flaresolverr_container: flaresolverr
+        flaresolverr_image: '{{ registry_host }}.{{ internet_host }}/ghcr-proxy/flaresolverr/flaresolverr:latest'
         flaresolverr_http_port: 8191
 
     - name: Deploy Prowlarr

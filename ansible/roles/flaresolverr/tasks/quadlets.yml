@@ -5,7 +5,7 @@
   notify: Restart flaresolverr
   containers.podman.podman_container:
     name: '{{ flaresolverr_container }}'
-    image: ghcr.io/flaresolverr/flaresolverr:latest
+    image: '{{ flaresolverr_image }}'
     state: quadlet
     quadlet_filename: '{{ flaresolverr_container }}'
     ports:
