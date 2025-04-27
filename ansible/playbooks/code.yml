@@ -79,6 +79,7 @@
       vars:
         oauth2_proxy_user: '{{ code_user }}'
         oauth2_proxy_container: 'code-server-work-oauth2-proxy'
+        oauth2_proxy_image: '{{ registry_host }}.{{ internet_host }}/quay-proxy/oauth2-proxy/oauth2-proxy'
         oauth2_proxy_port: '4180'
         oauth2_proxy_email_domains: '*'
         oauth2_proxy_reverse: 'true'
@@ -105,6 +106,7 @@
       vars:
         oauth2_proxy_user: '{{ code_user }}'
         oauth2_proxy_container: 'code-server-personal-oauth2-proxy'
+        oauth2_proxy_image: '{{ registry_host }}.{{ internet_host }}/quay-proxy/oauth2-proxy/oauth2-proxy'
         oauth2_proxy_port: '4181'
         oauth2_proxy_email_domains: '*'
         oauth2_proxy_reverse: 'true'
