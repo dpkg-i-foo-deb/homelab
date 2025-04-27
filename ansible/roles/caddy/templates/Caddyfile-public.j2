@@ -112,3 +112,9 @@
 {{ metrics_host }}.{{ internet_host }} {
   import proxy https://lan.{{ metrics_host }}.{{ internet_host }}
 }
+
+# Registry service
+
+{{ registry_host }}.{{ internet_host }} {
+import proxy https://lan.{{ registry_host }}.{{ internet_host }}
+}

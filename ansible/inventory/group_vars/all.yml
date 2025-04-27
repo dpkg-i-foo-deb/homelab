@@ -152,6 +152,14 @@ homelab_services:
     tls: false
     private_proxy: '{{ private_reverse_proxy }}'
     private_proxy_vpn: '{{ private_reverse_proxy_vpn }}'
+  registry:
+    name: 'Registry service'
+    host: 'registry'
+    ip: '10.0.0.14'
+    port: '80'
+    tls: false
+    private_proxy: '{{ private_reverse_proxy }}'
+    private_proxy_vpn: '{{ private_reverse_proxy_vpn }}'
   vpn:
     name: 'Headscale Coordination Server'
     host: 'vpn'
