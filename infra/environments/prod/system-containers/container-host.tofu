@@ -35,9 +35,9 @@ resource "incus_network_acl" "container_host_inbound" {
           var.management_subnet,
           var.code_net.config["ipv4.address"],
       ])
-      destination_port = "5000"
+      destination_port = "80"
       protocol         = "tcp"
-      description      = "Allow incoming connections to LidaTube (debug)"
+      description      = "Allow incoming connections to web port (TCP)"
       state            = "enabled"
     },
   ]
