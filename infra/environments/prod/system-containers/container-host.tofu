@@ -37,7 +37,19 @@ resource "incus_network_acl" "container_host_inbound" {
       ])
       destination_port = "80"
       protocol         = "tcp"
-      description      = "Allow incoming connections to web port (TCP)"
+      description      = "Allow incoming connections to HTTP port (TCP)"
+      state            = "enabled"
+    },
+    {
+      action = "allow"
+      source = join(",",
+        [
+          var.management_subnet,
+          var.code_net.config["ipv4.address"],
+      ])
+      destination_port = "443"
+      protocol         = "tcp"
+      description      = "Allow incoming connections to HTTPS port (TCP)"
       state            = "enabled"
     },
   ]
