@@ -3,12 +3,24 @@
   vars:
     monitoring_user: monitoring
   tasks:
+
+    - name: Login to homelab registry
+      ansible.builtin.import_role:
+        name: podman
+        tasks_from: login
+      vars:
+        podman_login_registry: '{{ registry_host }}.{{ internet_host }}'
+        podman_login_user: '{{ homelab_registry_user }}'
+        podman_login_pass: '{{ homelab_registry_pass }}'
+        podman_user: '{{ monitoring_user }}'
+
     - name: Deploy Prometheus
       ansible.builtin.import_role:
         name: prometheus
       vars:
         prometheus_user: '{{ monitoring_user }}'
         prometheus_container: 'prometheus'
+        prometheus_image: '{{ registry_host }}.{{ internet_host }}/quay-proxy/prometheus/prometheus:latest'
         prometheus_config_dir: '/var/prometheus'
         prometheus_metrics_dir: '/metrics/prometheus'
         prometheus_storage_retention: '30d'
@@ -72,6 +84,7 @@
       vars:
         loki_user: '{{ monitoring_user }}'
         loki_container: 'loki'
+        loki_image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/grafana/loki:latest'
         loki_logs_dir: '/logs/loki'
 
     - name: Deploy Grafana
@@ -80,6 +93,7 @@
       vars:
         grafana_user: '{{ monitoring_user }}'
         grafana_container: 'grafana'
+        grafana_image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/grafana/grafana-oss:latest'
         grafana_data_vol: 'grafana_data'
         grafana_server_domain: 'https://{{ metrics_host }}.{{ internet_host }}'
         grafana_server_root_url: 'https://{{ metrics_host }}.{{ internet_host }}'

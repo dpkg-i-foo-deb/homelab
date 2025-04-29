@@ -5,7 +5,7 @@
   notify: Restart Loki
   containers.podman.podman_container:
     name: '{{ loki_container }}'
-    image: docker.io/grafana/loki:latest
+    image: '{{ loki_image }}'
     state: quadlet
     quadlet_filename: '{{ loki_container }}'
     ports:

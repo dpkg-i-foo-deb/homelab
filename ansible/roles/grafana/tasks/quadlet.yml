@@ -5,7 +5,7 @@
   notify: Restart Grafana
   containers.podman.podman_container:
     name: '{{ grafana_container }}'
-    image: docker.io/grafana/grafana-oss:latest
+    image: '{{ grafana_image }}'
     state: quadlet
     quadlet_filename: '{{ grafana_container }}'
     ports:

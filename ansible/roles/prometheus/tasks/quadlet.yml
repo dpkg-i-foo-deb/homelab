@@ -5,7 +5,7 @@
   notify: Restart Prometheus
   containers.podman.podman_container:
     name: '{{ prometheus_container }}'
-    image: quay.io/prometheus/prometheus:latest
+    image: '{{ prometheus_image }}'
     state: quadlet
     quadlet_filename: '{{ prometheus_container }}'
     ports:
