@@ -5,7 +5,7 @@
   notify: Restart terraria_server
   containers.podman.podman_container:
     name: '{{ terraria_server_container }}'
-    image: ghcr.io/beardedio/terraria:vanilla-latest
+    image: '{{ terraria_server_image }}'
     state: quadlet
     quadlet_filename: '{{ terraria_server_container }}'
     ports:

@@ -8,6 +8,7 @@
       vars:
         terraria_server_user: '{{ game_server_user }}'
         terraria_server_container: 'terraria-work'
+        terraria_server_image: '{{ registry_host }}.{{ internet_host }}/ghcr-proxy/beardedio/terraria:vanilla-latest'
         terraria_server_port: '7777'
         terraria_server_data: 'terraria-work-data'
         terraria_server_worldname: 'terraria-vcsoft'
