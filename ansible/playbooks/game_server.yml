@@ -10,7 +10,7 @@
         podman_login_registry: '{{ registry_host }}.{{ internet_host }}'
         podman_login_user: '{{ homelab_registry_user }}'
         podman_login_pass: '{{ homelab_registry_pass }}'
-        podman_user: '{{ bastion_user }}'
+        podman_user: '{{ game_server_user }}'
 
     - name: Deploy Terraria Server for workmates
       ansible.builtin.import_role:
