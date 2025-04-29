@@ -31,6 +31,17 @@
     security_wazuh_generator_conf: '/var/wazuh_generator'
 
   tasks:
+
+    - name: Login to homelab registry
+      ansible.builtin.import_role:
+        name: podman
+        tasks_from: login
+      vars:
+        podman_login_registry: '{{ registry_host }}.{{ internet_host }}'
+        podman_login_user: '{{ homelab_registry_user }}'
+        podman_login_pass: '{{ homelab_registry_pass }}'
+        podman_user: '{{ security_user }}'
+
     - name: Ensure there's a virtual network for Keycloak
       ansible.builtin.import_role:
         name: podman
@@ -101,6 +112,7 @@
       vars:
         wazuh_indexer_user: '{{ security_user }}'
         wazuh_indexer_container: 'wazuh_indexer'
+        wazuh_indexer_image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/wazuh/wazuh-indexer'
         wazuh_indexer_admin_hash: '$2y$12$PFQeLaOF/IlLbEmdGxX9R.Q1WJEkVmkvEAYQFjhb48ISHwAV1VAui'
         wazuh_indexer_version: '4.11.0'
         wazuh_indexer_hostname: 'wazuh.indexer'
@@ -119,6 +131,7 @@
       vars:
         wazuh_manager_user: '{{ security_user }}'
         wazuh_manager_container: 'wazuh_manager'
+        wazuh_manager_image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/wazuh/wazuh-manager'
         wazuh_manager_network: '{{ security_network }}'
         wazuh_manager_hostname: 'wazuh.manager'
         wazuh_manager_agent: '1514'
@@ -172,6 +185,7 @@
         wazuh_dashboard_user: '{{ security_user }}'
         wazuh_dashboard_version: '4.11.0'
         wazuh_dashboard_container: 'wazuh_dashboard'
+        wazuh_dashboard_image: '{{ registry_host }}.{{ internet_host }}dockerhub-proxy/wazuh/wazuh-dashboard'
         wazuh_dashboard_hostname: 'wazuh.dashboard'
         wazuh_dashboard_network: '{{ security_network }}'
         wazuh_dashboard_https: '5601'

@@ -5,7 +5,7 @@
   notify: Restart Wazuh_dashboard
   containers.podman.podman_container:
     name: '{{ wazuh_dashboard_container }}'
-    image: docker.io/wazuh/wazuh-dashboard:{{ wazuh_dashboard_version }}
+    image: '{{ wazuh_dashboard_image }}:{{ wazuh_dashboard_version }}'
     network: '{{ wazuh_dashboard_network }}'
     hostname: '{{ wazuh_dashboard_hostname }}'
     state: quadlet

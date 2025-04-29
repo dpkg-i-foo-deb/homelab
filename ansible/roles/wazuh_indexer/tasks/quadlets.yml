@@ -5,7 +5,7 @@
   notify: Restart wazuh_indexer
   containers.podman.podman_container:
     name: '{{ wazuh_indexer_container }}'
-    image: docker.io/wazuh/wazuh-indexer:{{ wazuh_indexer_version }}
+    image: '{{ wazuh_indexer_image }}:{{ wazuh_indexer_version }}'
     network: '{{ wazuh_indexer_network }}'
     hostname: '{{ wazuh_indexer_hostname }}'
     state: quadlet
