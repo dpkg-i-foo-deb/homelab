@@ -5,7 +5,7 @@
   notify: Restart Guacd
   containers.podman.podman_container:
     name: '{{ guacamole_guacd_container }}'
-    image: docker.io/guacamole/guacd:latest
+    image: '{{ guacamole_guacd_image }}'
     state: quadlet
     quadlet_filename: '{{ guacamole_guacd_container }}'
     ports:

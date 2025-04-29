@@ -5,7 +5,7 @@
   notify: Restart Guacamole web
   containers.podman.podman_container:
     name: '{{ guacamole_web_container }}'
-    image: docker.io/guacamole/guacamole:latest
+    image: '{{ guacamole_web_image }}'
     state: quadlet
     quadlet_filename: '{{ guacamole_web_container }}'
     ports:

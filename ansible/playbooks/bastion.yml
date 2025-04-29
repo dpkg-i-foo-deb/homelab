@@ -20,6 +20,17 @@
       6337
     bastion_guacamole_postgres_init_dir: /var/guacamole_web
   tasks:
+
+    - name: Login to homelab registry
+      ansible.builtin.import_role:
+        name: podman
+        tasks_from: login
+      vars:
+        podman_login_registry: '{{ registry_host }}.{{ internet_host }}'
+        podman_login_user: '{{ homelab_registry_user }}'
+        podman_login_pass: '{{ homelab_registry_pass }}'
+        podman_user: '{{ servarr_user }}'
+
     - name: Ensure there's a virtual network for Apache Guacamole
       ansible.builtin.import_role:
         name: podman
@@ -56,6 +67,7 @@
         guacamole_guacd_user: '{{ bastion_user }}'
         guacamole_guacd_container: guacamole_guacd
         guacamole_guacd_network: '{{ bastion_guacamole_network }}'
+        guacamole_guacd_image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/guacamole/guacd:latest'
 
     - name: Deploy Guacamole web
       ansible.builtin.import_role:
@@ -64,6 +76,7 @@
         guacamole_web_user: '{{ bastion_user }}'
         guacamole_web_port: '8081'
         guacamole_web_container: guacamole_web
+        guacamole_web_image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/guacamole/guacamole:latest'
         guacamole_web_network: '{{ bastion_guacamole_network }}'
         guacamole_web_guacd_hostname: guacamole_guacd
         guacamole_web_extension_priority: 'openid,postgresql'
