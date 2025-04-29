@@ -19,6 +19,16 @@
       3463
   tasks:
 
+    - name: Login to homelab registry
+      ansible.builtin.import_role:
+        name: podman
+        tasks_from: login
+      vars:
+        podman_login_registry: '{{ registry_host }}.{{ internet_host }}'
+        podman_login_user: '{{ homelab_registry_user }}'
+        podman_login_pass: '{{ homelab_registry_pass }}'
+        podman_user: '{{ knowledge_user }}'
+
     - name: Ensure there's a virtual network for FitTrackee
       ansible.builtin.import_role:
         name: podman
