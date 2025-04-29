@@ -44,6 +44,7 @@
         name: fittrackee
       vars:
         fittrackee_user: '{{ knowledge_user }}'
+        fittrackee_image: '{{ registry_host }}.{{ internet_host }}/ghcr-proxy/samr1/fittrackee:latest'
         fittrackee_container: fittrackee
         fittrackee_networks:
           - '{{ knowledge_network }}'
@@ -68,6 +69,7 @@
       vars:
         trilium_user: '{{ knowledge_user }}'
         trilium_container: 'trilium'
+        trilium_image: '{{ registry_host }}.{{ internet_host }}/dockerhub-host/triliumnext/notes:latest'
         trilium_http_port: '8080'
         trilium_data: 'trilium_data'
 
@@ -77,6 +79,7 @@
       vars:
         oauth2_proxy_user: '{{ knowledge_user }}'
         oauth2_proxy_container: 'trillium-oauth2-proxy'
+        oauth2_proxy_image: '{{ registry_host }}.{{ internet_host }}/quay-proxy/oauth2-proxy/oauth2-proxy'
         oauth2_proxy_port: '4180'
         oauth2_proxy_email_domains: '*'
         oauth2_proxy_reverse: 'true'
@@ -103,6 +106,7 @@
       vars:
         freshrss_user: '{{ knowledge_user }}'
         freshrss_container: 'freshrss'
+        freshrss_image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/freshrss/freshrss'
         freshrss_http_port: '8081'
         freshrss_data: 'freshrss_data'
         freshrss_extensions: 'freshrss_extensions'
@@ -111,21 +115,3 @@
         freshrss_oidc_client_id: '{{ rss_client }}'
         freshrss_oidc_client_secret: '{{ rss_secret }}'
         freshrss_oidc_x_forwarded_headers: 'X-Forwarded-Host'
-
-    - name: Deploy Actualbudget
-      ansible.builtin.import_role:
-        name: actualbudget
-      vars:
-        actualbudget_user: '{{ knowledge_user }}'
-        actualbudget_container: 'actualbudget'
-        actualbudget_tag: 'edge'
-        actualbudget_http_port: '5006'
-        actualbudget_data: 'actualbudget_data'
-        actualbudget_openid_discovery_url: 'https://{{ auth_host }}.{{ internet_host }}/realms/{{ homelab_realm }}/.well-known/openid-configuration'
-        actualbudget_openid_client_id: '{{ budget_client }}'
-        actualbudget_openid_client_secret: '{{ budget_secret }}'
-        actualbudget_openid_server_hostname: 'https://{{ budget_host }}.{{ internet_host }}'
-        actualbudget_openid_force: 'true'
-        actualbudget_login_method: 'openid'
-        actualbudget_allowed_login_methods: "['openid']"
-        actualbudget_openid_auth_method: 'openid'

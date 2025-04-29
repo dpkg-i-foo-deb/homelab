@@ -5,7 +5,7 @@
   notify: Restart FitTrackee
   containers.podman.podman_container:
     name: '{{ fittrackee_container }}'
-    image: ghcr.io/samr1/fittrackee:latest
+    image: '{{ fittrackee_image }}'
     state: quadlet
     network: '{{ fittrackee_networks }}'
     quadlet_filename: '{{ fittrackee_container }}'

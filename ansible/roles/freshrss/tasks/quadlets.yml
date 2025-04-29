@@ -5,7 +5,7 @@
   notify: Restart freshrss
   containers.podman.podman_container:
     name: '{{ freshrss_container }}'
-    image: docker.io/freshrss/freshrss
+    image: '{{ freshrss_image }}'
     state: quadlet
     quadlet_filename: '{{ freshrss_container }}'
     ports:

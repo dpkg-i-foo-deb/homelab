@@ -1,9 +1,0 @@
----
-- name: Restart actualbudget
-  become: true
-  become_user: "{{ actualbudget_user }}"
-  ansible.builtin.systemd_service:
-    daemon_reload: true
-    state: restarted
-    name: "{{ actualbudget_container }}"
-    scope: user

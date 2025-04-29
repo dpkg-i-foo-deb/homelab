@@ -5,7 +5,7 @@
   notify: Restart Trilium
   containers.podman.podman_container:
     name: '{{ trilium_container }}'
-    image: docker.io/triliumnext/notes:latest
+    image: '{{ trilium_image }}'
     state: quadlet
     quadlet_filename: '{{ trilium_container }}'
     ports:
