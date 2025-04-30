@@ -24,7 +24,7 @@
         podman_login_registry: '{{ registry_host }}.{{ internet_host }}'
         podman_login_user: '{{ homelab_registry_user }}'
         podman_login_pass: '{{ homelab_registry_pass }}'
-        podman_user: '{{ code_user }}'
+        podman_user: '{{ streaming_user }}'
 
     - name: Deploy Navidrome
       ansible.builtin.import_role:
