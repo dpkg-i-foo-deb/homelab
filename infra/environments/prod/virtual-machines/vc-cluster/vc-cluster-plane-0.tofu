@@ -9,7 +9,7 @@ resource "incus_instance" "vc-plane-0" {
     "limits.cpu"     = 1
     "limits.memory"  = "2GiB"
     "cloud-init.user-data" = templatefile(
-      "${path.module}/../cloud-init/generic.yml.tftpl",
+      "${path.root}/cloud-init/generic.yml.tftpl",
       {
         ssh_public_key           = var.ssh_public_key
         lxc_username             = "vc-cluster-plane-0"

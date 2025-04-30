@@ -35,7 +35,7 @@ resource "incus_instance" "game-server" {
     "limits.memory.swap"          = "true"
     "limits.memory.swap.priority" = "0"
     "cloud-init.user-data" = templatefile(
-      "${path.module}/cloud-init/generic.yml.tftpl",
+      "${path.root}/cloud-init/generic.yml.tftpl",
       {
         ssh_public_key           = var.ssh_public_key
         lxc_username             = "game-server"
