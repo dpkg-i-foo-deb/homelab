@@ -24,7 +24,7 @@ resource "incus_instance" "automation" {
     name = "eth0"
     type = "nic"
     properties = {
-      network        = var.management_net
+      network        = var.management_net.name
       "ipv4.address" = "10.0.1.11"
     }
   }
