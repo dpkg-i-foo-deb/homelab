@@ -2,6 +2,9 @@ resource "incus_storage_volume" "streaming_data" {
   name    = "streaming_data"
   pool    = var.virt_main_pool
   project = "default"
+  config  = {
+     "size" = "30GiB"
+  }
 }
 
 resource "incus_storage_volume" "streaming_cache" {
