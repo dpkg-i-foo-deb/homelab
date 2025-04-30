@@ -5,7 +5,7 @@
   become_user: '{{ navidrome_user }}'
   containers.podman.podman_container:
     name: '{{ navidrome_container }}'
-    image: docker.io/deluan/navidrome:latest
+    image: '{{ navidrome_image }}'
     state: quadlet
     quadlet_filename: '{{ navidrome_container }}'
     ports:

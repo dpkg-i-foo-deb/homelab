@@ -5,7 +5,7 @@
   notify: Restart Immich
   containers.podman.podman_container:
     name: '{{ immich_server_container }}'
-    image: ghcr.io/immich-app/immich-server:release
+    image: '{{ immich_server_image }}'
     state: quadlet
     quadlet_filename: '{{ immich_server_container }}'
     ports:
@@ -39,7 +39,7 @@
   notify: Restart Immich Machine Learning
   containers.podman.podman_container:
     name: '{{ immich_machine_learning_container }}'
-    image: ghcr.io/immich-app/immich-machine-learning:release
+    image: '{{ immich_machine_learning_image }}'
     state: quadlet
     quadlet_filename: '{{ immich_machine_learning_container }}'
     network: '{{ immich_network }}'
@@ -66,7 +66,7 @@
   notify: Restart Immich Redis
   containers.podman.podman_container:
     name: '{{ immich_redis_container }}'
-    image: docker.io/redis:6.2-alpine@sha256:148bb5411c184abd288d9aaed139c98123eeb8824c5d3fce03cf721db58066d8
+    image: '{{ immich_redis_image }}'
     state: quadlet
     quadlet_filename: '{{ immich_redis_container }}'
     network: '{{ immich_network }}'

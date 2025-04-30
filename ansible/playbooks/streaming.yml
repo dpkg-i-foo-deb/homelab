@@ -15,12 +15,24 @@
       3335
     streaming_immich_db: immich
   tasks:
+
+    - name: Login to homelab registry
+      ansible.builtin.import_role:
+        name: podman
+        tasks_from: login
+      vars:
+        podman_login_registry: '{{ registry_host }}.{{ internet_host }}'
+        podman_login_user: '{{ homelab_registry_user }}'
+        podman_login_pass: '{{ homelab_registry_pass }}'
+        podman_user: '{{ code_user }}'
+
     - name: Deploy Navidrome
       ansible.builtin.import_role:
         name: navidrome
       vars:
         navidrome_user: "{{ streaming_user }}"
         navidrome_container: navidrome
+        navidrome_image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/deluan/navidrome:latest'
         navidrome_config: 'navidrome_config'
         navidrome_collection: "{{ streaming_music }}"
         navidrome_lastfm_apikey: !vault |
@@ -59,7 +71,9 @@
         postgres_user: '{{ streaming_immich_db_user }}'
         postgres_pass: '{{ streaming_immich_db_pass }}'
         postgres_network: '{{ streaming_immich_network }}'
-        postgres_image: 'docker.io/tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:739cdd626151ff1f796dc95a6591b55a714f341c737e27f045019ceabf8e8c52'
+        postgres_image: >-
+          '{{ registry_host }}.{{ internet_host }}
+          /dockerhub-proxy/tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:739cdd626151ff1f796dc95a6591b55a714f341c737e27f045019ceabf8e8c52'
         postgres_command: >-
           postgres
           -c shared_preload_libraries=vectors.so
@@ -76,11 +90,15 @@
       vars:
         immich_user: '{{ streaming_user }}'
         immich_server_container: 'immich_server'
+        immich_server_image: '{{ registry_host }}.{{ internet_host }}/ghcr-proxy/immich-app/immich-server:release'
         immich_http_port: '2283'
         immich_network: '{{ streaming_immich_network }}'
         immich_library_dir: '{{ streaming_photos }}'
         immich_machine_learning_container: 'immich_machine_learning'
+        immich_machine_learning_image: '{{ registry_host }}.{{ internet_host }}/ghcr-proxy/immich-app/immich-machine-learning:release'
         immich_redis_container: 'redis'
+        immich_redis_image: >-
+          '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/redis:6.2-alpine@sha256:148bb5411c184abd288d9aaed139c98123eeb8824c5d3fce03cf721db58066d8'
         immich_db_host: 'immich_postgres'
         immich_db_name: '{{ streaming_immich_db }}'
         immich_db_user: '{{ streaming_immich_db_user }}'
