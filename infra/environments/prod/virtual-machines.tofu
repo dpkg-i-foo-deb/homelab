@@ -16,6 +16,7 @@ module "virtual-machines" {
   virt_main_pool    = module.storage-pools.virt_main
   virt_high_io_pool = module.storage-pools.virt_high_io
 
-  untrusted_net = module.networks.untrusted
+  management_net = module.networks.management
+  untrusted_net  = module.networks.untrusted
 
 }

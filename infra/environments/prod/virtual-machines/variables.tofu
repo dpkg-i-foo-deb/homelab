@@ -36,6 +36,11 @@ variable "vc_cluster_ansible_password" {
   sensitive   = true
 }
 
+variable management_net {
+  type = string
+  description = "The name of the management network"
+}
+
 variable "untrusted_net" {
   type = object({
     name   = string
