@@ -107,7 +107,7 @@ resource "incus_instance" "dns_home_1" {
     "limits.memory.swap"          = "true"
     "limits.memory.swap.priority" = "0"
     "cloud-init.user-data" = templatefile(
-      "${path.module}/cloud-init/generic.yml.tftpl",
+      "${path.root}/cloud-init/generic.yml.tftpl",
       {
         ssh_public_key           = var.ssh_public_key,
         lxc_username             = "dns-home-1"
@@ -164,7 +164,7 @@ resource "incus_instance" "dns_vpn_0" {
     "limits.memory.swap"          = "true"
     "limits.memory.swap.priority" = "0"
     "cloud-init.user-data" = templatefile(
-      "${path.module}/cloud-init/generic.yml.tftpl",
+      "${path.root}/cloud-init/generic.yml.tftpl",
       {
         ssh_public_key           = var.ssh_public_key,
         lxc_username             = "dns-vpn-0"
@@ -221,7 +221,7 @@ resource "incus_instance" "dns_vpn_1" {
     "limits.memory.swap"          = "true"
     "limits.memory.swap.priority" = "0"
     "cloud-init.user-data" = templatefile(
-      "${path.module}/cloud-init/generic.yml.tftpl",
+      "${path.root}/cloud-init/generic.yml.tftpl",
       {
         ssh_public_key           = var.ssh_public_key,
         lxc_username             = "dns-vpn-1"
