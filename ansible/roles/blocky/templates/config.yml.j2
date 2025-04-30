@@ -17,10 +17,15 @@ blocking:
 {% for seclist in blocky_security_lists %}
      - {{ seclist }}
 {% endfor %}
+    trackers:
+{% for tracklist in blocky_tracker_lists %}
+     - {{ tracklist }}
+{% endfor %}
   clientGroupsBlock:
     default:
       - ads
       - security
+      - trackers
 customDNS:
   customTTL: 1h
   filterUnmappedTypes: false
