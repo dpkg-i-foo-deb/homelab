@@ -5,7 +5,7 @@
   notify: Restart Qbittorrent
   containers.podman.podman_container:
     name: '{{ qbittorrent_container }}'
-    image: lscr.io/linuxserver/qbittorrent:latest
+    image: '{{ qbittorrent_image }}'
     userns: 'keep-id'
     state: quadlet
     quadlet_filename: '{{ qbittorrent_container }}'

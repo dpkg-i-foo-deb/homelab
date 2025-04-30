@@ -11,6 +11,7 @@
       vars:
         qbittorrent_user: "{{ torrent_user }}"
         qbittorrent_container: qbittorrent
+        qbittorrent_image: '{{ registry_host }}.{{ internet_host }}/lscr-proxy/linuxserver/qbittorrent:latest'
         qbittorrent_data: 'qbittorrent_data'
         qbittorrent_downloads: "{{ torrent_downloads }}"
         qbittorrent_http_port: '8080'
