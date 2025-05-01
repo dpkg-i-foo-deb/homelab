@@ -36,7 +36,8 @@ resource "incus_network_acl" "management_rdp_outbound" {
       destination = join(",",
         [
 
-          var.allowed_ssh_mgmt_subnets
+          incus_network.work.config["ipv4.address"],
+
         ]
       )
       destination_port = "3389"
@@ -49,7 +50,7 @@ resource "incus_network_acl" "management_rdp_outbound" {
       destination = join(",",
         [
 
-          var.allowed_ssh_mgmt_subnets
+          incus_network.work.config["ipv4.address"],
         ]
       )
       destination_port = "3389"
