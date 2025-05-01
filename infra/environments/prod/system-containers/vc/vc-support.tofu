@@ -1,5 +1,5 @@
 resource "incus_instance" "vc_support" {
-  name  = "vc_support"
+  name  = "vc-support"
   image = "images:debian/trixie/cloud"
 
   config = {
