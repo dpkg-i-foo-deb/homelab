@@ -1,5 +1,5 @@
-module "vc-cluster" {
-  source = "./vc-cluster"
+module "vc" {
+  source = "./vc"
 
   providers = {
     incus = incus

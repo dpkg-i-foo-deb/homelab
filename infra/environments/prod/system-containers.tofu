@@ -17,6 +17,7 @@ module "system-containers" {
   untrusted_net     = module.networks.untrusted
   management_net    = module.networks.management
   monitoring_net    = module.networks.monitoring
+  work_net          = module.networks.work
 
   hypervisor_addresses = join(",", var.hypervisor_addresses)
 

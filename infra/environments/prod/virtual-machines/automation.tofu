@@ -6,7 +6,7 @@ resource "incus_instance" "automation" {
   config = {
     "boot.autostart" = true
     "limits.cpu"     = 1
-    "limits.memory"  = "8GiB"
+    "limits.memory"  = "6GiB"
     "security.secureboot" = true
     "cloud-init.user-data" = templatefile(
       "${path.module}/cloud-init/generic.yml.tftpl",

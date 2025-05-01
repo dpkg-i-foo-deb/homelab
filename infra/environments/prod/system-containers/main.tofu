@@ -1,5 +1,5 @@
-module "vc-cluster" {
-  source = "./vc-cluster"
+module "vc" {
+  source = "./vc"
 
   providers = {
     incus = incus
@@ -11,6 +11,7 @@ module "vc-cluster" {
 
   dns_net       = var.dns_net
   untrusted_net = var.untrusted_net
+  work_net      = var.work_net
 
   virt_main_pool    = var.virt_main_pool
   virt_high_io_pool = var.virt_high_io_pool
