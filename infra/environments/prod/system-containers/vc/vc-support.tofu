@@ -1,3 +1,32 @@
+resource "incus_network_acl" "vc_support_svc" {
+  name = "knowledge-svc"
+
+  ingress = [
+    {
+      action = "allow"
+      source = join(",",
+        [
+          var.management_subnet,
+      ])
+      destination_port = "3389"
+      protocol         = "tcp"
+      description      = "Allow incoming connections to RDP (TCP)"
+      state            = "enabled"
+    },
+    {
+      action = "allow"
+      source = join(",",
+        [
+          var.management_subnet,
+      ])
+      destination_port = "3389"
+      protocol         = "udp"
+      description      = "Allow incoming connections to RDP (UDP)"
+      state            = "enabled"
+    },
+  ]
+}
+
 resource "incus_instance" "vc_support" {
   name  = "vc-support"
   image = "images:debian/trixie/cloud"
@@ -28,6 +57,10 @@ resource "incus_instance" "vc_support" {
     properties = {
       network        = var.work_net.name
       "ipv4.address" = "10.0.10.10"
+      "security.acls" = join(",",
+        [
+          incus_network_acl.vc_support_svc.name
+      ])
     }
   }
 
