@@ -16,8 +16,8 @@ resource "incus_network" "work" {
   }
 }
 
-resource "incus_network_peer" "dns_work" {
-  name           = "dns-work"
+resource "incus_network_peer" "work_dns" {
+  name           = "work-dns"
   description    = "Allow peering between work and dns networks"
   network        = incus_network.work.name
   project        = "default"
