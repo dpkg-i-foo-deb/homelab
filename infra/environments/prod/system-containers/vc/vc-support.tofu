@@ -14,7 +14,7 @@ resource "incus_instance" "vc_support" {
       {
         ssh_public_key           = var.ssh_public_key
         lxc_user_password        = var.lxc_user_password
-        lxc_username             = "vc_support"
+        lxc_username             = "vcsoft"
         lxc_username_description = "VC Support Linux System Container"
         ansible_password         = var.ansible_password
       }
