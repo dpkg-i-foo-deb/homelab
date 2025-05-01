@@ -15,6 +15,11 @@ variable "ansible_password" {
   sensitive   = true
 }
 
+variable "management_subnet" {
+  type        = string
+  description = "Management subnet to allow SSH and other connections from"
+}
+
 variable "dns_net" {
   type = object({
     name   = string

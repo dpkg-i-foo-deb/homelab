@@ -1,5 +1,5 @@
 resource "incus_network_acl" "vc_support_svc" {
-  name = "knowledge-svc"
+  name = "vc-support-svc"
 
   ingress = [
     {
