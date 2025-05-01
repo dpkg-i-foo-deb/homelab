@@ -26,12 +26,8 @@ resource "incus_instance" "vc_support" {
     name = "eth0"
     type = "nic"
     properties = {
-      network        = var.untrusted_net.name
+      network        = var.work_net.name
       "ipv4.address" = "10.0.10.10"
-      "security.acls" = join(",",
-        [
-          incus_network_acl.code_svc.name
-      ])
     }
   }
 
