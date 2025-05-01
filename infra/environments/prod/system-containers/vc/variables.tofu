@@ -47,6 +47,15 @@ variable "work_net" {
   description = "Work network object"
 }
 
+variable "management_net" {
+  type = object({
+    name   = string
+    type   = string
+    config = map(string)
+  })
+  description = "Management network object"
+}
+
 variable "virt_main_pool" {
   type        = string
   description = "The name of the main storage pool"

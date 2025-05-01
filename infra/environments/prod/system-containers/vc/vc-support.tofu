@@ -7,6 +7,7 @@ resource "incus_network_acl" "vc_support_svc" {
       source = join(",",
         [
           var.management_subnet,
+          var.management_net.config["ipv4.address"],
       ])
       destination_port = "3389"
       protocol         = "tcp"

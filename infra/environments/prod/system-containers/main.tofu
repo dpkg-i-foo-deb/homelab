@@ -10,6 +10,7 @@ module "vc" {
   ansible_password  = var.vc_cluster_ansible_password
 
   management_subnet = var.management_subnet
+  management_net    = var.management_net
   dns_net           = var.dns_net
   untrusted_net     = var.untrusted_net
   work_net          = var.work_net
