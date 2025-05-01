@@ -15,6 +15,7 @@ resource "incus_network_acl" "management_ssh_outbound" {
           incus_network.trusted.config["ipv4.address"],
           incus_network.untrusted.config["ipv4.address"],
           incus_network.monitoring.config["ipv4.address"],
+          incus_network.work.config["ipv4.address"],
           var.allowed_ssh_mgmt_subnets
         ]
       )
@@ -22,6 +23,39 @@ resource "incus_network_acl" "management_ssh_outbound" {
       protocol         = "tcp"
       description      = "Allow outbound SSH to homelab subnets"
       state            = "logged"
+    },
+  ]
+}
+
+resource "incus_network_acl" "management_rdp_outbound" {
+  name = "management-rdp-outbound"
+
+  egress = [
+    {
+      action = "allow"
+      destination = join(",",
+        [
+
+          var.allowed_ssh_mgmt_subnets
+        ]
+      )
+      destination_port = "3389"
+      protocol         = "tcp"
+      description      = "Allow outbound RDP (TCP)"
+      state            = "enabled"
+    },
+    {
+      action = "allow"
+      destination = join(",",
+        [
+
+          var.allowed_ssh_mgmt_subnets
+        ]
+      )
+      destination_port = "3389"
+      protocol         = "udp"
+      description      = "Allow outbound RDP (UDP)"
+      state            = "enabled"
     },
   ]
 }
