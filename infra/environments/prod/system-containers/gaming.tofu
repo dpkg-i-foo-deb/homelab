@@ -10,6 +10,25 @@ resource "incus_storage_volume" "gaming_library" {
   project = "default"
 }
 
+resource "incus_network_acl" "gaming_svc" {
+  name = "gaming-svc"
+
+  ingress = [
+    {
+      action = "allow"
+      source = join(",",
+        [
+          var.management_subnet,
+          var.reverse_proxy_net.config["ipv4.address"]
+      ])
+      destination_port = "47990"
+      protocol         = "tcp"
+      description      = "Allow incoming connections to Sunshine"
+      state            = "enabled"
+    },
+  ]
+}
+
 resource "incus_instance" "gaming" {
   name  = "gaming"
   image = "images:debian/bookworm/cloud"
@@ -39,6 +58,10 @@ resource "incus_instance" "gaming" {
     properties = {
       network        = var.untrusted_net.name
       "ipv4.address" = "10.0.8.13"
+      "security.acls" = join(",",
+        [
+          incus_network_acl.gaming_svc.name
+      ])
     }
   }
   device {
@@ -74,7 +97,7 @@ resource "incus_instance" "gaming" {
     name = "gpu"
     type = "gpu"
     properties = {
-        pci = "01:00.0"
+      pci = "01:00.0"
     }
   }
 }
