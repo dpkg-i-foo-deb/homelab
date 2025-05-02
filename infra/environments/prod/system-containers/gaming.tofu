@@ -37,6 +37,29 @@ resource "incus_network_acl" "gaming_svc" {
       protocol         = "udp"
       description      = "Allow incoming connections to Sunshine (UDP)"
       state            = "enabled"
+      }, {
+      action = "allow"
+      source = join(",",
+        [
+          var.management_subnet,
+          var.reverse_proxy_net.config["ipv4.address"]
+      ])
+      destination_port = "21118"
+      protocol         = "tcp"
+      description      = "Allow incoming connections to Rustdesk(TCP)"
+      state            = "enabled"
+    },
+    {
+      action = "allow"
+      source = join(",",
+        [
+          var.management_subnet,
+          var.reverse_proxy_net.config["ipv4.address"]
+      ])
+      destination_port = "21118"
+      protocol         = "udp"
+      description      = "Allow incoming connections to Rustdesk(UDP)"
+      state            = "enabled"
     },
     {
       action = "allow"
