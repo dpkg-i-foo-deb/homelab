@@ -12,7 +12,6 @@ resource "incus_storage_volume" "gaming_library" {
 
 resource "incus_network_acl" "gaming_svc" {
   name = "gaming-svc"
-  type= "virtual-machine"
 
   ingress = [
     {
@@ -33,6 +32,7 @@ resource "incus_network_acl" "gaming_svc" {
 resource "incus_instance" "gaming" {
   name  = "gaming"
   image = "images:debian/bookworm/cloud"
+  type= "virtual-machine"
 
   config = {
     "boot.autostart"              = true
