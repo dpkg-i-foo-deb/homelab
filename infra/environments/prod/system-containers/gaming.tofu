@@ -12,6 +12,7 @@ resource "incus_storage_volume" "gaming_library" {
 
 resource "incus_network_acl" "gaming_svc" {
   name = "gaming-svc"
+  type= "virtual-machine"
 
   ingress = [
     {
@@ -36,10 +37,10 @@ resource "incus_instance" "gaming" {
   config = {
     "boot.autostart"              = true
     "limits.cpu"                  = 2
-    "limits.cpu.allowance"        = "50%"
+    # "limits.cpu.allowance"        = "50%"
     "limits.memory"               = "8GiB"
-    "limits.memory.swap"          = "true"
-    "limits.memory.swap.priority" = "0"
+    # "limits.memory.swap"          = "true"
+    # "limits.memory.swap.priority" = "0"
     "cloud-init.user-data" = templatefile(
       "${path.root}/cloud-init/generic.yml.tftpl",
       {
