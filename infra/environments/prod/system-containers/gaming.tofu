@@ -74,7 +74,7 @@ resource "incus_instance" "gaming" {
     "boot.autostart" = false
     "limits.cpu"     = 2
     # "limits.cpu.allowance"        = "50%"
-    "raw.lxc"       = "lxc.cgroup2.devices.allow = a"
+    #"raw.lxc"       = "lxc.cgroup2.devices.allow = a"
     "limits.memory" = "8GiB"
     # "limits.memory.swap"          = "true"
     # "limits.memory.swap.priority" = "0"
@@ -140,12 +140,4 @@ resource "incus_instance" "gaming" {
     }
   }
 
-  device {
-    name = "input"
-    type = "disk"
-    properties = {
-      path   = "/dev/input"
-      source = "/dev/input"
-    }
-  }
 }
