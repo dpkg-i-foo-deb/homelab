@@ -79,7 +79,7 @@
       vars:
         trilium_user: '{{ knowledge_user }}'
         trilium_container: 'trilium'
-        trilium_image: '{{ registry_host }}.{{ internet_host }}/dockerhub-host/triliumnext/notes:latest'
+        trilium_image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/triliumnext/notes:latest'
         trilium_http_port: '8080'
         trilium_data: 'trilium_data'
 
