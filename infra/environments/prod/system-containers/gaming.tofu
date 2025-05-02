@@ -26,6 +26,30 @@ resource "incus_network_acl" "gaming_svc" {
       description      = "Allow incoming connections to Sunshine"
       state            = "enabled"
     },
+    {
+      action = "allow"
+      source = join(",",
+        [
+          var.management_subnet,
+          var.reverse_proxy_net.config["ipv4.address"]
+      ])
+      destination_port = "3389"
+      protocol         = "tcp"
+      description      = "Allow incoming connections to RDP (TCP)"
+      state            = "enabled"
+    },
+    {
+      action = "allow"
+      source = join(",",
+        [
+          var.management_subnet,
+          var.reverse_proxy_net.config["ipv4.address"]
+      ])
+      destination_port = "3389"
+      protocol         = "udp"
+      description      = "Allow incoming connections to RDP (UDP)"
+      state            = "enabled"
+    },
   ]
 }
 
@@ -35,10 +59,10 @@ resource "incus_instance" "gaming" {
   # type= "virtual-machine"
 
   config = {
-    "boot.autostart"              = false
-    "limits.cpu"                  = 2
+    "boot.autostart" = false
+    "limits.cpu"     = 2
     # "limits.cpu.allowance"        = "50%"
-    "limits.memory"               = "8GiB"
+    "limits.memory" = "8GiB"
     # "limits.memory.swap"          = "true"
     # "limits.memory.swap.priority" = "0"
     "cloud-init.user-data" = templatefile(
