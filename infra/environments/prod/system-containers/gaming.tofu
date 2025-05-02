@@ -74,6 +74,7 @@ resource "incus_instance" "gaming" {
     "boot.autostart" = false
     "limits.cpu"     = 2
     # "limits.cpu.allowance"        = "50%"
+    "raw.lxc"       = "lxc.cgroup2.devices.allow"
     "limits.memory" = "8GiB"
     # "limits.memory.swap"          = "true"
     # "limits.memory.swap.priority" = "0"
