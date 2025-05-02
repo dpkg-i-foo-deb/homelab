@@ -35,7 +35,7 @@ resource "incus_instance" "gaming" {
   # type= "virtual-machine"
 
   config = {
-    "boot.autostart"              = true
+    "boot.autostart"              = false
     "limits.cpu"                  = 2
     # "limits.cpu.allowance"        = "50%"
     "limits.memory"               = "8GiB"
