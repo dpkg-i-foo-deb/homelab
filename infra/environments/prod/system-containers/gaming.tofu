@@ -38,7 +38,7 @@ resource "incus_instance" "gaming" {
     type = "nic"
     properties = {
       network        = var.untrusted_net.name
-      "ipv4.address" = "10.0.8.12"
+      "ipv4.address" = "10.0.8.13"
     }
   }
   device {
