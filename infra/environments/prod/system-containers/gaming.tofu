@@ -26,7 +26,7 @@ resource "incus_network_acl" "gaming_svc" {
       description      = "Allow incoming connections to Sunshine (TCP)"
       state            = "enabled"
     },
-        {
+    {
       action = "allow"
       source = join(",",
         [
@@ -136,6 +136,15 @@ resource "incus_instance" "gaming" {
     properties = {
       pci = "01:00.0"
       gid = "44"
+    }
+  }
+
+  device {
+    name = "input"
+    type = "disk"
+    properties = {
+      path   = "/dev/input"
+      source = "/dev/input"
     }
   }
 }
