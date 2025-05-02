@@ -94,12 +94,12 @@ resource "incus_instance" "gaming" {
     }
   }
 
-  device {
-    name = "gpu"
-    type = "gpu"
-    properties = {
-      pci = "01:00.0"
-      gid = "44"
-    }
-  }
+  # device {
+  #   name = "gpu"
+  #   type = "gpu"
+  #   properties = {
+  #     pci = "01:00.0"
+  #     gid = "44"
+  #   }
+  # }
 }
