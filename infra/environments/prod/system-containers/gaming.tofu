@@ -21,9 +21,21 @@ resource "incus_network_acl" "gaming_svc" {
           var.management_subnet,
           var.reverse_proxy_net.config["ipv4.address"]
       ])
-      destination_port = "47990"
+      destination_port = "47990,47984,47989,48010"
       protocol         = "tcp"
-      description      = "Allow incoming connections to Sunshine"
+      description      = "Allow incoming connections to Sunshine (TCP)"
+      state            = "enabled"
+    },
+        {
+      action = "allow"
+      source = join(",",
+        [
+          var.management_subnet,
+          var.reverse_proxy_net.config["ipv4.address"]
+      ])
+      destination_port = "47998-48000"
+      protocol         = "udp"
+      description      = "Allow incoming connections to Sunshine (UDP)"
       state            = "enabled"
     },
     {
