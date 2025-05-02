@@ -1,12 +1,12 @@
 ---
-- name: VPS setup
-  import_playbook: vps.yml
+# - name: VPS setup
+#   import_playbook: vps.yml
 - name: Bastion setup
   import_playbook: bastion.yml
 - name: Public DNS setup
   import_playbook: public_dns.yml
-- name: Hypervisor setup
-  import_playbook: hypervisor.yml
+# - name: Hypervisor setup
+#   import_playbook: hypervisor.yml
 - name: Virtual machines configuration
   import_playbook: vm.yml
 - name: Security services deployment
@@ -19,5 +19,9 @@
   import_playbook: servarr.yml
 - name: Streaming deployment
   import_playbook: streaming.yml
-- name: Reverse proxy deployment
-  import_playbook: reverse_proxy.yml
+# - name: Reverse proxy deployment
+#   import_playbook: reverse_proxy.yml
+- name: Monitoring services deployment
+  ansible.builtin.import_playbook: monitoring.yml
+- name: Game server deployment
+  ansible.builtin.import_playbook: game_server.yml
