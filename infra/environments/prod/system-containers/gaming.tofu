@@ -12,7 +12,7 @@ resource "incus_storage_volume" "gaming_library" {
 
 resource "incus_instance" "gaming" {
   name  = "gaming"
-  image = "images:debian/trixie/cloud"
+  image = "images:debian/bookworm/cloud"
 
   config = {
     "boot.autostart"              = true
