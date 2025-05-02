@@ -69,4 +69,12 @@ resource "incus_instance" "gaming" {
       pool   = var.virt_spin0_pool
     }
   }
+
+  device {
+    name = "gpu"
+    type = "gpu"
+    properties = {
+        pci = "01:00.0"
+    }
+  }
 }
