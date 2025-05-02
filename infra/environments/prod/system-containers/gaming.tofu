@@ -4,7 +4,7 @@ resource "incus_storage_volume" "gaming_data" {
   project = "default"
 }
 
-resource "incus_storage_volume" "gaming-library" {
+resource "incus_storage_volume" "gaming_library" {
   name    = "gaming-library"
   pool    = var.virt_spin0_pool
   project = "default"
