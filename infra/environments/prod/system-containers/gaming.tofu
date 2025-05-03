@@ -139,25 +139,25 @@ resource "incus_instance" "gaming" {
     }
   }
 
-  device {
-    name = "data"
-    type = "disk"
-    properties = {
-      path   = "/home"
-      source = incus_storage_volume.gaming_data.name
-      pool   = var.virt_main_pool
-    }
-  }
+  # device {
+  #   name = "data"
+  #   type = "disk"
+  #   properties = {
+  #     path   = "/home"
+  #     source = incus_storage_volume.gaming_data.name
+  #     pool   = var.virt_main_pool
+  #   }
+  # }
 
-  device {
-    name = "library"
-    type = "disk"
-    properties = {
-      path   = "/games/library"
-      source = incus_storage_volume.gaming_library.name
-      pool   = var.virt_spin0_pool
-    }
-  }
+  # device {
+  #   name = "library"
+  #   type = "disk"
+  #   properties = {
+  #     path   = "/games/library"
+  #     source = incus_storage_volume.gaming_library.name
+  #     pool   = var.virt_spin0_pool
+  #   }
+  # }
 
   device {
     name = "gpu"
