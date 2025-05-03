@@ -26,54 +26,19 @@ resource "incus_network_acl" "gaming_svc" {
       protocol         = "udp"
       description      = "Allow incoming connections to Sunshine (UDP)"
       state            = "enabled"
-      }, {
+    }
+  ]
+
+  egress = [
+    {
       action = "allow"
-      source = join(",",
-        [
-          var.management_subnet,
-          var.reverse_proxy_net.config["ipv4.address"]
-      ])
-      destination_port = "21118"
+      #Main terraria server
+      destination      = "10.0.8.11/32"
+      destination_port = "7777"
       protocol         = "tcp"
-      description      = "Allow incoming connections to Rustdesk(TCP)"
+      description      = "Allow outgoing connections to Terraria server(s)"
       state            = "enabled"
-    },
-    {
-      action = "allow"
-      source = join(",",
-        [
-          var.management_subnet,
-          var.reverse_proxy_net.config["ipv4.address"]
-      ])
-      destination_port = "21118"
-      protocol         = "udp"
-      description      = "Allow incoming connections to Rustdesk(UDP)"
-      state            = "enabled"
-    },
-    {
-      action = "allow"
-      source = join(",",
-        [
-          var.management_subnet,
-          var.reverse_proxy_net.config["ipv4.address"]
-      ])
-      destination_port = "3389"
-      protocol         = "tcp"
-      description      = "Allow incoming connections to RDP (TCP)"
-      state            = "enabled"
-    },
-    {
-      action = "allow"
-      source = join(",",
-        [
-          var.management_subnet,
-          var.reverse_proxy_net.config["ipv4.address"]
-      ])
-      destination_port = "3389"
-      protocol         = "udp"
-      description      = "Allow incoming connections to RDP (UDP)"
-      state            = "enabled"
-    },
+    }
   ]
 }
 
@@ -120,8 +85,8 @@ resource "incus_instance" "gaming" {
     name = "root"
     type = "disk"
     properties = {
-      path = "/"
-      pool = var.virt_high_io_pool
+      path   = "/"
+      pool   = var.virt_high_io_pool
       "size" = "300GiB"
     }
   }

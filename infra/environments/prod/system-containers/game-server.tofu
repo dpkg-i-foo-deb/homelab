@@ -13,7 +13,9 @@ resource "incus_network_acl" "terraria_svc" {
       source = join(",",
         [
           var.management_subnet,
-          var.reverse_proxy_net.config["ipv4.address"]
+          var.reverse_proxy_net.config["ipv4.address"],
+          # Gaming machine address
+          "10.0.8.14/32"
       ])
       destination_port = "7777"
       protocol         = "tcp"
