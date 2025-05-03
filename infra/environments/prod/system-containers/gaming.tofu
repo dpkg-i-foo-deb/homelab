@@ -1,17 +1,17 @@
-# resource "incus_storage_volume" "gaming_data" {
-#   name    = "gaming-data"
-#   pool    = var.virt_main_pool
-#   project = "default"
-# }
+resource "incus_storage_volume" "gaming_data" {
+  name    = "gaming-data"
+  pool    = var.virt_main_pool
+  project = "default"
+}
 
-# resource "incus_storage_volume" "gaming_library" {
-#   name    = "gaming-library"
-#   pool    = var.virt_spin0_pool
-#   project = "default"
-#   config = {
-#     "size" = "100GiB"
-#   }
-# }
+resource "incus_storage_volume" "gaming_library" {
+  name    = "gaming-library"
+  pool    = var.virt_spin0_pool
+  project = "default"
+  config = {
+    "size" = "100GiB"
+  }
+}
 
 resource "incus_network_acl" "gaming_svc" {
   name = "gaming-svc"
@@ -144,8 +144,9 @@ resource "incus_instance" "gaming" {
     type = "disk"
     properties = {
       path   = "/home"
+      source = incus_storage_volume.gaming_data.name
       pool   = var.virt_main_pool
-      size = "20GiB"
+      io.bus = "virtio-scsi"
     }
   }
 
@@ -154,8 +155,9 @@ resource "incus_instance" "gaming" {
     type = "disk"
     properties = {
       path   = "/library"
+      source = incus_storage_volume.gaming_library.name
       pool   = var.virt_spin0_pool
-      size = "100GiB"
+      io.bus = "virtio-scsi"
     }
   }
 
@@ -168,7 +170,7 @@ resource "incus_instance" "gaming" {
     }
   }
 
-    device {
+  device {
     name = "gpu-audio"
     type = "pci"
     properties = {
