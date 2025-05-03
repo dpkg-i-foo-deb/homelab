@@ -4,11 +4,14 @@ resource "incus_storage_volume" "gaming_data" {
   project = "default"
 }
 
-# resource "incus_storage_volume" "gaming_library" {
-#   name    = "gaming-library"
-#   pool    = var.virt_spin0_pool
-#   project = "default"
-# }
+resource "incus_storage_volume" "gaming_library" {
+  name    = "gaming-library"
+  pool    = var.virt_spin0_pool
+  project = "default"
+  config = {
+    "size" = "100GiB"
+  }
+}
 
 resource "incus_network_acl" "gaming_svc" {
   name = "gaming-svc"
@@ -89,9 +92,9 @@ resource "incus_network_acl" "gaming_svc" {
 }
 
 resource "incus_instance" "gaming" {
-  name  = "gaming"
-  image = "images:debian/bookworm/cloud"
-  type= "virtual-machine"
+  name    = "gaming"
+  image   = "images:debian/bookworm/cloud"
+  type    = "virtual-machine"
   running = false
 
   config = {
@@ -113,7 +116,7 @@ resource "incus_instance" "gaming" {
       }
     )
     "security.nesting" = true
-    "raw.qemu.conf": "[device \"qemu_gpu\"]"
+    "raw.qemu.conf" : "[device \"qemu_gpu\"]"
   }
   device {
     name = "eth0"
@@ -146,15 +149,15 @@ resource "incus_instance" "gaming" {
     }
   }
 
-  # device {
-  #   name = "library"
-  #   type = "disk"
-  #   properties = {
-  #     path   = "/library"
-  #     source = incus_storage_volume.gaming_library.name
-  #     pool   = var.virt_spin0_pool
-  #   }
-  # }
+  device {
+    name = "library"
+    type = "disk"
+    properties = {
+      path   = "/games/library"
+      source = incus_storage_volume.gaming_library.name
+      pool   = var.virt_spin0_pool
+    }
+  }
 
   device {
     name = "gpu"
