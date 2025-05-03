@@ -4,11 +4,11 @@ resource "incus_storage_volume" "gaming_data" {
   project = "default"
 }
 
-# resource "incus_storage_volume" "gaming_library" {
-#   name    = "gaming-library"
-#   pool    = var.virt_spin0_pool
-#   project = "default"
-# }
+resource "incus_storage_volume" "gaming_library" {
+  name    = "gaming-library"
+  pool    = var.virt_spin0_pool
+  project = "default"
+}
 
 resource "incus_network_acl" "gaming_svc" {
   name = "gaming-svc"
