@@ -146,7 +146,7 @@ resource "incus_instance" "gaming" {
       path   = "/home"
       source = incus_storage_volume.gaming_data.name
       pool   = var.virt_main_pool
-      "io.bus" = "virtio-scsi"
+      "io.bus" = "9p"
     }
   }
 
@@ -157,7 +157,7 @@ resource "incus_instance" "gaming" {
       path   = "/library"
       source = incus_storage_volume.gaming_library.name
       pool   = var.virt_spin0_pool
-      "io.bus" = "virtio-scsi"
+      "io.bus" = "9p"
     }
   }
 
