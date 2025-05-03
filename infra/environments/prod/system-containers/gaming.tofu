@@ -168,4 +168,13 @@ resource "incus_instance" "gaming" {
     }
   }
 
+    device {
+    name = "gpu-audio"
+    type = "gpu"
+    properties = {
+      pci = "01:00.1"
+      # gid = "44"
+    }
+  }
+
 }
