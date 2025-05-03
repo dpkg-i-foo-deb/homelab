@@ -1,95 +1,95 @@
-resource "incus_storage_volume" "gaming_data" {
-  name    = "gaming-data"
-  pool    = var.virt_main_pool
-  project = "default"
-}
+# resource "incus_storage_volume" "gaming_data" {
+#   name    = "gaming-data"
+#   pool    = var.virt_main_pool
+#   project = "default"
+# }
 
-resource "incus_storage_volume" "gaming_library" {
-  name    = "gaming-library"
-  pool    = var.virt_spin0_pool
-  project = "default"
-  config = {
-    "size" = "100GiB"
-  }
-}
+# resource "incus_storage_volume" "gaming_library" {
+#   name    = "gaming-library"
+#   pool    = var.virt_spin0_pool
+#   project = "default"
+#   config = {
+#     "size" = "100GiB"
+#   }
+# }
 
-resource "incus_network_acl" "gaming_svc" {
-  name = "gaming-svc"
+# resource "incus_network_acl" "gaming_svc" {
+#   name = "gaming-svc"
 
-  ingress = [
-    {
-      action = "allow"
-      source = join(",",
-        [
-          var.management_subnet,
-          var.reverse_proxy_net.config["ipv4.address"]
-      ])
-      destination_port = "47990,47984,47989,48010"
-      protocol         = "tcp"
-      description      = "Allow incoming connections to Sunshine (TCP)"
-      state            = "enabled"
-    },
-    {
-      action = "allow"
-      source = join(",",
-        [
-          var.management_subnet,
-          var.reverse_proxy_net.config["ipv4.address"]
-      ])
-      destination_port = "47998-48000"
-      protocol         = "udp"
-      description      = "Allow incoming connections to Sunshine (UDP)"
-      state            = "enabled"
-      }, {
-      action = "allow"
-      source = join(",",
-        [
-          var.management_subnet,
-          var.reverse_proxy_net.config["ipv4.address"]
-      ])
-      destination_port = "21118"
-      protocol         = "tcp"
-      description      = "Allow incoming connections to Rustdesk(TCP)"
-      state            = "enabled"
-    },
-    {
-      action = "allow"
-      source = join(",",
-        [
-          var.management_subnet,
-          var.reverse_proxy_net.config["ipv4.address"]
-      ])
-      destination_port = "21118"
-      protocol         = "udp"
-      description      = "Allow incoming connections to Rustdesk(UDP)"
-      state            = "enabled"
-    },
-    {
-      action = "allow"
-      source = join(",",
-        [
-          var.management_subnet,
-          var.reverse_proxy_net.config["ipv4.address"]
-      ])
-      destination_port = "3389"
-      protocol         = "tcp"
-      description      = "Allow incoming connections to RDP (TCP)"
-      state            = "enabled"
-    },
-    {
-      action = "allow"
-      source = join(",",
-        [
-          var.management_subnet,
-          var.reverse_proxy_net.config["ipv4.address"]
-      ])
-      destination_port = "3389"
-      protocol         = "udp"
-      description      = "Allow incoming connections to RDP (UDP)"
-      state            = "enabled"
-    },
-  ]
-}
+#   ingress = [
+#     {
+#       action = "allow"
+#       source = join(",",
+#         [
+#           var.management_subnet,
+#           var.reverse_proxy_net.config["ipv4.address"]
+#       ])
+#       destination_port = "47990,47984,47989,48010"
+#       protocol         = "tcp"
+#       description      = "Allow incoming connections to Sunshine (TCP)"
+#       state            = "enabled"
+#     },
+#     {
+#       action = "allow"
+#       source = join(",",
+#         [
+#           var.management_subnet,
+#           var.reverse_proxy_net.config["ipv4.address"]
+#       ])
+#       destination_port = "47998-48000"
+#       protocol         = "udp"
+#       description      = "Allow incoming connections to Sunshine (UDP)"
+#       state            = "enabled"
+#       }, {
+#       action = "allow"
+#       source = join(",",
+#         [
+#           var.management_subnet,
+#           var.reverse_proxy_net.config["ipv4.address"]
+#       ])
+#       destination_port = "21118"
+#       protocol         = "tcp"
+#       description      = "Allow incoming connections to Rustdesk(TCP)"
+#       state            = "enabled"
+#     },
+#     {
+#       action = "allow"
+#       source = join(",",
+#         [
+#           var.management_subnet,
+#           var.reverse_proxy_net.config["ipv4.address"]
+#       ])
+#       destination_port = "21118"
+#       protocol         = "udp"
+#       description      = "Allow incoming connections to Rustdesk(UDP)"
+#       state            = "enabled"
+#     },
+#     {
+#       action = "allow"
+#       source = join(",",
+#         [
+#           var.management_subnet,
+#           var.reverse_proxy_net.config["ipv4.address"]
+#       ])
+#       destination_port = "3389"
+#       protocol         = "tcp"
+#       description      = "Allow incoming connections to RDP (TCP)"
+#       state            = "enabled"
+#     },
+#     {
+#       action = "allow"
+#       source = join(",",
+#         [
+#           var.management_subnet,
+#           var.reverse_proxy_net.config["ipv4.address"]
+#       ])
+#       destination_port = "3389"
+#       protocol         = "udp"
+#       description      = "Allow incoming connections to RDP (UDP)"
+#       state            = "enabled"
+#     },
+#   ]
+# }
 
 # resource "incus_instance" "gaming" {
 #   name    = "gaming-machine"
