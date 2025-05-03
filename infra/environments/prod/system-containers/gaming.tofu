@@ -92,6 +92,7 @@ resource "incus_instance" "gaming" {
   name  = "gaming"
   image = "images:debian/bookworm/cloud"
   type= "virtual-machine"
+  running = false
 
   config = {
     "boot.autostart" = false
