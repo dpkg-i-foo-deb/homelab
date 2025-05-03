@@ -1,11 +1,11 @@
 resource "incus_storage_volume" "gaming_data" {
-  name    = "gaming-home"
+  name    = "gaming-data"
   pool    = var.virt_main_pool
   project = "default"
 }
 
 resource "incus_storage_volume" "gaming_library" {
-  name    = "gaming-library-data"
+  name    = "gaming-library"
   pool    = var.virt_spin0_pool
   project = "default"
   config = {
