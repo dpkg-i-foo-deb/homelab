@@ -18,6 +18,7 @@ module "system-containers" {
   management_net    = module.networks.management
   monitoring_net    = module.networks.monitoring
   work_net          = module.networks.work
+  external_net      = module.networks.external
 
   hypervisor_addresses = join(",", var.hypervisor_addresses)
 
