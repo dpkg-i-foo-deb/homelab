@@ -112,3 +112,9 @@
 {{ registry_host }}.{{ internet_host }} {
 import proxy https://lan.{{ registry_host }}.{{ internet_host }}
 }
+
+# Ssierra k8s api
+
+{{ ssierra_k8s_api_host }}.{{ internet_host }} {
+import proxy https://lan.{{ ssierra_k8s_api_host }}.{{ internet_host }}
+}
