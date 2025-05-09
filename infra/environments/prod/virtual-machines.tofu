@@ -19,4 +19,5 @@ module "virtual-machines" {
   management_net = module.networks.management
   untrusted_net  = module.networks.untrusted
 
+  external_net = module.networks.external
 }
