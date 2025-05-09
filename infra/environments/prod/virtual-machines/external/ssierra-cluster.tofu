@@ -10,7 +10,7 @@ resource "incus_instance" "ssierra-cluster" {
     "limits.memory"       = "8GiB"
     "security.secureboot" = true
     "cloud-init.user-data" = templatefile(
-      "${path.module}/cloud-init/generic.yml.tftpl",
+      "${path.root}/cloud-init/generic.yml.tftpl",
       {
         ssh_public_key           = var.ssh_public_key
         lxc_username             = "ssierra"

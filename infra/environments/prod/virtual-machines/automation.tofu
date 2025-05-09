@@ -9,7 +9,7 @@ resource "incus_instance" "automation" {
     "limits.memory"  = "6GiB"
     "security.secureboot" = true
     "cloud-init.user-data" = templatefile(
-      "${path.module}/cloud-init/generic.yml.tftpl",
+      "${path.root}/cloud-init/generic.yml.tftpl",
       {
         ssh_public_key           = var.ssh_public_key
         lxc_username             = "automation"
