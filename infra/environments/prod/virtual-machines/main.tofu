@@ -28,5 +28,6 @@ module "external" {
 
   external_net = var.external_net
   virt_high_io_pool = var.virt_high_io_pool
+  management_subnet = var.management_subnet
 
 }
