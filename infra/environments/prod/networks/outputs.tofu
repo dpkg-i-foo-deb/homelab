@@ -52,3 +52,8 @@ output "work" {
   value       = incus_network.work
   description = "Work network"
 }
+
+output "external" {
+  value       = incus_network.external
+  description = "External network"
+}
