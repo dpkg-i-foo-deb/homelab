@@ -107,3 +107,12 @@ resource "incus_network_peer" "dns_work" {
   target_network = incus_network.work.name
   target_project = "default"
 }
+
+resource "incus_network_peer" "dns_external" {
+  name           = "dns-external"
+  description    = "Allow peering between dns and external networks"
+  network        = incus_network.dns.name
+  project        = "default"
+  target_network = incus_network.external.name
+  target_project = "default"
+}
