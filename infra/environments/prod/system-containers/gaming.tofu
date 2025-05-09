@@ -32,7 +32,7 @@ resource "incus_network_acl" "gaming_svc" {
   egress = [
     {
       action = "allow"
-      #Main terraria server
+      #Main terraria server 
       destination      = "10.0.8.11/32"
       destination_port = "7777"
       protocol         = "tcp"
