@@ -14,6 +14,14 @@
         }
       }
     }
+
+    0.0.0.0:6443 {
+      route {
+        proxy {
+          upstream 100.64.0.3:6443
+        }
+      }
+    }
   }
 
   servers {
@@ -111,10 +119,4 @@
 
 {{ registry_host }}.{{ internet_host }} {
 import proxy https://lan.{{ registry_host }}.{{ internet_host }}
-}
-
-# Ssierra k8s api
-
-{{ ssierra_k8s_api_host }}.{{ internet_host }} {
-import proxy https://lan.{{ ssierra_k8s_api_host }}.{{ internet_host }}
 }
