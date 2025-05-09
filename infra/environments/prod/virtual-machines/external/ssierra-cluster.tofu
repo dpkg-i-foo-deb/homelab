@@ -25,7 +25,7 @@ resource "incus_instance" "ssierra-cluster" {
     name = "eth0"
     type = "nic"
     properties = {
-      network        = var.management_net.name
+      network        = var.external_net.name
       "ipv4.address" = "10.0.11.10"
     }
   }
