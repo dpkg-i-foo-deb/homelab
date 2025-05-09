@@ -3,6 +3,11 @@ output "vc_cluster" {
   description = "VC Cluster machines"
 }
 
+output "external"{
+  value       = incus_project.external.name
+  description = "External project"
+}
+
 output "default" {
   value       = incus_project.default.name
   description = "Default project"
