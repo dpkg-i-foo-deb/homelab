@@ -22,6 +22,15 @@ variable "management_subnet" {
   description = "Management subnet to allow SSH and other connections from"
 }
 
+variable "reverse_proxy_net" {
+  type = object({
+    name   = string
+    type   = string
+    config = map(string)
+  })
+  description = "Reverse Proxy network object"
+}
+
 variable "external_net" {
   type = object({
     name   = string

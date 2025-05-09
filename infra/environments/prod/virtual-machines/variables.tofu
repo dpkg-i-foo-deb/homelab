@@ -61,8 +61,17 @@ variable "untrusted_net" {
   description = "Untrusted network object"
 }
 
+variable "reverse_proxy_net" {
+  type = object({
+    name   = string
+    type   = string
+    config = map(string)
+  })
+  description = "Reverse Proxy network object"
+}
+
 variable "external_net" {
-    type = object({
+  type = object({
     name   = string
     type   = string
     config = map(string)
