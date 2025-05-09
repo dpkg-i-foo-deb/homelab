@@ -22,3 +22,12 @@ resource "incus_network_peer" "external_dns" {
   target_network = incus_network.dns.name
   target_project = "default"
 }
+
+resource "incus_network_peer" "external_reverse_proxy" {
+  name           = "external-reverse-proxy"
+  description    = "Allow peering between external and reverse proxy networks"
+  network        = incus_network.external.name
+  project        = "default"
+  target_network = incus_network.reverse_proxy.name
+  target_project = "default"
+}

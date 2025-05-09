@@ -71,3 +71,13 @@ resource "incus_network_peer" "reverse_proxy_monitoring" {
   target_network = incus_network.monitoring.name
   target_project = "default"
 }
+
+resource "incus_network_peer" "reverse_proxy_external" {
+  name           = "reverse-proxy-external"
+  description    = "Allow peering between reverse-proxy and external networks"
+  network        = incus_network.reverse_proxy.name
+  project        = "default"
+  target_network = incus_network.external.name
+  target_project = "default"
+}
+
