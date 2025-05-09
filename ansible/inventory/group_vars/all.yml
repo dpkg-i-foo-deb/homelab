@@ -45,6 +45,8 @@ photos_host: photos
 
 metrics_host: metrics
 
+ssierra_k8s_api_host: 'k8s.ssierra'
+
 # Private reverse proxy address
 private_reverse_proxy: '10.0.5.10'
 
@@ -148,6 +150,14 @@ homelab_services:
     ip: '10.0.0.14'
     port: '80'
     tls: false
+    private_proxy: '{{ private_reverse_proxy }}'
+    private_proxy_vpn: '{{ private_reverse_proxy_vpn }}'
+  ssierra_k8s:
+    name: 'ssierra kubernetes API'
+    host: 'k8s.ssierra'
+    ip: '10.0.11.10'
+    port: '6443'
+    tls: true
     private_proxy: '{{ private_reverse_proxy }}'
     private_proxy_vpn: '{{ private_reverse_proxy_vpn }}'
   vpn:
