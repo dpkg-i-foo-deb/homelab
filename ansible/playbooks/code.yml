@@ -38,6 +38,9 @@
           - dnsutils
           - gettext-base
           - vim
+          - ansible
+          - ansible-lint
+          - caddy
         code_server_docker_host: '10.0.8.12'
 
 - name: Configure work code-server
@@ -71,6 +74,9 @@
           - dnsutils
           - nodejs
           - npm
+          - ansible
+          - ansible-lint
+          - caddy
         code_server_docker_host: '10.0.8.12'
 
     - name: Deploy oauth2_proxy for work code_server
