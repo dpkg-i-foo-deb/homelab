@@ -32,7 +32,7 @@ resource "incus_network_acl" "gaming_svc" {
   egress = [
     {
       action = "allow"
-      #Main terraria server 
+      #Main terraria server
       destination      = "10.0.8.11/32"
       destination_port = "7777"
       protocol         = "tcp"
@@ -50,18 +50,14 @@ resource "incus_instance" "gaming" {
 
   config = {
     "boot.autostart" = false
-    "limits.cpu"     = 4
-    # "limits.cpu.allowance"        = "50%"
-    #"raw.lxc"       = "lxc.cgroup2.devices.allow = a"
-    "limits.memory" = "16GiB"
-    # "limits.memory.swap"          = "true"
-    # "limits.memory.swap.priority" = "0"
+    "limits.cpu"     = 6
+    "limits.memory"  = "16GiB"
     "cloud-init.user-data" = templatefile(
       "${path.root}/cloud-init/generic.yml.tftpl",
       {
         ssh_public_key           = var.ssh_public_key
         lxc_username             = "gaming"
-        lxc_username_description = "Game Server Linux System Container"
+        lxc_username_description = "Gaming Virtual Machine"
         lxc_user_password        = var.lxc_user_password
         ansible_password         = var.ansible_password
       }
@@ -69,6 +65,23 @@ resource "incus_instance" "gaming" {
     "security.nesting" = true
     "raw.qemu.conf" : "[device \"qemu_gpu\"]"
   }
+
+  device {
+    name = "gpu"
+    type = "gpu"
+    properties = {
+      pci = "01:00.0"
+    }
+  }
+
+  device {
+    name = "gpu-audio"
+    type = "pci"
+    properties = {
+      address = "01:00.1"
+    }
+  }
+
   device {
     name = "eth0"
     type = "nic"
@@ -91,22 +104,5 @@ resource "incus_instance" "gaming" {
     }
   }
 
-  device {
-    name = "gpu"
-    type = "gpu"
-    properties = {
-      pci = "01:00.0"
-      # gid = "44"
-    }
-  }
-
-  device {
-    name = "gpu-audio"
-    type = "pci"
-    properties = {
-      address = "01:00.1"
-      # gid = "44"
-    }
-  }
 
 }
