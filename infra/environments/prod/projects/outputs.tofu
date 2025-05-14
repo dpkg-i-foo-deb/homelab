@@ -1,6 +1,6 @@
 output "vc_cluster" {
-  value       = incus_project.vc_cluster.name
-  description = "VC Cluster machines"
+  value       = incus_project.vcsoft.name
+  description = "VCSOFT Machines"
 }
 
 output "external"{
