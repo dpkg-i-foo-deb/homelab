@@ -1,6 +1,7 @@
 resource "incus_instance" "vc_davivienda_debug" {
   name  = "vc-davivienda-debug"
   image = "images:debian/trixie/cloud"
+  project = "vcsoft"
 
   config = {
     "boot.autostart"              = true

@@ -1,6 +1,6 @@
-resource "incus_project" "vc_cluster" {
-  name        = "vc-cluster"
-  description = "VC Cluster machines"
+resource "incus_project" "vcsoft" {
+  name        = "vcsoft"
+  description = "VCSOFT Machines"
   config = {
     "features.storage.volumes" = false
     "features.images"          = false
