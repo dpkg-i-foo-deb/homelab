@@ -163,7 +163,7 @@ homelab_services:
   debug_training:
     name: 'Training debug'
     host: 'training'
-    ip: '10.1.0.12'
+    private_proxy: '10.1.0.12'
     tls: 'false'
   vpn:
     name: 'Headscale Coordination Server'
