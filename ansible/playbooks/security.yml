@@ -185,7 +185,7 @@
         wazuh_dashboard_user: '{{ security_user }}'
         wazuh_dashboard_version: '4.11.0'
         wazuh_dashboard_container: 'wazuh_dashboard'
-        wazuh_dashboard_image: '{{ registry_host }}.{{ internet_host }}dockerhub-proxy/wazuh/wazuh-dashboard'
+        wazuh_dashboard_image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/wazuh/wazuh-dashboard'
         wazuh_dashboard_hostname: 'wazuh.dashboard'
         wazuh_dashboard_network: '{{ security_network }}'
         wazuh_dashboard_https: '5601'
