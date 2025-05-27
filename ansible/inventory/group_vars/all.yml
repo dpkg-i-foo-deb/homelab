@@ -152,14 +152,6 @@ homelab_services:
     tls: false
     private_proxy: '{{ private_reverse_proxy }}'
     private_proxy_vpn: '{{ private_reverse_proxy_vpn }}'
-  ssierra_k8s:
-    name: 'ssierra kubernetes API'
-    host: 'k8s.ssierra'
-    ip: '10.0.11.10'
-    port: '6443'
-    tls: true
-    private_proxy: '{{ private_reverse_proxy }}'
-    private_proxy_vpn: '{{ private_reverse_proxy_vpn }}'
   debug_training:
     name: 'Training debug'
     host: 'training'
