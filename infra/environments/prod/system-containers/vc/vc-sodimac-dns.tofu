@@ -48,6 +48,9 @@ resource "incus_instance" "vc_sodimac_dns" {
     properties = {
       network        = var.dns_net.name
       "ipv4.address" = "10.0.2.6"
+      "security.acls" = join(",", [
+        incus_network_acl.vc_sodimac_dns_inbound.name
+      ])
     }
   }
 
