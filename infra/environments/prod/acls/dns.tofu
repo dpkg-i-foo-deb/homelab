@@ -50,22 +50,6 @@ resource "incus_network_acl" "external_dns" {
       description      = "Allow DNS to Google public resolvers (TCP)"
       state            = "enabled"
     },
-    {
-      action           = "allow"
-      destination      = "10.0.2.10/32"
-      destination_port = "53"
-      protocol         = "tcp"
-      description      = "Allow DNS homelab Unbound DNS (TCP)"
-      state            = "enabled"
-    },
-    {
-      action           = "allow"
-      destination      = "10.0.2.10/32"
-      destination_port = "53"
-      protocol         = "udp"
-      description      = "Allow DNS homelab Unbound DNS (UDP)"
-      state            = "enabled"
-    },
   ]
 }
 
@@ -110,22 +94,6 @@ resource "incus_network_acl" "inbound_dns" {
       destination_port = "53"
       protocol         = "tcp"
       description      = "Allow incoming DNS connections (TCP)"
-      state            = "enabled"
-    },
-    {
-      action           = "allow"
-      source           = "10.0.2.0/24"
-      destination_port = "53"
-      protocol         = "tcp"
-      description      = "Allow incoming DNS connections from the same network (TCP)"
-      state            = "enabled"
-    },
-    {
-      action           = "allow"
-      source           = "10.0.2.0/24"
-      destination_port = "53"
-      protocol         = "udp"
-      description      = "Allow incoming DNS connections from the same network (UDP)"
       state            = "enabled"
     }
   ]
