@@ -1,6 +1,7 @@
-resource "incus_instance" "vc_support" {
-  name  = "vc-support"
+resource "incus_instance" "vc_bastion" {
+  name  = "vc-bastion"
   image = "images:debian/trixie/cloud"
+  project = "vcsoft"
 
   config = {
     "boot.autostart"              = true
