@@ -65,7 +65,7 @@ resource "incus_instance" "vc_sodimac_dns" {
     type = "disk"
     properties = {
       path   = "/home"
-      source = incus_storage_volume.vc_sodimac_dns_data
+      source = incus_storage_volume.vc_sodimac_dns_data.name
       pool   = var.virt_main_pool
     }
   }
