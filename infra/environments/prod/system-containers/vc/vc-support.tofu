@@ -25,6 +25,14 @@ resource "incus_network_acl" "vc_support_svc" {
       description      = "Allow incoming connections to RDP (UDP)"
       state            = "enabled"
     },
+    {
+      action           = "allow"
+      source           = "10.0.10.5/32"
+      destination_port = "22"
+      protocol         = "tcp"
+      description      = "Allow incoming SSH connections (TCP)"
+      state            = "enabled"
+    }
   ]
 }
 
