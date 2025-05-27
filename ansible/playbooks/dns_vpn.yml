@@ -26,6 +26,11 @@
         blocky_adlist_download_timeout: '4m'
         blocky_adlist_download_attempts: 5
         blocky_prometheus_enabled: true
+        blocky_cache_min_time: '60m'
+        blocky_cache_max_time: '1440m'
+        blocky_cache_enable_prefetching: 'true'
+        blocky_cache_prefetch_expires: '2h'
+        blocky_cache_negative_time: '30m'
         blocky_upstreams:
           - '1.1.1.1'
           - '8.8.8.8'
