@@ -16,8 +16,6 @@ resource "incus_network" "trusted" {
   }
 }
 
-# TODO trusted requires peering from and to every network (SIEM)
-
 resource "incus_network_peer" "trusted_reverse_proxy" {
   name           = "trusted-reverse-proxy"
   description    = "Allow peering between trusted and reverse-proxy networks"
