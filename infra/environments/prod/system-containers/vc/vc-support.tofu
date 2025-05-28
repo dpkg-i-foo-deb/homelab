@@ -43,8 +43,8 @@ resource "incus_instance" "vc_support" {
   config = {
     "boot.autostart"              = true
     "limits.cpu"                  = 2
-    "limits.cpu.allowance"        = "20%"
-    "limits.memory"               = "4GiB"
+    "limits.cpu.allowance"        = "30%"
+    "limits.memory"               = "8GiB"
     "limits.memory.swap"          = "true"
     "limits.memory.swap.priority" = "0"
     "cloud-init.user-data" = templatefile(
