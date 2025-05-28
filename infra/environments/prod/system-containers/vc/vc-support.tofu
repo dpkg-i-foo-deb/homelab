@@ -79,6 +79,7 @@ resource "incus_instance" "vc_support" {
     properties = {
       path = "/"
       pool = var.virt_high_io_pool
+      size = "20GiB"
     }
   }
 }
