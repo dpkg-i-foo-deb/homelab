@@ -81,10 +81,10 @@ resource "incus_instance" "gaming" {
     properties = {
       network        = var.untrusted_net.name
       "ipv4.address" = "10.0.8.14"
-      "security.acls" = join(",",
-        [
-          # incus_network_acl.gaming_svc.name
-      ])
+    #   "security.acls" = join(",",
+    #     [
+    #       incus_network_acl.gaming_svc.name
+    #   ])
     }
   }
   device {
