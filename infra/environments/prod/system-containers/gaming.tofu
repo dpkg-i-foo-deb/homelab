@@ -75,15 +75,25 @@ resource "incus_instance" "gaming" {
   }
 
   device {
+    name = "uinput"
+    type = "unix-char"
+    properties = {
+      path = "/dev/uinput"
+      mode = "0666"
+    }
+  }
+
+
+  device {
     name = "eth0"
     type = "nic"
     properties = {
       network        = var.untrusted_net.name
       "ipv4.address" = "10.0.8.15"
-    #   "security.acls" = join(",",
-    #     [
-    #       incus_network_acl.gaming_svc.name
-    #   ])
+      #   "security.acls" = join(",",
+      #     [
+      #       incus_network_acl.gaming_svc.name
+      #   ])
     }
   }
   device {
