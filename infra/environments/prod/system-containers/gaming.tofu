@@ -83,7 +83,7 @@ resource "incus_instance" "gaming" {
       "ipv4.address" = "10.0.8.14"
       "security.acls" = join(",",
         [
-          incus_network_acl.gaming_svc.name
+          # incus_network_acl.gaming_svc.name
       ])
     }
   }
