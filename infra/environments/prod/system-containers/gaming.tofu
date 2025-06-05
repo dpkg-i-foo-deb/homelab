@@ -42,67 +42,60 @@
 #   ]
 # }
 
-# resource "incus_instance" "gaming" {
-#   name    = "gaming"
-#   image   = "images:debian/bookworm/cloud"
-#   type    = "virtual-machine"
-#   running = true
+resource "incus_instance" "gaming" {
+  name    = "gaming"
+  image   = "images:debian/bookworm/cloud"
+  type    = "virtual-machine"
+  running = true
 
-#   config = {
-#     "boot.autostart" = false
-#     "limits.cpu"     = 6
-#     "limits.memory"  = "16GiB"
-#     "cloud-init.user-data" = templatefile(
-#       "${path.root}/cloud-init/generic.yml.tftpl",
-#       {
-#         ssh_public_key           = var.ssh_public_key
-#         lxc_username             = "gaming"
-#         lxc_username_description = "Gaming Virtual Machine"
-#         lxc_user_password        = var.lxc_user_password
-#         ansible_password         = var.ansible_password
-#       }
-#     )
-#     "security.nesting" = true
-#     "raw.qemu.conf" : "[device \"qemu_gpu\"]"
-#   }
+  config = {
+    "boot.autostart" = false
+    "limits.cpu"     = 6
+    "limits.memory"  = "16GiB"
+    "cloud-init.user-data" = templatefile(
+      "${path.root}/cloud-init/generic.yml.tftpl",
+      {
+        ssh_public_key           = var.ssh_public_key
+        lxc_username             = "gaming"
+        lxc_username_description = "Gaming System Container"
+        lxc_user_password        = var.lxc_user_password
+        ansible_password         = var.ansible_password
+      }
+    )
+    "security.nesting" = true
+    # "raw.qemu.conf" : "[device \"qemu_gpu\"]"
+  }
 
-#   device {
-#     name = "gpu"
-#     type = "gpu"
-#     properties = {
-#       pci = "01:00.0"
-#     }
-#   }
+  device {
+    name = "gpu"
+    type = "gpu"
+    properties = {
+      pci = "01:00.0"
+      gid = "44"
+    }
+  }
 
-#   device {
-#     name = "gpu-audio"
-#     type = "pci"
-#     properties = {
-#       address = "01:00.1"
-#     }
-#   }
-
-#   device {
-#     name = "eth0"
-#     type = "nic"
-#     properties = {
-#       network        = var.untrusted_net.name
-#       "ipv4.address" = "10.0.8.14"
-#       "security.acls" = join(",",
-#         [
-#           incus_network_acl.gaming_svc.name
-#       ])
-#     }
-#   }
-#   device {
-#     name = "root"
-#     type = "disk"
-#     properties = {
-#       path   = "/"
-#       pool   = var.virt_high_io_pool
-#       "size" = "300GiB"
-#     }
-#   }
+  device {
+    name = "eth0"
+    type = "nic"
+    properties = {
+      network        = var.untrusted_net.name
+      "ipv4.address" = "10.0.8.14"
+      "security.acls" = join(",",
+        [
+          incus_network_acl.gaming_svc.name
+      ])
+    }
+  }
+  device {
+    name = "root"
+    type = "disk"
+    properties = {
+      path   = "/"
+      pool   = var.virt_high_io_pool
+      "size" = "50GiB"
+    }
+  }
 
 
-# }
+}
