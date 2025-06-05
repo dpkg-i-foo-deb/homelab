@@ -1,9 +1,0 @@
----
-- name: Ensure FitTrackee is running
-  become: true
-  become_user: '{{ fittrackee_user }}'
-  ansible.builtin.systemd_service:
-    daemon_reload: true
-    state: started
-    name: '{{ fittrackee_container }}'
-    scope: user
