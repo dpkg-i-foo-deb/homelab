@@ -79,7 +79,7 @@ resource "incus_instance" "gaming" {
     type = "nic"
     properties = {
       network        = var.untrusted_net.name
-      "ipv4.address" = "10.0.8.14"
+      "ipv4.address" = "10.0.8.13"
     #   "security.acls" = join(",",
     #     [
     #       incus_network_acl.gaming_svc.name
