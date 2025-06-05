@@ -1,46 +1,46 @@
 
-# resource "incus_network_acl" "gaming_svc" {
-#   name = "gaming-svc"
+resource "incus_network_acl" "gaming_svc" {
+  name = "gaming-svc"
 
-#   ingress = [
-#     {
-#       action = "allow"
-#       source = join(",",
-#         [
-#           var.management_subnet,
-#           var.reverse_proxy_net.config["ipv4.address"]
-#       ])
-#       destination_port = "47990,47984,47989,48010"
-#       protocol         = "tcp"
-#       description      = "Allow incoming connections to Sunshine (TCP)"
-#       state            = "enabled"
-#     },
-#     {
-#       action = "allow"
-#       source = join(",",
-#         [
-#           var.management_subnet,
-#           var.reverse_proxy_net.config["ipv4.address"]
-#       ])
-#       destination_port = "47998-48000"
-#       protocol         = "udp"
-#       description      = "Allow incoming connections to Sunshine (UDP)"
-#       state            = "enabled"
-#     }
-#   ]
+  ingress = [
+    {
+      action = "allow"
+      source = join(",",
+        [
+          var.management_subnet,
+          var.reverse_proxy_net.config["ipv4.address"]
+      ])
+      destination_port = "47990,47984,47989,48010"
+      protocol         = "tcp"
+      description      = "Allow incoming connections to Sunshine (TCP)"
+      state            = "enabled"
+    },
+    {
+      action = "allow"
+      source = join(",",
+        [
+          var.management_subnet,
+          var.reverse_proxy_net.config["ipv4.address"]
+      ])
+      destination_port = "47998-48000"
+      protocol         = "udp"
+      description      = "Allow incoming connections to Sunshine (UDP)"
+      state            = "enabled"
+    }
+  ]
 
-#   egress = [
-#     {
-#       action = "allow"
-#       #Main terraria server
-#       destination      = "10.0.8.11/32"
-#       destination_port = "7777"
-#       protocol         = "tcp"
-#       description      = "Allow outgoing connections to Terraria server(s)"
-#       state            = "enabled"
-#     }
-#   ]
-# }
+  egress = [
+    {
+      action = "allow"
+      #Main terraria server
+      destination      = "10.0.8.11/32"
+      destination_port = "7777"
+      protocol         = "tcp"
+      description      = "Allow outgoing connections to Terraria server(s)"
+      state            = "enabled"
+    }
+  ]
+}
 
 resource "incus_instance" "gaming" {
   name    = "gaming"
@@ -99,10 +99,10 @@ resource "incus_instance" "gaming" {
     properties = {
       network        = var.untrusted_net.name
       "ipv4.address" = "10.0.8.15"
-      #   "security.acls" = join(",",
-      #     [
-      #       incus_network_acl.gaming_svc.name
-      #   ])
+        "security.acls" = join(",",
+          [
+            incus_network_acl.gaming_svc.name
+        ])
     }
   }
   device {
