@@ -83,6 +83,15 @@ resource "incus_instance" "gaming" {
     }
   }
 
+  device {
+    name = "uhid"
+    type = "unix-char"
+    properties = {
+      path = "/dev/uhid"
+      mode = "0666"
+    }
+  }
+
 
   device {
     name = "eth0"
