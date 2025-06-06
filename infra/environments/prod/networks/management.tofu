@@ -83,16 +83,6 @@ resource "incus_network" "management" {
   }
 }
 
-resource "incus_network_peer" "mangagement_privileged" {
-  name           = "management-privileged"
-  description    = "Allow peering between management and privileged networks"
-  network        = incus_network.management.name
-  project        = "default"
-  target_network = incus_network.privileged.name
-  target_project = "default"
-}
-
-
 resource "incus_network_peer" "management_trusted" {
   name           = "management-trusted"
   description    = "Allow peering between management and trusted networks"
