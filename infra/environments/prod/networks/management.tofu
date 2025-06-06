@@ -1,84 +1,8 @@
-resource "incus_network_acl" "management_ssh_outbound" {
-  name = "management-ssh-outbound"
-
-  egress = [
-    {
-      action = "allow"
-      destination = join(",",
-        [
-          incus_network.code.config["ipv4.address"],
-          incus_network.dns.config["ipv4.address"],
-          incus_network.privileged.config["ipv4.address"],
-          incus_network.reverse_proxy.config["ipv4.address"],
-          incus_network.storage.config["ipv4.address"],
-          incus_network.torrenting.config["ipv4.address"],
-          incus_network.trusted.config["ipv4.address"],
-          incus_network.untrusted.config["ipv4.address"],
-          incus_network.monitoring.config["ipv4.address"],
-          incus_network.work.config["ipv4.address"],
-          var.allowed_ssh_mgmt_subnets
-        ]
-      )
-      destination_port = "22"
-      protocol         = "tcp"
-      description      = "Allow outbound SSH to homelab subnets"
-      state            = "logged"
-    },
-  ]
-}
-
-resource "incus_network_acl" "management_rdp_outbound" {
-  name = "management-rdp-outbound"
-
-  egress = [
-    {
-      action = "allow"
-      destination = join(",",
-        [
-
-          incus_network.work.config["ipv4.address"],
-
-        ]
-      )
-      destination_port = "3389"
-      protocol         = "tcp"
-      description      = "Allow outbound RDP (TCP)"
-      state            = "enabled"
-    },
-    {
-      action = "allow"
-      destination = join(",",
-        [
-
-          incus_network.work.config["ipv4.address"],
-        ]
-      )
-      destination_port = "3389"
-      protocol         = "udp"
-      description      = "Allow outbound RDP (UDP)"
-      state            = "enabled"
-    },
-  ]
-}
-
 resource "incus_network" "management" {
   name = "management"
-  type = "ovn"
+  type = "bridge"
   config = {
     "ipv4.address" = "10.0.1.1/24"
-    "ipv4.nat"     = false
-    "network"      = "${incus_network.incusbr0.name}"
-    "security.acls" = join(",",
-      [
-        var.internal_dns_acl,
-        var.http_acl,
-        var.ssh_mgmt_acl,
-        var.ssh_outbound_acl,
-        incus_network_acl.management_ssh_outbound.name,
-        incus_network_acl.management_rdp_outbound.name,
-        var.wazuh_security_acl,
-        var.incus_api_outbound_acl,
-        var.tailscale_inbound_acl,
-    ])
+    "ipv4.nat"     = true
   }
 }
