@@ -16,14 +16,6 @@ resource "incus_network" "trusted" {
   }
 }
 
-resource "incus_network_peer" "trusted_dns" {
-  name           = "trusted-dns"
-  description    = "Allow peering between trusted and dns networks"
-  network        = incus_network.trusted.name
-  project        = "default"
-  target_network = incus_network.dns.name
-  target_project = "default"
-}
 
 resource "incus_network_peer" "trusted_management" {
   name           = "trusted-management"

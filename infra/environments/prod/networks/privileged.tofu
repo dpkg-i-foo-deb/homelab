@@ -15,16 +15,6 @@ resource "incus_network" "privileged" {
   }
 }
 
-
-resource "incus_network_peer" "privileged_dns" {
-  name           = "privileged-dns"
-  description    = "Allow peering between privileged and dns networks"
-  network        = incus_network.privileged.name
-  project        = "default"
-  target_network = incus_network.dns.name
-  target_project = "default"
-}
-
 resource "incus_network_peer" "privileged_management" {
   name           = "privileged-management"
   description    = "Allow peering between privileged and management networks"
