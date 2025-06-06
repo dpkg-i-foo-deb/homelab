@@ -13,25 +13,6 @@ resource "incus_storage_volume" "registry_blobs" {
   }
 }
 
-resource "incus_network_acl" "registry_svc" {
-  name = "registry-svc"
-
-  ingress = [
-    {
-      action = "allow"
-      source = join(",",
-        [
-          var.management_subnet,
-          var.reverse_proxy_net.config["ipv4.address"]
-      ])
-      destination_port = "80"
-      protocol         = "tcp"
-      description      = "Allow incoming connections to Harbor"
-      state            = "enabled"
-    },
-
-  ]
-}
 
 resource "incus_instance" "registry" {
   name  = "registry"
@@ -63,10 +44,6 @@ resource "incus_instance" "registry" {
     properties = {
       network        = var.trusted_net.name
       "ipv4.address" = "10.0.0.14"
-      "security.acls" = join(",",
-        [
-          incus_network_acl.registry_svc.name
-      ])
     }
   }
 

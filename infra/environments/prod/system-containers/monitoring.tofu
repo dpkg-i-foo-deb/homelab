@@ -22,111 +22,6 @@ resource "incus_storage_volume" "monitoring_logs" {
   }
 }
 
-resource "incus_network_acl" "monitoring_outbound" {
-  name = "monitoring-outbound"
-
-  egress = [
-    {
-      action = "allow"
-      destination = join(",",
-        [
-          var.hypervisor_addresses
-      ])
-      destination_port = "8443"
-      protocol         = "tcp"
-      description      = "Allow outbound connections to hypervisor metrics (Incus)"
-      state            = "enabled"
-    },
-    {
-      action = "allow"
-      destination = join(",",
-        [
-          var.reverse_proxy_net.config["ipv4.address"]
-      ])
-      destination_port = "2019"
-      protocol         = "tcp"
-      description      = "Allow outbound connections to reverse proxy metrics (Caddy)"
-      state            = "enabled"
-    },
-    {
-      action = "allow"
-      destination = join(",",
-        [
-          var.dns_net.config["ipv4.address"]
-      ])
-      destination_port = "4000"
-      protocol         = "tcp"
-      description      = "Allow outbound connections to dns metrics (Blocky)"
-      state            = "enabled"
-    },
-    {
-      action = "allow"
-      destination = join(",",
-        [
-          var.hypervisor_addresses,
-      ])
-      destination_port = "9100"
-      protocol         = "tcp"
-      description      = "Allow outbound connections to hypervisor metrics"
-      state            = "enabled"
-    },
-    {
-      action = "allow"
-      destination = join(",",
-        [
-          var.management_subnet,
-      ])
-      destination_port = "9100"
-      protocol         = "tcp"
-      description      = "Allow outbound connections to home network metrics"
-      state            = "enabled"
-    },
-  ]
-}
-
-resource "incus_network_acl" "monitoring_svc" {
-  name = "monitoring-svc"
-
-  ingress = [
-    {
-      action = "allow"
-      source = join(",",
-        [
-          var.management_subnet,
-          var.reverse_proxy_net.config["ipv4.address"]
-      ])
-      destination_port = "9090"
-      protocol         = "tcp"
-      description      = "Allow incoming connections to Prometheus Web UI"
-      state            = "enabled"
-    },
-    {
-      action = "allow"
-      source = join(",",
-        [
-          var.management_subnet,
-          var.reverse_proxy_net.config["ipv4.address"]
-      ])
-      destination_port = "3000"
-      protocol         = "tcp"
-      description      = "Allow incoming connections to Grafana Web UI"
-      state            = "enabled"
-    },
-    {
-      action = "allow"
-      source = join(",",
-        [
-          var.management_subnet,
-          var.reverse_proxy_net.config["ipv4.address"]
-      ])
-      destination_port = "3100"
-      protocol         = "tcp"
-      description      = "Allow incoming connections to Loki"
-      state            = "enabled"
-    },
-  ]
-}
-
 
 resource "incus_instance" "monitoring" {
   name  = "monitoring"
@@ -158,11 +53,6 @@ resource "incus_instance" "monitoring" {
     properties = {
       network        = var.monitoring_net.name
       "ipv4.address" = "10.0.9.10"
-      "security.acls" = join(",",
-        [
-          incus_network_acl.monitoring_outbound.name,
-          incus_network_acl.monitoring_svc.name
-      ])
     }
   }
 

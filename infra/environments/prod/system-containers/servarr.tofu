@@ -16,116 +16,6 @@ resource "incus_storage_volume" "servarr_cache" {
   }
 }
 
-resource "incus_network_acl" "servarr_svc" {
-  name = "servarr-svc"
-
-  ingress = [
-    {
-      action = "allow"
-      source = join(",",
-        [
-          var.management_subnet,
-          var.reverse_proxy_net.config["ipv4.address"]
-      ])
-      destination_port = "8686"
-      protocol         = "tcp"
-      description      = "Allow incoming connections to Lidarr"
-      state            = "enabled"
-    },
-    {
-      action = "allow"
-      source = join(",",
-        [
-          var.management_subnet,
-          var.reverse_proxy_net.config["ipv4.address"]
-      ])
-      destination_port = "9696"
-      protocol         = "tcp"
-      description      = "Allow incoming connections to Prowlarr"
-      state            = "enabled"
-    },
-    {
-      action = "allow"
-      source = join(",",
-        [
-          var.management_subnet,
-          var.reverse_proxy_net.config["ipv4.address"]
-      ])
-      destination_port = "5000"
-      protocol         = "tcp"
-      description      = "Allow incoming connections to LidaTube"
-      state            = "enabled"
-    },
-    {
-      action = "allow"
-      source = join(",",
-        [
-          var.management_subnet,
-          var.reverse_proxy_net.config["ipv4.address"]
-      ])
-      destination_port = "8265,8266"
-      protocol         = "tcp"
-      description      = "Allow incoming connections to Tdarr"
-      state            = "enabled"
-    },
-    {
-      action = "allow"
-      source = join(",",
-        [
-          var.management_subnet,
-          var.reverse_proxy_net.config["ipv4.address"]
-      ])
-      destination_port = "5030,5031"
-      protocol         = "tcp"
-      description      = "Allow incoming connections to Slskd WebUI"
-      state            = "enabled"
-    },
-    {
-      action           = "allow"
-      source           = "@external"
-      destination_port = "50300"
-      protocol         = "tcp"
-      description      = "Allow incoming connections to Slskd Soulseek (TCP)"
-      state            = "enabled"
-    },
-    {
-      action           = "allow"
-      source           = "@external"
-      destination_port = "50300"
-      protocol         = "udp"
-      description      = "Allow incoming connections to Slskd Soulseek (UDP)"
-      state            = "enabled"
-    },
-  ]
-  egress = [
-    {
-      action           = "allow"
-      destination      = var.torrenting_net.config["ipv4.address"]
-      destination_port = "8080"
-      protocol         = "tcp"
-      description      = "Allow connections to Qbittorrent"
-      state            = "enabled"
-    },
-    {
-      action           = "allow"
-      destination      = "@external"
-      destination_port = "2242,2271"
-      protocol         = "tcp"
-      description      = "Allow connections to Soulseek (TCP)"
-      state            = "enabled"
-    },
-        {
-      action           = "allow"
-      destination      = "@external"
-      destination_port = "2242,2271"
-      protocol         = "udp"
-      description      = "Allow connections to Soulseek (UDP)"
-      state            = "enabled"
-    }
-  ]
-
-}
-
 resource "incus_instance" "servarr" {
   name  = "servarr"
   image = "images:debian/trixie/cloud"
@@ -156,10 +46,6 @@ resource "incus_instance" "servarr" {
     properties = {
       network        = var.trusted_net.name
       "ipv4.address" = "10.0.0.12"
-      "security.acls" = join(",",
-        [
-          incus_network_acl.servarr_svc.name
-      ])
     }
   }
 

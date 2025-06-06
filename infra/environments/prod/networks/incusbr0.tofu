@@ -8,7 +8,6 @@ resource "incus_network" "incusbr0" {
     "ipv4.gateway"    = "192.168.8.1/24"
     "ipv4.ovn.ranges" = "192.168.8.5-192.168.8.20",
     "ipv4.routes" = join(",", [
-      "10.0.0.0/24",
       "10.0.1.0/24",
       "10.0.4.0/24",
       "10.0.7.0/24",
