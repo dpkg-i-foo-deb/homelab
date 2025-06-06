@@ -83,15 +83,6 @@ resource "incus_network" "management" {
   }
 }
 
-resource "incus_network_peer" "management_monitoring" {
-  name           = "management-monitoring"
-  description    = "Allow peering between management and monitoring networks"
-  network        = incus_network.management.name
-  project        = "default"
-  target_network = incus_network.monitoring.name
-  target_project = "default"
-}
-
 resource "incus_network_peer" "management_dns" {
   name           = "management-dns"
   description    = "Allow peering between management and dns networks"
@@ -110,14 +101,6 @@ resource "incus_network_peer" "mangagement_privileged" {
   target_project = "default"
 }
 
-resource "incus_network_peer" "management_storage" {
-  name           = "management-storage"
-  description    = "Allow peering between management and storage networks"
-  network        = incus_network.management.name
-  project        = "default"
-  target_network = incus_network.storage.name
-  target_project = "default"
-}
 
 resource "incus_network_peer" "management_trusted" {
   name           = "management-trusted"
