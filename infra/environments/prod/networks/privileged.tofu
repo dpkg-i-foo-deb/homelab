@@ -14,12 +14,3 @@ resource "incus_network" "privileged" {
     ])
   }
 }
-
-resource "incus_network_peer" "privileged_management" {
-  name           = "privileged-management"
-  description    = "Allow peering between privileged and management networks"
-  network        = incus_network.privileged.name
-  project        = "default"
-  target_network = incus_network.management.name
-  target_project = "default"
-}
