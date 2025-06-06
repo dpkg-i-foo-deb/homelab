@@ -14,6 +14,8 @@ module "networks" {
   tailscale_inbound_acl    = module.acls.tailscale_inbound
   torrenting_inbound_acl   = module.acls.torrenting
   rdp_inbound_acl          = module.acls.rdp_inbound
+  dchp_outbound_acl        = module.acls.dchp_outbound
+
 
   providers = {
     incus = incus

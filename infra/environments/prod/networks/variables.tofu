@@ -63,3 +63,7 @@ variable "rdp_inbound_acl" {
   description = "ACL to allow inbound RDP connections"
 }
 
+variable "dchp_outbound_acl" {
+  type        = string
+  description = "ACL to allow outbound DHCP connections"
+}

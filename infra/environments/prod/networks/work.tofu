@@ -12,7 +12,8 @@ resource "incus_network" "work" {
         var.ssh_mgmt_acl,
         var.wazuh_security_acl,
         var.tailscale_inbound_acl,
-        var.ssh_outbound_acl
+        var.ssh_outbound_acl,
+        var.dchp_outbound_acl
     ])
   }
 }

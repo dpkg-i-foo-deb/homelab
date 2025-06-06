@@ -57,3 +57,8 @@ output "rdp_inbound" {
   value       = incus_network_acl.rdp_inbound.name
   description = "ACL to allow inbound RDP connections"
 }
+
+output "dchp_outbound" {
+  value       = incus_network_acl.dchp_outbound.name
+  description = "ACL to allow outbound DHCP connections"
+}
