@@ -6,7 +6,7 @@ resource "incus_network_acl" "tailscale_inbound" {
   ingress = [
     {
       action           = "allow"
-      source           = "@external"
+      source           = ""
       destination_port = "41641"
       protocol         = "udp"
       description      = "Allow incoming peer-to-peer connections for Tailscale"
