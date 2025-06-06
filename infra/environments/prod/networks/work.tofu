@@ -3,7 +3,7 @@ resource "incus_network" "work" {
   type = "bridge"
   config = {
     "ipv4.address" = "10.0.10.1/24"
-    # "ipv4.nat"     = false
+    "ipv4.nat"     = true
     # "network"      = "${incus_network.incusbr0.name}"
     "security.acls" = join(",",
       [
