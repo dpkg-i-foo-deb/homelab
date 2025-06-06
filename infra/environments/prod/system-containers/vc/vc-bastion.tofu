@@ -1,17 +1,3 @@
-resource "incus_network_acl" "vc_bastion_svc" {
-  name = "vc-bastion-svc"
-  egress = [
-    {
-      action           = "allow"
-      destination      = "10.0.10.10/32,10.0.2.6/32,10.0.2.7/32,10.0.2.8/32"
-      destination_port = "22"
-      protocol         = "tcp"
-      description      = "Allow outgoing SSH connections (TCP) to VC machines"
-      state            = "enabled"
-    }
-  ]
-}
-
 resource "incus_instance" "vc_bastion" {
   name    = "vc-bastion"
   image   = "images:debian/trixie/cloud"
@@ -43,10 +29,6 @@ resource "incus_instance" "vc_bastion" {
     properties = {
       network        = var.work_net.name
       "ipv4.address" = "10.0.10.5"
-      "security.acls" = join(",",
-        [
-          incus_network_acl.vc_bastion_svc.name
-      ])
     }
   }
 
