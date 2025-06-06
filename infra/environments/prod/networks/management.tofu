@@ -119,15 +119,6 @@ resource "incus_network_peer" "management_storage" {
   target_project = "default"
 }
 
-resource "incus_network_peer" "management_torrenting" {
-  name           = "management-torrenting"
-  description    = "Allow peering between management and torrenting netowrks"
-  network        = incus_network.management.name
-  project        = "default"
-  target_network = incus_network.torrenting.name
-  target_project = "default"
-}
-
 resource "incus_network_peer" "management_trusted" {
   name           = "management-trusted"
   description    = "Allow peering between management and trusted networks"
