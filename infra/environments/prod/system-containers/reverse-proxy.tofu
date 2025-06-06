@@ -3,77 +3,6 @@ resource "incus_storage_volume" "reverse_proxy_data" {
   pool    = var.virt_main_pool
   project = "default"
 }
-resource "incus_network_acl" "reverse_proxy_outbound" {
-  name = "reverse-proxy-outbound"
-
-  # Allow connections to any port (So that we can access services)
-  # Those connections are only on local networks
-
-  egress = [
-    {
-      action           = "reject"
-      destination      = ""
-      destination_port = "22"
-      protocol         = "tcp"
-      description      = "Deny outbound SSH connections"
-      state            = "enabled"
-    },
-    {
-      action = "allow"
-      destination = join(",",
-        [
-          var.dns_net.config["ipv4.address"],
-          var.code_net.config["ipv4.address"],
-          var.privileged_net.config["ipv4.address"],
-          var.storage_net.config["ipv4.address"],
-          var.torrenting_net.config["ipv4.address"],
-          var.trusted_net.config["ipv4.address"],
-          var.untrusted_net.config["ipv4.address"],
-          var.monitoring_net.config["ipv4.address"],
-          var.management_net.config["ipv4.address"],
-          var.external_net.config["ipv4.address"],
-      ])
-      destination_port = ""
-      protocol         = "tcp"
-      description      = "Allow outbound connections to any port (TCP)"
-      state            = "enabled"
-    },
-    {
-      action = "allow"
-      destination = join(",",
-        [
-          var.dns_net.config["ipv4.address"],
-          var.code_net.config["ipv4.address"],
-          var.privileged_net.config["ipv4.address"],
-          var.storage_net.config["ipv4.address"],
-          var.torrenting_net.config["ipv4.address"],
-          var.trusted_net.config["ipv4.address"],
-          var.monitoring_net.config["ipv4.address"],
-          var.untrusted_net.config["ipv4.address"],
-      ])
-      destination_port = ""
-      protocol         = "udp"
-      description      = "Allow outbound connections to any port (UDP)"
-      state            = "enabled"
-    },
-  ]
-}
-
-resource "incus_network_acl" "reverse_proxy_inbound" {
-  name = "reverse-proxy-inbound"
-
-  ingress = [
-    {
-      action           = "allow"
-      source           = var.monitoring_net.config["ipv4.address"]
-      destination_port = "2019"
-      protocol         = "tcp"
-      description      = "Allow monitoring to read metrics"
-      state            = "enabled"
-    },
-  ]
-}
-
 
 resource "incus_instance" "reverse_proxy" {
   name  = "reverse-proxy"
@@ -104,11 +33,6 @@ resource "incus_instance" "reverse_proxy" {
     properties = {
       network        = var.reverse_proxy_net.name
       "ipv4.address" = "10.0.5.10"
-      "security.acls" = join(",",
-        [
-          incus_network_acl.reverse_proxy_outbound.name,
-          incus_network_acl.reverse_proxy_inbound.name
-      ])
     }
   }
 

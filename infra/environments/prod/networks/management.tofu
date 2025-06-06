@@ -110,15 +110,6 @@ resource "incus_network_peer" "mangagement_privileged" {
   target_project = "default"
 }
 
-resource "incus_network_peer" "management_reverse_proxy" {
-  name           = "management-reverse-proxy"
-  description    = "Allow peering between management and reverse-proxy networks"
-  network        = incus_network.management.name
-  project        = "default"
-  target_network = incus_network.reverse_proxy.name
-  target_project = "default"
-}
-
 resource "incus_network_peer" "management_storage" {
   name           = "management-storage"
   description    = "Allow peering between management and storage networks"
