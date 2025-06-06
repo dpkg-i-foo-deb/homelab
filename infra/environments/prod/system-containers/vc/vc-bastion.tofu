@@ -1,5 +1,6 @@
 resource "incus_network_acl" "vc_bastion_svc" {
   name = "vc-bastion-svc"
+  project = "vcsoft"
 
   egress = [
     {
