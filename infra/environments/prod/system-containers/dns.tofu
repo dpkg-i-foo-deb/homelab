@@ -28,21 +28,6 @@ resource "incus_storage_volume" "dns_vpn_data_1" {
   project = "default"
 }
 
-resource "incus_network_acl" "dns_inbound" {
-  name = "dns-inbound"
-
-  ingress = [
-    {
-      action           = "allow"
-      source           = var.monitoring_net.config["ipv4.address"]
-      destination_port = "4000"
-      protocol         = "tcp"
-      description      = "Allow monitoring to read metrics"
-      state            = "enabled"
-    },
-  ]
-}
-
 resource "incus_instance" "dns_home_0" {
   name  = "dns-home-0"
   image = "images:debian/trixie/cloud"
@@ -72,10 +57,6 @@ resource "incus_instance" "dns_home_0" {
     properties = {
       network        = var.dns_net.name
       "ipv4.address" = "10.0.2.2"
-      "security.acls" = join(",",
-        [
-          incus_network_acl.dns_inbound.name
-      ])
     }
   }
 
@@ -129,10 +110,6 @@ resource "incus_instance" "dns_home_1" {
     properties = {
       network        = var.dns_net.name
       "ipv4.address" = "10.0.2.3"
-      "security.acls" = join(",",
-        [
-          incus_network_acl.dns_inbound.name
-      ])
     }
   }
 
@@ -186,10 +163,6 @@ resource "incus_instance" "dns_vpn_0" {
     properties = {
       network        = var.dns_net.name
       "ipv4.address" = "10.0.2.4"
-      "security.acls" = join(",",
-        [
-          incus_network_acl.dns_inbound.name
-      ])
     }
   }
 
@@ -243,10 +216,6 @@ resource "incus_instance" "dns_vpn_1" {
     properties = {
       network        = var.dns_net.name
       "ipv4.address" = "10.0.2.5"
-      "security.acls" = join(",",
-        [
-          incus_network_acl.dns_inbound.name
-      ])
     }
   }
 
