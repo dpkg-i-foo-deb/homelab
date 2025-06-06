@@ -83,15 +83,6 @@ resource "incus_network" "management" {
   }
 }
 
-resource "incus_network_peer" "management_code" {
-  name           = "management-code"
-  description    = "Allow peering between management and code networks"
-  network        = incus_network.management.name
-  project        = "default"
-  target_network = incus_network.code.name
-  target_project = "default"
-}
-
 resource "incus_network_peer" "management_monitoring" {
   name           = "management-monitoring"
   description    = "Allow peering between management and monitoring networks"
@@ -155,11 +146,3 @@ resource "incus_network_peer" "management_trusted" {
   target_project = "default"
 }
 
-resource "incus_network_peer" "management_untrusted" {
-  name           = "management-untrusted"
-  description    = "Allow peering between management and untrusted networks"
-  network        = incus_network.management.name
-  project        = "default"
-  target_network = incus_network.untrusted.name
-  target_project = "default"
-}
