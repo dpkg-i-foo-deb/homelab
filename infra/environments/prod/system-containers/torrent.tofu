@@ -4,26 +4,6 @@ resource "incus_storage_volume" "torrent_data" {
   project = "default"
 }
 
-resource "incus_network_acl" "torrent_svc" {
-  name = "torrent-svc"
-
-  ingress = [
-    {
-      action = "allow"
-      source = join(",",
-        [
-          var.management_subnet,
-          var.trusted_net.config["ipv4.address"],
-          var.reverse_proxy_net.config["ipv4.address"]
-      ])
-      destination_port = "8080"
-      protocol         = "tcp"
-      description      = "Allow incoming connections to Qbittorrent"
-      state            = "enabled"
-    },
-  ]
-}
-
 
 resource "incus_instance" "torrent" {
   name  = "torrent"
@@ -55,10 +35,6 @@ resource "incus_instance" "torrent" {
     properties = {
       "ipv4.address" = "10.0.6.10"
       network        = var.torrenting_net.name
-      "security.acls" = join(",",
-        [
-          incus_network_acl.torrent_svc.name
-      ])
     }
   }
 
