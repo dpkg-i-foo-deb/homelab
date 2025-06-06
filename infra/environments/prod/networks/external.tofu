@@ -1,33 +1,8 @@
 resource "incus_network" "external" {
   name = "external"
-  type = "ovn"
+  type = "bridge"
   config = {
     "ipv4.address" = "10.0.11.1/24"
-    "ipv4.nat"     = false
-    "network"      = "${incus_network.incusbr0.name}"
-    "security.acls" = join(",",
-      [
-        var.internal_dns_acl,
-        var.http_acl,
-        var.ssh_mgmt_acl,
-    ])
+    "ipv4.nat"     = true
   }
-}
-
-resource "incus_network_peer" "external_dns" {
-  name           = "external-dns"
-  description    = "Allow peering between external and dns networks"
-  network        = incus_network.external.name
-  project        = "default"
-  target_network = incus_network.dns.name
-  target_project = "default"
-}
-
-resource "incus_network_peer" "external_reverse_proxy" {
-  name           = "external-reverse-proxy"
-  description    = "Allow peering between external and reverse proxy networks"
-  network        = incus_network.external.name
-  project        = "default"
-  target_network = incus_network.reverse_proxy.name
-  target_project = "default"
 }
