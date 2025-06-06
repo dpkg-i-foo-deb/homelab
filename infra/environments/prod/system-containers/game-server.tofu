@@ -4,26 +4,6 @@ resource "incus_storage_volume" "game-server-data" {
   project = "default"
 }
 
-resource "incus_network_acl" "terraria_svc" {
-  name = "terraria-svc"
-
-  ingress = [
-    {
-      action = "allow"
-      source = join(",",
-        [
-          var.management_subnet,
-          var.reverse_proxy_net.config["ipv4.address"],
-          # Gaming machine address
-          "10.0.8.14/32"
-      ])
-      destination_port = "7777"
-      protocol         = "tcp"
-      description      = "Allow incoming connections to Terraria server(s)"
-      state            = "enabled"
-    },
-  ]
-}
 
 resource "incus_instance" "game-server" {
   name  = "game-server"
@@ -54,10 +34,6 @@ resource "incus_instance" "game-server" {
     properties = {
       network        = var.untrusted_net.name
       "ipv4.address" = "10.0.8.11"
-      "security.acls" = join(",",
-        [
-          incus_network_acl.terraria_svc.name
-      ])
     }
   }
   device {

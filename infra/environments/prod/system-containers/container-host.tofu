@@ -13,48 +13,6 @@ resource "incus_storage_volume" "container_host_docker_volumes" {
   }
 }
 
-resource "incus_network_acl" "container_host_inbound" {
-  name = "container-host-inbound"
-  ingress = [
-    {
-      action = "allow"
-      source = join(",",
-        [
-          var.management_subnet,
-          var.code_net.config["ipv4.address"],
-      ])
-      destination_port = "2375-2376"
-      protocol         = "tcp"
-      description      = "Allow incoming connections to Docker daemon"
-      state            = "enabled"
-    },
-    {
-      action = "allow"
-      source = join(",",
-        [
-          var.management_subnet,
-          var.code_net.config["ipv4.address"],
-      ])
-      destination_port = "80"
-      protocol         = "tcp"
-      description      = "Allow incoming connections to HTTP port (TCP)"
-      state            = "enabled"
-    },
-    {
-      action = "allow"
-      source = join(",",
-        [
-          var.management_subnet,
-          var.code_net.config["ipv4.address"],
-      ])
-      destination_port = "443"
-      protocol         = "tcp"
-      description      = "Allow incoming connections to HTTPS port (TCP)"
-      state            = "enabled"
-    },
-  ]
-}
-
 resource "incus_instance" "container_host" {
   name  = "container-host"
   image = "images:debian/trixie/cloud"
@@ -85,10 +43,6 @@ resource "incus_instance" "container_host" {
     properties = {
       network        = var.untrusted_net.name
       "ipv4.address" = "10.0.8.12"
-      "security.acls" = join(",",
-        [
-          incus_network_acl.container_host_inbound.name
-      ])
     }
   }
 
