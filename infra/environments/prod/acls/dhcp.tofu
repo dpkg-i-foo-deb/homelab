@@ -11,4 +11,14 @@ resource "incus_network_acl" "dchp_outbound" {
       state            = "enabled"
     }
   ]
+
+  ingress = [
+    {
+      action           = "allow"
+      destination_port = "67"
+      protocol         = "udp"
+      description      = "Allow incoming DHCP connections (UDP)"
+      state            = "enabled"
+    }
+  ]
 }
