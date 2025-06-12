@@ -87,13 +87,13 @@ variable "reverse_proxy_net" {
   description = "Reverse Proxy network object"
 }
 
-variable "storage_net" {
+variable "vcsoft_net" {
   type = object({
     name   = string
     type   = string
     config = map(string)
   })
-  description = "Storage network object"
+  description = "vcsoft network object"
 }
 
 variable "torrenting_net" {

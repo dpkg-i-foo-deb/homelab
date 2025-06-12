@@ -28,9 +28,9 @@ output "reverse_proxy" {
   description = "Network for reverse proxy services"
 }
 
-output "storage" {
-  value       = incus_network.storage
-  description = "Network for storage services such as SFTP and others"
+output "vcsoft" {
+  value       = incus_network.vcsoft
+  description = "Network for VC services"
 }
 
 output "torrenting" {

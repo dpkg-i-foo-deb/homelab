@@ -1,5 +1,5 @@
-resource "incus_network" "storage" {
-  name = "storage"
+resource "incus_network" "vcsoft" {
+  name = "vcsoft"
   type = "bridge"
   config = {
     "ipv4.address"    = "10.0.3.1/24"

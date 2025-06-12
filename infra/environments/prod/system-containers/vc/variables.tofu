@@ -47,6 +47,15 @@ variable "work_net" {
   description = "Work network object"
 }
 
+variable "vcsoft_net" {
+    type = object({
+    name   = string
+    type   = string
+    config = map(string)
+  })
+  description = "VCSOFT network object"
+}
+
 variable "management_net" {
   type = object({
     name   = string

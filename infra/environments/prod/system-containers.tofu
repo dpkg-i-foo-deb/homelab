@@ -11,7 +11,7 @@ module "system-containers" {
   code_net          = module.networks.code
   privileged_net    = module.networks.privileged
   reverse_proxy_net = module.networks.reverse_proxy
-  storage_net       = module.networks.storage
+  vcsoft_net        = module.networks.vcsoft
   torrenting_net    = module.networks.torrenting
   trusted_net       = module.networks.trusted
   untrusted_net     = module.networks.untrusted
