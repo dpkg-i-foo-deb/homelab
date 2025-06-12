@@ -32,8 +32,8 @@ resource "incus_instance" "vc_sodimac_dns" {
     name = "eth0"
     type = "nic"
     properties = {
-      network        = var.dns_net.name
-      "ipv4.address" = "10.0.2.6"
+      network        = var.vcsoft_net.name
+      "ipv4.address" = "10.0.3.11"
     }
   }
 

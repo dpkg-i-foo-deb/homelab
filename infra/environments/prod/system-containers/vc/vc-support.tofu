@@ -26,8 +26,8 @@ resource "incus_instance" "vc_support" {
     name = "eth0"
     type = "nic"
     properties = {
-      network        = var.work_net.name
-      "ipv4.address" = "10.0.10.10"
+      network        = var.vcsoft_net.name
+      "ipv4.address" = "10.0.3.12"
     }
   }
 

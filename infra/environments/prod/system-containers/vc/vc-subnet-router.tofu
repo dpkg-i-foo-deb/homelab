@@ -27,8 +27,8 @@ resource "incus_instance" "vc_subnet_router" {
     name = "eth0"
     type = "nic"
     properties = {
-      network        = var.work_net.name
-      "ipv4.address" = "10.0.10.5"
+      network        = var.vcsoft_net.name
+      "ipv4.address" = "10.0.3.5"
     }
   }
 
