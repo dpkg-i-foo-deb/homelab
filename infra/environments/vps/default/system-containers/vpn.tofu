@@ -34,10 +34,6 @@ resource "incus_instance" "vpn" {
     properties = {
       network        = var.dns_net.name
       "ipv4.address" = "10.0.254.3"
-      "security.acls" = join(",",
-        [
-          incus_network_acl.dns_inbound.name
-      ])
     }
   }
 
@@ -56,7 +52,7 @@ resource "incus_instance" "vpn" {
     type = "disk"
     properties = {
       path   = "/home"
-      source = incus_storage_volume.vpn_data_0.name
+      source = incus_storage_volume.vpn_data.name
       pool   = var.virt_main_pool
     }
   }

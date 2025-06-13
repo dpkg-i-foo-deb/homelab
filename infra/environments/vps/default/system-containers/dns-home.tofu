@@ -34,10 +34,6 @@ resource "incus_instance" "dns_home" {
     properties = {
       network        = var.dns_net.name
       "ipv4.address" = "10.0.254.2"
-      "security.acls" = join(",",
-        [
-          incus_network_acl.dns_inbound.name
-      ])
     }
   }
 
@@ -56,7 +52,7 @@ resource "incus_instance" "dns_home" {
     type = "disk"
     properties = {
       path   = "/home"
-      source = incus_storage_volume.dns_home_data_0.name
+      source = incus_storage_volume.dns_home_data.name
       pool   = var.virt_main_pool
     }
   }
