@@ -33,16 +33,6 @@ variable "ssh_outbound_acl" {
   description = "ACL to allow outbound SSH connections"
 }
 
-variable "wazuh_security_acl" {
-  type        = string
-  description = "ACL to allow access to Wazuh server"
-}
-
-variable "incus_api_outbound_acl" {
-  type        = string
-  description = "ACL to allow outbound Incus API connections"
-}
-
 variable "tailscale_inbound_acl" {
   type        = string
   description = "ACL to allow Tailscale functionality"
