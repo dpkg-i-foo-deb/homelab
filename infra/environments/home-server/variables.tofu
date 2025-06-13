@@ -10,11 +10,6 @@ variable "ssh_public_key" {
   description = "SSH Public Key"
 }
 
-variable "vps_addresses" {
-  type        = list(string)
-  description = "List of IP Addresses to access VPS servers"
-}
-
 variable "lxc_user_password" {
   type        = string
   description = "LXC Password used for Instances"
