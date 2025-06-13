@@ -20,8 +20,6 @@ module "system-containers" {
   work_net          = module.networks.work
   external_net      = module.networks.external
 
-  hypervisor_addresses = join(",", var.hypervisor_addresses)
-
   virt_main_pool    = module.storage-pools.virt_main
   virt_high_io_pool = module.storage-pools.virt_high_io
   virt_spin0_pool   = module.storage-pools.virt_spin0

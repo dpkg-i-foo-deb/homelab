@@ -15,11 +15,6 @@ variable "security_ip" {
   description = "Security service address"
 }
 
-variable "hypervisor_addresses" {
-  type        = list(string)
-  description = "List of IP Addresses to access hypervisor servers"
-}
-
 variable "vps_addresses" {
   type        = list(string)
   description = "List of IP Addresses to access VPS servers"
