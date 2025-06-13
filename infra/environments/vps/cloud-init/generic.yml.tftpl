@@ -1,0 +1,45 @@
+#cloud-config
+groups:
+  - admingroup: [root, sys]
+
+users:
+  - name: ${lxc_username}
+    gecos: ${lxc_username_description}
+    shell: /bin/bash
+    homedir: /home/${lxc_username}
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    groups: users
+    lock_passwd: false
+    ssh_authorized_keys:
+      - ${ssh_public_key}
+    passwd: ${lxc_user_password}
+  - name: ansible
+    gecos: Ansible Automation Account
+    shell: /bin/bash
+    homedir: /home/ansible
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    groups: users, sys
+    lock_passwd: false
+    ssh_authorized_keys:
+      - ${ssh_public_key}
+    passwd: ${ansible_password}
+ssh_pwauth: False
+packages:
+  - podman
+  - openssh-server
+  - acl
+  - curl
+timezone: America/Bogota
+write_files:
+  - path: /etc/ssh/sshd_config
+    permissions: "0600"
+    content: |
+      Port 22
+      ListenAddress 0.0.0.0
+      PermitRootLogin no
+      PasswordAuthentication no
+      ChallengeResponseAuthentication no
+      UsePAM yes
+      X11Forwarding no
+      PrintMotd no
+      Subsystem	sftp	/usr/lib/openssh/sftp-server
