@@ -33,11 +33,6 @@ output "ssh_outbound" {
   value       = incus_network_acl.ssh_outbound.name
 }
 
-output "incus_api_outbound" {
-  value       = incus_network_acl.incus_api_outbound.name
-  description = "ACL to allow outbound Incus API connections"
-}
-
 output "tailscale_inbound" {
   value       = incus_network_acl.tailscale_inbound.name
   description = "ACL to allow Tailscale functionality"

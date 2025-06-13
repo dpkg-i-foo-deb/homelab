@@ -20,7 +20,7 @@ resource "incus_network_acl" "external_dns" {
     },
     {
       action           = "allow"
-      destination      = var.allowed_dns_subnets
+      destination      = ""
       destination_port = "53"
       protocol         = "tcp"
       description      = "Allow DNS to other Cloudflare public resolvers (TCP)"
@@ -28,7 +28,7 @@ resource "incus_network_acl" "external_dns" {
     },
     {
       action           = "allow"
-      destination      = var.allowed_dns_subnets
+      destination      = ""
       destination_port = "53"
       protocol         = "udp"
       description      = "Allow DNS to other Cloudflare public resolvers (UDP)"
