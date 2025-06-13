@@ -33,11 +33,6 @@ output "ssh_outbound" {
   value       = incus_network_acl.ssh_outbound.name
 }
 
-output "wazuh_security" {
-  value       = incus_network_acl.wazuh_security.name
-  description = "ACL to allow access to Wazuh server"
-}
-
 output "incus_api_outbound" {
   value       = incus_network_acl.incus_api_outbound.name
   description = "ACL to allow outbound Incus API connections"

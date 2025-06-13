@@ -10,11 +10,6 @@ variable "ssh_public_key" {
   description = "SSH Public Key"
 }
 
-variable "security_ip" {
-  type        = string
-  description = "Security service address"
-}
-
 variable "vps_addresses" {
   type        = list(string)
   description = "List of IP Addresses to access VPS servers"
