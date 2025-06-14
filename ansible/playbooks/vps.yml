@@ -1,56 +1,53 @@
 - name: Configure Virtual Private Server
   hosts: vps
   vars:
-    vps_user: 'vps-hetzner'
 
   tasks:
 
-    - name: Build dns_records for Headscale
-      ansible.builtin.set_fact:
-        dns_records:
-          "{{ dns_records | default([]) + [ { 'domain': 'lan' ~ '.' ~ item.value.host ~ '.' ~ internet_host, 'address': item.value.private_proxy_vpn } ] }}"
-      loop: "{{ homelab_services | dict2items }}"
-      when: item.value.private_proxy_vpn is defined
+    # - name: Build dns_records for Headscale
+    #   ansible.builtin.set_fact:
+    #     dns_records:
+    #       "{{ dns_records | default([]) + [ { 'domain': 'lan' ~ '.' ~ item.value.host ~ '.' ~ internet_host, 'address': item.value.private_proxy_vpn } ] }}"
+    #   loop: "{{ homelab_services | dict2items }}"
+    #   when: item.value.private_proxy_vpn is defined
 
-    - name: Display DNS Records
-      ansible.builtin.debug:
-        msg: '{{ dns_records }}'
+    # - name: Display DNS Records
+    #   ansible.builtin.debug:
+    #     msg: '{{ dns_records }}'
 
-    - name: Deploy Headscale control server
-      ansible.builtin.import_role:
-        name: headscale
-      vars:
-        headscale_user: '{{ vps_user }}'
-        headscale_container: 'headscale'
-        headscale_command: 'serve'
-        headscale_http_port: '8080'
-        headscale_metrics_port: '9090'
-        headscale_conf_dir: '/var/headscale'
-        headscale_tls_vol: 'headscale_tls'
-        headscale_network: 'host'
-        headscale_server_host: '{{ vpn_host }}.{{ internet_host }}'
-        headscale_server_port: '443'
-        headscale_listen_host: '0.0.0.0'
-        headscale_listen_port: '8080'
-        headscale_metrics_host: '0.0.0.0'
-        headscale_grpc_listen_addr: '0.0.0.0'
-        headscale_grpc_listen_port: '50443'
-        headscale_dns_base_domain: 'nodes.{{ vpn_host }}.{{ internet_host }}'
-        headscale_dns_records: '{{ dns_records }}'
-
+    # - name: Deploy Headscale control server
+    #   ansible.builtin.import_role:
+    #     name: headscale
+    #   vars:
+    #     headscale_user: '{{ vps_user }}'
+    #     headscale_container: 'headscale'
+    #     headscale_command: 'serve'
+    #     headscale_http_port: '8080'
+    #     headscale_metrics_port: '9090'
+    #     headscale_conf_dir: '/var/headscale'
+    #     headscale_tls_vol: 'headscale_tls'
+    #     headscale_network: 'host'
+    #     headscale_server_host: '{{ vpn_host }}.{{ internet_host }}'
+    #     headscale_server_port: '443'
+    #     headscale_listen_host: '0.0.0.0'
+    #     headscale_listen_port: '8080'
+    #     headscale_metrics_host: '0.0.0.0'
+    #     headscale_grpc_listen_addr: '0.0.0.0'
+    #     headscale_grpc_listen_port: '50443'
+    #     headscale_dns_base_domain: 'nodes.{{ vpn_host }}.{{ internet_host }}'
+    #     headscale_dns_records: '{{ dns_records }}'
 
     - name: Deploy internet facing Caddy
       ansible.builtin.import_role:
         name: caddy
       vars:
-        caddy_user: '{{ vps_user }}'
+        caddy_user: '{{ container_user }}'
         caddy_opt: caddy_opt
         caddy_tls: caddy_tls
         caddy_conf: /etc/Caddyfile
         caddy_internet_facing: true
         caddy_extensions:
           - github.com/corazawaf/coraza-caddy/v2
-          - github.com/tailscale/caddy-tailscale
           - github.com/mholt/caddy-l4
 
         caddy_image: 'caddy-public'
@@ -64,51 +61,3 @@
           37396663653039343864376639383261663133376263636333656163393034373533656635383066
           66666566653136313033396462663761373664656531333838353539313437613564373638623131
           333664366262386562633162656464653461
-
-    - name: Deploy Blocky DNS Server
-      ansible.builtin.import_role:
-        name: blocky
-      vars:
-        blocky_user: '{{ vps_user }}'
-        blocky_container: 'blocky'
-        blocky_config_dir: '/var/blocky'
-        blocky_dns_port: '53'
-        blocky_http_port: '4000'
-        blocky_adlist_refresh_period: '24h'
-        blocky_adlist_download_timeout: '4m'
-        blocky_adlist_download_attempts: 5
-        blocky_prometheus_enabled: true
-        blocky_cache_min_time: '60m'
-        blocky_cache_max_time: '1440m'
-        blocky_cache_enable_prefetching: 'true'
-        blocky_cache_prefetch_expires: '2h'
-        blocky_cache_negative_time: '30m'
-        blocky_upstreams:
-          - '1.1.1.1'
-          - '1.0.0.1'
-          - '8.8.8.8'
-        blocky_adlists:
-          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/pro.plus.txt'
-          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/fake.txt'
-          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/popupads.txt'
-        blocky_tracker_lists:
-          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/tif.txt'
-          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.amazon.txt'
-          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.apple.txt'
-          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.huawei.txt'
-          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.winoffice.txt'
-          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.samsung.txt'
-          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.tiktok.extended.txt'
-          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.lgwebos.txt'
-          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.roku.txt'
-          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.vivo.txt'
-          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.oppo-realme-onlydomains.txt'
-          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.xiaomi.txt'
-        blocky_security_lists:
-          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/dyndns.txt'
-          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/hoster.txt'
-          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/gambling.txt'
-          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/dyndns.txt'
-          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/hoster.txt'
-          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/gambling.txt'
-          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/nsfw.txt'
