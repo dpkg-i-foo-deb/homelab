@@ -35,7 +35,7 @@ resource "incus_instance" "dns_vpn" {
     type = "nic"
     properties = {
       network        = var.trusted_net.name
-      "ipv4.address" = "10.0.254.2"
+      "ipv4.address" = "10.0.254.5"
     }
   }
 
