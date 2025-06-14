@@ -5,5 +5,5 @@ module "default" {
     incus = incus
   }
 
-  virt_main_pool = module.storage-pools.virt_main
+  virt_main_pool = module.storage_pools.virt_main
 }
