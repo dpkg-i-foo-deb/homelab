@@ -4,6 +4,8 @@ module "system_containers" {
   providers = {
     incus = incus
   }
+
+  virt_main_pool = var.virt_main_pool
 }
 
 
