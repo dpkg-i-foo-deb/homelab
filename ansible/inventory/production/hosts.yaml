@@ -50,6 +50,7 @@ home_dns:
     vps_home_dns:
       ansible_host: 10.0.254.2
       container_user: dns-home
+      ansible_ssh_common_args: '-o ProxyJump={{ vps_proxy_jump_target }}'
 
 vpn_dns:
   hosts:
