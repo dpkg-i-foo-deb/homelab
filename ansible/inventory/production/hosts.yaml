@@ -15,6 +15,12 @@ bastion:
       ansible_host: 10.0.1.10
       siem_agent: homelab-bastion
       groups: 'trusted,internet_facing'
+vpn_servers:
+  hosts:
+    homelab_vpn:
+      ansible_host: 10.0.254.3
+      ansible_ssh_common_args: '-o ProxyJump={{ vps_proxy_jump_target }}'
+      container_user: 'vpn'
 registry_servers:
   hosts:
     registry:
