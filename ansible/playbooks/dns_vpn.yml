@@ -1,5 +1,13 @@
 - name: Configure VPN DNS Servers
   hosts: vpn_dns
+  vars:
+    dns_sync_pass: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          66663931303761383032353263643234333766623731323062383935626230666433646633303837
+          6465323665326566656235373031353566663939306163660a656464306663663835303964323564
+          34666662366430666339666561383439633638386635653262386266623061323739383530313765
+          6564323538613133300a613466343737303632373035666361373738623137626239353730346166
+          6666
   tasks:
     - name: Deploy Pi-Hole
       ansible.builtin.import_role:
@@ -11,13 +19,7 @@
         pihole_dns_port: "53"
         pihole_data_vol: "pihole_data"
         pihole_dns_listen_mode: "all"
-        pihole_http_pass: !vault |
-          $ANSIBLE_VAULT;1.1;AES256
-          66663931303761383032353263643234333766623731323062383935626230666433646633303837
-          6465323665326566656235373031353566663939306163660a656464306663663835303964323564
-          34666662366430666339666561383439633638386635653262386266623061323739383530313765
-          6564323538613133300a613466343737303632373035666361373738623137626239353730346166
-          6666
+        pihole_http_pass: '{{ dns_sync_pass }}'
         pihole_wildcards_dir: "/var/pihole"
         pihole_wildcard_records: []
 
@@ -30,3 +32,19 @@
         wazuh_agent_registration_pass: '{{ siem_enrollment_pass }}'
         wazuh_agent_name: '{{ siem_agent }}'
         wazuh_agent_groups: '{{ groups }}'
+
+- name: Configure VPN DNS Sync
+  hosts: primary_vpn_dns
+  tasks:
+    - name: Deploy nebula-sync
+      ansible.builtin.import_role:
+        name: pihole_nebula_sync
+      vars:
+        pihole_nebula_sync_user: "{{ container_user }}"
+        pihole_nebula_sync_container: "pihole-nebula-sync"
+        pihole_nebula_sync_primary: "http://host.containers.internal:8080|{{ dns_sync_pass }}"
+        pihole_nebula_sync_replicas:
+          - "http://10.0.2.5:8080|{{ dns_sync_pass }}"
+        pihole_nebula_sync_cron: '"0 */6 * * *"'
+        pihole_nebula_sync_full_sync: "true"
+        pihole_nebula_sync_run_gravity: "true"
