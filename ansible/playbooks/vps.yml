@@ -42,8 +42,8 @@
         name: caddy
       vars:
         caddy_user: '{{ container_user }}'
-        caddy_opt: caddy_opt
-        caddy_tls: caddy_tls
+        caddy_data_vol: caddy_data
+        caddy_conf_vol: caddy_conf
         caddy_conf_dir: /var/caddy
         caddy_internet_facing: true
         caddy_extensions:
