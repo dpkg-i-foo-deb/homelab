@@ -5,8 +5,11 @@ module "system_containers" {
     incus = incus
   }
 
-  virt_main_pool = var.virt_main_pool
-  trusted_net    = var.trusted_net
+  virt_main_pool    = var.virt_main_pool
+  trusted_net       = var.trusted_net
+  ansible_password  = var.ansible_password
+  lxc_user_password = var.lxc_user_password
+  ssh_public_key    = var.ssh_public_key
 }
 
 
