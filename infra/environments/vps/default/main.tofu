@@ -6,6 +6,7 @@ module "system_containers" {
   }
 
   virt_main_pool = var.virt_main_pool
+  trusted_net    = var.trusted_net
 }
 
 
