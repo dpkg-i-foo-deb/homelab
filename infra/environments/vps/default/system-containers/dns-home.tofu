@@ -2,7 +2,9 @@ resource "incus_storage_volume" "dns_home_data" {
   name    = "dns-home-data"
   pool    = var.virt_main_pool
   project = "default"
-  size    = "1GiB"
+  config = {
+    size = "1GiB"
+  }
 }
 
 resource "incus_instance" "dns_home" {
