@@ -14,9 +14,9 @@
     #   - '443:443/udp'
     #   - '80:80'
     volumes:
-      - '{{ caddy_opt }}:/config:z'
-      - '{{ caddy_tls }}:/data:z'
-      - '{{ caddy_conf }}:/etc/caddy/Caddyfile:z'
+      - '{{ caddy_conf_vol }}:/config:z'
+      - '{{ caddy_data_vol }}:/data:z'
+      - '{{ caddy_conf_dir }}:/etc/caddy/Caddyfile:z'
     env:
       PUID: '1000'
       PGID: '1000'

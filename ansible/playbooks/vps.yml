@@ -44,7 +44,7 @@
         caddy_user: '{{ container_user }}'
         caddy_opt: caddy_opt
         caddy_tls: caddy_tls
-        caddy_conf: /etc/Caddyfile
+        caddy_conf_dir: /var/caddy
         caddy_internet_facing: true
         caddy_extensions:
           - github.com/corazawaf/coraza-caddy/v2

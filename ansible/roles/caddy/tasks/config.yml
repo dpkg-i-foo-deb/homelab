@@ -1,10 +1,19 @@
+- name: Ensure there's a directory to store Caddy configuration
+  notify: Restart Caddy
+  become: true
+  ansible.builtin.import_role:
+    name: podman
+    tasks_from: bind_mount
+    podman_bind_mount: '{{ caddy_conf_dir }}'
+    podman_user: '{{ caddy_user }}'
+
 - name: Copy Caddyfile for Internet facing server
   when: caddy_internet_facing
   notify: Restart Caddy
   become: true
   ansible.builtin.template:
     src: templates/Caddyfile-public.j2
-    dest: '{{ caddy_conf }}'
+    dest: '{{ caddy_conf_dir }}/Caddyfile'
     mode: '0644'
     owner: '{{ caddy_user }}'
     group: '{{ caddy_user }}'
