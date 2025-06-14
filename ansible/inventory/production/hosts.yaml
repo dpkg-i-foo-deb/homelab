@@ -51,14 +51,19 @@ vpn_dns:
   hosts:
     primary_vpn_dns:
       ansible_host: 10.0.2.4
-      dns_user: dns-vpn-0
+      container_user: dns-vpn-0
       siem_agent: dns-vpn-0
       groups: 'internet_facing,trusted'
     backup_vpn_dns:
       ansible_host: 10.0.2.5
-      dns_user: dns-vpn-1
+      container_user: dns-vpn-1
       siem_agent: dns-vpn-1
       groups: 'internet_facing,trusted'
+    vps_vpn_dns:
+      ansible_host: 10.0.254.5
+      container_user: 'dns-vpn'
+      ansible_ssh_common_args: '-o ProxyJump={{ vps_proxy_jump_target }}'
+
 streaming:
   hosts:
     streaming_vm:
