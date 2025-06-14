@@ -5,3 +5,19 @@
     name: net.ipv4.ip_unprivileged_port_start
     value: "53"
     sysctl_set: true
+
+- name: Ensure /etc/sysctl.d exists
+  become: true
+  ansible.builtin.file:
+    path: '/etc/sysctl.d'
+    state: directory
+    mode: '0755'
+    owner: 'root'
+    group: 'root'
+
+- name: Allow the use of privileged ports by rootless processes
+  become: true
+  ansible.builtin.copy:
+    src: files/99-rootless-ports.conf
+    dest: '/etc/sysctl.d/99-rootless-ports.conf'
+    mode: '0644'
