@@ -1,5 +1,13 @@
 - name: Configure virtual machines and home DNS server
   hosts: home_dns
+  vars:
+    dns_sync_pass: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          66663931303761383032353263643234333766623731323062383935626230666433646633303837
+          6465323665326566656235373031353566663939306163660a656464306663663835303964323564
+          34666662366430666339666561383439633638386635653262386266623061323739383530313765
+          6564323538613133300a613466343737303632373035666361373738623137626239353730346166
+          6666
   tasks:
 
     - name: Build dns_records from homelab_services
@@ -12,54 +20,29 @@
       ansible.builtin.debug:
         msg: '{{ dns_records }}'
 
-    - name: Deploy Blocky DNS Server
+    - name: Deploy Pi-Hole
       ansible.builtin.import_role:
-        name: blocky
+        name: pihole
       vars:
-        blocky_user: '{{ dns_user }}'
-        blocky_container: 'blocky'
-        blocky_custom_records: '{{ dns_records }}'
-        blocky_config_dir: '/var/blocky'
-        blocky_dns_port: '53'
-        blocky_http_port: '4000'
-        blocky_adlist_refresh_period: '24h'
-        blocky_adlist_download_timeout: '4m'
-        blocky_adlist_download_attempts: 5
-        blocky_cache_min_time: '60m'
-        blocky_cache_max_time: '1440m'
-        blocky_cache_enable_prefetching: 'true'
-        blocky_cache_prefetch_expires: '2h'
-        blocky_cache_negative_time: '30m'
-        blocky_prometheus_enabled: true
-        blocky_upstreams:
-          - '1.1.1.1'
-          - '8.8.8.8'
-          - '1.0.0.1'
-        blocky_adlists:
-          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/pro.plus.txt'
-          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/fake.txt'
-          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/popupads.txt'
-        blocky_tracker_lists:
-          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/tif.txt'
-          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.amazon.txt'
-          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.apple.txt'
-          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.huawei.txt'
-          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.winoffice.txt'
-          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.samsung.txt'
-          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.tiktok.extended.txt'
-          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.lgwebos.txt'
-          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.roku.txt'
-          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.vivo.txt'
-          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.oppo-realme-onlydomains.txt'
-          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.xiaomi.txt'
-        blocky_security_lists:
-          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/dyndns.txt'
-          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/hoster.txt'
-          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/gambling.txt'
-          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/dyndns.txt'
-          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/hoster.txt'
-          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/gambling.txt'
-          - 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/nsfw.txt'
+        pihole_user: "{{ container_user }}"
+        pihole_container: "pihole"
+        pihole_http_port: "8080"
+        pihole_dns_port: "53"
+        pihole_data_vol: "pihole_data"
+        pihole_dns_listen_mode: "all"
+        pihole_http_pass: '{{ dns_sync_pass }}'
+        pihole_wildcards_dir: "/var/pihole"
+        pihole_wildcard_records: []
+
+    - name: Deploy Wazuh agent
+      ansible.builtin.import_role:
+        name: wazuh_agent
+      vars:
+        wazuh_agent_version: '4.x'
+        wazuh_agent_manager_host: '{{ siem_host }}'
+        wazuh_agent_registration_pass: '{{ siem_enrollment_pass }}'
+        wazuh_agent_name: '{{ siem_agent }}'
+        wazuh_agent_groups: '{{ groups }}'
 
     - name: Deploy Wazuh agent
       ansible.builtin.import_role:
