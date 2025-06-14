@@ -5,7 +5,7 @@
       ansible.builtin.import_role:
         name: headscale
       vars:
-        headscale_user: '{{ vps_user }}'
+        headscale_user: '{{ container_user }}'
         headscale_container: 'headscale'
         headscale_command: 'serve'
         headscale_http_port: '8080'
