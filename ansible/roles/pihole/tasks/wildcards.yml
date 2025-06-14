@@ -1,0 +1,9 @@
+---
+- name: Template wildcard dns configuration
+  become: true
+  ansible.builtin.template:
+    src: "templates/wildcard-domains.conf.j2"
+    dest: "{{ pihole_wildcards_dir }}/99-wildcard-domains.conf"
+    owner: "{{ pihole_user }}"
+    group: "{{ pihole_user }}"
+    mode: "0755"

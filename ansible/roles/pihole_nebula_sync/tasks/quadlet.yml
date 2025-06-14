@@ -1,0 +1,28 @@
+---
+- name: Create pihole_nebula_sync Quadlet file
+  become: true
+  become_user: "{{ pihole_nebula_sync_user }}"
+  notify: Restart pihole_nebula_sync
+  containers.podman.podman_container:
+    name: "{{ pihole_nebula_sync_container }}"
+    image: ghcr.io/lovelaze/nebula-sync:latest
+    state: quadlet
+    quadlet_filename: "{{ pihole_nebula_sync_container }}"
+    env:
+      PUID: "1000"
+      PGID: "1000"
+      PRIMARY: "{{ pihole_nebula_sync_primary }}"
+      REPLICAS: "{{ pihole_nebula_sync_replicas | join(',') }}"
+      CRON: "{{ pihole_nebula_sync_cron }}"
+      FULL_SYNC: "{{ pihole_nebula_sync_full_sync }}"
+      RUN_GRAVITY: "{{ pihole_nebula_sync_run_gravity }}"
+    quadlet_options:
+      - "AutoUpdate=registry"
+      - "Pull=newer"
+      - |
+        [Service]
+        Restart=always
+        RestartSec=10
+      - |
+        [Install]
+        WantedBy=default.target multi-user.target
