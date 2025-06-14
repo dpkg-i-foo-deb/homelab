@@ -4,6 +4,7 @@
   ansible.builtin.import_role:
     name: podman
     tasks_from: bind_mount
+  vars:
     podman_bind_mount: '{{ caddy_conf_dir }}'
     podman_user: '{{ caddy_user }}'
 
