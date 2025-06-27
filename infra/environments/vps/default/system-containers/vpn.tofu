@@ -15,7 +15,7 @@ resource "incus_instance" "vpn" {
     "boot.autostart"              = true
     "limits.cpu"                  = 1
     "limits.cpu.allowance"        = "10%"
-    "limits.memory"               = "512MiB"
+    "limits.memory"               = "200MiB"
     "limits.memory.swap"          = "true"
     "limits.memory.swap.priority" = "0"
     "cloud-init.user-data" = templatefile(
