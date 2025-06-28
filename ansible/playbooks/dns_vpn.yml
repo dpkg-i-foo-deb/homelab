@@ -50,10 +50,10 @@
       vars:
         pihole_nebula_sync_user: "{{ container_user }}"
         pihole_nebula_sync_container: "pihole-nebula-sync"
-        pihole_nebula_sync_primary: "http://host.containers.internal:8080|{{ dns_sync_pass }}"
+        pihole_nebula_sync_primary: "http://host.containers.internal:80|{{ dns_sync_pass }}"
         pihole_nebula_sync_replicas:
-          - "http://10.0.2.5:8080|{{ dns_sync_pass }}"
-          - "http://100.64.0.1:8080|{{ dns_sync_pass }}"
+          - "http://10.0.2.5:80|{{ dns_sync_pass }}"
+          - "http://100.64.0.1:80|{{ dns_sync_pass }}"
         pihole_nebula_sync_cron: '"0 */6 * * *"'
         pihole_nebula_sync_full_sync: "true"
         pihole_nebula_sync_run_gravity: "true"
