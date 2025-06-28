@@ -35,8 +35,8 @@ resource "incus_instance" "code" {
     name = "eth0"
     type = "nic"
     properties = {
-      network        = var.code_net.name
-      "ipv4.address" = "10.0.7.10"
+      network        = var.trusted_net.name
+      "ipv4.address" = "10.0.0.15"
     }
   }
 
