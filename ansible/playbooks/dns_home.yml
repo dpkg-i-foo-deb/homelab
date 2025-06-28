@@ -10,15 +10,15 @@
           6666
   tasks:
 
-    - name: Build dns_records from homelab_services
-      ansible.builtin.set_fact:
-        dns_records: "{{ dns_records | default([]) + [ { 'domain': item.value.host ~ '.' ~ internet_host, 'address': item.value.private_proxy } ] }}"
-      loop: "{{ homelab_services | dict2items }}"
-      when: item.value.private_proxy is defined
+    # - name: Build dns_records from homelab_services
+    #   ansible.builtin.set_fact:
+    #     dns_records: "{{ dns_records | default([]) + [ { 'domain': item.value.host ~ '.' ~ internet_host, 'address': item.value.private_proxy } ] }}"
+    #   loop: "{{ homelab_services | dict2items }}"
+    #   when: item.value.private_proxy is defined
 
-    - name: Show DNS records to be installed
-      ansible.builtin.debug:
-        msg: '{{ dns_records }}'
+    # - name: Show DNS records to be installed
+    #   ansible.builtin.debug:
+    #     msg: '{{ dns_records }}'
 
     - name: Deploy Pi-Hole
       ansible.builtin.import_role:
@@ -33,16 +33,6 @@
         pihole_http_pass: '{{ dns_sync_pass }}'
         pihole_wildcards_dir: "/var/pihole"
         pihole_wildcard_records: []
-
-    - name: Deploy Wazuh agent
-      ansible.builtin.import_role:
-        name: wazuh_agent
-      vars:
-        wazuh_agent_version: '4.x'
-        wazuh_agent_manager_host: '{{ siem_host }}'
-        wazuh_agent_registration_pass: '{{ siem_enrollment_pass }}'
-        wazuh_agent_name: '{{ siem_agent }}'
-        wazuh_agent_groups: '{{ groups }}'
 
     - name: Deploy Wazuh agent
       ansible.builtin.import_role:
