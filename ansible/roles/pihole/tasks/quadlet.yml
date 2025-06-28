@@ -9,9 +9,10 @@
     state: quadlet
     quadlet_filename: "{{ pihole_container }}"
     ports:
-      - "{{ pihole_http_port | default(8080) }}:80/tcp"
-      - "{{ pihole_dns_port | default(53) }}:53/tcp"
-      - "{{ pihole_dns_port | default(53) }}:53/udp"
+      # - "{{ pihole_http_port | default(8080) }}:80/tcp"
+      # - "{{ pihole_dns_port | default(53) }}:53/tcp"
+      # - "{{ pihole_dns_port | default(53) }}:53/udp"
+    network: "host"
     volumes:
       - "{{ pihole_data_vol }}:/etc/pihole:z"
       - "{{ pihole_wildcards_dir }}/99-wildcard-domains.conf:/etc/dnsmasq.d/99-wildcard-domains.conf:z"
