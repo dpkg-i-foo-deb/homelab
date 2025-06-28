@@ -3,6 +3,8 @@
   ansible.builtin.import_role:
     name: podman
     tasks_from: rootless_ports
+- name: Ensure systemd-resolved won't bother
+  ansible.builtin.import_tasks: systemd-resolved.yml
 - name: Directory configuration
   ansible.builtin.import_tasks: directories.yml
 - name: Wildcard domains configuration
