@@ -8,11 +8,6 @@ output "management" {
   description = "Bastion and other services network"
 }
 
-output "monitoring" {
-  value       = incus_network.monitoring
-  description = "Monitoring services network"
-}
-
 output "reverse_proxy" {
   value       = incus_network.reverse_proxy
   description = "Network for reverse proxy services"
