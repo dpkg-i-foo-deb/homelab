@@ -17,7 +17,6 @@ module "system-containers" {
   management_net    = module.networks.management
   monitoring_net    = module.networks.monitoring
   work_net          = module.networks.work
-  external_net      = module.networks.external
 
   virt_main_pool    = module.storage-pools.virt_main
   virt_high_io_pool = module.storage-pools.virt_high_io

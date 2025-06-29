@@ -31,15 +31,6 @@ variable "reverse_proxy_net" {
   description = "Reverse Proxy network object"
 }
 
-variable "external_net" {
-  type = object({
-    name   = string
-    type   = string
-    config = map(string)
-  })
-  description = "Untrusted network object"
-}
-
 variable "virt_high_io_pool" {
   type        = string
   description = "The name of the high I/O storage pool"

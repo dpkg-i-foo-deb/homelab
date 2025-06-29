@@ -115,16 +115,6 @@ variable "work_net" {
   })
   description = "Work network object"
 }
-
-variable "external_net" {
-  type = object({
-    name   = string
-    type   = string
-    config = map(string)
-  })
-  description = "External network object"
-}
-
 # Storage pools available for system containers
 
 variable "virt_main_pool" {

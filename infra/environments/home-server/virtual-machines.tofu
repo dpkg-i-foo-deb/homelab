@@ -21,6 +21,4 @@ module "virtual-machines" {
   management_net = module.networks.management
   untrusted_net  = module.networks.untrusted
   reverse_proxy_net = module.networks.reverse_proxy
-
-  external_net = module.networks.external
 }
