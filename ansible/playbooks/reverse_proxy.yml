@@ -10,9 +10,9 @@
         caddy_internet_host: '{{ internet_host }}'
         caddy_services: "{{ homelab_services | dict2items | map(attribute='value') | list }}"
         caddy_container: caddy
-        caddy_opt: caddy_opt
-        caddy_tls: caddy_tls
-        caddy_conf: /etc/Caddyfile
+        caddy_data_vol: caddy_data
+        caddy_conf_vol: caddy_conf
+        caddy_conf_dir: /var/caddy
         caddy_internet_facing: false
         caddy_networks: 'host'
         caddy_image: 'caddy-private'

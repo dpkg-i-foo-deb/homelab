@@ -25,7 +25,7 @@
   become: true
   ansible.builtin.template:
     src: templates/Caddyfile-private.j2
-    dest: '{{ caddy_conf }}'
+    dest: '{{ caddy_conf_dir }}/Caddyfile'
     mode: '0644'
     owner: '{{ caddy_user }}'
     group: '{{ caddy_user }}'
