@@ -38,11 +38,6 @@ variable "tailscale_inbound_acl" {
   description = "ACL to allow Tailscale functionality"
 }
 
-variable "torrenting_inbound_acl" {
-  type        = string
-  description = "ACL to allow inbound torrenting connections"
-}
-
 variable "rdp_inbound_acl" {
   type        = string
   description = "ACL to allow inbound RDP connections"
