@@ -8,10 +8,10 @@ resource "incus_storage_volume" "game-server-data" {
 resource "incus_instance" "game-server" {
   name  = "game-server"
   image = "images:debian/trixie/cloud"
+  running = false
 
   config = {
     "boot.autostart"              = false
-    "running"                     = false
     "limits.cpu"                  = 2
     "limits.cpu.allowance"        = "50%"
     "limits.memory"               = "10GiB"
