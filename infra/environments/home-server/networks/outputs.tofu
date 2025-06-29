@@ -28,11 +28,6 @@ output "vcsoft" {
   description = "Network for VC services"
 }
 
-output "torrenting" {
-  value       = incus_network.torrenting
-  description = "Dangerous Torrenting network"
-}
-
 output "trusted" {
   value       = incus_network.trusted
   description = "Network where trusted services live"

@@ -80,15 +80,6 @@ variable "vcsoft_net" {
   description = "vcsoft network object"
 }
 
-variable "torrenting_net" {
-  type = object({
-    name   = string
-    type   = string
-    config = map(string)
-  })
-  description = "Torrenting network object"
-}
-
 variable "trusted_net" {
   type = object({
     name   = string
@@ -105,15 +96,6 @@ variable "untrusted_net" {
     config = map(string)
   })
   description = "Untrusted network object"
-}
-
-variable "work_net" {
-  type = object({
-    name   = string
-    type   = string
-    config = map(string)
-  })
-  description = "Work network object"
 }
 # Storage pools available for system containers
 
