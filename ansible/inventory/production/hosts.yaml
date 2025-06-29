@@ -108,7 +108,7 @@ container_hosts:
 monitoring:
   hosts:
     homelab_monitor:
-      ansible_host: 10.0.9.10
+      ansible_host: 10.0.1.12
       groups: 'trusted'
 vps:
   hosts:
