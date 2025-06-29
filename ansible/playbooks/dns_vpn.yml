@@ -15,8 +15,6 @@
       vars:
         pihole_user: "{{ container_user }}"
         pihole_container: "pihole"
-        pihole_http_port: "8080"
-        pihole_dns_port: "53"
         pihole_data_vol: "pihole_data"
         pihole_dns_listen_mode: "all"
         pihole_http_pass: '{{ dns_sync_pass }}'

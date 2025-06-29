@@ -148,7 +148,7 @@ homelab_services:
   metrics:
     name: 'Metrics service'
     host: 'metrics'
-    ip: '10.0.9.10'
+    ip: '10.0.1.12'
     port: '3000'
     tls: false
     private_proxy: '{{ private_reverse_proxy }}'
