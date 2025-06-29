@@ -91,24 +91,24 @@ homelab_services:
   code_personal:
     name: 'Personal code-server'
     host: 'personal.code'
-    ip: '10.0.7.10'
+    ip: '10.0.0.15'
     port: '8443'
     tls: false
     private_proxy: '{{ private_reverse_proxy }}'
     private_proxy_vpn: '{{ private_reverse_proxy_vpn }}'
     oauth_proxy:
-      ip: '10.0.7.10'
+      ip: '10.0.0.15'
       port: '4181'
   code_work:
     name: 'Work code-server'
     host: 'work.code'
-    ip: '10.0.7.10'
+    ip: '10.0.0.15'
     port: '8444'
     tls: false
     private_proxy: '{{ private_reverse_proxy }}'
     private_proxy_vpn: '{{ private_reverse_proxy_vpn }}'
     oauth_proxy:
-      ip: '10.0.7.10'
+      ip: '10.0.0.15'
       port: '4180'
   remote:
     name: 'Bastion WebUI'
@@ -161,11 +161,6 @@ homelab_services:
     tls: false
     private_proxy: '{{ private_reverse_proxy }}'
     private_proxy_vpn: '{{ private_reverse_proxy_vpn }}'
-  debug_training:
-    name: 'Training debug'
-    host: 'training'
-    private_proxy: '10.1.0.12'
-    tls: 'false'
   vpn:
     name: 'Headscale Coordination Server'
     host: 'vpn'
