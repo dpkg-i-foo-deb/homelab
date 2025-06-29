@@ -46,23 +46,6 @@
             metrics_path: 'metrics'
             targets:
               - '10.0.5.10:2019'
-          - job_name: 'home-dns'
-            tls_config:
-              insecure_skip_verify: true
-            scheme: 'http'
-            metrics_path: 'metrics'
-            targets:
-              - '10.0.2.2:4000'
-              - '10.0.2.3:4000'
-          - job_name: 'vpn-dns'
-            tls_config:
-              insecure_skip_verify: true
-            scheme: 'http'
-            metrics_path: 'metrics'
-            targets:
-              - '10.0.2.4:4000'
-              - '10.0.2.5:4000'
-              - '100.64.0.2:4000'
           - job_name: 'node'
             tls_config:
               insecure_skip_verify: true
