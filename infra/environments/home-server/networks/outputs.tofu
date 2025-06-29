@@ -13,11 +13,6 @@ output "monitoring" {
   description = "Monitoring services network"
 }
 
-output "privileged" {
-  value       = incus_network.privileged
-  description = "Priviledged network with very open ACLs"
-}
-
 output "reverse_proxy" {
   value       = incus_network.reverse_proxy
   description = "Network for reverse proxy services"
@@ -36,9 +31,4 @@ output "trusted" {
 output "untrusted" {
   value       = incus_network.untrusted
   description = "Network for services I don't entirely trust"
-}
-
-output "work" {
-  value       = incus_network.work
-  description = "Work network"
 }

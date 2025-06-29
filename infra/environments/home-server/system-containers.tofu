@@ -8,7 +8,6 @@ module "system-containers" {
   management_subnet = var.home_subnet
 
   dns_net           = module.networks.dns
-  privileged_net    = module.networks.privileged
   reverse_proxy_net = module.networks.reverse_proxy
   vcsoft_net        = module.networks.vcsoft
   trusted_net       = module.networks.trusted

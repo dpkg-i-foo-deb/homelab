@@ -53,15 +53,6 @@ variable "monitoring_net" {
   description = "Monitoring network object"
 }
 
-variable "privileged_net" {
-  type = object({
-    name   = string
-    type   = string
-    config = map(string)
-  })
-  description = "Privileged network object"
-}
-
 variable "reverse_proxy_net" {
   type = object({
     name   = string
