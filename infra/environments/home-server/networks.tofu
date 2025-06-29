@@ -9,7 +9,6 @@ module "networks" {
   ssh_mgmt_acl             = module.acls.ssh_mgmt
   ssh_outbound_acl         = module.acls.ssh_outbound
   tailscale_inbound_acl    = module.acls.tailscale_inbound
-  torrenting_inbound_acl   = module.acls.torrenting
   rdp_inbound_acl          = module.acls.rdp_inbound
   dchp_outbound_acl        = module.acls.dchp_outbound
 
