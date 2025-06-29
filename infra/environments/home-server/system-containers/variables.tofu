@@ -35,15 +35,6 @@ variable "dns_net" {
   description = "DNS network object"
 }
 
-variable "code_net" {
-  type = object({
-    name   = string
-    type   = string
-    config = map(string)
-  })
-  description = "Coding network object"
-}
-
 variable "management_net" {
   type = object({
     name   = string

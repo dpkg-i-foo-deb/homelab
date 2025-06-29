@@ -3,11 +3,6 @@ output "dns" {
   description = "Internal DNS services network"
 }
 
-output "code" {
-  value       = incus_network.code
-  description = "Coding services network"
-}
-
 output "management" {
   value       = incus_network.management
   description = "Bastion and other services network"
