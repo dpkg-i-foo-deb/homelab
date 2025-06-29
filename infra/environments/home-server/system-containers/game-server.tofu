@@ -10,7 +10,8 @@ resource "incus_instance" "game-server" {
   image = "images:debian/trixie/cloud"
 
   config = {
-    "boot.autostart"              = true
+    "boot.autostart"              = false
+    "running"                     = false
     "limits.cpu"                  = 2
     "limits.cpu.allowance"        = "50%"
     "limits.memory"               = "10GiB"
