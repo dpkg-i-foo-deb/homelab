@@ -1,0 +1,8 @@
+---
+- name: Ensure there's a directory to store Home Assistant Configuration
+  ansible.builtin.import_role:
+    name: podman
+    tasks_from: bind_mount
+  vars:
+    podman_bind_mount: '{{ home_assistant_conf_dir }}'
+    podman_user: '{{ home_assistant_user }}'

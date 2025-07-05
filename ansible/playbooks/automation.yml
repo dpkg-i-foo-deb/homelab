@@ -1,0 +1,10 @@
+- name: Configure automation servers
+  hosts: automation_servers
+  tasks:
+    - name: Deploy Home Assistant
+      ansible.builtin.import_role:
+        name: home_assistant
+      vars:
+        home_assistant_container: "home-assistant"
+        home_assistant_http_port: "8123"
+        home_assistant_conf_dir: "/var/home-assistant"

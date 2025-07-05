@@ -1,0 +1,30 @@
+---
+- name: Create Home Assistant Quadlet file
+  become: true
+  become_user: '{{ home_assistant_user }}'
+  notify: Restart home_assistant
+  containers.podman.podman_container:
+    name: '{{ home_assistant_container }}'
+    image: "ghcr.io/home-assistant/home-assistant:stable"
+    state: quadlet
+    quadlet_filename: '{{ home_assistant_container }}'
+    ports:
+      - '{{ home_assistant_http_port }}:8123'
+    env:
+      PUID: '1000'
+      PGID: '1000'
+      TZ: '{{ tz }}'
+    volumes:
+      - '{{ home_assistant_conf_dir }}:/config:z'
+      - /etc/localtime:/etc/localtime:ro
+      - /run/dbus:/run/dbus:ro
+    quadlet_options:
+      - 'AutoUpdate=registry'
+      - 'Pull=newer'
+      - |
+        [Service]
+        Restart=always
+        RestartSec=10
+      - |
+        [Install]
+        WantedBy=default.target multi-user.target

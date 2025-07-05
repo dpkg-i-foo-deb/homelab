@@ -69,6 +69,12 @@ vpn_dns:
       container_user: 'dns-vpn'
       ansible_ssh_common_args: '-o ProxyJump={{ vps_proxy_jump_target }}'
 
+automation_servers:
+  hosts:
+    automation:
+      ansible_host: 10.0.1.11
+      container_user: automation
+
 streaming:
   hosts:
     streaming_vm:
