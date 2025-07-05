@@ -2,7 +2,7 @@
 - name: Create Home Assistant Quadlet file
   become: true
   become_user: '{{ home_assistant_user }}'
-  notify: Restart home_assistant
+  notify: Restart Home Assistant
   containers.podman.podman_container:
     name: '{{ home_assistant_container }}'
     image: "ghcr.io/home-assistant/home-assistant:stable"
