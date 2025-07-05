@@ -8,3 +8,5 @@
         home_assistant_container: "home-assistant"
         home_assistant_http_port: "8123"
         home_assistant_conf_dir: "/var/home-assistant"
+        home_assistant_user: "{{ container_user }}"
+➕
