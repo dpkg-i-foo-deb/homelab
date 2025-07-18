@@ -1,7 +1,6 @@
 - name: Configure servarr
   hosts: servarr
   vars:
-    servarr_user: servarr
     servarr_downloads: /downloads
     servarr_music: /music
     servarr_cache: /var/servarr-cache
@@ -16,13 +15,13 @@
         podman_login_registry: '{{ registry_host }}.{{ internet_host }}'
         podman_login_user: '{{ homelab_registry_user }}'
         podman_login_pass: '{{ homelab_registry_pass }}'
-        podman_user: '{{ servarr_user }}'
+        podman_user: '{{ container_user }}'
 
     - name: Deploy tdarr
       ansible.builtin.import_role:
         name: tdarr
       vars:
-        tdarr_user: '{{ servarr_user }}'
+        tdarr_user: '{{ container_user }}'
         tdarr_container: tdarr
         tdarr_http_port: 8265
         tdarr_server_port: 8266
@@ -36,7 +35,7 @@
       ansible.builtin.import_role:
         name: flaresolverr
       vars:
-        flaresolverr_user: '{{ servarr_user }}'
+        flaresolverr_user: '{{ container_user }}'
         flaresolverr_container: flaresolverr
         flaresolverr_image: '{{ registry_host }}.{{ internet_host }}/ghcr-proxy/flaresolverr/flaresolverr:latest'
         flaresolverr_http_port: 8191
@@ -45,23 +44,11 @@
       ansible.builtin.import_role:
         name: prowlarr
       vars:
-        prowlarr_user: '{{ servarr_user }}'
+        prowlarr_user: '{{ container_user }}'
         prowlarr_container: prowlarr
         prowlarr_image: '{{ registry_host }}.{{ internet_host }}/lscr-proxy/linuxserver/prowlarr:latest'
         prowlarr_config: prowlarr_data
         prowlarr_http_port: 9696
-
-    # - name: Deploy Lidarr
-    #   ansible.builtin.import_role:
-    #     name: lidarr
-    #   vars:
-    #     lidarr_user: '{{ servarr_user }}'
-    #     lidarr_container: lidarr
-    #     lidarr_config: lidarr_data
-    #     lidarr_collection: '{{ servarr_music }}'
-    #     lidarr_downloads: '{{ servarr_downloads }}'
-    #     lidarr_http_port: 8686
-    #     lidarr_image: '{{ registry_host }}.{{ internet_host }}/lscr-proxy/linuxserver/lidarr:latest'
 
     - name: Deploy Lidarr
       ansible.builtin.import_role:
@@ -69,8 +56,8 @@
       vars:
         quadlet_service_definition:
           name: lidarr
-          image: lscr.io/linuxserver/lidarr:latest
-          user: '{{ servarr_user }}'
+          image: '{{ registry_host }}.{{ internet_host }}/lscr-proxy/linuxserver/lidarr:latest'
+          user: '{{ container_user }}'
           ports:
             - '8686:8686'
           volumes:

@@ -35,6 +35,7 @@ servarr:
   hosts:
     servarr_vm:
       ansible_host: 10.0.0.12
+      container_user: servarr
 home_dns:
   hosts:
     primary_home_dns:
