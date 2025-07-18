@@ -1,18 +1,5 @@
 ---
-# - name: Build ports list
-#   ansible.builtin.set_fact:
-#     quadlet_service_ports: []
-
-# - name: Add ports to quadlet_service_ports
-#   ansible.builtin.set_fact:
-#     quadlet_service_ports: >-
-#       {{ quadlet_service_ports + [
-#         (item.host_port + ':' + item.container_port)
-#       ] }}
-#   loop: "{{ quadlet_service_definition.ports }}"
-#   when: quadlet_service_definition.ports is defined and quadlet_service_definition.ports | length > 0
-
-- name: Ensure there's a podman network named {{ network.name }}
+- name: Ensure podman networks exist
   loop: "{{ quadlet_service_definition.networks | default([]) }}"
   loop_control:
     loop_var: network
