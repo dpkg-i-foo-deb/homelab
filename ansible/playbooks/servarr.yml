@@ -75,7 +75,7 @@
             - '8686:8686'
           volumes:
             - name: 'lidarr_data'
-            - dest: '/config:z'
+              dest: '/config:z'
           bind_mounts:
             - src: '/music'
               dest: '/music:z'

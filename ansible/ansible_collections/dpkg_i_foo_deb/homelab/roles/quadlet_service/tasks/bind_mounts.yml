@@ -11,5 +11,5 @@
     path: '{{ bind_mount.src }}'
     mode: '{{ bind_mount.mode | default(default_bind_mount_mode) }}'
     recurse: '{{ bind_mount.recurse | default(default_bind_mount_recurse) }}'
-    owner: '{{ bind_mount.owner }}'
+    owner: '{{ bind_mount.owner | default(quadlet_service_definition.user) }}'
     group: '{{ bind_mount.group | default(bind_mount.owner) }}'
