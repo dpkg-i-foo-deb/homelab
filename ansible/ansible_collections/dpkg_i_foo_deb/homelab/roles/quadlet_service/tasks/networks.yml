@@ -1,0 +1,9 @@
+---
+- name: Ensure there's a podman network named {{ quadlet_service_definition.network.name }}
+  become: true
+  become_user: '{{ podman_user }}'
+  containers.podman.podman_network:
+    name: '{{ quadlet_service_definition.network.name }}'
+    subnet: '{{ quadlet_service_definition.network.subnet | default(omit) }}'
+    gateway: '{{ quadlet_service_definition.network.gateway | default(omit) }}'
+    force: true

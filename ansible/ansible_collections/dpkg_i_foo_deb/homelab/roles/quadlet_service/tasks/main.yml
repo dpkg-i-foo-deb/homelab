@@ -1,0 +1,8 @@
+- name: Configure volumes
+  ansible.builtin.import_tasks: volumes.yml
+- name: Configure bind mounts
+  ansible.builtin.import_tasks: bind_mounts.yml
+- name: Configure networks
+  ansible.builtin.import_tasks: networks.yml
+- name: Configure quadlet
+  ansible.builtin.import_tasks: quadlet.yml

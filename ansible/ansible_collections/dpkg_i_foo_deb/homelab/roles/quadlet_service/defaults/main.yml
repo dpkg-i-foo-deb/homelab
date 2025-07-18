@@ -1,0 +1,10 @@
+---
+default_auto_update_strategy: 'registry'
+deafult_pull_strategy: 'newer'
+default_restart_when: 'always'
+default_restart_secs: '5'
+default_volume_driver: 'local'
+default_bind_mount_mode: '0777'
+default_bind_mount_recurse: 'true'
+default_quadlet_service_daemon_reload: 'true'
+default_quadlet_service_state: 'started'

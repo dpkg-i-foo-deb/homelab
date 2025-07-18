@@ -1,0 +1,9 @@
+---
+- name: Ensure there is a running service for Quadlet {{ quadlet_service_definition.name }}
+  become: true
+  become_user: "{{ quadlet_service_definition.user }}"
+  ansible.builtin.systemd_service:
+    daemon_reload: "{{ quadlet_service_definition.daemon_reload | default(default_quadlet_service_definition_daemon_reload) }}"
+    state: "{{ quadlet_service_definition.state | default(default_quadlet_service_definition_state) }}"
+    name: "{{ quadlet_service_definition.name }}"
+    scope: user

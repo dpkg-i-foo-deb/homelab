@@ -1,0 +1,15 @@
+---
+- name: Ensure Podman bind mounts host paths exist for {{ quadlet_service_definition.name }}
+  loop: "{{ quadlet_service_definition.bind_mounts | default([]) }}"
+  loop_control:
+    loop_var: bind_mount
+  when: bind_mount.src is defined
+  become: true
+  become_user: '{{ quadlet_service_definition.user }}'
+  ansible.builtin.file:
+    state: directory
+    path: '{{ bind_mount.src }}'
+    mode: '{{ bind_mount.mode | default(default_bind_mount_mode) }}'
+    recurse: '{{ bind_mount.recurse | default(default_bind_mount_recurse) }}'
+    owner: '{{ bind_mount.owner }}'
+    group: '{{ bind_mount.group | default(bind_mount.owner) }}'

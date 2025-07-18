@@ -2,9 +2,9 @@
 - name: Ensure there's a directory on path {{ podman_bind_mount }}
   become: true
   ansible.builtin.file:
-    path: "{{ podman_bind_mount }}"
+    path: '{{ podman_bind_mount }}'
     state: directory
-    mode: "0777"
+    mode: '0777'
     recurse: true
-    owner: "{{ podman_user }}"
-    group: "{{ podman_user }}"
+    owner: '{{ podman_user }}'
+    group: '{{ podman_user }}'

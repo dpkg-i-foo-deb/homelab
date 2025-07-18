@@ -1,0 +1,12 @@
+---
+- name: Ensure Podman named volumes exist for {{ quadlet_service_definition.name }}
+  loop: "{{ quadlet_service_definition.volumes | default([]) }}"
+  loop_control:
+    loop_var: volume
+  when: volume.name is defined
+  become: true
+  become_user: '{{ quadlet_service_definition.user }}'
+  containers.podman.podman_volume:
+    state: present
+    name: '{{ volume.name }}'
+    driver: "{{ volume.driver | default(default_volume_driver) }}"

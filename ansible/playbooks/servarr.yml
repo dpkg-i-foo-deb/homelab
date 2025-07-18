@@ -51,17 +51,37 @@
         prowlarr_config: prowlarr_data
         prowlarr_http_port: 9696
 
+    # - name: Deploy Lidarr
+    #   ansible.builtin.import_role:
+    #     name: lidarr
+    #   vars:
+    #     lidarr_user: '{{ servarr_user }}'
+    #     lidarr_container: lidarr
+    #     lidarr_config: lidarr_data
+    #     lidarr_collection: '{{ servarr_music }}'
+    #     lidarr_downloads: '{{ servarr_downloads }}'
+    #     lidarr_http_port: 8686
+    #     lidarr_image: '{{ registry_host }}.{{ internet_host }}/lscr-proxy/linuxserver/lidarr:latest'
+
     - name: Deploy Lidarr
       ansible.builtin.import_role:
-        name: lidarr
+        name: dpkg_i_foo_deb.homelab.quadlet_service
       vars:
-        lidarr_user: '{{ servarr_user }}'
-        lidarr_container: lidarr
-        lidarr_config: lidarr_data
-        lidarr_collection: '{{ servarr_music }}'
-        lidarr_downloads: '{{ servarr_downloads }}'
-        lidarr_http_port: 8686
-        lidarr_image: '{{ registry_host }}.{{ internet_host }}/lscr-proxy/linuxserver/lidarr:latest'
+        quadlet_service_definition:
+          name: lidarr
+          image: lscr.io/linuxserver/lidarr:latest
+          user: '{{ servarr_user }}'
+          ports:
+            - '8686:8686'
+          volumes:
+            - name: 'lidarr_data'
+            - dest: '/config:z'
+          bind_mounts:
+            - src: '/music'
+              dest: '/music:z'
+            - src: '/downloads'
+              dest: '/downloads:z'
+
 
     - name: Deploy Wazuh agent
       ansible.builtin.import_role:
