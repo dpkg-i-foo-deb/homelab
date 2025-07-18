@@ -84,6 +84,7 @@ torrent:
   hosts:
     torrent_vm:
       ansible_host: 10.0.6.10
+      container_user: torrent
 security:
   hosts:
     security_vm:

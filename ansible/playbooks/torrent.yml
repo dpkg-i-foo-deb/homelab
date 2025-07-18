@@ -1,9 +1,5 @@
 - name: Configure torrenting virtual machine
   hosts: torrent
-  vars:
-    torrent_user: torrent
-    torrent_downloads: /downloads
-
   tasks:
     - name: Login to homelab registry
       ansible.builtin.import_role:
@@ -12,31 +8,46 @@
       vars:
         podman_login_registry: '{{ registry_host }}.{{ internet_host }}'
         podman_login_user: '{{ homelab_registry_user }}'
-        podman_login_pass: '{{ homelab_registry_pass  }}'
+        podman_login_pass: '{{ homelab_registry_pass }}'
         podman_user: '{{ torrent_user }}'
+
+    # - name: Deploy Qbittorrent
+    #   ansible.builtin.import_role:
+    #     name: qbittorrent
+    #   vars:
+    #     qbittorrent_user: "{{ torrent_user }}"
+    #     qbittorrent_container: qbittorrent
+    #     qbittorrent_image: '{{ registry_host }}.{{ internet_host }}/lscr-proxy/linuxserver/qbittorrent:latest'
+    #     qbittorrent_data: 'qbittorrent_data'
+    #     qbittorrent_downloads: "{{ torrent_downloads }}"
+    #     qbittorrent_http_port: '8080'
+    #     qbittorrent_torrenting_port: '6881'
+    #     qbittorrent_dns_servers:
+    #       - '1.1.1.1'
+    #       - '1.0.0.1'
+    #       - '8.8.8.8'
 
     - name: Deploy Qbittorrent
       ansible.builtin.import_role:
-        name: qbittorrent
+        name: dpkg_i_foo_deb.homelab.quadlet_service
       vars:
-        qbittorrent_user: "{{ torrent_user }}"
-        qbittorrent_container: qbittorrent
-        qbittorrent_image: '{{ registry_host }}.{{ internet_host }}/lscr-proxy/linuxserver/qbittorrent:latest'
-        qbittorrent_data: 'qbittorrent_data'
-        qbittorrent_downloads: "{{ torrent_downloads }}"
-        qbittorrent_http_port: '8080'
-        qbittorrent_torrenting_port: '6881'
-        qbittorrent_dns_servers:
-          - '1.1.1.1'
-          - '1.0.0.1'
-          - '8.8.8.8'
-
-    - name: Deploy Wazuh agent
-      ansible.builtin.import_role:
-        name: wazuh_agent
-      vars:
-        wazuh_agent_version: '4.x'
-        wazuh_agent_manager_host: '{{ siem_host }}'
-        wazuh_agent_registration_pass: '{{ siem_enrollment_pass }}'
-        wazuh_agent_name: 'torrent'
-        wazuh_agent_groups: 'untrusted,high_risk'
+        quadlet_service_definition:
+          name: qbittorrent
+          image: '{{ registry_host }}.{{ internet_host }}/lscr-proxy/linuxserver/qbittorrent:latest'
+          user: '{{ container_user }}'
+          volumes:
+            - name: 'qbittorrent_data'
+              dest: '/config:z'
+          bind_mounts:
+            - src: '/downloads'
+              dest: '/downloads:z'
+          ports:
+            - '8080:8080'
+            - '6881:6881'
+            - '6881:6881/udp'
+          dns:
+            - '1.1.1.1'
+            - '1.0.0.1'
+            - '8.8.8.8'
+          env:
+            TORRENTING_PORT: '6881'
