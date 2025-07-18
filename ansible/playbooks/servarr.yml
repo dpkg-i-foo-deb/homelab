@@ -74,6 +74,8 @@
           ports:
             - host_port: '8686'
               container_port: '8686'
+            - host_port: '9090'
+              container_port: '9090'
           volumes:
             - name: 'lidarr_data'
               dest: '/config:z'
