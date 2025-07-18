@@ -33,12 +33,14 @@
 
     - name: Deploy Flaresolverr
       ansible.builtin.import_role:
-        name: flaresolverr
+        name: dpkg_i_foo_deb.homelab.quadlet_service
       vars:
-        flaresolverr_user: '{{ container_user }}'
-        flaresolverr_container: flaresolverr
-        flaresolverr_image: '{{ registry_host }}.{{ internet_host }}/ghcr-proxy/flaresolverr/flaresolverr:latest'
-        flaresolverr_http_port: 8191
+        quadlet_service_definition:
+          name: flaresolverr
+          user: '{{ container_user }}'
+          image: '{{ registry_host }}.{{ internet_host }}/ghcr-proxy/flaresolverr/flaresolverr:latest'
+          ports:
+            - '8191:8191'
 
     - name: Deploy Prowlarr
       ansible.builtin.import_role:
