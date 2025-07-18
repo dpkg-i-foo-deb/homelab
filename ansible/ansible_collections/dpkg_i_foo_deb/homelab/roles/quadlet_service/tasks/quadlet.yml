@@ -36,7 +36,7 @@
         else
           quadlet_service_definition.ports | default([])
         }}"
-    networks: >-
+    network: >-
         {{ omit
         if quadlet_service_definition.host_network is defined and quadlet_service_definition.host_network
         else (
