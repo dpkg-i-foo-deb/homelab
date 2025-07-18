@@ -12,7 +12,7 @@
       "{{ omit
         if quadlet_service_definition.host_network is defined and quadlet_service_definition.host_network
         else
-          quadlet_service_ports | default([])
+          quadlet_service_ports
         }}"
     network: >-
         {{ omit
