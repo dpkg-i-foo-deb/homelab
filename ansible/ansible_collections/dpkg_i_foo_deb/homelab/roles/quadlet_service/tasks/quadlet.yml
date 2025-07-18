@@ -22,6 +22,10 @@
           if quadlet_service_definition.networks is defined
           else []
         ) }}
+    dns: >-
+      {{ omit
+      if quadlet_service_definition.dns_servers is not defined or quadlet_service_definition.dns_servers | length == 0
+      else quadlet_service_definition.dns_servers }}
     volumes: "{{ combined_volumes }}"
     env: >-
       {{ omit
