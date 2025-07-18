@@ -1,9 +1,0 @@
----
-- name: Restart Qbittorrent
-  become: true
-  become_user: "{{ qbittorrent_user }}"
-  ansible.builtin.systemd_service:
-    daemon_reload: true
-    state: restarted
-    name: "{{ qbittorrent_container }}"
-    scope: user

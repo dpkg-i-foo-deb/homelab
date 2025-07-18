@@ -1,9 +1,0 @@
----
-- name: Ensure Qbittorrent is running
-  become: true
-  become_user: "{{ qbittorrent_user }}"
-  ansible.builtin.systemd_service:
-    daemon_reload: true
-    state: started
-    name: "{{ qbittorrent_container }}"
-    scope: user

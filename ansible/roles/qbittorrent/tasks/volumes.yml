@@ -1,8 +1,0 @@
----
-- name: Ensure there's a volume to store Qbittorrent Configuration
-  ansible.builtin.import_role:
-    name: podman
-    tasks_from: local_volume
-  vars:
-    podman_local_volume: '{{ qbittorrent_data }}'
-    podman_user: '{{ qbittorrent_user }}'
