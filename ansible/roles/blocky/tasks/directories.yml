@@ -1,8 +1,0 @@
----
-- name: Ensure there's a directory to store blocky config file
-  ansible.builtin.import_role:
-    name: podman
-    tasks_from: bind_mount
-  vars:
-    podman_bind_mount: '{{ blocky_config_dir }}'
-    podman_user: '{{ blocky_user }}'

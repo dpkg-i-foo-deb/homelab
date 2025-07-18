@@ -1,9 +1,0 @@
----
-- name: Ensure Blocky DNS server is running
-  become: true
-  become_user: '{{ blocky_user }}'
-  ansible.builtin.systemd_service:
-    daemon_reload: true
-    state: started
-    name: '{{ blocky_container }}'
-    scope: user
