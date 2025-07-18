@@ -42,13 +42,17 @@
 
     - name: Deploy Prowlarr
       ansible.builtin.import_role:
-        name: prowlarr
+        name: dpkg_i_foo_deb.homelab.quadlet_service
       vars:
-        prowlarr_user: '{{ container_user }}'
-        prowlarr_container: prowlarr
-        prowlarr_image: '{{ registry_host }}.{{ internet_host }}/lscr-proxy/linuxserver/prowlarr:latest'
-        prowlarr_config: prowlarr_data
-        prowlarr_http_port: 9696
+        quadlet_service_definition:
+          name: prowlarr
+          image: '{{ registry_host }}.{{ internet_host }}/lscr-proxy/linuxserver/prowlarr:latest'
+          user: '{{ container_user }}'
+          ports:
+            - '9696:9696'
+          volumes:
+            - name: 'prowlarr_data'
+              dest: '/config:z'
 
     - name: Deploy Lidarr
       ansible.builtin.import_role:
