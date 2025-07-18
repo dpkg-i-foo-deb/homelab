@@ -17,19 +17,50 @@
         podman_login_pass: '{{ homelab_registry_pass }}'
         podman_user: '{{ container_user }}'
 
+    # - name: Deploy tdarr
+    #   ansible.builtin.import_role:
+    #     name: tdarr
+    #   vars:
+    #     tdarr_user: '{{ container_user }}'
+    #     tdarr_container: tdarr
+    #     tdarr_http_port: 8265
+    #     tdarr_server_port: 8266
+    #     tdarr_data: tdarr_data
+    #     tdarr_cache: '{{ servarr_cache }}'
+    #     tdarr_library: '{{ servarr_music }}'
+    #     tdarr_server: tdarr_server
+    #     tdarr_image: '{{ registry_host }}.{{ internet_host }}/ghcr-proxy/haveagitgat/tdarr:latest'
+
     - name: Deploy tdarr
       ansible.builtin.import_role:
-        name: tdarr
+        name: dpkg_i_foo_deb.homelab.quadlet_service
       vars:
-        tdarr_user: '{{ container_user }}'
-        tdarr_container: tdarr
-        tdarr_http_port: 8265
-        tdarr_server_port: 8266
-        tdarr_data: tdarr_data
-        tdarr_cache: '{{ servarr_cache }}'
-        tdarr_library: '{{ servarr_music }}'
-        tdarr_server: tdarr_server
-        tdarr_image: '{{ registry_host }}.{{ internet_host }}/ghcr-proxy/haveagitgat/tdarr:latest'
+        quadlet_service_definition:
+          name: tdarr
+          image: '{{ registry_host }}.{{ internet_host }}/ghcr-proxy/haveagitgat/tdarr:latest'
+          user: '{{ container_user }}'
+          ports:
+            - '8265:8265'
+            - '8266:8266'
+          volumes:
+            - name: 'tdarr_data'
+              dest: '/app/configs:z'
+            - name: 'tdarr_server'
+              dest: '/app/server:z'
+          bind_mounts:
+            - src: '/var/servarr-cache'
+              dest: '/temp:z'
+            - src: '/music'
+              dest: '/media:z'
+          env:
+            serverIp: '0.0.0.0'
+            webUIPort: 8265
+            serverPort: 8266
+            internalNode: 'true'
+            inContainer: 'true'
+            ffmpegVersion: 6
+            nodeName: TdarrInternalNode
+
 
     - name: Deploy Flaresolverr
       ansible.builtin.import_role:
