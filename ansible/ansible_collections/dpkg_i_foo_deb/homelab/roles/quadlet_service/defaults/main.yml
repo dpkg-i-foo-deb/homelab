@@ -1,6 +1,6 @@
 ---
 default_auto_update_strategy: 'registry'
-deafult_pull_strategy: 'newer'
+default_pull_strategy: 'newer'
 default_restart_when: 'always'
 default_restart_secs: '5'
 default_volume_driver: 'local'
