@@ -22,3 +22,12 @@
       ] }}
   when: quadlet_service_definition.bind_mounts is defined and quadlet_service_definition.bind_mounts | length > 0
   loop: "{{ quadlet_service_definition.bind_mounts }}"
+
+- name: Add system_bind_mounts to combined_volumes
+  ansible.builtin.set_fact:
+    combined_volumes: >-
+      {{ combined_volumes + [
+        (item.src + ':' + item.dest)
+      ] }}
+  when: quadlet_service_definition.system_bind_mounts is defined and quadlet_service_definition.system_bind_mounts | length > 0
+  loop: "{{ quadlet_service_definition.system_bind_mounts }}"

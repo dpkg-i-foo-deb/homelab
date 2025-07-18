@@ -3,9 +3,19 @@
   tasks:
     - name: Deploy Home Assistant
       ansible.builtin.import_role:
-        name: home_assistant
+        name: dpkg_i_foo_deb.homelab.quadlet_service
       vars:
-        home_assistant_container: "home-assistant"
-        home_assistant_http_port: "8123"
-        home_assistant_conf_dir: "/var/home-assistant"
-        home_assistant_user: "{{ container_user }}"
+        quadlet_service_definition:
+          name: home_assistant
+          image: 'ghcr.io/home-assistant/home-assistant:stable'
+          user: '{{ container_user }}'
+          ports:
+            - '8123:8123'
+          bind_mounts:
+            - src: '/var/home-assistant'
+              dest: '/config:z'
+          system_bind_mounts:
+            - src: '/etc/localtime'
+              dest: '/etc/localtime:ro'
+            - src: '/run/dbus'
+              dest: '/run/dbus:ro'
