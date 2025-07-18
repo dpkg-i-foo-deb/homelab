@@ -1,4 +1,18 @@
 ---
+- name: Build combined volumes list
+  ansible.builtin.set_fact:
+    combined_volumes: []
+
+- name: Add named volumes to combined_volumes
+  ansible.builtin.set_fact:
+    combined_volumes: >-
+      {{ combined_volumes + [
+        (item.name + ':' + item.dest)
+      ] }}
+  loop: "{{ quadlet_service_definition.volumes }}"
+  when: quadlet_service_definition.volumes is defined and quadlet_service_definition.volumes | length > 0
+
+
 - name: Ensure Podman named volumes exist for {{ quadlet_service_definition.name }}
   loop: "{{ quadlet_service_definition.volumes | default([]) }}"
   loop_control:

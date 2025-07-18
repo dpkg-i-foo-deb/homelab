@@ -72,7 +72,8 @@
           image: lscr.io/linuxserver/lidarr:latest
           user: '{{ servarr_user }}'
           ports:
-            - '8686:8686'
+            - host_port: 8686
+              container_port: 8686
           volumes:
             - name: 'lidarr_data'
               dest: '/config:z'

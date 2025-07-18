@@ -13,3 +13,12 @@
     recurse: '{{ bind_mount.recurse | default(default_bind_mount_recurse) }}'
     owner: '{{ bind_mount.owner | default(quadlet_service_definition.user) }}'
     group: '{{ bind_mount.group | default(quadlet_service_definition.user) }}'
+
+- name: Add bind_mounts to combined_volumes
+  ansible.builtin.set_fact:
+    combined_volumes: >-
+      {{ combined_volumes + [
+        (item.src + ':' + item.dest)
+      ] }}
+  when: quadlet_service_definition.bind_mounts is defined and quadlet_service_definition.bind_mounts | length > 0
+  loop: "{{ quadlet_service_definition.bind_mounts }}"

@@ -1,26 +1,4 @@
 ---
-- name: Build combined volumes list
-  ansible.builtin.set_fact:
-    combined_volumes: []
-
-- name: Add named volumes to combined_volumes
-  ansible.builtin.set_fact:
-    combined_volumes: >-
-      {{ combined_volumes + [
-        (item.name + ':' + item.dest)
-      ] }}
-  loop: "{{ quadlet_service_definition.volumes }}"
-  when: quadlet_service_definition.volumes is defined and quadlet_service_definition.volumes | length > 0
-
-- name: Add bind_mounts to combined_volumes
-  ansible.builtin.set_fact:
-    combined_volumes: >-
-      {{ combined_volumes + [
-        (item.src + ':' + item.dest)
-      ] }}
-  when: quadlet_service_definition.bind_mounts is defined and quadlet_service_definition.bind_mounts | length > 0
-  loop: "{{ quadlet_service_definition.bind_mounts }}"
-
 - name: Ensure there is a Quadlet file for {{ quadlet_service_definition.name }}
   become: true
   become_user: '{{ quadlet_service_definition.user }}'
@@ -34,7 +12,7 @@
       "{{ omit
         if quadlet_service_definition.host_network is defined and quadlet_service_definition.host_network
         else
-          quadlet_service_definition.ports | default([])
+          quadlet_service_ports | default([])
         }}"
     network: >-
         {{ omit
