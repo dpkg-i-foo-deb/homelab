@@ -1,9 +1,12 @@
----
-- name: Ensure there's a podman network named {{ quadlet_service_definition.network.name }}
+- name: Ensure there's a podman network named {{ network.name }}
+  loop: "{{ quadlet_service_definition.networks | default([]) }}"
+  loop_control:
+    loop_var: network
+  when: quadlet_service_definition.networks is defined and quadlet_service_definition.networks | length > 0
   become: true
-  become_user: '{{ podman_user }}'
+  become_user: '{{ quadlet_service_definition.user }}'
   containers.podman.podman_network:
-    name: '{{ quadlet_service_definition.network.name }}'
-    subnet: '{{ quadlet_service_definition.network.subnet | default(omit) }}'
-    gateway: '{{ quadlet_service_definition.network.gateway | default(omit) }}'
+    name: '{{ network.name }}'
+    subnet: '{{ network.subnet | default(omit) }}'
+    gateway: '{{ network.gateway | default(omit) }}'
     force: true
