@@ -1,12 +1,6 @@
 - name: Configure servarr
   hosts: servarr
-  vars:
-    servarr_downloads: /downloads
-    servarr_music: /music
-    servarr_cache: /var/servarr-cache
-
   tasks:
-
     - name: Login to homelab registry
       ansible.builtin.import_role:
         name: podman
@@ -16,20 +10,6 @@
         podman_login_user: '{{ homelab_registry_user }}'
         podman_login_pass: '{{ homelab_registry_pass }}'
         podman_user: '{{ container_user }}'
-
-    # - name: Deploy tdarr
-    #   ansible.builtin.import_role:
-    #     name: tdarr
-    #   vars:
-    #     tdarr_user: '{{ container_user }}'
-    #     tdarr_container: tdarr
-    #     tdarr_http_port: 8265
-    #     tdarr_server_port: 8266
-    #     tdarr_data: tdarr_data
-    #     tdarr_cache: '{{ servarr_cache }}'
-    #     tdarr_library: '{{ servarr_music }}'
-    #     tdarr_server: tdarr_server
-    #     tdarr_image: '{{ registry_host }}.{{ internet_host }}/ghcr-proxy/haveagitgat/tdarr:latest'
 
     - name: Deploy tdarr
       ansible.builtin.import_role:
