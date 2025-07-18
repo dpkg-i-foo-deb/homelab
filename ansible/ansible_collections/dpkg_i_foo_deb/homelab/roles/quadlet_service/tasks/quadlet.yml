@@ -2,7 +2,7 @@
 - name: Ensure there is a Quadlet file for {{ quadlet_service_definition.name }}
   become: true
   become_user: '{{ quadlet_service_definition.user }}'
-  notify: "restart {{ quadlet_service_definition.name }}"
+  notify: "Restart quadlet service"
   containers.podman.podman_container:
     name: '{{ quadlet_service_definition.name }}'
     image: '{{ quadlet_service_definition.image }}'
