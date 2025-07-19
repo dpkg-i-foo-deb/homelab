@@ -120,6 +120,7 @@ monitoring:
     homelab_monitor:
       ansible_host: 10.0.1.12
       groups: 'trusted'
+      container_user: monitoring
 vps:
   hosts:
     vps_hetzner:

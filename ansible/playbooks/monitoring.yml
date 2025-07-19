@@ -1,7 +1,5 @@
 - name: Configure monitoring virtual machine
   hosts: monitoring
-  vars:
-    monitoring_user: monitoring
   tasks:
 
     - name: Login to homelab registry
@@ -12,18 +10,12 @@
         podman_login_registry: '{{ registry_host }}.{{ internet_host }}'
         podman_login_user: '{{ homelab_registry_user }}'
         podman_login_pass: '{{ homelab_registry_pass }}'
-        podman_user: '{{ monitoring_user }}'
+        podman_user: '{{ container_user }}'
 
-    - name: Deploy Prometheus
-      ansible.builtin.import_role:
-        name: prometheus
+    - name: Template Prometheus configuration file
+      notify: Restart Prometheus
+      become: true
       vars:
-        prometheus_user: '{{ monitoring_user }}'
-        prometheus_container: 'prometheus'
-        prometheus_image: '{{ registry_host }}.{{ internet_host }}/quay-proxy/prometheus/prometheus:latest'
-        prometheus_config_dir: '/var/prometheus'
-        prometheus_metrics_dir: '/metrics/prometheus'
-        prometheus_storage_retention: '30d'
         prometheus_scrape_jobs:
           - job_name: 'incus'
             tls_config:
@@ -60,12 +52,49 @@
             metrics_path: 'metrics'
             targets:
               - '192.168.8.1:9100'
+      ansible.builtin.template:
+        src: templates/prometheus/prometheus.yml.j2
+        dest: '/var/prometheus/prometheus.yml'
+        mode: '0644'
+        owner: '{{ container_user }}'
+        group: '{{ container_user }}'
+
+    # - name: Deploy Prometheus
+    #   ansible.builtin.import_role:
+    #     name: prometheus
+    #   vars:
+    #     prometheus_user: '{{ container_user }}'
+    #     prometheus_container: 'prometheus'
+    #     prometheus_image: '{{ registry_host }}.{{ internet_host }}/quay-proxy/prometheus/prometheus:latest'
+    #     prometheus_config_dir: '/var/prometheus'
+    #     prometheus_metrics_dir: '/metrics/prometheus'
+    #     prometheus_storage_retention: '30d'
+
+    - name: Deploy Prometheus
+      ansible.builtin.import_role:
+        name: dpkg_i_foo_deb.homelab.quadlet_service
+      vars:
+        quadlet_service_definition:
+          name: prometheus
+          image: '{{ registry_host }}.{{ internet_host }}/quay-proxy/prometheus/prometheus:latest'
+          user: '{{ container_user }}'
+          command:
+            - '--storage.tsdb.retention.time=30d'
+            - '--config.file=/etc/prometheus/prometheus.yml'
+          file_mounts:
+            - src: '/var/prometheus/prometheus.yml'
+              dst: '/etc/prometheus/prometheus.yml:z'
+          dir_mounts:
+            - src: '/metrics/prometheus'
+              dst: 'prometheus:z'
+          ports:
+            - '9090:9090'
 
     - name: Deploy Loki
       ansible.builtin.import_role:
         name: loki
       vars:
-        loki_user: '{{ monitoring_user }}'
+        loki_user: '{{ container_user }}'
         loki_container: 'loki'
         loki_image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/grafana/loki:latest'
         loki_logs_dir: '/logs/loki'
@@ -74,7 +103,7 @@
       ansible.builtin.import_role:
         name: grafana
       vars:
-        grafana_user: '{{ monitoring_user }}'
+        grafana_user: '{{ container_user }}'
         grafana_container: 'grafana'
         grafana_image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/grafana/grafana-oss:latest'
         grafana_data_vol: 'grafana_data'
