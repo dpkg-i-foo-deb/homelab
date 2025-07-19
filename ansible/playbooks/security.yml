@@ -70,7 +70,8 @@
           name: postgres
           image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/library/postgres:latest'
           user: '{{ security_user }}'
-          network: '{{ security_network }}'
+          networks:
+            - name: '{{ security_network }}'
           ports:
             - '5432:5432'
           volumes:
