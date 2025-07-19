@@ -95,7 +95,7 @@ reverse_proxy:
   hosts:
     private_reverse_proxy:
       ansible_host: 10.0.5.10
-      reverse_proxy_user: reverse-proxy
+      container_user: reverse-proxy
       groups: 'internet_facing,trusted'
 knowledge_management:
   hosts:
