@@ -42,7 +42,7 @@
     - name: Ensure initdb script is present on the host
       become: true
       ansible.builtin.copy:
-        src: files/guacamole/initdb.sql
+        src: 'files/guacamole/initdb.sql'
         dest: '/var/guacamole_web/initdb.sql'
         mode: '0777'
         owner: '{{ container_user }}'
