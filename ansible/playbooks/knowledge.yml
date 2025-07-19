@@ -80,7 +80,7 @@
           image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/freshrss/freshrss'
           user: '{{ container_user }}'
           ports:
-            - '8080:80'
+            - '8081:80'
           volumes:
             - name: 'freshrss_data'
               dest: '/var/www/FreshRSS/data:z'
