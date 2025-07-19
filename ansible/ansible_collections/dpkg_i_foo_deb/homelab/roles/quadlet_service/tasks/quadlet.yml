@@ -23,6 +23,7 @@
           if quadlet_service_definition.networks is defined
           else []
         ) }}
+    hostname: '{{ quadlet_service_definition.hostname | default(omit) }}'
     dns: >-
       {{ omit
       if quadlet_service_definition.dns_servers is not defined or quadlet_service_definition.dns_servers | length == 0

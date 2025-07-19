@@ -173,6 +173,7 @@
           name: wazuh_indexer
           image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/wazuh/wazuh-indexer:4.11.0'
           user: '{{ container_user }}'
+          hostname: 'wazuh.indexer'
           networks:
             - name: '{{ security_network }}'
           ports:
