@@ -1,9 +1,0 @@
----
-- name: Restart pihole
-  become: true
-  become_user: '{{ pihole_user }}'
-  ansible.builtin.systemd_service:
-    daemon_reload: true
-    state: restarted
-    name: '{{ pihole_container }}'
-    scope: user
