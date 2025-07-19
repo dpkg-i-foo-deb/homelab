@@ -299,7 +299,7 @@
             - src: '/var/wazuh/wazuh.manager.pem'
               dest: '/etc/ssl/filebeat.pem:z'
             - src: '/var/wazuh/wazuh.manager-key.pem'
-              dest: '/etc/ssl/filebeat-key.pem:z'
+              dest: '/etc/ssl/filebeat.key:z'
             - src: '/var/wazuh_manager/wazuh_manager.conf'
               dest: '/wazuh-config-mount/etc/ossec.conf:z'
             - src: '/var/wazuh_manager/authd.pass'
