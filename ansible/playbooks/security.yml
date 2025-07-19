@@ -190,6 +190,8 @@
         mode: '0777'
 
     - name: Template Wazuh Manager authd password file
+      vars:
+        wazuh_manager_authd_password: '{{ siem_enrollment_pass }}'
       become: true
       ansible.builtin.template:
         src: templates/wazuh_manager/authd.pass.j2
