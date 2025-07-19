@@ -52,7 +52,7 @@
           command: 'serve'
           host_network: true
           dir_mounts:
-            - src: 'var/headscale'
+            - src: '/var/headscale'
               dest: '/etc/headscale:z'
           volumes:
             - name: 'headscale_data'
