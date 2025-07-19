@@ -1,4 +1,4 @@
-- name: Configure virtual machines and home DNS server
+- name: Configure virtual machines and home DNS servers
   hosts: home_dns
   vars:
     dns_sync_pass: !vault |

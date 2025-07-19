@@ -1,9 +1,0 @@
----
-- name: "Restart quadlet service"
-  become: true
-  become_user: "{{ quadlet_service_definition.user }}"
-  ansible.builtin.systemd_service:
-    daemon_reload: true
-    state: restarted
-    name: "{{ quadlet_service_definition.name }}"
-    scope: user
