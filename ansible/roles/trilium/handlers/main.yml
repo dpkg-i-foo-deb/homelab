@@ -1,8 +1,0 @@
-- name: Restart Trilium
-  become: true
-  become_user: '{{ trilium_user }}'
-  ansible.builtin.systemd_service:
-    daemon_reload: true
-    state: restarted
-    name: '{{ trilium_container }}'
-    scope: user

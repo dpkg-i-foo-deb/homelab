@@ -1,8 +1,0 @@
-- name: Ensure Trilium Next is running
-  become: true
-  become_user: '{{ trilium_user }}'
-  ansible.builtin.systemd_service:
-    daemon_reload: true
-    state: started
-    name: '{{ trilium_container }}'
-    scope: user

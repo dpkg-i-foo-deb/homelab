@@ -12,17 +12,6 @@
         podman_login_pass: '{{ homelab_registry_pass }}'
         podman_user: '{{ container_user }}'
 
-
-    # - name: Deploy Trilium Next
-    #   ansible.builtin.import_role:
-    #     name: trilium
-    #   vars:
-    #     trilium_user: '{{ container_user }}'
-    #     trilium_container: 'trilium'
-    #     trilium_image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/triliumnext/notes:latest'
-    #     trilium_http_port: '8080'
-    #     trilium_data: 'trilium_data'
-
     - name: Deploy Trilium Next
       ansible.builtin.import_role:
         name: dpkg_i_foo_deb.homelab.quadlet_service
