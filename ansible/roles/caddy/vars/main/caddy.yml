@@ -1,4 +1,0 @@
-caddy_container: caddy
-caddy_opt: /etc/caddy/
-caddy_tls: /var/caddy/
-caddy_conf: /etc/Caddyfile
