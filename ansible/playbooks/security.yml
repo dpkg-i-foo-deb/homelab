@@ -126,24 +126,75 @@
     #     wazuh_indexer_dashboard_host: 'wazuh.dashboard'
     #     wazuh_indexer_tls_conf_dir: '{{ security_wazuh_generator_conf }}'
 
+    # - name: Deploy Wazuh indexer
+    #   ansible.builtin.import_role:
+    #     name: wazuh_indexer
+    #   vars:
+    #     wazuh_indexer_user: '{{ container_user }}'
+    #     wazuh_indexer_container: 'wazuh_indexer'
+    #     wazuh_indexer_image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/wazuh/wazuh-indexer'
+    #     wazuh_indexer_admin_hash: '$2y$12$PFQeLaOF/IlLbEmdGxX9R.Q1WJEkVmkvEAYQFjhb48ISHwAV1VAui'
+    #     wazuh_indexer_version: '4.11.0'
+    #     wazuh_indexer_hostname: 'wazuh.indexer'
+    #     wazuh_indexer_network: '{{ security_network }}'
+    #     wazuh_indexer_data_vol: 'wazuh_indexer'
+    #     wazuh_indexer_tls_dir: '{{ security_wazuh_certs }}'
+    #     wazuh_indexer_config_dir: '/var/wazuh_indexer'
+    #     wazuh_indexer_port: '9200'
+    #     wazuh_indexer_node_name: 'wazuh.indexer'
+    #     wazuh_indexer_cluster_name: 'wazuh-cluster'
+    #     wazuh_indexer_cluster_initial_master_node: 'wazuh.indexer'
+
+    - name: Copy Wazuh Indexer configuration file
+      become: true
+      ansible.builtin.copy:
+        src: files/wazuh_indexer/wazuh.indexer.yml
+        dest: '/var/wazuh_indexer/wazuh.indexer.yml'
+        owner: '{{ container_user }}'
+        group: '{{ container_user }}'
+        mode: '0777'
+
+    - name: Template Wazuh Indexer configuration users file
+      become: true
+      ansible.builtin.template:
+        src: templates/wazuh_indexer/internal_users.yml.j2
+        dest: '/var/wazuh_indexer/internal_users.yml'
+        owner: '{{ container_user }}'
+        group: '{{ container_user }}'
+        mode: '0777'
+
     - name: Deploy Wazuh indexer
       ansible.builtin.import_role:
-        name: wazuh_indexer
+        name: dpkg_i_foo_deb.homelab.quadlet_service
       vars:
-        wazuh_indexer_user: '{{ container_user }}'
-        wazuh_indexer_container: 'wazuh_indexer'
-        wazuh_indexer_image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/wazuh/wazuh-indexer'
-        wazuh_indexer_admin_hash: '$2y$12$PFQeLaOF/IlLbEmdGxX9R.Q1WJEkVmkvEAYQFjhb48ISHwAV1VAui'
-        wazuh_indexer_version: '4.11.0'
-        wazuh_indexer_hostname: 'wazuh.indexer'
-        wazuh_indexer_network: '{{ security_network }}'
-        wazuh_indexer_data_vol: 'wazuh_indexer'
-        wazuh_indexer_tls_dir: '{{ security_wazuh_certs }}'
-        wazuh_indexer_config_dir: '/var/wazuh_indexer'
-        wazuh_indexer_port: '9200'
-        wazuh_indexer_node_name: 'wazuh.indexer'
-        wazuh_indexer_cluster_name: 'wazuh-cluster'
-        wazuh_indexer_cluster_initial_master_node: 'wazuh.indexer'
+        quadlet_service_definition:
+          name: wazuh_indexer
+          image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/wazuh/wazuh-indexer:4.11.0'
+          user: '{{ container_user }}'
+          networks:
+            - name: '{{ security_network }}'
+          ports:
+            - '9200:9200'
+          volumes:
+            - name: 'wazuh_indexer'
+              dest: '/var/lib/wazuh-indexer:z'
+          file_mounts:
+            - src: '/var/wazuh/root-ca.pem'
+              dest: '/usr/share/wazuh-indexer/certs/root-ca.pem:z'
+            - src: '/var/wazuh/wazuh.indexer-key.pem'
+              dest: '/usr/share/wazuh-indexer/certs/wazuh.indexer.key:z'
+            - src: '/var/wazuh/wazuh.indexer.pem'
+              dest: '/usr/share/wazuh-indexer/certs/wazuh.indexer.pem:z'
+            - src: '/var/wazuh/admin.pem'
+              dest: '/usr/share/wazuh-indexer/cers/admin.pem:z'
+            - src: '/var/wazuh/admin-key.pem'
+              dest: '/usr/share/wazuh-indexer/cers/admin.key:z'
+            - src: '/var/wazuh_indexer/wazuh.indexer.yml'
+              dest: '/usr/share/wazuh-indexer/opensearch.yml:z'
+            - src: '/var/wazuh_indexer/internal_users.yml'
+              dest: '/usr/share/wazuh-indexer/opensearch-security/internal_users.yml:z'
+          env:
+            OPENSEARCH_JAVA_OPTS: '-Xms1g -Xmx1g'
 
     - name: Deploy Wazuh manager
       ansible.builtin.import_role:
