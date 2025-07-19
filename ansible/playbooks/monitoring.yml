@@ -1,7 +1,6 @@
 - name: Configure monitoring virtual machine
   hosts: monitoring
   tasks:
-
     - name: Login to homelab registry
       ansible.builtin.import_role:
         name: podman
