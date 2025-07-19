@@ -6,3 +6,5 @@
   ansible.builtin.import_tasks: networks.yml
 - name: Configure quadlet
   ansible.builtin.import_tasks: quadlet.yml
+- name: Configure service
+  ansible.builtin.import_tasks: service.yml
