@@ -5,7 +5,6 @@
     loop_var: dir_mount
   when: dir_mount.src is defined
   become: true
-  become_user: '{{ quadlet_service_definition.user }}'
   ansible.builtin.file:
     state: 'directory'
     path: '{{ dir_mount.src }}'
@@ -29,7 +28,6 @@
     loop_var: file_mount
   when: file_mount.src is defined
   become: true
-  become_user: '{{ quadlet_service_definition.user }}'
   ansible.builtin.file:
     state: 'file'
     path: '{{ file_mount.src }}'
