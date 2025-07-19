@@ -86,23 +86,51 @@
           ports:
             - '4822:4822'
 
+    # - name: Deploy Guacamole web
+    #   ansible.builtin.import_role:
+    #     name: guacamole_web
+    #   vars:
+    #     guacamole_web_user: '{{ bastion_user }}'
+    #     guacamole_web_port: '8081'
+    #     guacamole_web_container: guacamole_web
+    #     guacamole_web_image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/guacamole/guacamole:latest'
+    #     guacamole_web_network: '{{ bastion_guacamole_network }}'
+    #     guacamole_web_guacd_hostname: guacamole_guacd
+    #     guacamole_web_extension_priority: 'openid,postgresql'
+    #     guacamole_web_openid_authorization_endpoint: 'https://{{ auth_host }}.{{ internet_host }}/realms/{{ homelab_realm }}/protocol/openid-connect/auth'
+    #     guacamole_web_openid_jwks_endpoint: 'https://{{ auth_host }}.{{ internet_host }}/realms/{{ homelab_realm }}/protocol/openid-connect/certs'
+    #     guacamole_web_openid_issuer: 'https://{{ auth_host }}.{{ internet_host }}/realms/{{ homelab_realm }}'
+    #     guacamole_web_openid_client_id: '{{ remote_client }}'
+    #     guacamole_web_openid_redirect_uri: 'https://{{ remote_host }}.{{ internet_host }}'
+    #     guacamole_web_pg_host: '{{ bastion_guacamole_postgres_db }}'
+    #     guacamole_web_pg_db: '{{ bastion_guacamole_postgres_db }}'
+    #     guacamole_web_pg_user: '{{ bastion_guacamole_postgres_user }}'
+    #     guacamole_web_pg_pass: '{{ bastion_guacamole_postgres_pass }}'
+
     - name: Deploy Guacamole web
       ansible.builtin.import_role:
-        name: guacamole_web
+        name: dpkg_i_foo_deb.homelab.quadlet_service
       vars:
-        guacamole_web_user: '{{ bastion_user }}'
-        guacamole_web_port: '8081'
-        guacamole_web_container: guacamole_web
-        guacamole_web_image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/guacamole/guacamole:latest'
-        guacamole_web_network: '{{ bastion_guacamole_network }}'
-        guacamole_web_guacd_hostname: guacamole_guacd
-        guacamole_web_extension_priority: 'openid,postgresql'
-        guacamole_web_openid_authorization_endpoint: 'https://{{ auth_host }}.{{ internet_host }}/realms/{{ homelab_realm }}/protocol/openid-connect/auth'
-        guacamole_web_openid_jwks_endpoint: 'https://{{ auth_host }}.{{ internet_host }}/realms/{{ homelab_realm }}/protocol/openid-connect/certs'
-        guacamole_web_openid_issuer: 'https://{{ auth_host }}.{{ internet_host }}/realms/{{ homelab_realm }}'
-        guacamole_web_openid_client_id: '{{ remote_client }}'
-        guacamole_web_openid_redirect_uri: 'https://{{ remote_host }}.{{ internet_host }}'
-        guacamole_web_pg_host: '{{ bastion_guacamole_postgres_db }}'
-        guacamole_web_pg_db: '{{ bastion_guacamole_postgres_db }}'
-        guacamole_web_pg_user: '{{ bastion_guacamole_postgres_user }}'
-        guacamole_web_pg_pass: '{{ bastion_guacamole_postgres_pass }}'
+        quadlet_service_definition:
+          name: guacamole_web
+          image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/guacamole/guacamole:latest'
+          user: '{{ container_user }}'
+          networks:
+            - name: guacamole
+          ports:
+            - '8081:8080'
+          env:
+            GUACD_HOSTNAME: 'guacamole_guacd'
+            GUACD_PORT: '4822'
+            POSTGRESQL_HOSTNAME: '{{ bastion_guacamole_postgres_db }}'
+            POSTGRESQL_DATABASE: '{{ bastion_guacamole_postgres_db }}'
+            POSTGRESQL_USER: '{{ bastion_guacamole_postgres_user }}'
+            POSTGRESQL_PASSWORD: '{{ bastion_guacamole_postgres_pass }}'
+            EXTENSION_PRIORITY: 'openid,postgresql'
+            OPENID_AUTHORIZATION_ENDPOINT: 'https://{{ auth_host }}.{{ internet_host }}/realms/{{ homelab_realm }}/protocol/openid-connect/auth'
+            OPENID_JWKS_ENDPOINT: 'https://{{ auth_host }}.{{ internet_host }}/realms/{{ homelab_realm }}/protocol/openid-connect/certs'
+            OPENID_ISSUER: 'https://{{ auth_host }}.{{ internet_host }}/realms/{{ homelab_realm }}'
+            OPENID_CLIENT_ID: '{{ remote_client }}'
+            OPENID_REDIRECT_URI: 'https://{{ remote_host }}.{{ internet_host }}'
+            WEBAPP_CONTEXT: 'ROOT'
+            LOG_LEVEL: 'debug'
