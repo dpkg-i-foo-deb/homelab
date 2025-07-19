@@ -106,7 +106,7 @@ game_servers:
   hosts:
     game_server:
       ansible_host: 10.0.8.11
-      game_server_user: game-server
+      container_user: game-server
       groups: 'internet_facing,untrusted'
       siem_agent: game-server
 container_hosts:

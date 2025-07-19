@@ -10,18 +10,23 @@
         podman_login_registry: '{{ registry_host }}.{{ internet_host }}'
         podman_login_user: '{{ homelab_registry_user }}'
         podman_login_pass: '{{ homelab_registry_pass }}'
-        podman_user: '{{ game_server_user }}'
+        podman_user: '{{ container_user }}'
 
-    - name: Deploy Terraria Server for workmates
+    - name: Deploy Terraria server
       ansible.builtin.import_role:
-        name: terraria_server
+        name: dpkg_i_foo_deb.homelab.quadlet_service
       vars:
-        terraria_server_user: '{{ game_server_user }}'
-        terraria_server_container: 'terraria-work'
-        terraria_server_image: '{{ registry_host }}.{{ internet_host }}/ghcr-proxy/beardedio/terraria:vanilla-latest'
-        terraria_server_port: '7777'
-        terraria_server_data: 'terraria-work-data'
-        terraria_server_worldname: 'terraria-vcsoft'
+        quadlet_service_definition:
+          name: terraria_server
+          image: '{{ registry_host }}.{{ internet_host }}/ghcr-proxy/beardedio/terraria:vanilla-latest'
+          user: '{{ container_user }}'
+          volumes:
+            - name: 'terraria-work-data'
+              dest: ':/config:z'
+          ports:
+            - '7777:7777'
+          env:
+            - world: 'terraria-vcsoft.wld'
 
     - name: Deploy Wazuh agent
       ansible.builtin.import_role:

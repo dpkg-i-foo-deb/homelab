@@ -1,8 +1,0 @@
----
-- name: Ensure there's a volume to store terraria_server data
-  ansible.builtin.import_role:
-    name: podman
-    tasks_from: local_volume
-  vars:
-    podman_local_volume: '{{ terraria_server_data }}'
-    podman_user: '{{ terraria_server_user }}'
