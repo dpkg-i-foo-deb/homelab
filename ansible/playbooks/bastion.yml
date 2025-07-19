@@ -1,8 +1,6 @@
 - name: Configure bastion virtual machine
   hosts: bastion
   vars:
-    bastion_user: bastion
-    bastion_guacamole_network: guacamole
     bastion_guacamole_postgres_db: guacamole_postgres
     bastion_guacamole_postgres_user: !vault |
       $ANSIBLE_VAULT;1.1;AES256
@@ -19,7 +17,6 @@
       3732303938323461380a333363393230383766363263363630356662643131376330383638303134
       6337
   tasks:
-
     - name: Login to homelab registry
       ansible.builtin.import_role:
         name: podman
@@ -28,7 +25,7 @@
         podman_login_registry: '{{ registry_host }}.{{ internet_host }}'
         podman_login_user: '{{ homelab_registry_user }}'
         podman_login_pass: '{{ homelab_registry_pass }}'
-        podman_user: '{{ bastion_user }}'
+        podman_user: '{{ container_user }}'
 
     - name: Ensure there's a directory to store guacamole-web init script
       become: true
@@ -85,27 +82,6 @@
             - name: guacamole
           ports:
             - '4822:4822'
-
-    # - name: Deploy Guacamole web
-    #   ansible.builtin.import_role:
-    #     name: guacamole_web
-    #   vars:
-    #     guacamole_web_user: '{{ bastion_user }}'
-    #     guacamole_web_port: '8081'
-    #     guacamole_web_container: guacamole_web
-    #     guacamole_web_image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/guacamole/guacamole:latest'
-    #     guacamole_web_network: '{{ bastion_guacamole_network }}'
-    #     guacamole_web_guacd_hostname: guacamole_guacd
-    #     guacamole_web_extension_priority: 'openid,postgresql'
-    #     guacamole_web_openid_authorization_endpoint: 'https://{{ auth_host }}.{{ internet_host }}/realms/{{ homelab_realm }}/protocol/openid-connect/auth'
-    #     guacamole_web_openid_jwks_endpoint: 'https://{{ auth_host }}.{{ internet_host }}/realms/{{ homelab_realm }}/protocol/openid-connect/certs'
-    #     guacamole_web_openid_issuer: 'https://{{ auth_host }}.{{ internet_host }}/realms/{{ homelab_realm }}'
-    #     guacamole_web_openid_client_id: '{{ remote_client }}'
-    #     guacamole_web_openid_redirect_uri: 'https://{{ remote_host }}.{{ internet_host }}'
-    #     guacamole_web_pg_host: '{{ bastion_guacamole_postgres_db }}'
-    #     guacamole_web_pg_db: '{{ bastion_guacamole_postgres_db }}'
-    #     guacamole_web_pg_user: '{{ bastion_guacamole_postgres_user }}'
-    #     guacamole_web_pg_pass: '{{ bastion_guacamole_postgres_pass }}'
 
     - name: Deploy Guacamole web
       ansible.builtin.import_role:
