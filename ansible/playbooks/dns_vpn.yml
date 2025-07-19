@@ -30,7 +30,7 @@
     - name: Ensure resolv.conf is present
       become: true
       ansible.builtin.copy:
-        src: "files/resolv.conf"
+        src: "files/pihole/resolv.conf"
         dest: "/etc/resolv.conf"
         owner: "root"
         group: "root"
@@ -39,7 +39,7 @@
     - name: Template wildcard dns configuration
       become: true
       ansible.builtin.template:
-        src: "templates/wildcard-domains.conf.j2"
+        src: "templates/pihole/wildcard-domains.conf.j2"
         dest: "/var/pihole/99-wildcard-domains.conf"
         owner: "{{ container_user }}"
         group: "{{ container_user }}"
