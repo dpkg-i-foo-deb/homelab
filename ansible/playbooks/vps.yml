@@ -1,41 +1,6 @@
 - name: Configure Virtual Private Server
   hosts: vps
-  vars:
-
   tasks:
-
-    # - name: Build dns_records for Headscale
-    #   ansible.builtin.set_fact:
-    #     dns_records:
-    #       "{{ dns_records | default([]) + [ { 'domain': 'lan' ~ '.' ~ item.value.host ~ '.' ~ internet_host, 'address': item.value.private_proxy_vpn } ] }}"
-    #   loop: "{{ homelab_services | dict2items }}"
-    #   when: item.value.private_proxy_vpn is defined
-
-    # - name: Display DNS Records
-    #   ansible.builtin.debug:
-    #     msg: '{{ dns_records }}'
-
-    # - name: Deploy Headscale control server
-    #   ansible.builtin.import_role:
-    #     name: headscale
-    #   vars:
-    #     headscale_user: '{{ vps_user }}'
-    #     headscale_container: 'headscale'
-    #     headscale_command: 'serve'
-    #     headscale_http_port: '8080'
-    #     headscale_metrics_port: '9090'
-    #     headscale_conf_dir: '/var/headscale'
-    #     headscale_tls_vol: 'headscale_tls'
-    #     headscale_network: 'host'
-    #     headscale_server_host: '{{ vpn_host }}.{{ internet_host }}'
-    #     headscale_server_port: '443'
-    #     headscale_listen_host: '0.0.0.0'
-    #     headscale_listen_port: '8080'
-    #     headscale_metrics_host: '0.0.0.0'
-    #     headscale_grpc_listen_addr: '0.0.0.0'
-    #     headscale_grpc_listen_port: '50443'
-    #     headscale_dns_base_domain: 'nodes.{{ vpn_host }}.{{ internet_host }}'
-    #     headscale_dns_records: '{{ dns_records }}'
 
     - name: Deploy internet facing Caddy
       ansible.builtin.import_role:
@@ -49,15 +14,5 @@
         caddy_extensions:
           - github.com/corazawaf/coraza-caddy/v2
           - github.com/mholt/caddy-l4
-
         caddy_image: 'caddy-public'
         caddy_networks: 'host'
-        caddy_ts_authkey: !vault |
-          $ANSIBLE_VAULT;1.1;AES256
-          66306264363131333637336665343933393436333836666335313137633164386237336163333232
-          6465653062326437303738373661326530643261663963610a313463376130353566373836613238
-          36643962363330336538353465303531323331373134653837336162383035303335346431636164
-          3939633333336165390a653636666439363430636635616664343534326330656431666632313437
-          37396663653039343864376639383261663133376263636333656163393034373533656635383066
-          66666566653136313033396462663761373664656531333838353539313437613564373638623131
-          333664366262386562633162656464653461

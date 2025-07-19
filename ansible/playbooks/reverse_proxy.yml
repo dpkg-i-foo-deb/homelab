@@ -1,4 +1,4 @@
-- name: Configure reverse proxy
+- name: Configure reverse proxy on homelab network
   hosts: reverse_proxy
   tasks:
     - name: Template Caddyfile for private network server
@@ -30,20 +30,6 @@
         build:
           container_file: "{{ lookup('template', 'caddy/Containerfile.j2') }}"
 
-    # - name: Deploy Caddy
-    #   ansible.builtin.import_role:
-    #     name: caddy
-    #   vars:
-    #     caddy_user: '{{ container_user }}'
-
-    #     caddy_container: caddy
-    #     caddy_data_vol: caddy_data
-    #     caddy_conf_vol: caddy_conf
-    #     caddy_conf_dir: /var/caddy
-    #     caddy_internet_facing: false
-    #     caddy_networks: 'host'
-    #     caddy_image: 'caddy-private'
-
     - name: Deploy Caddy
       ansible.builtin.import_role:
         name: dpkg_i_foo_deb.homelab.quadlet_service
@@ -71,12 +57,49 @@
               38356164656137626662653435363739366136646266653164303433313739636166373338613866
               3166643262633138316233396335343337333530346631613134
 
-    - name: Deploy Wazuh agent
-      ansible.builtin.import_role:
-        name: wazuh_agent
+- name: Configure reverse proxy on public internet VPS
+  hosts: vps
+  tasks:
+    - name: Template Caddyfile for public internet server
+      become: true
       vars:
-        wazuh_agent_version: '4.x'
-        wazuh_agent_manager_host: '{{ siem_host }}'
-        wazuh_agent_registration_pass: '{{ siem_enrollment_pass }}'
-        wazuh_agent_name: 'reverse_proxy'
-        wazuh_agent_groups: 'internet_facing,trusted'
+        caddy_internet_host: '{{ internet_host }}'
+
+      ansible.builtin.template:
+        src: templates/caddy/Caddyfile-public.j2
+        dest: '/var/caddy/Caddyfile'
+        mode: '0644'
+        owner: '{{ container_user }}'
+        group: '{{ container_user }}'
+
+    - name: Build Caddy image
+      become: true
+      become_user: '{{ container_user }}'
+      vars:
+        caddy_extensions:
+          - github.com/corazawaf/coraza-caddy/v2
+          - github.com/mholt/caddy-l4
+      containers.podman.podman_image:
+        name: 'caddy-public:latest'
+        state: build
+        force: true
+        build:
+          container_file: "{{ lookup('template', 'caddy/Containerfile.j2') }}"
+
+    - name: Deploy Caddy
+      ansible.builtin.import_role:
+        name: dpkg_i_foo_deb.homelab.quadlet_service
+      vars:
+        quadlet_service_definition:
+          name: caddy
+          image: 'localhost/caddy-public:latest'
+          user: '{{ container_user }}'
+          host_network: true
+          volumes:
+            - name: 'caddy_data'
+              dest: '/data:z'
+            - name: 'caddy_conf'
+              dest: '/config:z'
+          file_mounts:
+            - src: '/var/caddy/Caddyfile'
+              dest: '/etc/caddy/Caddyfile:z'
