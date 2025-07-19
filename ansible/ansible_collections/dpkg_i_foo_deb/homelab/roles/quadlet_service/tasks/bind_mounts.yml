@@ -7,7 +7,7 @@
   become: true
   become_user: '{{ quadlet_service_definition.user }}'
   ansible.builtin.file:
-    state: directory
+    state: "{{ 'file' if bind_mount.type == 'file' else 'directory' }}"
     path: '{{ bind_mount.src }}'
     mode: '{{ bind_mount.mode | default(default_bind_mount_mode) }}'
     recurse: '{{ bind_mount.recurse | default(default_bind_mount_recurse) }}'

@@ -79,6 +79,7 @@
           bind_mounts:
             - src: '/var/guacamole_web/initdb.sql'
               dest: '/docker-entrypoint-initdb.d/initdb.sql:z'
+              type: 'file'
 
 
     - name: Deploy Guacamole guacd
