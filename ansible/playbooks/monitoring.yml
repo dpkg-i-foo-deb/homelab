@@ -59,17 +59,6 @@
         owner: '{{ container_user }}'
         group: '{{ container_user }}'
 
-    # - name: Deploy Prometheus
-    #   ansible.builtin.import_role:
-    #     name: prometheus
-    #   vars:
-    #     prometheus_user: '{{ container_user }}'
-    #     prometheus_container: 'prometheus'
-    #     prometheus_image: '{{ registry_host }}.{{ internet_host }}/quay-proxy/prometheus/prometheus:latest'
-    #     prometheus_config_dir: '/var/prometheus'
-    #     prometheus_metrics_dir: '/metrics/prometheus'
-    #     prometheus_storage_retention: '30d'
-
     - name: Deploy Prometheus
       ansible.builtin.import_role:
         name: dpkg_i_foo_deb.homelab.quadlet_service

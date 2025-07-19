@@ -1,9 +1,0 @@
----
-- name: Directory configuration
-  ansible.builtin.import_tasks: directories.yml
-- name: Ensure configuration files are present
-  ansible.builtin.import_tasks: config.yml
-- name: Quadlet files configuration
-  ansible.builtin.include_tasks: quadlet.yml
-- name: Services configuration
-  ansible.builtin.include_tasks: service.yml
