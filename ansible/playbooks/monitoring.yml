@@ -78,15 +78,6 @@
           ports:
             - '9090:9090'
 
-    # - name: Deploy Loki
-    #   ansible.builtin.import_role:
-    #     name: loki
-    #   vars:
-    #     loki_user: '{{ container_user }}'
-    #     loki_container: 'loki'
-    #     loki_image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/grafana/loki:latest'
-    #     loki_logs_dir: '/logs/loki'
-
     - name: Deploy Loki
       ansible.builtin.import_role:
         name: dpkg_i_foo_deb.homelab.quadlet_service

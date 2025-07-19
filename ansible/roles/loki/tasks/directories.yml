@@ -1,8 +1,0 @@
----
-- name: Ensure there's a directory to store logs
-  ansible.builtin.import_role:
-    name: podman
-    tasks_from: bind_mount
-  vars:
-    podman_bind_mount: '{{ loki_logs_dir }}'
-    podman_user: '{{ loki_user }}'
