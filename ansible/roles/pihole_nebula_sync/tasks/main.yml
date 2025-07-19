@@ -1,5 +1,0 @@
----
-- name: Quadlet(s) configuration
-  ansible.builtin.import_tasks: quadlet.yml
-- name: Services configuration
-  ansible.builtin.import_tasks: service.yml
