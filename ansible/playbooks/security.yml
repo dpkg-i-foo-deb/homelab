@@ -126,25 +126,6 @@
     #     wazuh_indexer_dashboard_host: 'wazuh.dashboard'
     #     wazuh_indexer_tls_conf_dir: '{{ security_wazuh_generator_conf }}'
 
-    # - name: Deploy Wazuh indexer
-    #   ansible.builtin.import_role:
-    #     name: wazuh_indexer
-    #   vars:
-    #     wazuh_indexer_user: '{{ container_user }}'
-    #     wazuh_indexer_container: 'wazuh_indexer'
-    #     wazuh_indexer_image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/wazuh/wazuh-indexer'
-    #     wazuh_indexer_admin_hash: '$2y$12$PFQeLaOF/IlLbEmdGxX9R.Q1WJEkVmkvEAYQFjhb48ISHwAV1VAui'
-    #     wazuh_indexer_version: '4.11.0'
-    #     wazuh_indexer_hostname: 'wazuh.indexer'
-    #     wazuh_indexer_network: '{{ security_network }}'
-    #     wazuh_indexer_data_vol: 'wazuh_indexer'
-    #     wazuh_indexer_tls_dir: '{{ security_wazuh_certs }}'
-    #     wazuh_indexer_config_dir: '/var/wazuh_indexer'
-    #     wazuh_indexer_port: '9200'
-    #     wazuh_indexer_node_name: 'wazuh.indexer'
-    #     wazuh_indexer_cluster_name: 'wazuh-cluster'
-    #     wazuh_indexer_cluster_initial_master_node: 'wazuh.indexer'
-
     - name: Copy Wazuh Indexer configuration file
       become: true
       ansible.builtin.copy:
@@ -199,58 +180,156 @@
           env:
             OPENSEARCH_JAVA_OPTS: '-Xms1g -Xmx1g'
 
-    - name: Deploy Wazuh manager
+    - name: Copy Wazuh Manager configuration file
+      become: true
+      ansible.builtin.copy:
+        src: files/wazuh_manager/wazuh_manager.conf
+        dest: '/var/wazuh_manager/wazuh_manager.conf'
+        owner: '{{ container_user }}'
+        group: '{{ container_user }}'
+        mode: '0777'
+
+    - name: Template Wazuh Manager authd password file
+      become: true
+      ansible.builtin.template:
+        src: templates/wazuh_manager/authd.pass.j2
+        dest: 'var/wazuh_manager/authd.pass'
+        owner: '{{ container_user }}'
+        group: '{{ container_user }}'
+        mode: '0777'
+
+
+    # - name: Deploy Wazuh manager
+    #   ansible.builtin.import_role:
+    #     name: wazuh_manager
+    #   vars:
+    #     wazuh_manager_user: '{{ container_user }}'
+    #     wazuh_manager_container: 'wazuh_manager'
+    #     wazuh_manager_image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/wazuh/wazuh-manager'
+    #     wazuh_manager_network: '{{ security_network }}'
+    #     wazuh_manager_hostname: 'wazuh.manager'
+    #     wazuh_manager_agent: '1514'
+    #     wazuh_manager_enrollment: '1515'
+    #     wazuh_manager_authd_password: '{{ siem_enrollment_pass }}'
+    #     wazuh_manager_syslog: '514'
+    #     wazuh_manager_api: '55000'
+    #     wazuh_manager_version: '4.11.0'
+    #     wazuh_manager_api_configuration_vol: 'wazuh_manager_conf'
+    #     wazuh_manager_etc_vol: 'wazuh_manager_etc'
+    #     wazuh_manager_logs_vol: 'wazuh_manager_logs'
+    #     wazuh_manager_queue_vol: 'wazuh_manager_queue'
+    #     wazuh_manager_var_multigroups_vol: 'wazuh_manager_var_multigroups'
+    #     wazuh_manager_integrations_vol: 'wazuh_manager_integrations'
+    #     wazuh_manager_active_response_vol: 'wazuh_manager_active_response'
+    #     wazuh_manager_agentless_vol: 'wazuh_manager_agentless'
+    #     wazuh_manager_wodles_vol: 'wazuh_manager_wodles'
+    #     wazuh_manager_filebeat_etc_vol: 'wazuh_manager_filebeat_etc'
+    #     wazuh_manager_filebeat_var_vol: 'wazuh_manager_filebeat_var'
+    #     wazuh_manager_ssl_certs_dir: '{{ security_wazuh_certs }}'
+    #     wazuh_manager_config_dir: '/var/wazuh_manager'
+    #     wazuh_manager_indexer_host: 'wazuh.indexer'
+    #     wazuh_manager_indexer_port: '9200'
+    #     wazuh_manager_indexer_username: 'admin'
+    #     wazuh_manager_indexer_password: !vault |
+    #       $ANSIBLE_VAULT;1.1;AES256
+    #       37653335646362666438386235303265616231653264633630323638346363383439336334613830
+    #       3532393131333237643364653066376563386337373737310a656464613135386166336366333261
+    #       61646166303636393137373437316639623932376537343338353036393734356631353531633237
+    #       3038653332346566350a373566366163343732363263653935626531326566356437653532356638
+    #       3832
+    #     wazuh_manager_api_username: !vault |
+    #       $ANSIBLE_VAULT;1.1;AES256
+    #       32353235636634353461663335653263373766626664623861623137643536666336663561383462
+    #       6361633932623232643231396266336138393966636234310a363137386133626135336530633433
+    #       63623365303866663438623463303536613832623638616661343663313731373462316232666464
+    #       3836633366656433610a343031383261616562626432303230393363663234633434633136633131
+    #       3631
+    #     wazuh_manager_api_password: !vault |
+    #       $ANSIBLE_VAULT;1.1;AES256
+    #       39353361343538626337383866653139323338306335653965643063356336623737333636663265
+    #       3731633536386635623064366432303731636331313364660a313664366334373432356465623535
+    #       32383532643362313830653033393234326531353238653832363965643639653465653634393264
+    #       3163373065333763640a626362316461376331366234623137316363343138396162643265353531
+    #       32383266613039643463663639396330633264396135616631393461663765313638
+
+    - name: Deploy Wazuh Manager
       ansible.builtin.import_role:
-        name: wazuh_manager
+        name: dpkg_i_foo_deb.homelab.quadlet_service
       vars:
-        wazuh_manager_user: '{{ container_user }}'
-        wazuh_manager_container: 'wazuh_manager'
-        wazuh_manager_image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/wazuh/wazuh-manager'
-        wazuh_manager_network: '{{ security_network }}'
-        wazuh_manager_hostname: 'wazuh.manager'
-        wazuh_manager_agent: '1514'
-        wazuh_manager_enrollment: '1515'
-        wazuh_manager_authd_password: '{{ siem_enrollment_pass }}'
-        wazuh_manager_syslog: '514'
-        wazuh_manager_api: '55000'
-        wazuh_manager_version: '4.11.0'
-        wazuh_manager_api_configuration_vol: 'wazuh_manager_conf'
-        wazuh_manager_etc_vol: 'wazuh_manager_etc'
-        wazuh_manager_logs_vol: 'wazuh_manager_logs'
-        wazuh_manager_queue_vol: 'wazuh_manager_queue'
-        wazuh_manager_var_multigroups_vol: 'wazuh_manager_var_multigroups'
-        wazuh_manager_integrations_vol: 'wazuh_manager_integrations'
-        wazuh_manager_active_response_vol: 'wazuh_manager_active_response'
-        wazuh_manager_agentless_vol: 'wazuh_manager_agentless'
-        wazuh_manager_wodles_vol: 'wazuh_manager_wodles'
-        wazuh_manager_filebeat_etc_vol: 'wazuh_manager_filebeat_etc'
-        wazuh_manager_filebeat_var_vol: 'wazuh_manager_filebeat_var'
-        wazuh_manager_ssl_certs_dir: '{{ security_wazuh_certs }}'
-        wazuh_manager_config_dir: '/var/wazuh_manager'
-        wazuh_manager_indexer_host: 'wazuh.indexer'
-        wazuh_manager_indexer_port: '9200'
-        wazuh_manager_indexer_username: 'admin'
-        wazuh_manager_indexer_password: !vault |
-          $ANSIBLE_VAULT;1.1;AES256
-          37653335646362666438386235303265616231653264633630323638346363383439336334613830
-          3532393131333237643364653066376563386337373737310a656464613135386166336366333261
-          61646166303636393137373437316639623932376537343338353036393734356631353531633237
-          3038653332346566350a373566366163343732363263653935626531326566356437653532356638
-          3832
-        wazuh_manager_api_username: !vault |
-          $ANSIBLE_VAULT;1.1;AES256
-          32353235636634353461663335653263373766626664623861623137643536666336663561383462
-          6361633932623232643231396266336138393966636234310a363137386133626135336530633433
-          63623365303866663438623463303536613832623638616661343663313731373462316232666464
-          3836633366656433610a343031383261616562626432303230393363663234633434633136633131
-          3631
-        wazuh_manager_api_password: !vault |
-          $ANSIBLE_VAULT;1.1;AES256
-          39353361343538626337383866653139323338306335653965643063356336623737333636663265
-          3731633536386635623064366432303731636331313364660a313664366334373432356465623535
-          32383532643362313830653033393234326531353238653832363965643639653465653634393264
-          3163373065333763640a626362316461376331366234623137316363343138396162643265353531
-          32383266613039643463663639396330633264396135616631393461663765313638
+        quadlet_service_definition:
+          name: wazuh_manager
+          image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/wazuh/wazuh-manager:4.11.0'
+          user: '{{ container_user }}'
+          hostname: 'wazuh.manager'
+          networks:
+            - name: '{{ security_network }}'
+          ports:
+            - '1514:1514'
+            - '1515:1515'
+            - '514:514/udp'
+            - '55000:55000'
+          volumes:
+            - name: 'wazuh_manager_conf'
+              dest: '/var/ossec/api/configuration:z'
+            - name: 'wazuh_manager_etc'
+              dest: '/var/ossec/etc:z'
+            - name: 'wazuh_manager_logs'
+              dest: '/var/ossec/logs:z'
+            - name: 'wazuh_manager_queue'
+              dest: '/var/ossec/queue:z'
+            - name: 'wazuh_manager_var_multigroups'
+              dest: '/var/ossec/var/multigroups:z'
+            - name: 'wazuh_manager_integrations'
+              dest: '/var/ossec/integrations:z'
+            - name: 'wazuh_manager_active_response'
+              dest: '/var/ossec/active_response:z'
+            - name: 'wazuh_manager_agentless'
+              dest: '/var/ossec/agentless:z'
+            - name: 'wazuh_manager_wodles'
+              dest: '/var/ossec/wodles:z'
+            - name: 'wazuh_manager_filebeat_etc'
+              dest: '/var/filebeat/etc:z'
+            - name: 'wazuh_manager_filebeat_var'
+              dest: '/var/filebeat/var:z'
+          dir_mounts:
+            - src: '/var/wazuh/root-ca.manager.pem'
+              dest: '/etc/ssl/root-ca.pem:z'
+            - src: '/var/wazuh/wazuh.manager.pem'
+              dest: '/etc/ssl/filebeat.pem:z'
+            - src: '/var/wazuh/wazuh.manager-key.pem'
+              dest: '/etc/ssl/filebeat-key.pem:z'
+            - src: '/var/wazuh_manager/wazuh_manager.conf'
+              dest: '/wazuh-config-mount/etc/ossec.conf:z'
+            - src: '/var/wazuh_manager/authd.pass'
+              dest: '/var/ossec/etc/authd.pass:z'
+          env:
+            INDEXER_URL: 'https://wazuh.indexer:9200'
+            INDEXER_USERNAME: 'admin'
+            INDEXER_PASSWORD: !vault |
+              $ANSIBLE_VAULT;1.1;AES256
+              37653335646362666438386235303265616231653264633630323638346363383439336334613830
+              3532393131333237643364653066376563386337373737310a656464613135386166336366333261
+              61646166303636393137373437316639623932376537343338353036393734356631353531633237
+              3038653332346566350a373566366163343732363263653935626531326566356437653532356638
+              3832
+            FILEBEAT_SSL_VERIFICATION_MODE: full
+            SSL_CERTIFICATE_AUTHORITIES: /etc/ssl/root-ca.pem
+            SSL_CERTIFICATE: /etc/ssl/filebeat.pem
+            SSL_KEY: /etc/ssl/filebeat.key
+            API_USERNAME: !vault |
+              $ANSIBLE_VAULT;1.1;AES256
+              32353235636634353461663335653263373766626664623861623137643536666336663561383462
+              6361633932623232643231396266336138393966636234310a363137386133626135336530633433
+              63623365303866663438623463303536613832623638616661343663313731373462316232666464
+              3836633366656433610a343031383261616562626432303230393363663234633434633136633131
+              3631
+            API_PASSWORD: !vault |
+              $ANSIBLE_VAULT;1.1;AES256
+              39353361343538626337383866653139323338306335653965643063356336623737333636663265
+              3731633536386635623064366432303731636331313364660a313664366334373432356465623535
+              32383532643362313830653033393234326531353238653832363965643639653465653634393264
+              3163373065333763640a626362316461376331366234623137316363343138396162643265353531
+              32383266613039643463663639396330633264396135616631393461663765313638
 
     - name: Deploy Wazuh Dashboard
       ansible.builtin.import_role:
