@@ -117,6 +117,7 @@
             - '3000:3000'
           volumes:
             - name: 'grafana_data'
+              dest: '/var/lib/grafana'
           env:
             GF_SERVER_DOMAIN: 'https://{{ metrics_host }}.{{ internet_host }}'
             GF_SERVER_ROOT_URL: 'https://{{ metrics_host }}.{{ internet_host }}'
