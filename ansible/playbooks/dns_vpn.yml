@@ -44,6 +44,8 @@
         owner: "{{ container_user }}"
         group: "{{ container_user }}"
         mode: "0755"
+      vars:
+        pihole_wildcard_records: []
 
     # - name: Deploy Pi-Hole
     #   ansible.builtin.import_role:
