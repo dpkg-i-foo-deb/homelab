@@ -75,7 +75,7 @@
             - src: '/var/pihole/99-wildcard-domains.conf'
               dest: '/etc/dnsmasq.d/99-wildcard-domains.conf:z'
           env:
-            FTLCONF_webserver_api_password: "dns_sync_pass"
+            FTLCONF_webserver_api_password: "{{ dns_sync_pass }}"
             FTLCONF_dns_listeningMode: "all"
           cap_add:
             - NET_ADMIN
