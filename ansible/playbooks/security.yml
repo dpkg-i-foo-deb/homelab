@@ -307,8 +307,8 @@
           32383266613039643463663639396330633264396135616631393461663765313638
       become: true
       ansible.builtin.template:
-        src: templates/wazuh_dashboard/wazuh.yml
-        dest: '/var/wazuh_dashboard/wazuh.yml.j2'
+        src: templates/wazuh_dashboard/wazuh.yml.j2
+        dest: '/var/wazuh_dashboard/wazuh.yml'
         owner: '{{ container_user }}'
         group: '{{ container_user }}'
         mode: '0777'
