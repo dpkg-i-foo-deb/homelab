@@ -195,7 +195,7 @@
       become: true
       ansible.builtin.template:
         src: templates/wazuh_manager/authd.pass.j2
-        dest: 'var/wazuh_manager/authd.pass'
+        dest: '/var/wazuh_manager/authd.pass'
         owner: '{{ container_user }}'
         group: '{{ container_user }}'
         mode: '0777'
