@@ -65,6 +65,7 @@
       vars:
         quadlet_service_definition:
           name: 'pihole'
+          user: '{{ container_user }}'
           image: 'docker.io/pihole/pihole:latest'
           host_network: true
           volumes:
