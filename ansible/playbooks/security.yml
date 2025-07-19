@@ -156,6 +156,8 @@
 
     - name: Template Wazuh Indexer configuration users file
       become: true
+      vars:
+        wazuh_indexer_admin_hash: '$2y$12$PFQeLaOF/IlLbEmdGxX9R.Q1WJEkVmkvEAYQFjhb48ISHwAV1VAui'
       ansible.builtin.template:
         src: templates/wazuh_indexer/internal_users.yml.j2
         dest: '/var/wazuh_indexer/internal_users.yml'
