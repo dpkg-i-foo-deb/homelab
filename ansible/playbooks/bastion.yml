@@ -76,14 +76,27 @@
             POSTGRES_USER: '{{ bastion_guacamole_postgres_user }}'
             POSTGRES_PASSWORD: '{{ bastion_guacamole_postgres_pass }}'
 
+    # - name: Deploy Guacamole guacd
+    #   ansible.builtin.import_role:
+    #     name: guacamole_guacd
+    #   vars:
+    #     guacamole_guacd_user: '{{ bastion_user }}'
+    #     guacamole_guacd_container: guacamole_guacd
+    #     guacamole_guacd_network: '{{ bastion_guacamole_network }}'
+    #     guacamole_guacd_image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/guacamole/guacd:latest'
+
     - name: Deploy Guacamole guacd
       ansible.builtin.import_role:
-        name: guacamole_guacd
+        name: dpkg_i_foo_deb.homelab.quadlet_service
       vars:
-        guacamole_guacd_user: '{{ bastion_user }}'
-        guacamole_guacd_container: guacamole_guacd
-        guacamole_guacd_network: '{{ bastion_guacamole_network }}'
-        guacamole_guacd_image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/guacamole/guacd:latest'
+        quadlet_service_definition:
+          name: guacamole_guacd
+          image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/guacamole/guacd:latest'
+          user: '{{ container_user }}'
+          networks:
+            - name: guacamole
+          ports:
+            - '4822:4822'
 
     - name: Deploy Guacamole web
       ansible.builtin.import_role:
