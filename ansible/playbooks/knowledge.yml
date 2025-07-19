@@ -60,7 +60,7 @@
         name: dpkg_i_foo_deb.homelab.quadlet_service
       vars:
         quadlet_service_definition:
-          name: oauth2_proxy
+          name: trillium-oauth2-proxy
           image: '{{ registry_host }}.{{ internet_host }}/quay-proxy/oauth2-proxy/oauth2-proxy'
           user: '{{ container_user }}'
           ports:
