@@ -1,9 +1,0 @@
----
-- name: Ensure Guacd is running
-  become: true
-  become_user: '{{ guacamole_guacd_user }}'
-  ansible.builtin.systemd_service:
-    daemon_reload: true
-    state: started
-    name: '{{ guacamole_guacd_container }}'
-    scope: user
