@@ -42,26 +42,6 @@
         podman_login_pass: '{{ homelab_registry_pass }}'
         podman_user: '{{ security_user }}'
 
-    - name: Ensure there's a virtual network for Keycloak
-      ansible.builtin.import_role:
-        name: podman
-        tasks_from: network
-      vars:
-        podman_network: '{{ security_network }}'
-        podman_user: '{{ security_user }}'
-
-    # - name: Deploy Postgres for Keycloak
-    #   ansible.builtin.import_role:
-    #     name: postgres
-    #   vars:
-    #     postgres_podman_user: '{{ security_user }}'
-    #     postgres_container: postgres
-    #     postgres_data_vol: 'postgres_keycloak'
-    #     postgres_db: keycloak
-    #     postgres_user: keycloak
-    #     postgres_network: '{{ security_network }}'
-    #     postgres_pass: '{{ security_keycloak_pg_pass }}'
-
     - name: Deploy Postgres for keycloak
       ansible.builtin.import_role:
         name: dpkg_i_foo_deb.homelab.quadlet_service
@@ -82,16 +62,42 @@
             POSTGRES_USER: 'keycloak'
             POSTGRES_PASSWORD: '{{ security_keycloak_pg_pass }}'
 
+    # - name: Deploy Keycloak
+    #   ansible.builtin.import_role:
+    #     name: keycloak
+    #   vars:
+    #     keycloak_user: '{{ security_user }}'
+    #     keycloak_container: keycloak
+    #     keycloak_network: '{{ security_network }}'
+    #     keycloak_pg_pass: '{{ security_keycloak_pg_pass }}'
+    #     # keycloak_bootstrap_username:
+    #     # keycloak_bootstrap_password:
+
     - name: Deploy Keycloak
       ansible.builtin.import_role:
-        name: keycloak
+        name: dpkg_i_foo_deb.homelab.quadlet_service
       vars:
-        keycloak_user: '{{ security_user }}'
-        keycloak_container: keycloak
-        keycloak_network: '{{ security_network }}'
-        keycloak_pg_pass: '{{ security_keycloak_pg_pass }}'
-        # keycloak_bootstrap_username:
-        # keycloak_bootstrap_password:
+        quadlet_service_definition:
+          name: keycloak
+          image: 'quay.io/keycloak/keycloak:latest'
+          user: '{{ container_user }}'
+          ports:
+            - '8081:8080'
+          networks:
+            - name: '{{ security_network }}'
+          env:
+            KC_DB: postgres
+            KC_DB_USERNAME: keycloak
+            KC_DB_PASSWORD: '{{ security_keycloak_pg_pass }}'
+            KC_HOSTNAME_PORT: 8080
+            KC_DB_URL: jdbc:postgresql://postgres:5432/keycloak
+            KC_PROXY_HEADERS: xforwarded
+            KC_HOSTNAME_STRICT_HTTPS: 'false'
+            KC_HOSTNAME_STRICT: 'false'
+            KC_HOSTNAME_URL: 'https://auth.{{ internet_host }}'
+            KC_HTTP_ENABLED: 'true'
+            # KC_BOOTSTRAP_ADMIN_USERNAME
+            # KC_BOOTSTRAP_ADMIN_PASSWORD
 
     - name: Deploy Vaultwarden
       ansible.builtin.import_role:
