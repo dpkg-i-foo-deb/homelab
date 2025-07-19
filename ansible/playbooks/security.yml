@@ -308,7 +308,7 @@
       become: true
       ansible.builtin.template:
         src: templates/wazuh_dashboard/wazuh.yml
-        dest: '/var/wazuh_dashboard/wazuh.yml'
+        dest: '/var/wazuh_dashboard/wazuh.yml.j2'
         owner: '{{ container_user }}'
         group: '{{ container_user }}'
         mode: '0777'
