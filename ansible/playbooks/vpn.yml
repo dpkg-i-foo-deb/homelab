@@ -33,14 +33,6 @@
         group: '{{ container_user }}'
         mode: '0777'
 
-    # - name: Deploy Headscale coordination server
-    #   ansible.builtin.import_role:
-    #     name: headscale
-    #   vars:
-    #     headscale_user: '{{ container_user }}'
-    #     headscale_container: 'headscale'
-    #     headscale_command: 'serve'
-
     - name: Deploy Headscale coordination server
       ansible.builtin.import_role:
         name: dpkg_i_foo_deb.homelab.quadlet_service

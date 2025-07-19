@@ -1,8 +1,0 @@
----
-- name: Ensure there's a volume to store Headscale TLS data
-  ansible.builtin.import_role:
-    name: podman
-    tasks_from: local_volume
-  vars:
-    podman_local_volume: '{{ headscale_tls_vol }}'
-    podman_user: '{{ headscale_user }}'
