@@ -37,7 +37,7 @@
             - name: 'trilium_data'
               dest: '/home/node/trilium-data:z'
           env:
-            - TRILIUM_DATA_DIR: '/home/node/trilium-data'
+            TRILIUM_DATA_DIR: '/home/node/trilium-data'
 
     - name: Deploy oauth2_proxy for Trilium next
       ansible.builtin.import_role:
