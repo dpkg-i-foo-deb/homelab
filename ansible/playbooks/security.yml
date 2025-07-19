@@ -293,7 +293,7 @@
               dest: '/var/filebeat/etc:z'
             - name: 'wazuh_manager_filebeat_var'
               dest: '/var/filebeat/var:z'
-          dir_mounts:
+          file_mounts:
             - src: '/var/wazuh/root-ca.manager.pem'
               dest: '/etc/ssl/root-ca.pem:z'
             - src: '/var/wazuh/wazuh.manager.pem'
