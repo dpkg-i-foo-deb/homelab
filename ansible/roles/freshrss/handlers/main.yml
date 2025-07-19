@@ -1,9 +1,0 @@
----
-- name: Restart freshrss
-  become: true
-  become_user: "{{ freshrss_user }}"
-  ansible.builtin.systemd_service:
-    daemon_reload: true
-    state: restarted
-    name: "{{ freshrss_container }}"
-    scope: user

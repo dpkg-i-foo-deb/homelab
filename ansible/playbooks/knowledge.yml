@@ -55,22 +55,6 @@
         oauth2_proxy_oidc_url: 'https://{{ auth_host }}.{{ internet_host }}/realms/{{ homelab_realm }}'
         oauth2_proxy_allow_unverified_email: 'true'
 
-    # - name: Deploy Freshrss
-    #   ansible.builtin.import_role:
-    #     name: freshrss
-    #   vars:
-    #     freshrss_user: '{{ container_user }}'
-    #     freshrss_container: 'freshrss'
-    #     freshrss_image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/freshrss/freshrss'
-    #     freshrss_http_port: '8081'
-    #     freshrss_data: 'freshrss_data'
-    #     freshrss_extensions: 'freshrss_extensions'
-    #     freshrss_oidc_enabled: '1'
-    #     freshrss_oidc_provider_metadata_url: 'https://{{ auth_host }}.{{ internet_host }}/realms/{{ homelab_realm }}/.well-known/openid-configuration'
-    #     freshrss_oidc_client_id: '{{ rss_client }}'
-    #     freshrss_oidc_client_secret: '{{ rss_secret }}'
-    #     freshrss_oidc_x_forwarded_headers: 'X-Forwarded-Host'
-
     - name: Deploy Freshrss
       ansible.builtin.import_role:
         name: dpkg_i_foo_deb.homelab.quadlet_service
