@@ -1,0 +1,141 @@
+# DO NOT MODIFY MANUALLY, GENERATED WITH ANSIBLE
+# Global config
+{
+
+  admin 0.0.0.0:2019
+
+  metrics
+
+  layer4 {
+    0.0.0.0:7777 {
+      route {
+        proxy {
+          upstream 10.0.8.11:7777
+        }
+      }
+    }
+    0.0.0.0:6443 {
+      route {
+        proxy {
+          upstream 10.0.11.10:6443
+        }
+      }
+    }
+  }
+
+  servers {
+    trusted_proxies static private_ranges
+  }
+}
+
+# Snippets
+
+# Proxy with compression. Uses plain HTTP
+(proxy) {
+  encode {
+    zstd better
+    gzip 6
+  }
+  reverse_proxy {args[0]}
+}
+
+# Proxy with compression. Uses https and ignores tls stuff
+(proxy_tls) {
+  encode {
+    zstd better
+    gzip 6
+  }
+  reverse_proxy {args[0]} {
+    transport http {
+      tls
+      tls_insecure_skip_verify
+    }
+  }
+}
+
+# Proxy with compression, uses oauth2-proxy as an OIDC intermediary
+# first argument is your oauth2-proxy host. Second is your target
+# backend host
+(proxy_oauth) {
+  encode {
+    zstd better
+    gzip 6
+  }
+  handle /oauth2/* {
+    reverse_proxy {args[0]}
+  }
+  handle {
+    forward_auth {args[0]} {
+      uri /oauth2/auth
+      copy_headers Authorization
+
+      @bad status 401
+      handle_response @bad {
+        redir * /oauth2/start
+      }
+    }
+    reverse_proxy {args[1]}
+  }
+}
+
+# Proxy with compression, uses oauth2-proxy as an OIDC intermediary
+# first argument is your oauth2-proxy host. Second is your target
+# backend host
+# Ignores TLS
+(proxy_oauth_tls) {
+  encode {
+    zstd better
+    gzip 6
+  }
+  handle /oauth2/* {
+    reverse_proxy {args[0]}
+  }
+  forward_auth {args[0]} {
+    uri /oauth2/auth
+    copy_headers Authorization
+
+    @bad status 401
+    handle_response @bad {
+      redir * /oauth2/start
+    }
+  }
+
+  reverse_proxy {args[1]} {
+    transport http {
+      tls
+      tls_insecure_skip_verify
+    }
+  }
+}
+
+# Fetch certificates using Cloudflare DNS
+
+(letsencrypt_cloudflare_dns) {
+  tls {
+    dns cloudflare {env.CF_API_TOKEN}
+  }
+}
+
+{% for service in caddy_services %}
+# {{ service.name }}
+{{ caddy_lan_prefix }}.{{ service.host }}.{{ caddy_internet_host }},
+{{ service.host }}.{{ caddy_internet_host }} {
+
+  import letsencrypt_cloudflare_dns
+{% if service.oauth_proxy is defined %}
+  {%- if service.tls %}
+  import proxy_oauth_tls {{ service.oauth_proxy.ip }}:{{ service.oauth_proxy.port }} https://{{ service.ip }}:{{ service.port }}
+  {% else %}
+  import proxy_oauth {{ service.oauth_proxy.ip }}:{{ service.oauth_proxy.port }} {{ service.ip }}:{{ service.port }}
+  {% endif %}
+{% else %}
+  {%- if service.tls %}
+  import proxy_tls https://{{ service.ip }}:{{ service.port }}
+  {% else %}
+  import proxy {{ service.ip }}:{{ service.port }}
+  {% endif %}
+{% endif %}
+
+}
+
+{% endfor %}

@@ -1,0 +1,9 @@
+FROM public.ecr.aws/docker/library/caddy:builder AS builder
+
+{% set extensions = caddy_extensions | join(' --with ') %}
+
+RUN xcaddy build --with {{ extensions }}
+
+FROM public.ecr.aws/docker/library/caddy:latest
+
+COPY --from=builder /usr/bin/caddy /usr/bin/caddy

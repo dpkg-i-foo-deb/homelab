@@ -1,9 +1,18 @@
 - name: Configure hypervisor(s)
   hosts: hypervisors
   tasks:
-    - name: Powertop configuration
-      ansible.builtin.import_role:
+    - name: Ensure the powertop package is installed
+      become: true
+      ansible.builtin.package:
         name: powertop
+        state: present
+
+    - name: Ensure powertop is running and starts on boot
+      become: true
+      ansible.builtin.service:
+        name: powertop
+        state: started
+        enabled: true
 
     - name: Cockpit configuration
       ansible.builtin.import_role:

@@ -1,8 +1,0 @@
----
-- name: Ensure docker packages are installed
-  become: true
-  ansible.builtin.package:
-    name:
-      - docker.io
-      - containerd
-    state: present

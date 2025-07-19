@@ -1,33 +1,75 @@
 - name: Configure reverse proxy
   hosts: reverse_proxy
   tasks:
-    - name: Deploy Caddy
-      ansible.builtin.import_role:
-        name: caddy
+    - name: Template Caddyfile for private network server
+      become: true
       vars:
-        caddy_user: '{{ reverse_proxy_user }}'
         caddy_lan_prefix: '{{ lan_prefix }}'
         caddy_internet_host: '{{ internet_host }}'
         caddy_services: "{{ homelab_services | dict2items | map(attribute='value') | list }}"
-        caddy_container: caddy
-        caddy_data_vol: caddy_data
-        caddy_conf_vol: caddy_conf
-        caddy_conf_dir: /var/caddy
-        caddy_internet_facing: false
-        caddy_networks: 'host'
-        caddy_image: 'caddy-private'
+
+      ansible.builtin.template:
+        src: templates/caddy/Caddyfile-private.j2
+        dest: '/var/caddy/Caddyfile'
+        mode: '0644'
+        owner: '{{ container_user }}'
+        group: '{{ container_user }}'
+
+    - name: Build Caddy image
+      become: true
+      become_user: '{{ container_user }}'
+      vars:
         caddy_extensions:
           - github.com/caddy-dns/cloudflare
           - github.com/corazawaf/coraza-caddy/v2
           - github.com/mholt/caddy-l4
-        caddy_cloudflare_token: !vault |
-          $ANSIBLE_VAULT;1.1;AES256
-          30383031646136366238343335666164363934646564663434643131323861336362616238303735
-          3730356635333337623830353965653831616362646634660a666230376330633166653937386664
-          33363938383431333364386663663465303730333261386531666635306135373732303263313437
-          6562353139353534390a656563373730616431316638363439363364333465623336396336626232
-          38356164656137626662653435363739366136646266653164303433313739636166373338613866
-          3166643262633138316233396335343337333530346631613134
+      containers.podman.podman_image:
+        name: 'caddy-private:latest'
+        state: build
+        force: true
+        build:
+          container_file: "{{ lookup('template', 'caddy/Containerfile.j2') }}"
+
+    # - name: Deploy Caddy
+    #   ansible.builtin.import_role:
+    #     name: caddy
+    #   vars:
+    #     caddy_user: '{{ container_user }}'
+
+    #     caddy_container: caddy
+    #     caddy_data_vol: caddy_data
+    #     caddy_conf_vol: caddy_conf
+    #     caddy_conf_dir: /var/caddy
+    #     caddy_internet_facing: false
+    #     caddy_networks: 'host'
+    #     caddy_image: 'caddy-private'
+
+    - name: Deploy Caddy
+      ansible.builtin.import_role:
+        name: dpkg_i_foo_deb.homelab.quadlet_service
+      vars:
+        quadlet_service_definition:
+          name: caddy
+          image: 'localhost/caddy-private:latest'
+          user: '{{ container_user }}'
+          host_network: true
+          volumes:
+            - name: 'caddy_data'
+              dest: '/data:z'
+            - name: 'caddy_conf'
+              dest: '/config:z'
+          file_mounts:
+            - src: '/var/caddy/Caddyfile'
+              dest: '/etc/caddy/Caddyfile:z'
+          env:
+            CF_API_TOKEN: !vault |
+              $ANSIBLE_VAULT;1.1;AES256
+              30383031646136366238343335666164363934646564663434643131323861336362616238303735
+              3730356635333337623830353965653831616362646634660a666230376330633166653937386664
+              33363938383431333364386663663465303730333261386531666635306135373732303263313437
+              6562353139353534390a656563373730616431316638363439363364333465623336396336626232
+              38356164656137626662653435363739366136646266653164303433313739636166373338613866
+              3166643262633138316233396335343337333530346631613134
 
     - name: Deploy Wazuh agent
       ansible.builtin.import_role:

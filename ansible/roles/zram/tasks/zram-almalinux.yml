@@ -1,7 +1,0 @@
----
-- name: Install zram tools for Almalinux
-  become: true
-  ansible.builtin.package:
-    name:
-      - zram-generator
-    state: present
