@@ -91,6 +91,7 @@ security:
   hosts:
     security_vm:
       ansible_host: 10.0.0.11
+      container_user: security
 reverse_proxy:
   hosts:
     private_reverse_proxy:

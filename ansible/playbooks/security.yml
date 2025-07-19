@@ -1,10 +1,7 @@
 - name: Configure security virtual machine
   hosts: security
   vars:
-    security_user: security
     security_network: security
-    podman_user: '{{ security_user }}'
-
     security_keycloak_pg_pass: !vault |
       $ANSIBLE_VAULT;1.1;AES256
       34623238643730623933356136663966326437333764343138313661383733393837326336376162
@@ -40,7 +37,7 @@
         podman_login_registry: '{{ registry_host }}.{{ internet_host }}'
         podman_login_user: '{{ homelab_registry_user }}'
         podman_login_pass: '{{ homelab_registry_pass }}'
-        podman_user: '{{ security_user }}'
+        podman_user: '{{ container_user }}'
 
     - name: Deploy Postgres for keycloak
       ansible.builtin.import_role:
@@ -49,7 +46,7 @@
         quadlet_service_definition:
           name: postgres
           image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/library/postgres:latest'
-          user: '{{ security_user }}'
+          user: '{{ container_user }}'
           networks:
             - name: '{{ security_network }}'
           ports:
@@ -104,7 +101,7 @@
         name: vaultwarden
       vars:
         vaultwarden_container: vaultwarden
-        vaultwarden_user: '{{ security_user }}'
+        vaultwarden_user: '{{ container_user }}'
         vaultwarden_data: 'vaultwarden'
         vaultwarden_admin_token: !vault |
           $ANSIBLE_VAULT;1.1;AES256
@@ -136,7 +133,7 @@
       ansible.builtin.import_role:
         name: wazuh_indexer
       vars:
-        wazuh_indexer_user: '{{ security_user }}'
+        wazuh_indexer_user: '{{ container_user }}'
         wazuh_indexer_container: 'wazuh_indexer'
         wazuh_indexer_image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/wazuh/wazuh-indexer'
         wazuh_indexer_admin_hash: '$2y$12$PFQeLaOF/IlLbEmdGxX9R.Q1WJEkVmkvEAYQFjhb48ISHwAV1VAui'
@@ -155,7 +152,7 @@
       ansible.builtin.import_role:
         name: wazuh_manager
       vars:
-        wazuh_manager_user: '{{ security_user }}'
+        wazuh_manager_user: '{{ container_user }}'
         wazuh_manager_container: 'wazuh_manager'
         wazuh_manager_image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/wazuh/wazuh-manager'
         wazuh_manager_network: '{{ security_network }}'
@@ -208,7 +205,7 @@
       ansible.builtin.import_role:
         name: wazuh_dashboard
       vars:
-        wazuh_dashboard_user: '{{ security_user }}'
+        wazuh_dashboard_user: '{{ container_user }}'
         wazuh_dashboard_version: '4.11.0'
         wazuh_dashboard_container: 'wazuh_dashboard'
         wazuh_dashboard_image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/wazuh/wazuh-dashboard'
