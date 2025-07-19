@@ -1,33 +1,56 @@
 ---
 - name: Ensure Podman bind mounts host paths exist for {{ quadlet_service_definition.name }}
-  loop: "{{ quadlet_service_definition.bind_mounts | default([]) }}"
+  loop: "{{ quadlet_service_definition.dir_mounts | default([]) }}"
   loop_control:
-    loop_var: bind_mount
-  when: bind_mount.src is defined
+    loop_var: dir_mount
+  when: dir_mount.src is defined
   become: true
   become_user: '{{ quadlet_service_definition.user }}'
   ansible.builtin.file:
-    state: "{{ 'file' if bind_mount.type == 'file' else 'directory' }}"
-    path: '{{ bind_mount.src }}'
-    mode: '{{ bind_mount.mode | default(default_bind_mount_mode) }}'
-    recurse: "{{ bind_mount.recurse | default(default_bind_mount_recurse) if bind_mount.type != 'file' else omit }}"
-    owner: '{{ bind_mount.owner | default(quadlet_service_definition.user) }}'
-    group: '{{ bind_mount.group | default(quadlet_service_definition.user) }}'
+    state: 'directory'
+    path: '{{ dir_mount.src }}'
+    mode: '{{ dir_mount.mode | default(default_bind_mount_mode) }}'
+    recurse: "{{ dir_mount.recurse | default(default_bind_mount_recurse) }}"
+    owner: '{{ dir_mount.owner | default(quadlet_service_definition.user) }}'
+    group: '{{ dir_mount.group | default(quadlet_service_definition.user) }}'
 
-- name: Add bind_mounts to combined_volumes
+- name: Add dir_mounts to combined_volumes
   ansible.builtin.set_fact:
     combined_volumes: >-
       {{ combined_volumes + [
         (item.src + ':' + item.dest)
       ] }}
-  when: quadlet_service_definition.bind_mounts is defined and quadlet_service_definition.bind_mounts | length > 0
-  loop: "{{ quadlet_service_definition.bind_mounts }}"
+  when: quadlet_service_definition.dir_mounts is defined and quadlet_service_definition.dir_mounts | length > 0
+  loop: "{{ quadlet_service_definition.dir_mounts }}"
 
-- name: Add system_bind_mounts to combined_volumes
+- name: Ensure Podman file mounts exist for {{ quadlet_service_definition.name }}
+  loop: "{{ quadlet_service_definition.file_mounts | default([]) }}"
+  loop_control:
+    loop_var: file_mount
+  when: file_mount.src is defined
+  become: true
+  become_user: '{{ quadlet_service_definition.user }}'
+  ansible.builtin.file:
+    state: 'file'
+    path: '{{ file_mount.src }}'
+    mode: '{{ file_mount.mode | default(default_bind_mount_mode) }}'
+    owner: '{{ file_mount.owner | default(quadlet_service_definition.user) }}'
+    group: '{{ file_mount.group | default(quadlet_service_definition.user) }}'
+
+- name: Add file_mounts to combined_volumes
   ansible.builtin.set_fact:
     combined_volumes: >-
       {{ combined_volumes + [
         (item.src + ':' + item.dest)
       ] }}
-  when: quadlet_service_definition.system_bind_mounts is defined and quadlet_service_definition.system_bind_mounts | length > 0
-  loop: "{{ quadlet_service_definition.system_bind_mounts }}"
+  when: quadlet_service_definition.file_mounts is defined and quadlet_service_definition.file_mounts | length > 0
+  loop: "{{ quadlet_service_definition.file_mounts }}"
+
+- name: Add system_mounts to combined_volumes
+  ansible.builtin.set_fact:
+    combined_volumes: >-
+      {{ combined_volumes + [
+        (item.src + ':' + item.dest)
+      ] }}
+  when: quadlet_service_definition.system_mounts is defined and quadlet_service_definition.system_mounts | length > 0
+  loop: "{{ quadlet_service_definition.system_mounts }}"

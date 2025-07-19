@@ -61,7 +61,7 @@
           volumes:
             - name: 'guacamole_postgres'
               dest: '/var/lib/postgresql/data:z'
-          bind_mounts:
+          file_mounts:
             - src: '/var/guacamole_web/initdb.sql'
               dest: '/docker-entrypoint-initdb.d/initdb.sql:z'
               type: 'file'

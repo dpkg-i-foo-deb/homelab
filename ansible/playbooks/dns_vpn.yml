@@ -9,27 +9,66 @@
           6564323538613133300a613466343737303632373035666361373738623137626239353730346166
           6666
   tasks:
-    - name: Deploy Pi-Hole
+    - name: Allow usage of privileged ports by rootless processes
       ansible.builtin.import_role:
-        name: pihole
-      vars:
-        pihole_user: "{{ container_user }}"
-        pihole_container: "pihole"
-        pihole_data_vol: "pihole_data"
-        pihole_dns_listen_mode: "all"
-        pihole_http_pass: '{{ dns_sync_pass }}'
-        pihole_wildcards_dir: "/var/pihole"
-        pihole_wildcard_records: []
+        name: podman
+        tasks_from: rootless_ports
 
-    - name: Deploy Wazuh agent
+    - name: Ensure systemd-resolved is stopped and disabled
+      become: true
+      ansible.builtin.systemd_service:
+        name: systemd-resolved
+        state: stopped
+        enabled: false
+
+    - name: Delete resolv.conf in case it is symlinked
+      become: true
+      ansible.builtin.file:
+        path: "/etc/resolv.conf"
+        state: absent
+
+    - name: Ensure resolv.conf is present
+      become: true
+      ansible.builtin.copy:
+        src: "files/resolv.conf"
+        dest: "/etc/resolv.conf"
+        owner: "root"
+        group: "root"
+        mode: "0644"
+
+    - name: Template wildcard dns configuration
+      become: true
+      ansible.builtin.template:
+        src: "templates/wildcard-domains.conf.j2"
+        dest: "/var/pihole/99-wildcard-domains.conf"
+        owner: "{{ container_user }}"
+        group: "{{ container_user }}"
+        mode: "0755"
+
+    # - name: Deploy Pi-Hole
+    #   ansible.builtin.import_role:
+    #     name: pihole
+    #   vars:
+    #     pihole_user: "{{ container_user }}"
+    #     pihole_container: "pihole"
+    #     pihole_data_vol: "pihole_data"
+    #     pihole_dns_listen_mode: "all"
+    #     pihole_http_pass: '{{ dns_sync_pass }}'
+    #     pihole_wildcards_dir: "/var/pihole"
+    #     pihole_wildcard_records: []
+
+    - name: Deploy pi-hole
       ansible.builtin.import_role:
-        name: wazuh_agent
+        name: dpkg_i_foo_deb.homelab.quadlet_service
       vars:
-        wazuh_agent_version: '4.x'
-        wazuh_agent_manager_host: '{{ siem_host }}'
-        wazuh_agent_registration_pass: '{{ siem_enrollment_pass }}'
-        wazuh_agent_name: '{{ siem_agent }}'
-        wazuh_agent_groups: '{{ groups }}'
+        quadlet_service_definition:
+          name: 'pihole'
+          image: 'docker.io/pihole/pihole:latest'
+          host_network: true
+          volumes:
+            - name: 'pihole_data'
+              dest: '/etc/pihole:z'
+          bind_mounts:
 
 - name: Configure VPN DNS Sync
   hosts: primary_vpn_dns

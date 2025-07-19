@@ -1,0 +1,3 @@
+{% for record in pihole_wildcard_records %}
+address=/{{ record.host }}/{{ record.ip }}
+{% endfor %}
