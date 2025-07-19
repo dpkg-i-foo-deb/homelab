@@ -83,10 +83,10 @@
             - '--config.file=/etc/prometheus/prometheus.yml'
           file_mounts:
             - src: '/var/prometheus/prometheus.yml'
-              dst: '/etc/prometheus/prometheus.yml:z'
+              dest: '/etc/prometheus/prometheus.yml:z'
           dir_mounts:
             - src: '/metrics/prometheus'
-              dst: '/prometheus:z'
+              dest: '/prometheus:z'
           ports:
             - '9090:9090'
 
