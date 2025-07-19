@@ -86,26 +86,6 @@
             # KC_BOOTSTRAP_ADMIN_USERNAME
             # KC_BOOTSTRAP_ADMIN_PASSWORD
 
-    # - name: Deploy Vaultwarden
-    #   ansible.builtin.import_role:
-    #     name: vaultwarden
-    #   vars:
-    #     vaultwarden_container: vaultwarden
-    #     vaultwarden_user: '{{ container_user }}'
-    #     vaultwarden_data: 'vaultwarden'
-    #     vaultwarden_admin_token: !vault |
-    #       $ANSIBLE_VAULT;1.1;AES256
-    #       62333933613636626334633735643234373361643037303733353264663733363234396261343332
-    #       6333656663366337663236633437303832643165303361330a356163613365633131363662323235
-    #       33373233656437303835306231623065613133363263323334643839363161633030333034376563
-    #       3830386264633761310a653065356265356334343831336132343366333932646534326663376235
-    #       36656634623663356266343131666236666638383865373366323266623237366363356431336233
-    #       36616664613965386563623064663030636137363365666139353036383134656639383136623835
-    #       31363662613932623136646332383738663433376634363637333533333466383538323832613638
-    #       35656232303366366331
-    #     vaultwarden_signups_allowed: 'false'
-    #     vaultwarden_host: '{{ password_mgr_host }}'
-
     - name: Deploy Vaultwarden
       ansible.builtin.import_role:
         name: dpkg_i_foo_deb.homelab.quadlet_service
