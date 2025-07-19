@@ -1,18 +1,18 @@
 ---
-- name: Ensure there's a directory to store guacamole-web init script
-  become: true
-  ansible.builtin.file:
-    path: '{{ guacamole_web_initdb_path }}'
-    owner: '{{ guacamole_web_user }}'
-    group: '{{ guacamole_web_user }}'
-    state: directory
-    mode: '0777'
+# - name: Ensure there's a directory to store guacamole-web init script
+#   become: true
+#   ansible.builtin.file:
+#     path: '{{ guacamole_web_initdb_path }}'
+#     owner: '{{ guacamole_web_user }}'
+#     group: '{{ guacamole_web_user }}'
+#     state: directory
+#     mode: '0777'
 
-- name: Ensure initdb script is present on the host
-  become: true
-  ansible.builtin.copy:
-    src: files/initdb.sql
-    dest: '{{ guacamole_web_initdb_path }}/initdb.sql'
-    mode: '0777'
-    owner: '{{ guacamole_web_user }}'
-    group: '{{ guacamole_web_user }}'
+# - name: Ensure initdb script is present on the host
+#   become: true
+#   ansible.builtin.copy:
+#     src: files/initdb.sql
+#     dest: '{{ guacamole_web_initdb_path }}/initdb.sql'
+#     mode: '0777'
+#     owner: '{{ guacamole_web_user }}'
+#     group: '{{ guacamole_web_user }}'

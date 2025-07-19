@@ -30,26 +30,23 @@
         podman_login_pass: '{{ homelab_registry_pass }}'
         podman_user: '{{ bastion_user }}'
 
-    - name: Ensure Guacamole database init script is present
-      ansible.builtin.import_role:
-        name: guacamole_web
-        tasks_from: initdb.yml
-      vars:
-        guacamole_web_user: '{{ bastion_user }}'
-        guacamole_web_initdb_path: '/var/guacamole_web'
+    - name: Ensure there's a directory to store guacamole-web init script
+      become: true
+      ansible.builtin.file:
+        path: '/var/guacamole_web'
+        owner: '{{ container_user }}'
+        group: '{{ container_user }}'
+        state: directory
+        mode: '0777'
 
-    # - name: Deploy Postgres for Guacamole
-    #   ansible.builtin.import_role:
-    #     name: postgres
-    #   vars:
-    #     postgres_podman_user: '{{ bastion_user }}'
-    #     postgres_container: '{{ bastion_guacamole_postgres_db }}'
-    #     postgres_data_vol: 'guacamole_postgres'
-    #     postgres_db: '{{ bastion_guacamole_postgres_db }}'
-    #     postgres_user: '{{ bastion_guacamole_postgres_user }}'
-    #     postgres_pass: '{{ bastion_guacamole_postgres_pass }}'
-    #     postgres_network: '{{ bastion_guacamole_network }}'
-    #     postgres_init_script: '{{ bastion_guacamole_postgres_init_dir }}/initdb.sql'
+    - name: Ensure initdb script is present on the host
+      become: true
+      ansible.builtin.copy:
+        src: files/initdb.sql
+        dest: '/var/guacamole_web/initdb.sql'
+        mode: '0777'
+        owner: '{{ container_user }}'
+        group: '{{ container_user }}'
 
     - name: Deploy Postgres for Guacamole
       ansible.builtin.import_role:
@@ -75,15 +72,6 @@
             POSTGRES_DB: '{{ bastion_guacamole_postgres_db }}'
             POSTGRES_USER: '{{ bastion_guacamole_postgres_user }}'
             POSTGRES_PASSWORD: '{{ bastion_guacamole_postgres_pass }}'
-
-    # - name: Deploy Guacamole guacd
-    #   ansible.builtin.import_role:
-    #     name: guacamole_guacd
-    #   vars:
-    #     guacamole_guacd_user: '{{ bastion_user }}'
-    #     guacamole_guacd_container: guacamole_guacd
-    #     guacamole_guacd_network: '{{ bastion_guacamole_network }}'
-    #     guacamole_guacd_image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/guacamole/guacd:latest'
 
     - name: Deploy Guacamole guacd
       ansible.builtin.import_role:
