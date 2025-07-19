@@ -32,7 +32,10 @@
       {{ omit
       if quadlet_service_definition.env is not defined or quadlet_service_definition.env | length == 0
       else quadlet_service_definition.env }}
-    cap_add: "{{ quadlet_service_definition.cap_add }}"
+    cap_add: >-
+      {{ omit
+      if quadlet_service_definition.cap_add is not defined or quadlet_service_definition.cap_add | length == 0
+      else quadlet_service_definition.cap_add }}
     quadlet_options:
       - 'AutoUpdate={{ quadlet_service_definition.auto_update_strategy | default(default_auto_update_strategy) }}'
       - 'Pull={{ quadlet_service_definition.pull_strategy | default(default_pull_strategy) }}'
