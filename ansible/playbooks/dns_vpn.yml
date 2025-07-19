@@ -68,7 +68,16 @@
           volumes:
             - name: 'pihole_data'
               dest: '/etc/pihole:z'
-          bind_mounts:
+          file_mounts:
+            - src: '/var/pihole/99-wildcard-domains.conf'
+              dest: '/etc/dnsmasq.d/99-wildcard-domains.conf:z'
+          env:
+            FTLCONF_webserver_api_password: "dns_sync_pass"
+            FTLCONF_dns_listeningMode: "all"
+          cap_add:
+            - NET_ADMIN
+            - SYS_TIME
+            - SYS_NICE
 
 - name: Configure VPN DNS Sync
   hosts: primary_vpn_dns

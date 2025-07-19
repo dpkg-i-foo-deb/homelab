@@ -22,7 +22,7 @@
           volumes:
             - name: 'qbittorrent_data'
               dest: '/config:z'
-          bind_mounts:
+          dir_mounts:
             - src: '/downloads'
               dest: '/downloads:z'
           ports:

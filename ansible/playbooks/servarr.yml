@@ -27,7 +27,7 @@
               dest: '/app/configs:z'
             - name: 'tdarr_server'
               dest: '/app/server:z'
-          bind_mounts:
+          dir_mounts:
             - src: '/var/servarr-cache'
               dest: '/temp:z'
             - src: '/music'
@@ -80,7 +80,7 @@
           volumes:
             - name: 'lidarr_data'
               dest: '/config:z'
-          bind_mounts:
+          dir_mounts:
             - src: '/music'
               dest: '/music:z'
             - src: '/downloads'
