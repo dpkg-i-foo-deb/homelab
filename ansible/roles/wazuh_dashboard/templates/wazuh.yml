@@ -1,7 +1,0 @@
-hosts:
-  - 1513629884013:
-      url: "https://{{ wazuh_dashboard_manager_host }}"
-      port: 55000
-      username: {{ wazuh_dashboard_manager_user }}
-      password: "{{ wazuh_dashboard_manager_pass }}"
-      run_as: false
