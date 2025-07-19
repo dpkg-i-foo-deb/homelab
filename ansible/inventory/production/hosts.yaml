@@ -101,7 +101,7 @@ knowledge_management:
   hosts:
     knowledge:
       ansible_host: 10.0.0.10
-      knowledge_user: knowledge
+      container_user: knowledge
 game_servers:
   hosts:
     game_server:

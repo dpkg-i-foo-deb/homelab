@@ -1,9 +1,5 @@
 - name: Configure knowledge virtual machine
   hosts: knowledge
-  vars:
-    knowledge_network: knowledge
-    knowledge_user: knowledge
-
   tasks:
 
     - name: Login to homelab registry
@@ -14,24 +10,40 @@
         podman_login_registry: '{{ registry_host }}.{{ internet_host }}'
         podman_login_user: '{{ homelab_registry_user }}'
         podman_login_pass: '{{ homelab_registry_pass }}'
-        podman_user: '{{ knowledge_user }}'
+        podman_user: '{{ container_user }}'
 
+
+    # - name: Deploy Trilium Next
+    #   ansible.builtin.import_role:
+    #     name: trilium
+    #   vars:
+    #     trilium_user: '{{ container_user }}'
+    #     trilium_container: 'trilium'
+    #     trilium_image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/triliumnext/notes:latest'
+    #     trilium_http_port: '8080'
+    #     trilium_data: 'trilium_data'
 
     - name: Deploy Trilium Next
       ansible.builtin.import_role:
-        name: trilium
+        name: dpkg_i_foo_deb.homelab.quadlet_service
       vars:
-        trilium_user: '{{ knowledge_user }}'
-        trilium_container: 'trilium'
-        trilium_image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/triliumnext/notes:latest'
-        trilium_http_port: '8080'
-        trilium_data: 'trilium_data'
+        quadlet_service_definition:
+          name: trilium
+          image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/triliumnext/notes:latest'
+          user: '{{ container_user }}'
+          ports:
+            - '8080:8080'
+          volumes:
+            - name: 'trilium_data'
+              dest: '/home/node/trilium-data:z'
+          env:
+            - TRILIUM_DATA_DIR: '/home/node/trilium-data'
 
     - name: Deploy oauth2_proxy for Trilium next
       ansible.builtin.import_role:
         name: oauth2_proxy
       vars:
-        oauth2_proxy_user: '{{ knowledge_user }}'
+        oauth2_proxy_user: '{{ container_user }}'
         oauth2_proxy_container: 'trillium-oauth2-proxy'
         oauth2_proxy_image: '{{ registry_host }}.{{ internet_host }}/quay-proxy/oauth2-proxy/oauth2-proxy'
         oauth2_proxy_port: '4180'
@@ -58,7 +70,7 @@
       ansible.builtin.import_role:
         name: freshrss
       vars:
-        freshrss_user: '{{ knowledge_user }}'
+        freshrss_user: '{{ container_user }}'
         freshrss_container: 'freshrss'
         freshrss_image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/freshrss/freshrss'
         freshrss_http_port: '8081'
