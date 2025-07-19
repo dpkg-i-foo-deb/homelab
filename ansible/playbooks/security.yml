@@ -279,21 +279,17 @@
               3163373065333763640a626362316461376331366234623137316363343138396162643265353531
               32383266613039643463663639396330633264396135616631393461663765313638
 
-    - name: Deploy Wazuh Dashboard
-      ansible.builtin.import_role:
-        name: wazuh_dashboard
+    - name: Copy Opensearch configuration file
+      become: true
+      ansible.builtin.copy:
+        src: files/wazuh_dashboard/opensearch_dashboards.yml
+        dest: '/var/wazuh_dashboard/opensearch_dashboards.yml'
+        owner: '{{ wazuh_dashboard_user }}'
+        group: '{{ wazuh_dashboard_user }}'
+        mode: '0777'
+
+    - name: Template Wazuh dashboard configuration file
       vars:
-        wazuh_dashboard_user: '{{ container_user }}'
-        wazuh_dashboard_version: '4.11.0'
-        wazuh_dashboard_container: 'wazuh_dashboard'
-        wazuh_dashboard_image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/wazuh/wazuh-dashboard'
-        wazuh_dashboard_hostname: 'wazuh.dashboard'
-        wazuh_dashboard_network: '{{ security_network }}'
-        wazuh_dashboard_https: '5601'
-        wazuh_dashboard_api_config_vol: 'wazuh_dashboard_api_conf'
-        wazuh_dashboard_custom_vol: 'wazuh_dashboard_custom'
-        wazuh_dashboard_ssl_certs_dir: '{{ security_wazuh_certs }}'
-        wazuh_dashboard_config_dir: '/var/wazuh_dashboard'
         wazuh_dashboard_manager_host: 'wazuh.manager'
         wazuh_dashboard_manager_user: !vault |
           $ANSIBLE_VAULT;1.1;AES256
@@ -309,37 +305,127 @@
           32383532643362313830653033393234326531353238653832363965643639653465653634393264
           3163373065333763640a626362316461376331366234623137316363343138396162643265353531
           32383266613039643463663639396330633264396135616631393461663765313638
-        wazuh_dashboard_indexer_username: 'admin'
-        wazuh_dashboard_indexer_password: !vault |
-          $ANSIBLE_VAULT;1.1;AES256
-          37653335646362666438386235303265616231653264633630323638346363383439336334613830
-          3532393131333237643364653066376563386337373737310a656464613135386166336366333261
-          61646166303636393137373437316639623932376537343338353036393734356631353531633237
-          3038653332346566350a373566366163343732363263653935626531326566356437653532356638
-          3832
-        wazuh_dashboard_username: 'admin'
-        wazuh_dashboard_password: !vault |
-          $ANSIBLE_VAULT;1.1;AES256
-          37653335646362666438386235303265616231653264633630323638346363383439336334613830
-          3532393131333237643364653066376563386337373737310a656464613135386166336366333261
-          61646166303636393137373437316639623932376537343338353036393734356631353531633237
-          3038653332346566350a373566366163343732363263653935626531326566356437653532356638
-          3832
-        wazuh_dashboard_api_url: 'https://wazuh.manager'
-        wazuh_dashboard_api_user: !vault |
-          $ANSIBLE_VAULT;1.1;AES256
-          32353235636634353461663335653263373766626664623861623137643536666336663561383462
-          6361633932623232643231396266336138393966636234310a363137386133626135336530633433
-          63623365303866663438623463303536613832623638616661343663313731373462316232666464
-          3836633366656433610a343031383261616562626432303230393363663234633434633136633131
-          3631
-        wazuh_dashboard_api_pass: !vault |
-          $ANSIBLE_VAULT;1.1;AES256
-          39353361343538626337383866653139323338306335653965643063356336623737333636663265
-          3731633536386635623064366432303731636331313364660a313664366334373432356465623535
-          32383532643362313830653033393234326531353238653832363965643639653465653634393264
-          3163373065333763640a626362316461376331366234623137316363343138396162643265353531
-          32383266613039643463663639396330633264396135616631393461663765313638
+      become: true
+      ansible.builtin.template:
+        src: templates/wazuh_dashboard/wazuh.yml
+        dest: '/var/wazuh_dashboard/wazuh.yml'
+        owner: '{{ container_user }}'
+        group: '{{ container_user }}'
+        mode: '0777'
+
+
+    # - name: Deploy Wazuh Dashboard
+    #   ansible.builtin.import_role:
+    #     name: wazuh_dashboard
+    #   vars:
+    #     wazuh_dashboard_user: '{{ container_user }}'
+    #     wazuh_dashboard_version: '4.11.0'
+    #     wazuh_dashboard_container: 'wazuh_dashboard'
+    #     wazuh_dashboard_image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/wazuh/wazuh-dashboard'
+    #     wazuh_dashboard_hostname: 'wazuh.dashboard'
+    #     wazuh_dashboard_network: '{{ security_network }}'
+    #     wazuh_dashboard_https: '5601'
+    #     wazuh_dashboard_api_config_vol: 'wazuh_dashboard_api_conf'
+    #     wazuh_dashboard_custom_vol: 'wazuh_dashboard_custom'
+    #     wazuh_dashboard_ssl_certs_dir: '{{ security_wazuh_certs }}'
+    #     wazuh_dashboard_config_dir: '/var/wazuh_dashboard'
+    #
+    #
+
+    #     wazuh_dashboard_indexer_username: 'admin'
+    #     wazuh_dashboard_indexer_password: !vault |
+    #       $ANSIBLE_VAULT;1.1;AES256
+    #       37653335646362666438386235303265616231653264633630323638346363383439336334613830
+    #       3532393131333237643364653066376563386337373737310a656464613135386166336366333261
+    #       61646166303636393137373437316639623932376537343338353036393734356631353531633237
+    #       3038653332346566350a373566366163343732363263653935626531326566356437653532356638
+    #       3832
+    #     wazuh_dashboard_username: 'admin'
+    #     wazuh_dashboard_password: !vault |
+    #       $ANSIBLE_VAULT;1.1;AES256
+    #       37653335646362666438386235303265616231653264633630323638346363383439336334613830
+    #       3532393131333237643364653066376563386337373737310a656464613135386166336366333261
+    #       61646166303636393137373437316639623932376537343338353036393734356631353531633237
+    #       3038653332346566350a373566366163343732363263653935626531326566356437653532356638
+    #       3832
+    #     wazuh_dashboard_api_url: 'https://wazuh.manager'
+    #     wazuh_dashboard_api_user: !vault |
+    #       $ANSIBLE_VAULT;1.1;AES256
+    #       32353235636634353461663335653263373766626664623861623137643536666336663561383462
+    #       6361633932623232643231396266336138393966636234310a363137386133626135336530633433
+    #       63623365303866663438623463303536613832623638616661343663313731373462316232666464
+    #       3836633366656433610a343031383261616562626432303230393363663234633434633136633131
+    #       3631
+    #     wazuh_dashboard_api_pass: !vault |
+    #       $ANSIBLE_VAULT;1.1;AES256
+    #       39353361343538626337383866653139323338306335653965643063356336623737333636663265
+    #       3731633536386635623064366432303731636331313364660a313664366334373432356465623535
+    #       32383532643362313830653033393234326531353238653832363965643639653465653634393264
+    #       3163373065333763640a626362316461376331366234623137316363343138396162643265353531
+    #       32383266613039643463663639396330633264396135616631393461663765313638
+
+    - name: Deploy Wazuh Dashboard
+      ansible.builtin.import_role:
+        name: dpkg_i_foo_deb.homelab.quadlet_service
+      vars:
+        quadlet_service_definition:
+          name: wazuh_dashboard
+          image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/wazuh/wazuh-dashboard:4.11.0'
+          user: '{{ container_user }}'
+          networks:
+            - name: '{{ security_network }}'
+          hostname: 'wazuh.dashboard'
+          ports:
+            - '5601:5601'
+          volumes:
+            - name: 'wazuh_dashboard_api_conf'
+              dest: '/usr/share/wazuh-dashboard/data/wazuh/config:z'
+            - name: 'wazuh_dashboard_custom'
+              dest: '/usr/share/wazuh-dashboard/plugins/wazuh/public/assets/custom:z'
+          file_mounts:
+            - src: '/var/wazuh/wazuh.dashboard.pem'
+              dest: '/usr/share/wazuh-dashboard/certs/wazuh-dashboard.pem:z'
+            - src: '/var/wazuh/wazuh-dashboard-key.pem'
+              dest: '/usr/share/wazuh-dashboard/certs/wazuh-dashboard-key.pem:z'
+            - src: 'var/wazuh/root-ca.pem'
+              dest: '/usr/share/wazuh-dashboard/certs/root-ca.pem:z'
+            - src: '/var/wazuh_dashboard/opensearch_dashboards.yml'
+              dest: '/usr/share/wazuh-dashboard/opensearch_dashboards.yml:z'
+            - src: '/var/wazuh_dashboard/wazuh.yml'
+              dest: '/usr/share/wazuh-dashboard/data/wazuh/config/wazuh.yml:z'
+          env:
+            INDEXER_USERNAME: 'admin'
+            INDEXER_PASSWORD: !vault |
+              $ANSIBLE_VAULT;1.1;AES256
+              37653335646362666438386235303265616231653264633630323638346363383439336334613830
+              3532393131333237643364653066376563386337373737310a656464613135386166336366333261
+              61646166303636393137373437316639623932376537343338353036393734356631353531633237
+              3038653332346566350a373566366163343732363263653935626531326566356437653532356638
+              3832
+            WAZUH_API_URL: 'https://wazuh.manager'
+            DASHBOARD_USERNAME: 'admin'
+            DASHBOARD_PASSWORD: !vault |
+              $ANSIBLE_VAULT;1.1;AES256
+              37653335646362666438386235303265616231653264633630323638346363383439336334613830
+              3532393131333237643364653066376563386337373737310a656464613135386166336366333261
+              61646166303636393137373437316639623932376537343338353036393734356631353531633237
+              3038653332346566350a373566366163343732363263653935626531326566356437653532356638
+              3832
+            API_USERNAME: !vault |
+              $ANSIBLE_VAULT;1.1;AES256
+              32353235636634353461663335653263373766626664623861623137643536666336663561383462
+              6361633932623232643231396266336138393966636234310a363137386133626135336530633433
+              63623365303866663438623463303536613832623638616661343663313731373462316232666464
+              3836633366656433610a343031383261616562626432303230393363663234633434633136633131
+              3631
+            API_PASSWORD: !vault |
+              $ANSIBLE_VAULT;1.1;AES256
+              39353361343538626337383866653139323338306335653965643063356336623737333636663265
+              3731633536386635623064366432303731636331313364660a313664366334373432356465623535
+              32383532643362313830653033393234326531353238653832363965643639653465653634393264
+              3163373065333763640a626362316461376331366234623137316363343138396162643265353531
+              32383266613039643463663639396330633264396135616631393461663765313638
+
 
     - name: Wait a minute for Keycloak to initialize
       ansible.builtin.pause:
