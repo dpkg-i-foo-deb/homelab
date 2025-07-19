@@ -11,10 +11,10 @@
           user: '{{ container_user }}'
           ports:
             - '8123:8123'
-          bind_mounts:
+          dir_mounts:
             - src: '/var/home-assistant'
               dest: '/config:z'
-          system_bind_mounts:
+          system_mounts:
             - src: '/etc/localtime'
               dest: '/etc/localtime:ro'
             - src: '/run/dbus'

@@ -64,7 +64,6 @@
           file_mounts:
             - src: '/var/guacamole_web/initdb.sql'
               dest: '/docker-entrypoint-initdb.d/initdb.sql:z'
-              type: 'file'
           env:
             POSTGRES_DB: '{{ bastion_guacamole_postgres_db }}'
             POSTGRES_USER: '{{ bastion_guacamole_postgres_user }}'
