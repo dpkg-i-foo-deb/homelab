@@ -92,15 +92,33 @@
             - src: '/logs/loki'
               dest: '/loki:z'
 
+    # - name: Deploy Grafana
+    #   ansible.builtin.import_role:
+    #     name: grafana
+    #   vars:
+    #     grafana_user: '{{ container_user }}'
+    #     grafana_container: 'grafana'
+    #     grafana_image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/grafana/grafana-oss:latest'
+    #     grafana_data_vol: 'grafana_data'
+    #     grafana_server_domain: 'https://{{ metrics_host }}.{{ internet_host }}'
+    #     grafana_server_root_url: 'https://{{ metrics_host }}.{{ internet_host }}'
+    #     grafana_basic_auth_enabled: 'false'
+    #     grafana_disable_login_form: 'true'
+
     - name: Deploy Grafana
       ansible.builtin.import_role:
-        name: grafana
+        name: dpkg_i_foo_deb.homelab.quadlet_service
       vars:
-        grafana_user: '{{ container_user }}'
-        grafana_container: 'grafana'
-        grafana_image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/grafana/grafana-oss:latest'
-        grafana_data_vol: 'grafana_data'
-        grafana_server_domain: 'https://{{ metrics_host }}.{{ internet_host }}'
-        grafana_server_root_url: 'https://{{ metrics_host }}.{{ internet_host }}'
-        grafana_basic_auth_enabled: 'false'
-        grafana_disable_login_form: 'true'
+        quadlet_service_definition:
+          name: grafana
+          image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/grafana/grafana-oss:latest'
+          user: '{{ container_user }}'
+          ports:
+            - '3000:3000'
+          volumes:
+            - name: 'grafana_data'
+          env:
+            GF_SERVER_DOMAIN: 'https://{{ metrics_host }}.{{ internet_host }}'
+            GF_SERVER_ROOT_URL: 'https://{{ metrics_host }}.{{ internet_host }}'
+            GF_AUTH_BASIC_ENABLED: 'false'
+            GF_AUTH_DISABLE_LOGIN_FORM: 'true'
