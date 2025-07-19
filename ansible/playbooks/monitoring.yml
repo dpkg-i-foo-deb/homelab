@@ -13,7 +13,6 @@
         podman_user: '{{ container_user }}'
 
     - name: Template Prometheus configuration file
-      notify: Restart Prometheus
       become: true
       vars:
         prometheus_scrape_jobs:
