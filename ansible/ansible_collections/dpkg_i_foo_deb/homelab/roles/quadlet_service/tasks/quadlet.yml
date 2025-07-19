@@ -17,7 +17,7 @@
           quadlet_service_definition.ports
         }}
     network: >-
-        {{ omit
+        {{ 'host'
         if quadlet_service_definition.host_network is defined and quadlet_service_definition.host_network
         else (
           quadlet_service_definition.networks | map(attribute='name') | list
