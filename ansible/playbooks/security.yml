@@ -284,8 +284,8 @@
       ansible.builtin.copy:
         src: files/wazuh_dashboard/opensearch_dashboards.yml
         dest: '/var/wazuh_dashboard/opensearch_dashboards.yml'
-        owner: '{{ wazuh_dashboard_user }}'
-        group: '{{ wazuh_dashboard_user }}'
+        owner: '{{ container_user }}'
+        group: '{{ container_user }}'
         mode: '0777'
 
     - name: Template Wazuh dashboard configuration file
