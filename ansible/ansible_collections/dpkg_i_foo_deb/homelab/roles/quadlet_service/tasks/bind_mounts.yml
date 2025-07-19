@@ -10,7 +10,7 @@
     state: "{{ 'file' if bind_mount.type == 'file' else 'directory' }}"
     path: '{{ bind_mount.src }}'
     mode: '{{ bind_mount.mode | default(default_bind_mount_mode) }}'
-    recurse: '{{ bind_mount.recurse | default(default_bind_mount_recurse) }}'
+    recurse: "{{ bind_mount.recurse | default(default_bind_mount_recurse) if bind_mount.type != 'file' else omit }}"
     owner: '{{ bind_mount.owner | default(quadlet_service_definition.user) }}'
     group: '{{ bind_mount.group | default(quadlet_service_definition.user) }}'
 
