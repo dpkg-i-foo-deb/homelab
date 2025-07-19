@@ -385,9 +385,9 @@
           file_mounts:
             - src: '/var/wazuh/wazuh.dashboard.pem'
               dest: '/usr/share/wazuh-dashboard/certs/wazuh-dashboard.pem:z'
-            - src: '/var/wazuh/wazuh-dashboard-key.pem'
+            - src: '/var/wazuh/wazuh.dashboard-key.pem'
               dest: '/usr/share/wazuh-dashboard/certs/wazuh-dashboard-key.pem:z'
-            - src: 'var/wazuh/root-ca.pem'
+            - src: '/var/wazuh/root-ca.pem'
               dest: '/usr/share/wazuh-dashboard/certs/root-ca.pem:z'
             - src: '/var/wazuh_dashboard/opensearch_dashboards.yml'
               dest: '/usr/share/wazuh-dashboard/opensearch_dashboards.yml:z'
