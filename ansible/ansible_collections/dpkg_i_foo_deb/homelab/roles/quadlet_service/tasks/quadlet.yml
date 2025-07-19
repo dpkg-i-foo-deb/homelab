@@ -6,6 +6,8 @@
   containers.podman.podman_container:
     name: '{{ quadlet_service_definition.name }}'
     image: '{{ quadlet_service_definition.image }}'
+    command: '{{ quadlet_service_definition.command | default(omit) }}'
+    userns: '{{ quadlet_service_definition.userns | default(omit) }}'
     state: quadlet
     quadlet_filename: '{{ quadlet_service_definition.filename | default(quadlet_service_definition.name, true) }}'
     ports: >-

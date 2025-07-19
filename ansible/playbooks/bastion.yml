@@ -31,13 +31,13 @@
         podman_login_pass: '{{ homelab_registry_pass }}'
         podman_user: '{{ bastion_user }}'
 
-    - name: Ensure there's a virtual network for Apache Guacamole
-      ansible.builtin.import_role:
-        name: podman
-        tasks_from: network
-      vars:
-        podman_network: '{{ bastion_guacamole_network }}'
-        podman_user: '{{ bastion_user }}'
+    # - name: Ensure there's a virtual network for Apache Guacamole
+    #   ansible.builtin.import_role:
+    #     name: podman
+    #     tasks_from: network
+    #   vars:
+    #     podman_network: '{{ bastion_guacamole_network }}'
+    #     podman_user: '{{ bastion_user }}'
 
     - name: Ensure Guacamole database init script is present
       ansible.builtin.import_role:
@@ -47,18 +47,39 @@
         guacamole_web_user: '{{ bastion_user }}'
         guacamole_web_initdb_path: '{{ bastion_guacamole_postgres_init_dir }}'
 
+    # - name: Deploy Postgres for Guacamole
+    #   ansible.builtin.import_role:
+    #     name: postgres
+    #   vars:
+    #     postgres_podman_user: '{{ bastion_user }}'
+    #     postgres_container: '{{ bastion_guacamole_postgres_db }}'
+    #     postgres_data_vol: 'guacamole_postgres'
+    #     postgres_db: '{{ bastion_guacamole_postgres_db }}'
+    #     postgres_user: '{{ bastion_guacamole_postgres_user }}'
+    #     postgres_pass: '{{ bastion_guacamole_postgres_pass }}'
+    #     postgres_network: '{{ bastion_guacamole_network }}'
+    #     postgres_init_script: '{{ bastion_guacamole_postgres_init_dir }}/initdb.sql'
+
     - name: Deploy Postgres for Guacamole
       ansible.builtin.import_role:
-        name: postgres
+        name: dpkg_i_foo_deb.homelab.quadlet_service
       vars:
-        postgres_podman_user: '{{ bastion_user }}'
-        postgres_container: '{{ bastion_guacamole_postgres_db }}'
-        postgres_data_vol: 'guacamole_postgres'
-        postgres_db: '{{ bastion_guacamole_postgres_db }}'
-        postgres_user: '{{ bastion_guacamole_postgres_user }}'
-        postgres_pass: '{{ bastion_guacamole_postgres_pass }}'
-        postgres_network: '{{ bastion_guacamole_network }}'
-        postgres_init_script: '{{ bastion_guacamole_postgres_init_dir }}/initdb.sql'
+        quadlet_service_definition:
+          name: guacamole_postgres
+          image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/library/postgres:latest'
+          user: '{{ container_user }}'
+          userns: 'auto'
+          networks:
+            - name: guacamole
+          ports:
+            - '5432:5432'
+          volumes:
+            - name: 'guacamole_postgres'
+              dest: '/var/lib/postgresql/data:z'
+          bind_mounts:
+            - src: '/var/guacamole_web/initdb.sql'
+              dest: '/docker-entrypoint-initdb.d/initdb.sql:z'
+
 
     - name: Deploy Guacamole guacd
       ansible.builtin.import_role:
