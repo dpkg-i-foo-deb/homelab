@@ -1,12 +1,12 @@
 ---
-- name: Ensure Immich is running
-  become: true
-  become_user: '{{ immich_user }}'
-  ansible.builtin.systemd_service:
-    daemon_reload: true
-    state: started
-    name: '{{ immich_server_container }}'
-    scope: user
+# - name: Ensure Immich is running
+#   become: true
+#   become_user: '{{ immich_user }}'
+#   ansible.builtin.systemd_service:
+#     daemon_reload: true
+#     state: started
+#     name: '{{ immich_server_container }}'
+#     scope: user
 
 - name: Ensure Immich machine learning is running
   become: true

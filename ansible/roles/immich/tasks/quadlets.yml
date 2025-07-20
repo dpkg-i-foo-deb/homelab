@@ -1,37 +1,37 @@
 ---
-- name: Create Immich Server Quadlet file
-  become: true
-  become_user: '{{ immich_user }}'
-  notify: Restart Immich
-  containers.podman.podman_container:
-    name: '{{ immich_server_container }}'
-    image: '{{ immich_server_image }}'
-    state: quadlet
-    quadlet_filename: '{{ immich_server_container }}'
-    ports:
-      - '{{ immich_http_port | default(2283) }}:2283'
-    network: '{{ immich_network }}'
-    volumes:
-      - '{{ immich_library_dir }}:/usr/src/app/upload'
-      - /etc/localtime:/etc/localtime:ro
-    env:
-      PUID: '1000'
-      PGID: '1000'
-      TZ: '{{ tz }}'
-      DB_HOSTNAME: '{{ immich_db_host }}'
-      DB_DATABASE_NAME: '{{ immich_db_name }}'
-      DB_USERNAME: '{{ immich_db_user }}'
-      DB_PASSWORD: '{{ immich_db_pass }}'
-    quadlet_options:
-      - 'AutoUpdate=registry'
-      - 'Pull=newer'
-      - |
-        [Service]
-        Restart=always
-        RestartSec=10
-      - |
-        [Install]
-        WantedBy=default.target multi-user.target
+# - name: Create Immich Server Quadlet file
+#   become: true
+#   become_user: '{{ immich_user }}'
+#   notify: Restart Immich
+#   containers.podman.podman_container:
+#     name: '{{ immich_server_container }}'
+#     image: '{{ immich_server_image }}'
+#     state: quadlet
+#     quadlet_filename: '{{ immich_server_container }}'
+#     ports:
+#       - '{{ immich_http_port | default(2283) }}:2283'
+#     network: '{{ immich_network }}'
+#     volumes:
+#       - '{{ immich_library_dir }}:/usr/src/app/upload'
+#       - /etc/localtime:/etc/localtime:ro
+#     env:
+#       PUID: '1000'
+#       PGID: '1000'
+#       TZ: '{{ tz }}'
+#       DB_HOSTNAME: '{{ immich_db_host }}'
+#       DB_DATABASE_NAME: '{{ immich_db_name }}'
+#       DB_USERNAME: '{{ immich_db_user }}'
+#       DB_PASSWORD: '{{ immich_db_pass }}'
+#     quadlet_options:
+#       - 'AutoUpdate=registry'
+#       - 'Pull=newer'
+#       - |
+#         [Service]
+#         Restart=always
+#         RestartSec=10
+#       - |
+#         [Install]
+#         WantedBy=default.target multi-user.target
 
 - name: Create Immich Machine Learning Quadlet file
   become: true

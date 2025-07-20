@@ -116,6 +116,31 @@
             - src: '/cache/immich-redis-data'
               dest: '/data'
 
+    - name: Deploy Immich Server
+      ansible.builtin.import_role:
+        name: dpkg_i_foo_deb.homelab.quadlet_service
+      vars:
+        quadlet_service_definition:
+          name: immich_server
+          image: '{{ registry_host }}.{{ internet_host }}/ghcr-proxy/immich-app/immich-server:release'
+          user: '{{ container_user }}'
+          networks:
+            - name: '{{ streaming_immich_network }}'
+          ports:
+            - '2283:2283'
+          dir_mounts:
+            - src: '/photos'
+              dest: '/usr/src/app/upload'
+          system_mounts:
+            - src: '/etc/localtime'
+              dest: '/etc/localtime:ro'
+          env:
+            DB_HOSTNAME: 'immich_postgres'
+            DB_DATABASE_NAME: '{{ streaming_immich_db }}'
+            DB_USERNAME: '{{ streaming_immich_db_user }}'
+            DB_PASSWORD: '{{ streaming_immich_db_pass }}'
+
+
     - name: Deploy Immich
       ansible.builtin.import_role:
         name: immich
