@@ -54,7 +54,7 @@ photos_host: photos
 
 metrics_host: metrics
 
-home_assitant_host: 'home-assistant'
+home_assistant_host: 'home-assistant'
 
 # Private reverse proxy address
 private_reverse_proxy: '10.0.5.10'
