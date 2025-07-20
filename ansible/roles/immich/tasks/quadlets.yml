@@ -60,29 +60,29 @@
         [Install]
         WantedBy=default.target multi-user.target
 
-- name: Create Redis Quadlet file
-  become: true
-  become_user: '{{ immich_user }}'
-  notify: Restart Immich Redis
-  containers.podman.podman_container:
-    name: '{{ immich_redis_container }}'
-    image: '{{ immich_redis_image }}'
-    state: quadlet
-    quadlet_filename: '{{ immich_redis_container }}'
-    network: '{{ immich_network }}'
-    volumes:
-      - '{{ immich_redis_data_dir }}:/data'
-    env:
-      PUID: '1000'
-      PGID: '1000'
-      TZ: '{{ tz }}'
-    quadlet_options:
-      - 'AutoUpdate=registry'
-      - 'Pull=newer'
-      - |
-        [Service]
-        Restart=always
-        RestartSec=10
-      - |
-        [Install]
-        WantedBy=default.target multi-user.target
+# - name: Create Redis Quadlet file
+#   become: true
+#   become_user: '{{ immich_user }}'
+#   notify: Restart Immich Redis
+#   containers.podman.podman_container:
+#     name: '{{ immich_redis_container }}'
+#     image: '{{ immich_redis_image }}'
+#     state: quadlet
+#     quadlet_filename: '{{ immich_redis_container }}'
+#     network: '{{ immich_network }}'
+#     volumes:
+#       - '{{ immich_redis_data_dir }}:/data'
+#     env:
+#       PUID: '1000'
+#       PGID: '1000'
+#       TZ: '{{ tz }}'
+#     quadlet_options:
+#       - 'AutoUpdate=registry'
+#       - 'Pull=newer'
+#       - |
+#         [Service]
+#         Restart=always
+#         RestartSec=10
+#       - |
+#         [Install]
+#         WantedBy=default.target multi-user.target
