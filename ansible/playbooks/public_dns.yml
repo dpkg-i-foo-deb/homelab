@@ -51,6 +51,6 @@
       - record: '{{ registry_host }}'
         comment: 'Registry Service'
         value: '{{ public_ip }}'
-      - record: '{{ ssierra_k8s_api_host }}'
-        comment: 'ssierra kubernetes API'
+      - record: '{{ home_assistant_host }}'
+        comment: 'Home Assistant'
         value: '{{ public_ip }}'
