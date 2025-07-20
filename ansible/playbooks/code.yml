@@ -79,33 +79,6 @@
           - caddy
         code_server_docker_host: '10.0.8.12'
 
-    # - name: Deploy oauth2_proxy for work code_server
-    #   ansible.builtin.import_role:
-    #     name: oauth2_proxy
-    #   vars:
-    #     oauth2_proxy_user: '{{ code_user }}'
-    #     oauth2_proxy_container: 'code-server-work-oauth2-proxy'
-    #     oauth2_proxy_image: '{{ registry_host }}.{{ internet_host }}/quay-proxy/oauth2-proxy/oauth2-proxy'
-    #     oauth2_proxy_port: '4180'
-    #     oauth2_proxy_email_domains: '*'
-    #     oauth2_proxy_reverse: 'true'
-    #     oauth2_proxy_cookie_secret: !vault |
-    #       $ANSIBLE_VAULT;1.1;AES256
-    #       38663139346433363432623437636534366163633561313734316635313230323562323064373533
-    #       6432396232366262343336666430636236623337343336370a633635653966393464393565343666
-    #       31316230613438643233303133613164366366393966313966616135386535633362396335633665
-    #       6236663663383732630a613466393661373663653862323138353737376432643764326264393037
-    #       63393534643034346333373135356263383736653837383838323663666138633362343134643062
-    #       3362373062366138636332383361333733623262343439396634
-    #     oauth2_proxy_whitelist_domains: "['.{{ internet_host }}']"
-    #     oauth2_proxy_cookie_domains: "['.{{ internet_host }}']"
-    #     oauth2_proxy_provider: '{{ homelab_oidc_provider }}'
-    #     oauth2_proxy_client_id: '{{ code_client }}'
-    #     oauth2_proxy_client_secret: '{{ code_secret }}'
-    #     oauth2_proxy_redirect_url: 'https://{{ code_work_host }}.{{ internet_host }}/oauth2/callback'
-    #     oauth2_proxy_oidc_url: 'https://{{ auth_host }}.{{ internet_host }}/realms/{{ homelab_realm }}'
-    #     oauth2_proxy_allow_unverified_email: 'true'
-
     - name: Deploy oauth2_proxy for work code_server
       ansible.builtin.import_role:
         name: dpkg_i_foo_deb.homelab.quadlet_service
@@ -136,33 +109,6 @@
             OAUTH2_PROXY_REDIRECT_URL: 'https://{{ code_work_host }}.{{ internet_host }}/oauth2/callback'
             OAUTH2_PROXY_OIDC_ISSUER_URL: 'https://{{ auth_host }}.{{ internet_host }}/realms/{{ homelab_realm }}'
             OAUTH2_PROXY_INSECURE_OIDC_ALLOW_UNVERIFIED_EMAIL: 'true'
-
-    # - name: Deploy oauth2_proxy for personal code_server
-    #   ansible.builtin.import_role:
-    #     name: oauth2_proxy
-    #   vars:
-    #     oauth2_proxy_user: '{{ code_user }}'
-    #     oauth2_proxy_container: 'code-server-personal-oauth2-proxy'
-    #     oauth2_proxy_image: '{{ registry_host }}.{{ internet_host }}/quay-proxy/oauth2-proxy/oauth2-proxy'
-    #     oauth2_proxy_port: '4181'
-    #     oauth2_proxy_email_domains: '*'
-    #     oauth2_proxy_reverse: 'true'
-    #     oauth2_proxy_cookie_secret: !vault |
-    #       $ANSIBLE_VAULT;1.1;AES256
-    #       39363133323666636231376538633262613731643433396435346337626131666230626366363662
-    #       3466346637333963333031663964313932353231666638370a303365643032356662386364663038
-    #       33373664353433313563393038306438323466663063643632343834613761366236356631383130
-    #       3834383430343835370a633231616466343863373366663464613763343563363631616532303663
-    #       35323662383862353261373062323236313964316237386137666564613434306436313362646631
-    #       3261303636323430356336643336656665613835373737616336
-    #     oauth2_proxy_whitelist_domains: "['.{{ internet_host }}']"
-    #     oauth2_proxy_cookie_domains: "['.{{ internet_host }}']"
-    #     oauth2_proxy_provider: '{{ homelab_oidc_provider }}'
-    #     oauth2_proxy_client_id: '{{ code_client }}'
-    #     oauth2_proxy_client_secret: '{{ code_secret }}'
-    #     oauth2_proxy_redirect_url: 'https://{{ code_personal_host }}.{{ internet_host }}/oauth2/callback'
-    #     oauth2_proxy_oidc_url: 'https://{{ auth_host }}.{{ internet_host }}/realms/{{ homelab_realm }}'
-    #     oauth2_proxy_allow_unverified_email: 'true'
 
     - name: Deploy oauth2_proxy for personal code_server
       ansible.builtin.import_role:
