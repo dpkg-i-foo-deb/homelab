@@ -1,9 +1,0 @@
----
-- name: Restart navidrome
-  become: true
-  become_user: "{{ navidrome_user }}"
-  ansible.builtin.systemd_service:
-    daemon_reload: true
-    state: restarted
-    name: "{{ navidrome_container }}"
-    scope: user
