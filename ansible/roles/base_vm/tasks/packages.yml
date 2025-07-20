@@ -38,6 +38,9 @@
     name:
       - auditd
       - dnsutils
+      - unattended-upgrades
+      - apt-listchanges
+
     state: present
 
 - name: Install misc tools
@@ -50,4 +53,5 @@
       - acl
       - htop
       - incus-client
+      - tree
     state: present
