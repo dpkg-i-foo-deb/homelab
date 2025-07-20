@@ -32,7 +32,7 @@ registry_servers:
 code:
   hosts:
     code_server:
-      ansible_host: 10.0.7.10
+      ansible_host: 10.0.0.15
 servarr:
   hosts:
     servarr_vm:
