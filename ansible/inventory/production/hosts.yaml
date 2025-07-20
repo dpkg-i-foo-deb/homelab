@@ -82,6 +82,7 @@ streaming:
   hosts:
     streaming_vm:
       ansible_host: 10.0.0.13
+      container_user: streaming
 torrent:
   hosts:
     torrent_vm:
