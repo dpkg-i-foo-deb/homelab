@@ -71,28 +71,58 @@
         podman_network: '{{ streaming_immich_network }}'
         podman_user: '{{ container_user }}'
 
-    - name: Deploy Postgres for Immich
+    # - name: Deploy Postgres for Immich
+    #   ansible.builtin.import_role:
+    #     name: postgres
+    #   vars:
+    #     postgres_podman_user: '{{ container_user }}'
+    #     postgres_container: immich_postgres
+    #     postgres_data_vol: 'immich_postgres'
+    #     postgres_db: '{{ streaming_immich_db }}'
+    #     postgres_user: '{{ streaming_immich_db_user }}'
+    #     postgres_pass: '{{ streaming_immich_db_pass }}'
+    #     postgres_network: '{{ streaming_immich_network }}'
+    #     postgres_image: "{{ registry_host }}.{{ internet_host }}\
+    #       /dockerhub-proxy/tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:739cdd626151ff1f796dc95a6591b55a714f341c737e27f045019ceabf8e8c52"
+    #     postgres_command: >-
+    #       postgres
+    #       -c shared_preload_libraries=vectors.so
+    #       -c 'search_path="$$user", public, vectors'
+    #       -c logging_collector=on
+    #       -c max_wal_size=2GB
+    #       -c shared_buffers=512MB
+    #       -c wal_compression=on
+    #     postgres_initdb_args: '--data-checksums'
+
+    - name: Deploy Postgres for immich
       ansible.builtin.import_role:
-        name: postgres
+        name: dpkg_i_foo_deb.homelab.quadlet_service
       vars:
-        postgres_podman_user: '{{ container_user }}'
-        postgres_container: immich_postgres
-        postgres_data_vol: 'immich_postgres'
-        postgres_db: '{{ streaming_immich_db }}'
-        postgres_user: '{{ streaming_immich_db_user }}'
-        postgres_pass: '{{ streaming_immich_db_pass }}'
-        postgres_network: '{{ streaming_immich_network }}'
-        postgres_image: "{{ registry_host }}.{{ internet_host }}\
-          /dockerhub-proxy/tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:739cdd626151ff1f796dc95a6591b55a714f341c737e27f045019ceabf8e8c52"
-        postgres_command: >-
-          postgres
-          -c shared_preload_libraries=vectors.so
-          -c 'search_path="$$user", public, vectors'
-          -c logging_collector=on
-          -c max_wal_size=2GB
-          -c shared_buffers=512MB
-          -c wal_compression=on
-        postgres_initdb_args: '--data-checksums'
+        quadlet_service_definition:
+          name: immich_postgres
+          image: "{{ registry_host }}.{{ internet_host }}\
+            /dockerhub-proxy/tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:739cdd626151ff1f796dc95a6591b55a714f341c737e27f045019ceabf8e8c52"
+          user: '{{ container_user }}'
+          command: >-
+            postgres
+            -c shared_preload_libraries=vectors.so
+            -c 'search_path="$$user", public, vectors'
+            -c logging_collector=on
+            -c max_wal_size=2GB
+            -c shared_buffers=512MB
+            -c wal_compression=on
+          networks:
+            - name: '{{ streaming_immich_network }}'
+          ports:
+            - '5432:5432'
+          volumes:
+            - name: 'immich_postgres'
+              dest: '/var/lib/postgresql/data:z'
+          env:
+            POSTGRES_DB: '{{ streaming_immich_db }}'
+            POSTGRES_USER: '{{ streaming_immich_db_user }}'
+            POSTGRES_PASSWORD: '{{ streaming_immich_db_pass }}'
+            POSTGRES_INITDB_ARGS: '--data-checksums'
 
     - name: Deploy Immich
       ansible.builtin.import_role:
