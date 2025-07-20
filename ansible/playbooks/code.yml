@@ -137,33 +137,63 @@
             OAUTH2_PROXY_OIDC_ISSUER_URL: 'https://{{ auth_host }}.{{ internet_host }}/realms/{{ homelab_realm }}'
             OAUTH2_PROXY_INSECURE_OIDC_ALLOW_UNVERIFIED_EMAIL: 'true'
 
+    # - name: Deploy oauth2_proxy for personal code_server
+    #   ansible.builtin.import_role:
+    #     name: oauth2_proxy
+    #   vars:
+    #     oauth2_proxy_user: '{{ code_user }}'
+    #     oauth2_proxy_container: 'code-server-personal-oauth2-proxy'
+    #     oauth2_proxy_image: '{{ registry_host }}.{{ internet_host }}/quay-proxy/oauth2-proxy/oauth2-proxy'
+    #     oauth2_proxy_port: '4181'
+    #     oauth2_proxy_email_domains: '*'
+    #     oauth2_proxy_reverse: 'true'
+    #     oauth2_proxy_cookie_secret: !vault |
+    #       $ANSIBLE_VAULT;1.1;AES256
+    #       39363133323666636231376538633262613731643433396435346337626131666230626366363662
+    #       3466346637333963333031663964313932353231666638370a303365643032356662386364663038
+    #       33373664353433313563393038306438323466663063643632343834613761366236356631383130
+    #       3834383430343835370a633231616466343863373366663464613763343563363631616532303663
+    #       35323662383862353261373062323236313964316237386137666564613434306436313362646631
+    #       3261303636323430356336643336656665613835373737616336
+    #     oauth2_proxy_whitelist_domains: "['.{{ internet_host }}']"
+    #     oauth2_proxy_cookie_domains: "['.{{ internet_host }}']"
+    #     oauth2_proxy_provider: '{{ homelab_oidc_provider }}'
+    #     oauth2_proxy_client_id: '{{ code_client }}'
+    #     oauth2_proxy_client_secret: '{{ code_secret }}'
+    #     oauth2_proxy_redirect_url: 'https://{{ code_personal_host }}.{{ internet_host }}/oauth2/callback'
+    #     oauth2_proxy_oidc_url: 'https://{{ auth_host }}.{{ internet_host }}/realms/{{ homelab_realm }}'
+    #     oauth2_proxy_allow_unverified_email: 'true'
+
     - name: Deploy oauth2_proxy for personal code_server
       ansible.builtin.import_role:
-        name: oauth2_proxy
+        name: dpkg_i_foo_deb.homelab.quadlet_service
       vars:
-        oauth2_proxy_user: '{{ code_user }}'
-        oauth2_proxy_container: 'code-server-personal-oauth2-proxy'
-        oauth2_proxy_image: '{{ registry_host }}.{{ internet_host }}/quay-proxy/oauth2-proxy/oauth2-proxy'
-        oauth2_proxy_port: '4181'
-        oauth2_proxy_email_domains: '*'
-        oauth2_proxy_reverse: 'true'
-        oauth2_proxy_cookie_secret: !vault |
-          $ANSIBLE_VAULT;1.1;AES256
-          39363133323666636231376538633262613731643433396435346337626131666230626366363662
-          3466346637333963333031663964313932353231666638370a303365643032356662386364663038
-          33373664353433313563393038306438323466663063643632343834613761366236356631383130
-          3834383430343835370a633231616466343863373366663464613763343563363631616532303663
-          35323662383862353261373062323236313964316237386137666564613434306436313362646631
-          3261303636323430356336643336656665613835373737616336
-        oauth2_proxy_whitelist_domains: "['.{{ internet_host }}']"
-        oauth2_proxy_cookie_domains: "['.{{ internet_host }}']"
-        oauth2_proxy_provider: '{{ homelab_oidc_provider }}'
-        oauth2_proxy_client_id: '{{ code_client }}'
-        oauth2_proxy_client_secret: '{{ code_secret }}'
-        oauth2_proxy_redirect_url: 'https://{{ code_personal_host }}.{{ internet_host }}/oauth2/callback'
-        oauth2_proxy_oidc_url: 'https://{{ auth_host }}.{{ internet_host }}/realms/{{ homelab_realm }}'
-        oauth2_proxy_allow_unverified_email: 'true'
-
+        quadlet_service_definition:
+          name: 'code-server-personal-oauth2-proxy'
+          image: '{{ registry_host }}.{{ internet_host }}/quay-proxy/oauth2-proxy/oauth2-proxy'
+          user: '{{ code_user }}'
+          ports:
+            - '4181:4181'
+          env:
+            OAUTH2_PROXY_HTTP_ADDRESS: '0.0.0.0:4181'
+            OAUTH2_PROXY_EMAIL_DOMAINS: '*'
+            OAUTH2_PROXY_REVERSE_PROXY: 'true'
+            OAUTH2_PROXY_COOKIE_SECRET: !vault |
+              $ANSIBLE_VAULT;1.1;AES256
+              39363133323666636231376538633262613731643433396435346337626131666230626366363662
+              3466346637333963333031663964313932353231666638370a303365643032356662386364663038
+              33373664353433313563393038306438323466663063643632343834613761366236356631383130
+              834383430343835370a633231616466343863373366663464613763343563363631616532303663
+              35323662383862353261373062323236313964316237386137666564613434306436313362646631
+              261303636323430356336643336656665613835373737616336
+            OAUTH2_PROXY_WHITELIST_DOMAINS: "['.{{ internet_host }}']"
+            OAUTH2_PROXY_COOKIE_DOMAINS: "['.{{ internet_host }}']"
+            OAUTH2_PROXY_PROVIDER: '{{ homelab_oidc_provider }}'
+            OAUTH2_PROXY_CLIENT_ID: '{{ code_client }}'
+            OAUTH2_PROXY_CLIENT_SECRET: '{{ code_secret }}'
+            OAUTH2_PROXY_REDIRECT_URL: 'https://{{ code_personal_host }}.{{ internet_host }}/oauth2/callback'
+            OAUTH2_PROXY_OIDC_ISSUER_URL: 'https://{{ auth_host }}.{{ internet_host }}/realms/{{ homelab_realm }}'
+            OAUTH2_PROXY_INSECURE_OIDC_ALLOW_UNVERIFIED_EMAIL: 'true'
 
 - name: Configure Wazuh agent
   hosts: code
