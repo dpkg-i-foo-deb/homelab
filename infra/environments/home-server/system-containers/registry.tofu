@@ -3,7 +3,7 @@ resource "incus_storage_volume" "registry_data" {
   pool    = var.virt_main_pool
   project = "default"
   config = {
-    "size" = "200GiB"
+    "size" = "20GiB"
   }
 }
 
