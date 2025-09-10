@@ -101,6 +101,7 @@
             POSTGRES_USER: '{{ streaming_immich_db_user }}'
             POSTGRES_PASSWORD: '{{ streaming_immich_db_pass }}'
             POSTGRES_INITDB_ARGS: '--data-checksums'
+            DB_STORAGE_TYPE: 'HDD'
 
     - name: Deploy Redis for Immich
       ansible.builtin.import_role:
