@@ -56,6 +56,7 @@ resource "incus_instance" "registry" {
     properties = {
       path = "/"
       pool = var.virt_main_pool
+      size = "20GiB"
     }
   }
 
@@ -66,16 +67,6 @@ resource "incus_instance" "registry" {
       path   = "/home"
       source = incus_storage_volume.registry_data.name
       pool   = var.virt_main_pool
-    }
-  }
-
-  device {
-    name = "music"
-    type = "disk"
-    properties = {
-      path   = "/music"
-      source = var.music_vol
-      pool   = var.virt_spin0_pool
     }
   }
 
