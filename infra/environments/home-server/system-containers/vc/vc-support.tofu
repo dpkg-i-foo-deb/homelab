@@ -36,7 +36,7 @@ resource "incus_instance" "vc_support" {
     type = "disk"
     properties = {
       path = "/"
-      pool = var.virt_main_pool.name
+      pool = var.virt_main_pool
       size = "20GiB"
     }
   }
