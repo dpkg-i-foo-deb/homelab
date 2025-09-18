@@ -1,9 +1,3 @@
-resource "incus_storage_volume" "dns_cache_data" {
-  name    = "dns-cache-data"
-  pool    = var.virt_main_pool
-  project = "default"
-}
-
 resource "incus_storage_volume" "dns_home_data_0" {
   name    = "dns-home-data-0"
   pool    = var.virt_main_pool
