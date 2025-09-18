@@ -66,5 +66,5 @@ resource "incus_instance" "desktop" {
       source = var.music_vol
       pool   = var.virt_spin0_pool
     }
-
+  }
 }
