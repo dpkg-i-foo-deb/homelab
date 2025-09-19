@@ -81,3 +81,10 @@
     name: 'net.core.netdev_max_backlog'
     value: '182757'
     state: present
+
+- name: Ensure inotify has a large value
+  become: true
+  ansible.posix.sysctl:
+    name: 'fs.inotify.max_user_watches'
+    value: '2000000'
+    state: present
