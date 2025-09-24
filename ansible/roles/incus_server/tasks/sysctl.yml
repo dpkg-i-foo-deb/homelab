@@ -86,5 +86,5 @@
   become: true
   ansible.posix.sysctl:
     name: 'fs.inotify.max_user_watches'
-    value: '2000000'
+    value: '20000000'
     state: present
