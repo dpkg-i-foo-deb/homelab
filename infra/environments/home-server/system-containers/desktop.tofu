@@ -67,4 +67,14 @@ resource "incus_instance" "desktop" {
       pool   = var.virt_spin0_pool
     }
   }
+
+  device {
+    name = "downloads"
+    type = "disk"
+    properties = {
+      path = "/downloads"
+      source = var.downloads_vol
+      pool = var.virt_spin0_pool
+    }
+  }
 }
