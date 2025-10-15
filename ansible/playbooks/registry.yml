@@ -1,0 +1,13 @@
+- name: Configure Homelab Registry
+  hosts: registry_servers
+  tasks:
+    - name: Deploy Harbor Registry
+      become: true
+      community.docker.docker_compose_v2:
+        project_src: "/home/{{ container_user }}/harbor"
+        state: restarted
+      register: output
+
+    - name: Show results
+      ansible.builtin.debug:
+        var: output
