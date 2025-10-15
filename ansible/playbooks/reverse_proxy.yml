@@ -22,7 +22,6 @@
         caddy_extensions:
           - github.com/caddy-dns/cloudflare
           - github.com/corazawaf/coraza-caddy/v2
-          - github.com/mholt/caddy-l4
       containers.podman.podman_image:
         name: 'caddy-private:latest'
         state: build
@@ -78,7 +77,6 @@
       vars:
         caddy_extensions:
           - github.com/corazawaf/coraza-caddy/v2
-          - github.com/mholt/caddy-l4
       containers.podman.podman_image:
         name: 'caddy-public:latest'
         state: build
