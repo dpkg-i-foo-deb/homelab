@@ -16,6 +16,8 @@
   tasks:
 
     - name: Login to homelab registry
+      tags:
+        - general
       ansible.builtin.import_role:
         name: podman
         tasks_from: login
@@ -65,6 +67,8 @@
               6561336366386535353135633839376462326437323436326537
 
     - name: Ensure there's a virtual network for Immich
+      tags:
+        - photos
       ansible.builtin.import_role:
         name: podman
         tasks_from: network
@@ -104,6 +108,8 @@
             DB_STORAGE_TYPE: 'HDD'
 
     - name: Deploy Redis for Immich
+      tags:
+        - photos
       ansible.builtin.import_role:
         name: dpkg_i_foo_deb.homelab.quadlet_service
       vars:
@@ -119,6 +125,8 @@
               dest: '/data'
 
     - name: Deploy Immich Server
+      tags:
+        - photos
       ansible.builtin.import_role:
         name: dpkg_i_foo_deb.homelab.quadlet_service
       vars:
@@ -143,6 +151,8 @@
             DB_PASSWORD: '{{ streaming_immich_db_pass }}'
 
     - name: Deploy Immich Machine Learning
+      tags:
+        - photos
       ansible.builtin.import_role:
         name: dpkg_i_foo_deb.homelab.quadlet_service
       vars:
