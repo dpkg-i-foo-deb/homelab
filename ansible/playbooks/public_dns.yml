@@ -54,3 +54,6 @@
       - record: '{{ home_assistant_host }}'
         comment: 'Home Assistant'
         value: '{{ public_ip }}'
+      - record: '{{ automation_host }}'
+        comment: 'AWX'
+        value: '{{ public_ip }}'

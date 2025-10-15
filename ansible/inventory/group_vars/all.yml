@@ -54,6 +54,8 @@ photos_host: photos
 
 metrics_host: metrics
 
+automation_host: awx
+
 home_assistant_host: 'home-assistant'
 
 # Private reverse proxy address
@@ -173,6 +175,14 @@ homelab_services:
     ip: '10.0.1.11'
     port: '8123'
     tls: false
+    private_proxy: '{{ private_reverse_proxy }}'
+    private_proxy_vpn: '{{ private_reverse_proxy_vpn }}'
+  awx:
+    name: 'AWX'
+    host: 'awx'
+    ip: '10.0.1.11'
+    port: '80'
+    tls: 'false'
     private_proxy: '{{ private_reverse_proxy }}'
     private_proxy_vpn: '{{ private_reverse_proxy_vpn }}'
 
