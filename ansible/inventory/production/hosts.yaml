@@ -29,6 +29,7 @@ registry_servers:
       ansible_host: 10.0.0.14
       siem_agent: registry
       groups: 'trusted,internet_facing'
+      container_user: 'registry'
 code:
   hosts:
     code_server:
