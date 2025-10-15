@@ -1,4 +1,9 @@
 ---
+- name: Pull latest code-server image
+  containers.podman.podman_image:
+    name: '{{ registry_host }}.{{ internet_host }}/lscr-proxy/linuxserver/code-server'
+    tag: 'latest'
+
 - name: Build code-server custom image
   become: true
   become_user: '{{ code_server_user }}'
