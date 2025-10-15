@@ -28,6 +28,8 @@
         podman_user: '{{ container_user }}'
 
     - name: Deploy Navidrome
+      tags:
+        - music
       ansible.builtin.import_role:
         name: dpkg_i_foo_deb.homelab.quadlet_service
       vars:
