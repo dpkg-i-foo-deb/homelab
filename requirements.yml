@@ -3,6 +3,5 @@ collections:
     version: "2.4.3"
   - name: ansible.posix
   - name: community.general
-  - name: community.libvirt
   - name: containers.podman
     version: "1.16.2"
