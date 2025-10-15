@@ -25,6 +25,8 @@
         code_server_sudo_pass: 'code'
         code_server_proxy_domain: '{{ code_personal_host }}.{{ internet_host }}'
         code_server_workspace: code_server_personal
+        code_server_registry_user: '{{ homelab_registry_user }}'
+        code_server_registry_pass: '{{ homelab_registry_pass }}'
         code_server_extra_pkgs:
           - git
           - curl
@@ -60,6 +62,8 @@
         code_server_sudo_pass: 'code'
         code_server_proxy_domain: '{{ code_work_host }}.{{ internet_host }}'
         code_server_workspace: code_server_work
+        code_server_registry_user: '{{ homelab_registry_user }}'
+        code_server_registry_pass: '{{ homelab_registry_pass }}'
         code_server_extra_pkgs:
           - git
           - curl
