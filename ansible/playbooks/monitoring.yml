@@ -91,19 +91,6 @@
             - src: '/logs/loki'
               dest: '/loki:z'
 
-    # - name: Deploy Grafana
-    #   ansible.builtin.import_role:
-    #     name: grafana
-    #   vars:
-    #     grafana_user: '{{ container_user }}'
-    #     grafana_container: 'grafana'
-    #     grafana_image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/grafana/grafana-oss:latest'
-    #     grafana_data_vol: 'grafana_data'
-    #     grafana_server_domain: 'https://{{ metrics_host }}.{{ internet_host }}'
-    #     grafana_server_root_url: 'https://{{ metrics_host }}.{{ internet_host }}'
-    #     grafana_basic_auth_enabled: 'false'
-    #     grafana_disable_login_form: 'true'
-
     - name: Deploy Grafana
       ansible.builtin.import_role:
         name: dpkg_i_foo_deb.homelab.quadlet_service
