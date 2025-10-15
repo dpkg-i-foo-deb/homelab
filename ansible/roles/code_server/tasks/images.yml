@@ -5,6 +5,7 @@
   containers.podman.podman_image:
     name: '{{ registry_host }}.{{ internet_host }}/lscr-proxy/linuxserver/code-server'
     tag: 'latest'
+    force: true
     username: '{{ code_server_registry_user | default(omit) }}'
     password: '{{ code_server_registry_pass | default(omit) }}'
 
