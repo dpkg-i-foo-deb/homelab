@@ -21,7 +21,7 @@ vpn_servers:
   hosts:
     homelab_vpn:
       ansible_host: 10.0.254.3
-      ansible_ssh_common_args: '-o ProxyJump={{ vps_proxy_jump_target }}'
+      ansible_ssh_common_args: '-o ProxyCommand="ssh -o StrictHostKeyChecking=no -W %h:%p -q {{ vps_proxy_jump_target }}"'
       container_user: 'vpn'
 registry_servers:
   hosts:
@@ -54,7 +54,7 @@ home_dns:
     vps_home_dns:
       ansible_host: 10.0.254.2
       container_user: dns-home
-      ansible_ssh_common_args: '-o ProxyJump={{ vps_proxy_jump_target }}'
+      ansible_ssh_common_args: '-o ProxyCommand="ssh -o StrictHostKeyChecking=no -W %h:%p -q {{ vps_proxy_jump_target }}"'
 
 vpn_dns:
   hosts:
@@ -71,7 +71,7 @@ vpn_dns:
     vps_vpn_dns:
       ansible_host: 10.0.254.5
       container_user: 'dns-vpn'
-      ansible_ssh_common_args: '-o ProxyJump={{ vps_proxy_jump_target }}'
+      ansible_ssh_common_args: '-o ProxyCommand="ssh -o StrictHostKeyChecking=no -W %h:%p -q {{ vps_proxy_jump_target }}"'
 
 automation_servers:
   hosts:
