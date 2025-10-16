@@ -105,19 +105,6 @@ knowledge_management:
     knowledge:
       ansible_host: 10.0.0.10
       container_user: knowledge
-game_servers:
-  hosts:
-    game_server:
-      ansible_host: 10.0.8.11
-      container_user: game-server
-      groups: 'internet_facing,untrusted'
-      siem_agent: game-server
-container_hosts:
-  hosts:
-    container_host:
-      ansible_host: 10.0.8.12
-      siem_agent: container-host
-      groups: 'untrusted'
 monitoring:
   hosts:
     homelab_monitor:
