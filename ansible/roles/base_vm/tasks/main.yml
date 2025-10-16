@@ -6,11 +6,11 @@
   ansible.builtin.import_role:
     name: podman
 
-- name: Configure performance options
-  ansible.builtin.import_tasks: performance.yml
+# - name: Configure performance options
+#  ansible.builtin.import_tasks: performance.yml
 
-- name: Kernel modules configuration
-  ansible.builtin.import_tasks: modules.yml
+# - name: Kernel modules configuration
+#   ansible.builtin.import_tasks: modules.yml
 
 # - name: Ensure qemu-guest-agent is running and starts on boot
 #   become: true
@@ -18,5 +18,5 @@
 #     state: started
 #     name: qemu-guest-agent
 
-- name: Ensure SELinux is present and configured
-  ansible.builtin.import_tasks: selinux.yml
+# - name: Ensure SELinux is present and configured
+#  ansible.builtin.import_tasks: selinux.yml
