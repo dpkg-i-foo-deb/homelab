@@ -44,7 +44,6 @@
     - name: Deploy Postgres for keycloak
       tags:
         - oidc
-        - deploy
       ansible.builtin.import_role:
         name: dpkg_i_foo_deb.homelab.quadlet_service
       vars:
@@ -69,7 +68,6 @@
     - name: Deploy Keycloak
       tags:
         - oidc
-        - deploy
       ansible.builtin.import_role:
         name: dpkg_i_foo_deb.homelab.quadlet_service
       vars:
@@ -97,6 +95,8 @@
             # KC_BOOTSTRAP_ADMIN_PASSWORD
 
     - name: Deploy Vaultwarden
+      tags:
+        - password-manager
       ansible.builtin.import_role:
         name: dpkg_i_foo_deb.homelab.quadlet_service
       vars:
