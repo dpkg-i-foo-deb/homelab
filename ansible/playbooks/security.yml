@@ -30,6 +30,8 @@
   tasks:
 
     - name: Login to homelab registry
+      tags:
+        - general
       ansible.builtin.import_role:
         name: podman
         tasks_from: login
@@ -40,6 +42,9 @@
         podman_user: '{{ container_user }}'
 
     - name: Deploy Postgres for keycloak
+      tags:
+        - oidc
+        - deploy
       ansible.builtin.import_role:
         name: dpkg_i_foo_deb.homelab.quadlet_service
       vars:
@@ -62,6 +67,9 @@
             POSTGRES_PASSWORD: '{{ security_keycloak_pg_pass }}'
 
     - name: Deploy Keycloak
+      tags:
+        - oidc
+        - deploy
       ansible.builtin.import_role:
         name: dpkg_i_foo_deb.homelab.quadlet_service
       vars:
