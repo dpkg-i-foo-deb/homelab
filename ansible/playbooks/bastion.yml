@@ -52,6 +52,8 @@
         quadlet_service_definition:
           name: guacamole_postgres
           image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/library/postgres:latest'
+          registry_user: '{{ homelab_registry_user }}'
+          registry_pass: '{{ homelab_registry_pass }}'
           user: '{{ container_user }}'
           userns: 'auto'
           networks:
@@ -76,6 +78,8 @@
         quadlet_service_definition:
           name: guacamole_guacd
           image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/guacamole/guacd:latest'
+          registry_user: '{{ homelab_registry_user }}'
+          registry_pass: '{{ homelab_registry_pass }}'
           user: '{{ container_user }}'
           networks:
             - name: guacamole
@@ -89,6 +93,8 @@
         quadlet_service_definition:
           name: guacamole_web
           image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/guacamole/guacamole:latest'
+          registry_user: '{{ homelab_registry_user }}'
+          registry_pass: '{{ homelab_registry_pass }}'
           user: '{{ container_user }}'
           networks:
             - name: guacamole

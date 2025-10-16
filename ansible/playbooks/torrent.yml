@@ -18,6 +18,8 @@
         quadlet_service_definition:
           name: qbittorrent
           image: '{{ registry_host }}.{{ internet_host }}/lscr-proxy/linuxserver/qbittorrent:latest'
+          registry_user: '{{ homelab_registry_user }}'
+          registry_pass: '{{ homelab_registry_pass }}'
           user: '{{ container_user }}'
           volumes:
             - name: 'qbittorrent_data'

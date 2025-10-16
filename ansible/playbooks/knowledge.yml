@@ -19,6 +19,8 @@
         quadlet_service_definition:
           name: trilium
           image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/triliumnext/notes:latest'
+          registry_user: '{{ homelab_registry_user }}'
+          registry_pass: '{{ homelab_registry_pass }}'
           user: '{{ container_user }}'
           ports:
             - '8080:8080'
@@ -35,6 +37,8 @@
         quadlet_service_definition:
           name: trillium-oauth2-proxy
           image: '{{ registry_host }}.{{ internet_host }}/quay-proxy/oauth2-proxy/oauth2-proxy'
+          registry_user: '{{ homelab_registry_user }}'
+          registry_pass: '{{ homelab_registry_pass }}'
           user: '{{ container_user }}'
           ports:
             - '4180:4180'

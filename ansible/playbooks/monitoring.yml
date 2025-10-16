@@ -64,6 +64,8 @@
         quadlet_service_definition:
           name: prometheus
           image: '{{ registry_host }}.{{ internet_host }}/quay-proxy/prometheus/prometheus:latest'
+          registry_user: '{{ homelab_registry_user }}'
+          registry_pass: '{{ homelab_registry_pass }}'
           user: '{{ container_user }}'
           command:
             - '--storage.tsdb.retention.time=30d'
@@ -84,6 +86,8 @@
         quadlet_service_definition:
           name: loki
           image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/grafana/loki:latest'
+          registry_user: '{{ homelab_registry_user }}'
+          registry_pass: '{{ homelab_registry_pass }}'
           user: '{{ container_user }}'
           ports:
             - '3100:3100'
@@ -98,6 +102,8 @@
         quadlet_service_definition:
           name: grafana
           image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/grafana/grafana-oss:latest'
+          registry_user: '{{ homelab_registry_user }}'
+          registry_pass: '{{ homelab_registry_pass }}'
           user: '{{ container_user }}'
           ports:
             - '3000:3000'
