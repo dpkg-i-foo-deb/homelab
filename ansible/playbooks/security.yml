@@ -103,8 +103,6 @@
         quadlet_service_definition:
           name: vaultwarden
           image: 'docker.io/vaultwarden/server:latest'
-          registry_user: '{{ homelab_registry_user }}'
-          registry_pass: '{{ homelab_registry_pass }}'
           user: '{{ container_user }}'
           ports:
             - '8080:80'
