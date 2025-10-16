@@ -4,6 +4,8 @@
   ansible.builtin.import_tasks: bind_mounts.yml
 - name: Configure networks
   ansible.builtin.import_tasks: networks.yml
+- name: Pull image
+  ansible.builtin.import_tasks: image.yml
 - name: Configure quadlet
   ansible.builtin.import_tasks: quadlet.yml
 - name: Configure service

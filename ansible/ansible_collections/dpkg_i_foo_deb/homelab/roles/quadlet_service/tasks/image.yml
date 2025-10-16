@@ -1,0 +1,10 @@
+---
+- name: Pull specified image for {{ quadlet_service_definition.name }}
+  become: true
+  become_user: '{{ quadlet_service_definition.user }}'
+  containers.podman.podman_image:
+    name: '{{ quadlet_service_definition.image }}'
+    tag: '{{ quadlet_service_definition.image_tag | default(default_quadlet_image_tag) }}'
+    force: true
+    username: '{{ quadlet_service_definition.registry_user | default(omit) }}'
+    password: '{{ quadlet_service_definition.registry_pass | default(omit) }}'

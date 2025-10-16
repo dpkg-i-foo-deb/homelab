@@ -18,6 +18,8 @@
         quadlet_service_definition:
           name: tdarr
           image: '{{ registry_host }}.{{ internet_host }}/ghcr-proxy/haveagitgat/tdarr:latest'
+          registry_user: '{{ homelab_registry_user }}'
+          registry_pass: '{{ homelab_registry_pass }}'
           user: '{{ container_user }}'
           ports:
             - '8265:8265'
@@ -50,6 +52,8 @@
           name: flaresolverr
           user: '{{ container_user }}'
           image: '{{ registry_host }}.{{ internet_host }}/ghcr-proxy/flaresolverr/flaresolverr:latest'
+          registry_user: '{{ homelab_registry_user }}'
+          registry_pass: '{{ homelab_registry_pass }}'
           ports:
             - '8191:8191'
 
@@ -60,6 +64,8 @@
         quadlet_service_definition:
           name: prowlarr
           image: '{{ registry_host }}.{{ internet_host }}/lscr-proxy/linuxserver/prowlarr:latest'
+          registry_user: '{{ homelab_registry_user }}'
+          registry_pass: '{{ homelab_registry_pass }}'
           user: '{{ container_user }}'
           ports:
             - '9696:9696'
@@ -74,6 +80,8 @@
         quadlet_service_definition:
           name: lidarr
           image: '{{ registry_host }}.{{ internet_host }}/lscr-proxy/linuxserver/lidarr:latest'
+          registry_user: '{{ homelab_registry_user }}'
+          registry_pass: '{{ homelab_registry_pass }}'
           user: '{{ container_user }}'
           ports:
             - '8686:8686'
