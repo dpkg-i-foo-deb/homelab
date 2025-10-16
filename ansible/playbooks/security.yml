@@ -76,8 +76,6 @@
         quadlet_service_definition:
           name: keycloak
           image: 'quay.io/keycloak/keycloak:latest'
-          registry_user: '{{ homelab_registry_user }}'
-          registry_pass: '{{ homelab_registry_pass }}'
           user: '{{ container_user }}'
           command: 'start'
           ports:
