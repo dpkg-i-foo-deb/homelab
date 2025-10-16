@@ -60,7 +60,7 @@
             - '5432:5432'
           volumes:
             - name: 'postgres_keycloak'
-              dest: '/var/lib/postgresql/data:z'
+              dest: '/var/lib/postgresql/:z'
           env:
             POSTGRES_DB: 'keycloak'
             POSTGRES_USER: 'keycloak'
