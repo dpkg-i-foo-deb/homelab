@@ -37,6 +37,7 @@
           name: caddy
           image: 'localhost/caddy-private:latest'
           user: '{{ container_user }}'
+          cpus: '1'
           host_network: true
           volumes:
             - name: 'caddy_data'
