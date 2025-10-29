@@ -2,6 +2,7 @@
 - name: Pull specified image for {{ quadlet_service_definition.name }}
   become: true
   become_user: '{{ quadlet_service_definition.user }}'
+  when: quadlet_service_definition.pull_image | default(default_quadlet_pull_image)
   containers.podman.podman_image:
     name: '{{ quadlet_service_definition.image }}'
     tag: '{{ quadlet_service_definition.image_tag | default(default_quadlet_image_tag) }}'
