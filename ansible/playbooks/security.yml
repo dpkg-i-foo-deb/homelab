@@ -123,19 +123,6 @@
               31363662613932623136646332383738663433376634363637333533333466383538323832613638
               35656232303366366331
 
-    # - name: Generate Wazuh certificates
-    #   ansible.builtin.import_role:
-    #     name: wazuh_indexer
-    #     tasks_from: generate_certs
-    #   vars:
-    #     wazuh_indexer_user: '{{ security_user }}'
-    #     wazuh_indexer_group: '{{ security_user }}'
-    #     wazuh_indexer_tls_dir: '{{ security_wazuh_certs }}'
-    #     wazuh_indexer_host: 'wazuh.indexer'
-    #     wazuh_indexer_manager_host: 'wazuh.manager'
-    #     wazuh_indexer_dashboard_host: 'wazuh.dashboard'
-    #     wazuh_indexer_tls_conf_dir: '{{ security_wazuh_generator_conf }}'
-
     - name: Copy Wazuh Indexer configuration file
       become: true
       ansible.builtin.copy:
