@@ -4,6 +4,7 @@
     name: 'net.ipv4.ip_forward'
     value: '1'
     state: present
+    sysctl_file: /etc/sysctl.d/net.conf
 
 - name: Enable ipv6 forwarding
   become: true
@@ -11,3 +12,4 @@
     name: 'net.ipv6.conf.all.forwarding'
     value: '1'
     state: present
+    sysctl_file: /etc/sysctl.d/net.conf
