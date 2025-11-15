@@ -6,6 +6,6 @@
   containers.podman.podman_image:
     name: '{{ quadlet_service_definition.image }}'
     tag: '{{ quadlet_service_definition.image_tag | default(default_quadlet_image_tag) }}'
-    force: true
+    # force: true
     username: '{{ quadlet_service_definition.registry_user | default(omit) }}'
     password: '{{ quadlet_service_definition.registry_pass | default(omit) }}'
