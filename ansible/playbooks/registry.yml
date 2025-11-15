@@ -1,7 +1,18 @@
 - name: Configure Homelab Registry
   hosts: registry_servers
   tasks:
-    - name: Deploy Harbor Registry
+
+    - name: Fix broken Harbor permissions
+      become: true
+      ansible.builtin.file:
+        path: "/home/{{ container_user }}/harbor/harbor"
+        state: directory
+        mode: '0777'
+        owner: '{{ container_user }}'
+        group: '{{ container_user }}'
+        recurse: true
+
+    - name: Deploy and Restart Harbor Registry
       become: true
       community.docker.docker_compose_v2:
         project_src: "/home/{{ container_user }}/harbor"
