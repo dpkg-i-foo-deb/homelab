@@ -1,7 +1,7 @@
 # Usernames are the same as hostnames for my virtual machines
 - name: Ensure lingering is enabled
   become: true
-  ansible.builtin.command: "loginctl enable-linger {{ ansible_hostname }}"
+  ansible.builtin.command: "loginctl enable-linger {{ container_user }}"
   changed_when: false
 
 - name: Install podman
