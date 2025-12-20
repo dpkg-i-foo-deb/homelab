@@ -5,10 +5,11 @@
   when: quadlet_service_definition.pull_image | default(default_quadlet_pull_image)
   vars:
     _image_full: '{{ quadlet_service_definition.image }}'
+    _image_has_digest: '{{ "@" in _image_full }}'
     _image_parts: '{{ _image_full.split(":") }}'
-    _image_has_tag: '{{ _image_parts | length > 1 and "/" not in _image_parts[-1] }}'
-    _image_name: '{{ (_image_parts[:-1] | join(":")) if _image_has_tag else _image_full }}'
-    _image_tag: '{{ _image_parts[-1] if _image_has_tag else default_quadlet_image_tag }}'
+    _image_has_tag_no_digest: '{{ not _image_has_digest and _image_parts | length > 1 and "/" not in _image_parts[-1] }}'
+    _image_name: '{{ (_image_parts[:-1] | join(":")) if _image_has_tag_no_digest else _image_full }}'
+    _image_tag: '{{ _image_parts[-1] if _image_has_tag_no_digest else (omit if _image_has_digest else default_quadlet_image_tag) }}'
   containers.podman.podman_image:
     name: '{{ _image_name }}'
     tag: '{{ _image_tag }}'
