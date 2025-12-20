@@ -40,7 +40,6 @@
         quadlet_service_definition:
           name: headscale
           image: 'docker.io/headscale/headscale:stable'
-          image_tag: 'stable'
           user: '{{ container_user }}'
           command: 'serve'
           host_network: true

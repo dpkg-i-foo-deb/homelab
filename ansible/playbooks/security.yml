@@ -152,7 +152,6 @@
           image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/wazuh/wazuh-indexer:4.11.0'
           registry_user: '{{ homelab_registry_user }}'
           registry_pass: '{{ homelab_registry_pass }}'
-          image_tag: '4.11.0'
           user: '{{ container_user }}'
           hostname: 'wazuh.indexer'
           networks:
@@ -209,7 +208,6 @@
           image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/wazuh/wazuh-manager:4.11.0'
           registry_user: '{{ homelab_registry_user }}'
           registry_pass: '{{ homelab_registry_pass }}'
-          image_tag: '4.11.0'
           user: '{{ container_user }}'
           hostname: 'wazuh.manager'
           networks:
@@ -325,7 +323,6 @@
           image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/wazuh/wazuh-dashboard:4.11.0'
           registry_user: '{{ homelab_registry_user }}'
           registry_pass: '{{ homelab_registry_pass }}'
-          image_tag: '4.11.0'
           user: '{{ container_user }}'
           networks:
             - name: '{{ security_network }}'
