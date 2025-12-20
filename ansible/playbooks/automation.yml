@@ -1,5 +1,7 @@
 - name: Configure automation servers
   hosts: automation_servers
+  tags:
+    - automation_deploy
   tasks:
     - name: Deploy Home Assistant
       ansible.builtin.import_role:
