@@ -8,7 +8,6 @@
         quadlet_service_definition:
           name: home-assistant
           image: 'ghcr.io/home-assistant/home-assistant:stable'
-          image_tag: 'stable'
           user: '{{ container_user }}'
           ports:
             - '8123:8123'

@@ -3,9 +3,15 @@
   become: true
   become_user: '{{ quadlet_service_definition.user }}'
   when: quadlet_service_definition.pull_image | default(default_quadlet_pull_image)
+  vars:
+    _image_full: '{{ quadlet_service_definition.image }}'
+    _image_parts: '{{ _image_full.split(":") }}'
+    _image_has_tag: '{{ _image_parts | length > 1 and "/" not in _image_parts[-1] }}'
+    _image_name: '{{ (_image_parts[:-1] | join(":")) if _image_has_tag else _image_full }}'
+    _image_tag: '{{ _image_parts[-1] if _image_has_tag else default_quadlet_image_tag }}'
   containers.podman.podman_image:
-    name: '{{ quadlet_service_definition.image }}'
-    tag: '{{ quadlet_service_definition.image_tag | default(default_quadlet_image_tag) }}'
+    name: '{{ _image_name }}'
+    tag: '{{ _image_tag }}'
     # force: true
     username: '{{ quadlet_service_definition.registry_user | default(omit) }}'
     password: '{{ quadlet_service_definition.registry_pass | default(omit) }}'
