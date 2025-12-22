@@ -97,7 +97,7 @@
             PRIMARY: "http://host.containers.internal:80|{{ dns_sync_pass }}"
             REPLICAS: "http://10.0.2.5:80|{{ dns_sync_pass }},http://100.64.0.1:80|{{ dns_sync_pass }}"
             FULL_SYNC: "true"
-            RUN_GRAVITY: "true"
+            RUN_GRAVITY: "false"
             CLIENT_RETRY_DELAY_SECONDS: 20
 
 - name: Configure home DNS Sync
@@ -123,5 +123,5 @@
             PRIMARY: "http://host.containers.internal:80|{{ dns_sync_pass }}"
             REPLICAS: "http://10.0.2.3:80|{{ dns_sync_pass }},http://100.64.0.16:80|{{ dns_sync_pass }}"
             FULL_SYNC: "true"
-            RUN_GRAVITY: "true"
+            RUN_GRAVITY: "false"
             CLIENT_RETRY_DELAY_SECONDS: 20
