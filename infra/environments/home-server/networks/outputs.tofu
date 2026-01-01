@@ -27,3 +27,9 @@ output "untrusted" {
   value       = incus_network.untrusted
   description = "Network for services I don't entirely trust"
 }
+
+output "torrent" {
+  value       = incus_network.torrent
+  description = "Network for torrent services"
+
+}

@@ -79,6 +79,16 @@ variable "untrusted_net" {
   })
   description = "Untrusted network object"
 }
+
+variable "torrent_net" {
+  type = object({
+    name   = string
+    type   = string
+    config = map(string)
+  })
+  description = "Torrent network object"
+}
+
 # Storage pools available for system containers
 
 variable "virt_main_pool" {
