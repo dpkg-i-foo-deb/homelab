@@ -3,7 +3,7 @@ resource "incus_network" "untrusted" {
   type = "bridge"
   config = {
     "ipv4.address"    = "10.0.8.1/24"
-    "ipv4.nat"        = true
+    "ipv4.nat"        = false
     "dns.nameservers" = "10.0.2.2"
   }
 }
