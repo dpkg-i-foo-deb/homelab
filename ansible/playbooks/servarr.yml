@@ -11,37 +11,37 @@
         podman_login_pass: '{{ homelab_registry_pass }}'
         podman_user: '{{ container_user }}'
 
-    - name: Deploy tdarr
-      ansible.builtin.import_role:
-        name: dpkg_i_foo_deb.homelab.quadlet_service
-      vars:
-        quadlet_service_definition:
-          name: tdarr
-          image: '{{ registry_host }}.{{ internet_host }}/ghcr-proxy/haveagitgat/tdarr:latest'
-          registry_user: '{{ homelab_registry_user }}'
-          registry_pass: '{{ homelab_registry_pass }}'
-          user: '{{ container_user }}'
-          ports:
-            - '8265:8265'
-            - '8266:8266'
-          volumes:
-            - name: 'tdarr_data'
-              dest: '/app/configs:z'
-            - name: 'tdarr_server'
-              dest: '/app/server:z'
-          dir_mounts:
-            - src: '/var/servarr-cache'
-              dest: '/temp:z'
-            - src: '/music'
-              dest: '/media:z'
-          env:
-            serverIp: '0.0.0.0'
-            webUIPort: 8265
-            serverPort: 8266
-            internalNode: 'true'
-            inContainer: 'true'
-            ffmpegVersion: 6
-            nodeName: TdarrInternalNode
+    # - name: Deploy tdarr
+    #   ansible.builtin.import_role:
+    #     name: dpkg_i_foo_deb.homelab.quadlet_service
+    #   vars:
+    #     quadlet_service_definition:
+    #       name: tdarr
+    #       image: '{{ registry_host }}.{{ internet_host }}/ghcr-proxy/haveagitgat/tdarr:latest'
+    #       registry_user: '{{ homelab_registry_user }}'
+    #       registry_pass: '{{ homelab_registry_pass }}'
+    #       user: '{{ container_user }}'
+    #       ports:
+    #         - '8265:8265'
+    #         - '8266:8266'
+    #       volumes:
+    #         - name: 'tdarr_data'
+    #           dest: '/app/configs:z'
+    #         - name: 'tdarr_server'
+    #           dest: '/app/server:z'
+    #       dir_mounts:
+    #         - src: '/var/servarr-cache'
+    #           dest: '/temp:z'
+    #         - src: '/music'
+    #           dest: '/media:z'
+    #       env:
+    #         serverIp: '0.0.0.0'
+    #         webUIPort: 8265
+    #         serverPort: 8266
+    #         internalNode: 'true'
+    #         inContainer: 'true'
+    #         ffmpegVersion: 6
+    #         nodeName: TdarrInternalNode
 
 
     - name: Deploy Flaresolverr
