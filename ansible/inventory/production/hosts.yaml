@@ -47,11 +47,6 @@ home_dns:
       container_user: dns-home-0
       siem_agent: dns-home-0
       groups: 'trusted'
-    backup_home_dns:
-      ansible_host: 10.0.2.3
-      container_user: dns-home-1
-      siem_agent: dns-home-1
-      groups: 'trusted'
     vps_home_dns:
       ansible_host: 10.0.254.2
       container_user: dns-home
