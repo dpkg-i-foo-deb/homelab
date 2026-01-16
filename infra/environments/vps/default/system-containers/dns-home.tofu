@@ -15,7 +15,7 @@ resource "incus_instance" "dns_home" {
     "boot.autostart"              = true
     "limits.cpu"                  = 1
     #"limits.cpu.allowance"        = "20%"
-    "limits.memory"               = "512MiB"
+    "limits.memory"               = "320MiB"
     "limits.memory.swap"          = "true"
     "limits.memory.swap.priority" = "0"
     "cloud-init.user-data" = templatefile(
