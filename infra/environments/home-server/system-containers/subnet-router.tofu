@@ -31,7 +31,7 @@ resource "incus_instance" "subnet_router" {
     name = "eth0"
     type = "nic"
     properties = {
-      network        = var.main_net.name
+      network        = var.trusted_net.name
       "ipv4.address" = "10.0.0.18"
     }
   }
