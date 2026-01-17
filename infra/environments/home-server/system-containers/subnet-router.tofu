@@ -46,6 +46,15 @@ resource "incus_instance" "subnet_router" {
   }
 
   device {
+    name = "eth2"
+    type = "nic"
+    properties = {
+      network = var.management_net.name
+      "ipv4.address" = "10.0.1.5"
+    }
+  }
+
+  device {
     name = "root"
     type = "disk"
     properties = {
