@@ -1,10 +1,5 @@
 # Default project
 
-variable "incus_token" {
-  type        = string
-  description = "Incus API Token"
-}
-
 variable "ssh_public_key" {
   type        = string
   description = "SSH Public Key"
