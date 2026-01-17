@@ -26,3 +26,12 @@ variable "trusted_net" {
   })
   description = "Trusted network object"
 }
+
+variable "dmz_net" {
+  type = object({
+    name   = string
+    type   = string
+    config = map(string)
+  })
+  description = "Trusted network object"
+}
