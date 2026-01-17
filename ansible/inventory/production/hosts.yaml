@@ -17,6 +17,19 @@ bastion:
       groups: 'trusted,internet_facing'
       container_user: 'bastion'
 
+subnet_routers:
+  hosts:
+    vps_subnet_router:
+      ansible_host: 10.0.254.6
+      siem-agent: vps-subnet-router
+      groups: 'trusted'
+      container_user: 'subnet-router'
+    homelab_subnet_router:
+      ansible_host: 10.0.0.18
+      siem_agent: 'homelab-subnet-router'
+      groups: 'trusted'
+      container_user: 'subnet-router'
+
 vpn_servers:
   hosts:
     homelab_vpn:
