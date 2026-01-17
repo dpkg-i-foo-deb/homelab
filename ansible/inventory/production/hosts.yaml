@@ -25,7 +25,7 @@ subnet_routers:
       groups: 'trusted'
       container_user: 'subnet-router'
     homelab_subnet_router:
-      ansible_host: 10.0.0.18
+      ansible_host: 10.0.0.5
       siem_agent: 'homelab-subnet-router'
       groups: 'trusted'
       container_user: 'subnet-router'
