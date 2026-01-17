@@ -1,3 +1,14 @@
+- name: General tasks for all reverse proxy servers
+  hosts: reverse_proxy_servers
+  tasks:
+    - name: Ensure there's a directory to store Caddyfile
+      ansible.builtin.file:
+        path: /var/caddy/
+        state: directory
+        mode: '0755'
+        owner: '{{ container_user }}'
+        group: '{{ container_user }}'
+
 - name: Configure reverse proxy on home server
   hosts: private_reverse_proxy
   tasks:
