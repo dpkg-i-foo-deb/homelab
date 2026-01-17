@@ -7,5 +7,6 @@
         "!vault scalar"
     ],
     "ansible.lightspeed.enabled": false,
-    "ansible.ansible.useFullyQualifiedCollectionNames": true
+    "ansible.ansible.useFullyQualifiedCollectionNames": true,
+    "ansible.validation.lint.autoFixOnSave": false
 }

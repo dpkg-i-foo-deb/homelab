@@ -1,0 +1,16 @@
+---
+profile: production
+strict: true
+skip_list: []
+
+exclude_paths:
+  - .github/
+  - .git/
+  - tests/
+  - "*.txt"
+  - "*.md"
+
+quiet: false
+
+
+use_default_rules: true
