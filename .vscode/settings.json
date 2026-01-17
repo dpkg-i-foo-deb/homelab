@@ -5,5 +5,7 @@
     },
     "yaml.customTags": [
         "!vault scalar"
-    ]
+    ],
+    "ansible.lightspeed.enabled": false,
+    "ansible.ansible.useFullyQualifiedCollectionNames": true
 }
