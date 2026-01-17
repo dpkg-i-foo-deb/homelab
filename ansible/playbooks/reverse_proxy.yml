@@ -1,7 +1,7 @@
-- name: Configure reverse proxy on homelab network
-  hosts: reverse_proxy
+- name: Configure reverse proxy on home server
+  hosts: private_reverse_proxy
   tasks:
-    - name: Template Caddyfile for private network server
+    - name: Template Caddyfile for private server
       become: true
       vars:
         caddy_lan_prefix: '{{ lan_prefix }}'
@@ -60,7 +60,7 @@
               6231636134346531366564306165393031373263303762383265
 
 - name: Configure reverse proxy on public internet VPS
-  hosts: vps
+  hosts: public_reverse_proxy
   tasks:
     - name: Template Caddyfile for public internet server
       become: true
