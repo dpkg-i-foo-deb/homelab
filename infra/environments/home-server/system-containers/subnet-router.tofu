@@ -32,7 +32,16 @@ resource "incus_instance" "subnet_router" {
     type = "nic"
     properties = {
       network        = var.trusted_net.name
-      "ipv4.address" = "10.0.0.18"
+      "ipv4.address" = "10.0.0.5"
+    }
+  }
+
+  device {
+    name = "eth1"
+    type = "nic"
+    properties = {
+      network = var.reverse_proxy_net.name
+      "ipv4.address" = "10.0.5.5"
     }
   }
 

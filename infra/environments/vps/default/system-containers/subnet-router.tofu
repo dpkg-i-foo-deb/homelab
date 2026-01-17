@@ -39,6 +39,15 @@ resource "incus_instance" "subnet_router" {
   }
 
   device {
+    name = "eth1"
+    type = "nic"
+    properties = {
+      network = var.dmz_net.name
+      "ipv4.address" = "10.0.253.5"
+    }
+  }
+
+  device {
     name = "root"
     type = "disk"
     properties = {
