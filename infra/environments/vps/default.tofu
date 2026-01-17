@@ -10,5 +10,7 @@ module "default" {
   ssh_public_key    = var.ssh_public_key
 
   virt_main_pool = module.storage_pools.virt_main
-  trusted_net    = module.networks.trusted
+
+  trusted_net = module.networks.trusted
+  dmz_net     = module.networks.dmz
 }

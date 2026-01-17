@@ -1,5 +1,5 @@
-resource "incus_storage_volume" "vpn_data" {
-  name    = "vpn-data"
+resource "incus_storage_volume" "reverse_proxy_data" {
+  name    = "reverse-proxy-data"
   pool    = var.virt_main_pool
   project = "default"
   config = {
@@ -7,23 +7,22 @@ resource "incus_storage_volume" "vpn_data" {
   }
 }
 
-resource "incus_instance" "vpn" {
-  name  = "vpn"
+resource "incus_instance" "reverse_proxy" {
+  name  = "reverse-proxy"
   image = "images:debian/trixie/cloud"
 
   config = {
     "boot.autostart"              = true
     "limits.cpu"                  = 1
-    "limits.cpu.allowance"        = "10%"
-    "limits.memory"               = "300MiB"
+    "limits.memory"               = "256MiB"
     "limits.memory.swap"          = "true"
     "limits.memory.swap.priority" = "0"
     "cloud-init.user-data" = templatefile(
       "${path.root}/cloud-init/generic.yml.tftpl",
       {
         ssh_public_key           = var.ssh_public_key,
-        lxc_username             = "vpn"
-        lxc_username_description = "VPN Linux System Container"
+        lxc_username             = "reverse-proxy"
+        lxc_username_description = "Reverse Proxy Linux System Container"
         lxc_user_password        = var.lxc_user_password,
         ansible_password         = var.ansible_password
       }
@@ -34,8 +33,8 @@ resource "incus_instance" "vpn" {
     name = "eth0"
     type = "nic"
     properties = {
-      network        = var.trusted_net.name
-      "ipv4.address" = "10.0.254.3"
+      network        = var.dmz_net.name
+      "ipv4.address" = "10.0.253.10"
     }
   }
 
@@ -54,7 +53,7 @@ resource "incus_instance" "vpn" {
     type = "disk"
     properties = {
       path   = "/home"
-      source = incus_storage_volume.vpn_data.name
+      source = incus_storage_volume.reverse_proxy_data.name
       pool   = var.virt_main_pool
     }
   }
