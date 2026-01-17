@@ -10,12 +10,11 @@ terraform {
 provider "incus" {
   generate_client_certificates = true
   accept_remote_certificate    = true
+  default_remote = "vps"
 
   remote {
     name    = "vps"
-    scheme  = "https"
-    address = var.vps_address
+    address = "https://${var.incus_token}:8443"
     token   = var.incus_token
-    default = true
   }
 }
