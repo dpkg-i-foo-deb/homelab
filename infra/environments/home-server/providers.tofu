@@ -14,13 +14,12 @@ terraform {
 provider "incus" {
   generate_client_certificates = true
   accept_remote_certificate    = true
+  default_remote = "hypervisor"
 
   remote {
     name    = "hypervisor"
-    scheme  = "https"
-    address = "192.168.8.4"
+    address = "https://192.168.8.4:8443"
     token   = var.incus_token
-    default = true
   }
 }
 
