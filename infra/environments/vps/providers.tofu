@@ -15,6 +15,5 @@ provider "incus" {
   remote {
     name    = "vps"
     address = "https://${var.vps_address}:8443"
-    token   = var.incus_token
   }
 }

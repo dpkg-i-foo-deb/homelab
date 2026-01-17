@@ -19,7 +19,6 @@ provider "incus" {
   remote {
     name    = "hypervisor"
     address = "https://192.168.8.4:8443"
-    token   = var.incus_token
   }
 }
 

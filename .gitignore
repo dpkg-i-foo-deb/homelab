@@ -1,3 +1,6 @@
 .venv
 .ansible
 .terraform
+terraform.tfvars
+*.tfvars
+**/*.tfvars
