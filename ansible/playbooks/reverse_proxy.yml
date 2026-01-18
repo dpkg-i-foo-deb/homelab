@@ -47,7 +47,7 @@
         build:
           container_file: "{{ lookup('template', 'caddy/Containerfile.j2') }}"
 
-    - name: Deploy Caddy
+    - name: Deploy Caddy on home server
       ansible.builtin.import_role:
         name: dpkg_i_foo_deb.homelab.quadlet_service
       vars:
@@ -55,8 +55,6 @@
           name: caddy
           image: 'localhost/caddy-private:latest'
           user: '{{ container_user }}'
-          cpus: '2'
-          memory: '1g'
           pull_image: false
           host_network: true
           volumes:
@@ -106,7 +104,7 @@
         build:
           container_file: "{{ lookup('template', 'caddy/Containerfile.j2') }}"
 
-    - name: Deploy Caddy
+    - name: Deploy Caddy on public internet VPS
       ansible.builtin.import_role:
         name: dpkg_i_foo_deb.homelab.quadlet_service
       vars:
@@ -123,6 +121,8 @@
               6530623032386361390a663862623238626361363935323739323366653663646530633434333138
               63653138626437613463376631663233383638366339333736373833373434336464376264613938
               6231636134346531366564306165393031373263303762383265
+            GOMEMLIMIT: '400MiB'
+            GOGC: '40'
           host_network: true
           hosts: "{{
             {
