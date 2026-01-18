@@ -27,8 +27,9 @@
     zstd better
     gzip 6
   }
-  header_up X-Real-IP {remote}
-  reverse_proxy {args[0]}
+  reverse_proxy {args[0]} {
+    header_up X-Real-IP {remote}
+  }
 }
 
 
@@ -38,8 +39,8 @@
     zstd better
     gzip 6
   }
-  header_up X-Real-IP {remote}
   reverse_proxy {args[0]} {
+    header_up X-Real-IP {remote}
     transport http {
       tls
       tls_insecure_skip_verify
