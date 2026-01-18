@@ -39,6 +39,50 @@ resource "incus_instance" "reverse_proxy" {
   }
 
   device {
+    name = "http-tcp"
+    type = "proxy"
+
+    properties = {
+      listen  = "tcp:178.156.140.92:80"
+      connect = "tcp:0.0.0.0:80"
+      nat     = "true"
+    }
+  }
+
+  device {
+    name = "http-udp"
+    type = "proxy"
+
+    properties = {
+      listen  = "udp:178.156.140.92:80"
+      connect = "udp:0.0.0.0:80"
+      nat     = "true"
+    }
+  }
+
+  device {
+    name = "https-tcp"
+    type = "proxy"
+
+    properties = {
+      listen  = "tcp:178.156.140.92:443"
+      connect = "tcp:0.0.0.0:443"
+      nat     = "true"
+    }
+  }
+
+  device {
+    name = "https-udp"
+    type = "proxy"
+
+    properties = {
+      listen  = "udp:178.156.140.92:443"
+      connect = "udp:0.0.0.0:443"
+      nat     = "true"
+    }
+  }
+
+  device {
     name = "root"
     type = "disk"
     properties = {
