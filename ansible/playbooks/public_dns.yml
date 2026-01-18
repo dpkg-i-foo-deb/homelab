@@ -57,3 +57,6 @@
       - record: '{{ automation_host }}'
         comment: 'AWX'
         value: '{{ public_ip }}'
+      - record: '{{ remote_ssh_host }}'
+        comment: 'Termix'
+        value: '{{ public_ip }}'
