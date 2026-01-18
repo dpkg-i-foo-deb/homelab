@@ -110,6 +110,14 @@
         SecRule REQUEST_URI "@contains /api/ds/query" \
           "ctl:requestBodyAccess=Off"
 
+      # Don't scan code-server when it uses Gemini Code Asssit
+      SecRule REQUEST_HEADERS:Host "@rx ^({{ personal_code_host }}|{{ work_code_host }})$" \
+        "id:900100,\
+        phase:1,\
+        pass,\
+        nolog,\
+        ctl:ruleRemoveTargetById=930120;ARGS:vscode-resource-base-authority"
+
       # Reject requests when Coraza doesn't like them
       SecRuleEngine On
 
