@@ -165,6 +165,8 @@
 
 - name: Promtail Configuration
   hosts: reverse_proxy_servers
+  tags:
+    - promtail-deploy
   tasks:
     - name: Deploy Promtail
       ansible.builtin.import_role:
