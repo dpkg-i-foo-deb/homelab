@@ -68,10 +68,6 @@ home_dns:
       container_user: dns-home-0
       siem_agent: dns-home-0
       groups: 'trusted'
-    vps_home_dns:
-      ansible_host: 10.0.254.2
-      container_user: dns-home
-      # ansible_ssh_common_args: '-o ProxyCommand="ssh -o StrictHostKeyChecking=no -W %h:%p -q {{ vps_proxy_jump_target }}"'
 
 vpn_dns:
   hosts:
