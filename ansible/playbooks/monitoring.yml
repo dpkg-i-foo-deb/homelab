@@ -36,7 +36,7 @@
             metrics_path: 'metrics'
             targets:
               - '{{ hostvars[''private_reverse_proxy''][''ansible_host''] }}:2019'
-          - job_name: 'node'
+          - job_name: 'hypervisor'
             tls_config:
               insecure_skip_verify: true
             scheme: 'http'
