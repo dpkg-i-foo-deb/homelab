@@ -61,7 +61,7 @@
 # OWASP Coraza Configuration
 (owasp_coraza) {
 
-  @static {
+  @waf_scan {
   path *.jpg *.jpeg *.png *.gif *.ico *.svg *.webp *.tiff *.bmp *.heic # Photos
   path *.mp3 *.wav *.flac *.aac *.ogg *.m4a *.wma *.opus *.mid *.midi # Music
   path *.mp4 *.mkv *.avi *.mov *.wmv *.flv *.webm *.m4v *.mpg *.mpeg # Video
@@ -69,9 +69,7 @@
   path *.zip *.tar *.gz *.rar *.7z *.bz2 *.xz *.iso *.dmg # Archives
   }
 
-  coraza_waf {
-
-    matcher not @static
+  coraza_waf @waf_scan {
 
     load_owasp_crs
 
