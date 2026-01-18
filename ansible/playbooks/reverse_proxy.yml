@@ -19,6 +19,15 @@
         owner: '{{ container_user }}'
         group: '{{ container_user }}'
 
+    - name: Template Promtail configuration
+      become: true
+      ansible.builtin.template:
+        src: templates/caddy/promtail-caddy.yaml.j2
+        dest: /var/caddy/promtail-caddy.yaml
+        mode: '0644'
+        owner: '{{ container_user }}'
+        group: '{{ container_user }}'
+
     - name: Allow rootless processes to use privileged ports
       become: true
       ansible.builtin.import_role:
@@ -153,3 +162,23 @@
           dir_mounts:
           - src: '/var/log/caddy'
             dest: '/var/log/caddy:z'
+
+- name: Promtail Configuration
+  hosts: reverse-proxy-servers
+  tasks:
+    - name: Deploy Promtail
+      ansible.builtin.import_role:
+        name: dpkg_i_foo_deb.homelab.quadlet_service
+      vars:
+        quadlet_service_definition:
+          name: promtail
+          image: docker.io/grafana/promtail:latest
+          user: '{{ container_user }}'
+          file_mounts:
+            - src: /var/caddy/promtail-caddy.yaml
+              dest: /etc/promtail/config.yml:z
+          dir_mounts:
+            - src: /var/log/caddy
+              dest: /var/log/caddy:z
+          command:
+            - -config.file=/etc/promtail/config.yml
