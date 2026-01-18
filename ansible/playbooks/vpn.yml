@@ -1,16 +1,16 @@
 - name: Configure VPN Servers
   hosts: vpn_servers
   tasks:
-    - name: Build dns_records for Headscale
-      ansible.builtin.set_fact:
-        dns_records:
-          "{{ dns_records | default([]) + [ { 'domain': 'lan' ~ '.' ~ item.value.host ~ '.' ~ internet_host, 'address': item.value.private_proxy_vpn } ] }}"
-      loop: "{{ homelab_services | dict2items }}"
-      when: item.value.private_proxy_vpn is defined
+    # - name: Build dns_records for Headscale
+    #   ansible.builtin.set_fact:
+    #     dns_records:
+    #       "{{ dns_records | default([]) + [ { 'domain': 'lan' ~ '.' ~ item.value.host ~ '.' ~ internet_host, 'address': item.value.private_proxy_vpn } ] }}"
+    #   loop: "{{ homelab_services | dict2items }}"
+    #   when: item.value.private_proxy_vpn is defined
 
-    - name: Display DNS Records
-      ansible.builtin.debug:
-        msg: '{{ dns_records }}'
+    # - name: Display DNS Records
+    #   ansible.builtin.debug:
+    #     msg: '{{ dns_records }}'
 
     - name: Template Headscale configuration
       vars:
@@ -24,7 +24,6 @@
         headscale_grpc_listen_addr: '0.0.0.0'
         headscale_grpc_listen_port: '50443'
         headscale_dns_base_domain: 'nodes.{{ vpn_host }}.{{ internet_host }}'
-        headscale_dns_records: '{{ dns_records }}'
       become: true
       ansible.builtin.template:
         src: templates/headscale/config.yaml.j2
