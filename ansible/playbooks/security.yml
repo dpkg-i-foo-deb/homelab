@@ -746,7 +746,7 @@
         - keycloak-clients
       middleware_automation.keycloak.keycloak_client:
         auth_client_id: admin-cli
-        auth_keycloak_url: 'https://{{ remote_ssh_host }}.{{ internet_host }}'
+        auth_keycloak_url: 'https://{{ auth_host }}.{{ internet_host }}'
         auth_realm: master
         auth_username: '{{ security_keycloak_admin_user }}'
         auth_password: '{{ security_keycloak_admin_password }}'
