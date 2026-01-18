@@ -10,6 +10,12 @@
         owner: '{{ container_user }}'
         group: '{{ container_user }}'
 
+    - name: Allow rootless processes to use privileged ports
+      become: true
+      ansible.builtin.import_role:
+        name: podman
+        tasks_from: rootless_ports
+
 - name: Configure reverse proxy on home server
   hosts: private_reverse_proxy
   tasks:
