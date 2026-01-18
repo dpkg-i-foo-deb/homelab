@@ -126,14 +126,14 @@ homelab_services:
       ip: '10.0.0.10'
       port: '4180'
   rss:
-    name: 'RSS reader'
+    name: 'rss'
     host: 'rss'
     ip: '10.0.0.10'
     port: '8081'
     tls: false
     private_proxy: '{{ private_reverse_proxy }}'
   photos:
-    name: 'Photos and Backup'
+    name: 'immich'
     host: 'photos'
     ip: '10.0.0.13'
     port: '2283'
