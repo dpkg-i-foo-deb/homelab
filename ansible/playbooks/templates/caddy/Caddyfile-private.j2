@@ -162,7 +162,7 @@
           "ctl:requestBodyAccess=Off"
 
       # Don't scan code-server when it uses Gemini Code Asssit
-      SecRule REQUEST_HEADERS:Host "@rx ^({{ code_personal_host }}|{{ code_work_host }})$" \
+      SecRule REQUEST_HEADERS:Host "@rx ^({{ code_personal_host }}|{{ code_work_host }})" \
         "id:900100,\
         phase:1,\
         pass,\
