@@ -164,7 +164,7 @@
             dest: '/var/log/caddy:z'
 
 - name: Promtail Configuration
-  hosts: reverse-proxy-servers
+  hosts: reverse_proxy_servers
   tasks:
     - name: Deploy Promtail
       ansible.builtin.import_role:
