@@ -12,18 +12,21 @@
     trusted_proxies static private_ranges
   }
 
+}
+
+# Snippets
+
+# Logging
+(logging) {
   log {
-    output file /var/log/caddy/access.log {
+    output file /var/log/caddy/{args[0]} {
       roll_size 100mb
       roll_keep 5
       roll_keep_for 14d
       }
     format json
   }
-
 }
-
-# Snippets
 
 # Proxy with compression. Uses plain HTTP
 (proxy) {
@@ -217,6 +220,7 @@
 # {{ service.name }}
 {{ caddy_lan_prefix }}.{{ service.host }}.{{ caddy_internet_host }},
 {{ service.host }}.{{ caddy_internet_host }} {
+  import logging {{ service.name }}.log
   import owasp_coraza
   import error_handler
   import letsencrypt_cloudflare_dns
