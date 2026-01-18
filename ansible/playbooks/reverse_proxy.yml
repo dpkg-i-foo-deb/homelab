@@ -97,6 +97,7 @@
       become_user: '{{ container_user }}'
       vars:
         caddy_extensions:
+          - github.com/caddy-dns/cloudflare
           - github.com/corazawaf/coraza-caddy/v2
       containers.podman.podman_image:
         name: 'caddy-public:latest'
