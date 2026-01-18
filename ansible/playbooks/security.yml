@@ -527,7 +527,7 @@
         bearer_only: false
         consent_required: false
         standard_flow_enabled: true
-        implicit_flow_enabled: true
+        implicit_flow_enabled: false
         direct_access_grants_enabled: false
         service_accounts_enabled: false
         authorization_services_enabled: false
@@ -575,7 +575,7 @@
         bearer_only: false
         consent_required: false
         standard_flow_enabled: true
-        implicit_flow_enabled: true
+        implicit_flow_enabled: false
         direct_access_grants_enabled: false
         service_accounts_enabled: false
         authorization_services_enabled: false
@@ -623,7 +623,7 @@
         bearer_only: false
         consent_required: false
         standard_flow_enabled: true
-        implicit_flow_enabled: true
+        implicit_flow_enabled: false
         direct_access_grants_enabled: false
         service_accounts_enabled: false
         authorization_services_enabled: false
@@ -671,7 +671,7 @@
         bearer_only: false
         consent_required: false
         standard_flow_enabled: true
-        implicit_flow_enabled: true
+        implicit_flow_enabled: false
         direct_access_grants_enabled: false
         service_accounts_enabled: false
         authorization_services_enabled: false
@@ -719,7 +719,7 @@
         bearer_only: false
         consent_required: false
         standard_flow_enabled: true
-        implicit_flow_enabled: true
+        implicit_flow_enabled: false
         direct_access_grants_enabled: false
         service_accounts_enabled: false
         authorization_services_enabled: false
