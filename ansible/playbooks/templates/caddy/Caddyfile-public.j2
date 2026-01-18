@@ -108,21 +108,29 @@
 # Authentication portal
 
 {{ auth_host }}.{{ internet_host }} {
+  import owasp_coraza
+  import error_handler
   import letsencrypt_cloudflare_dns
   import proxy https://{{ lan_prefix }}.{{ auth_host }}.{{ internet_host }}
 }
 
 {{ remote_host }}.{{ internet_host }} {
+  import owasp_coraza
+  import error_handler
   import letsencrypt_cloudflare_dns
   import proxy https://{{ lan_prefix }}.{{ remote_host }}.{{ internet_host }}
 }
 
 {{ code_personal_host }}.{{ internet_host }} {
+  import owasp_coraza
+  import error_handler
   import letsencrypt_cloudflare_dns
   import proxy https://{{ lan_prefix }}.{{ code_personal_host }}.{{ internet_host }}
 }
 
 {{ code_work_host }}.{{ internet_host }} {
+  import owasp_coraza
+  import error_handler
   import letsencrypt_cloudflare_dns
   import proxy https://{{ lan_prefix }}.{{ code_work_host }}.{{ internet_host }}
 }
@@ -139,11 +147,15 @@
 # Note taking service
 
 {{ notes_host }}.{{ internet_host }} {
+  import owasp_coraza
+  import error_handler
   import letsencrypt_cloudflare_dns
   import proxy https://{{ lan_prefix }}.{{ notes_host }}.{{ internet_host }}
 }
 
 {{ password_mgr_host }}.{{ internet_host }} {
+  import owasp_coraza
+  import error_handler
   import letsencrypt_cloudflare_dns
   import proxy https://{{ lan_prefix }}.{{ password_mgr_host }}.{{ internet_host }}
 }
@@ -151,6 +163,8 @@
 # RSS service
 
 {{ rss_host }}.{{ internet_host }} {
+  import owasp_coraza
+  import error_handler
   import letsencrypt_cloudflare_dns
   import proxy https://{{ lan_prefix }}.{{ rss_host }}.{{ internet_host }}
 }
@@ -158,6 +172,8 @@
 # Photos service
 
 {{ photos_host }}.{{ internet_host }} {
+  import owasp_coraza
+  import error_handler
   import letsencrypt_cloudflare_dns
   import proxy https://{{ lan_prefix }}.{{ photos_host }}.{{ internet_host }}
 }
@@ -165,6 +181,8 @@
 # Metrics service
 
 {{ metrics_host }}.{{ internet_host }} {
+  import owasp_coraza
+  import error_handler
   import letsencrypt_cloudflare_dns
   import proxy https://{{ lan_prefix }}.{{ metrics_host }}.{{ internet_host }}
 }
@@ -172,6 +190,8 @@
 # Registry service
 
 {{ registry_host }}.{{ internet_host }} {
+  import owasp_coraza
+  import error_handler
   import letsencrypt_cloudflare_dns
   import proxy https://{{ lan_prefix }}.{{ registry_host }}.{{ internet_host }}
 }
@@ -179,6 +199,8 @@
 # Home Assistant
 
 {{ home_assistant_host }}.{{ internet_host }} {
+  import owasp_coraza
+  import error_handler
   import letsencrypt_cloudflare_dns
   import proxy https://{{ lan_prefix }}.{{ home_assistant_host }}.{{ internet_host }}
 }
@@ -186,6 +208,8 @@
 # AWX
 
 {{ automation_host }}.{{ internet_host }} {
+  import owasp_coraza
+  import error_handler
   import letsencrypt_cloudflare_dns
   import proxy https://{{ lan_prefix }}.{{ automation_host }}.{{ internet_host }}
 }
@@ -193,6 +217,8 @@
 # Termix
 
 {{ remote_ssh_host }}.{{ internet_host }} {
+  import owasp_coraza
+  import error_handler
   import letsencrypt_cloudflare_dns
   import proxy https://{{ lan_prefix }}.{{ remote_ssh_host}}.{{ internet_host }}
 }
