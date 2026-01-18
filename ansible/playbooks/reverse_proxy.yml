@@ -114,6 +114,24 @@
           image: 'localhost/caddy-public:latest'
           user: '{{ container_user }}'
           host_network: true
+          hosts: "{{
+            {
+            (lan_prefix ~ '.' ~ auth_host ~ '.' ~ internet_host): private_reverse_proxy_host,
+            (lan_prefix ~ '.' ~ remote_host ~ '.' ~ internet_host): private_reverse_proxy_host,
+            (lan_prefix ~ '.' ~ code_personal_host ~ '.' ~ internet_host): private_reverse_proxy_host,
+            (lan_prefix ~ '.' ~ code_work_host ~ '.' ~ internet_host): private_reverse_proxy_host,
+            (lan_prefix ~ '.' ~ music_host ~ '.' ~ internet_host): private_reverse_proxy_host,
+            (lan_prefix ~ '.' ~ notes_host ~ '.' ~ internet_host): private_reverse_proxy_host,
+            (lan_prefix ~ '.' ~ password_mgr_host ~ '.' ~ internet_host): private_reverse_proxy_host,
+            (lan_prefix ~ '.' ~ rss_host ~ '.' ~ internet_host): private_reverse_proxy_host,
+            (lan_prefix ~ '.' ~ photos_host ~ '.' ~ internet_host): private_reverse_proxy_host,
+            (lan_prefix ~ '.' ~ metrics_host ~ '.' ~ internet_host): private_reverse_proxy_host,
+            (lan_prefix ~ '.' ~ registry_host ~ '.' ~ internet_host): private_reverse_proxy_host,
+            (lan_prefix ~ '.' ~ home_assistant_host ~ '.' ~ internet_host): private_reverse_proxy_host,
+            (lan_prefix ~ '.' ~ automation_host ~ '.' ~ internet_host): private_reverse_proxy_host,
+            (lan_prefix ~ '.' ~ remote_ssh_host ~ '.' ~ internet_host): private_reverse_proxy_host,
+            }
+            }}"
           volumes:
             - name: 'caddy_data'
               dest: '/data:z'
