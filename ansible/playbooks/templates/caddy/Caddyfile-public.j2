@@ -100,6 +100,12 @@
         ctl:ruleRemoveTargetById=932260;ARGS:json.username,\
         ctl:ruleRemoveTargetById=932260;ARGS:json.u"
 
+      # Don't scan Grafana when it uses Prometheus sfuff
+      SecRule REQUEST_HEADERS:Host "@streq {{ metrics_host }}.{{ internet_host }}" \
+        "id:1012,phase:1,pass,nolog,chain"
+        SecRule REQUEST_URI "@contains /api/ds/query" \
+          "ctl:requestBodyAccess=Off"
+
       # Reject requests when Coraza doesn't like them
       SecRuleEngine On
 
