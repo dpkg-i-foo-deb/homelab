@@ -11,19 +11,21 @@
   servers {
     trusted_proxies static private_ranges
   }
+}
 
+# Snippets
+
+# Logging
+(logging) {
   log {
-    output file /var/log/caddy/access.log {
+    output file /var/log/caddy/{args[0]} {
       roll_size 100mb
       roll_keep 5
       roll_keep_for 14d
       }
     format json
   }
-
 }
-
-# Snippets
 
 # Proxy with compression. Uses plain HTTP
 (proxy) {
@@ -165,6 +167,7 @@
 # VPN Service
 
 {{ vpn_host }}.{{ internet_host }} {
+  import logging vpn.log
   import letsencrypt_cloudflare_dns
   import proxy 10.0.254.3:8080
 }
@@ -173,6 +176,7 @@
 # Authentication portal
 
 {{ auth_host }}.{{ internet_host }} {
+  import logging keycloak.log
   import owasp_coraza
   import error_handler
   import letsencrypt_cloudflare_dns
@@ -180,6 +184,7 @@
 }
 
 {{ remote_host }}.{{ internet_host }} {
+  import logging guacamole.log
   import owasp_coraza
   import error_handler
   import letsencrypt_cloudflare_dns
@@ -187,6 +192,7 @@
 }
 
 {{ code_personal_host }}.{{ internet_host }} {
+  import logging personal_code.log
   import owasp_coraza
   import error_handler
   import letsencrypt_cloudflare_dns
@@ -194,6 +200,7 @@
 }
 
 {{ code_work_host }}.{{ internet_host }} {
+  import logging work_code.log
   import owasp_coraza
   import error_handler
   import letsencrypt_cloudflare_dns
@@ -203,6 +210,7 @@
 # Music service
 
 {{ music_host }}.{{ internet_host }} {
+  import logging navidrome.log
   import owasp_coraza
   import error_handler
   import letsencrypt_cloudflare_dns
@@ -212,6 +220,7 @@
 # Note taking service
 
 {{ notes_host }}.{{ internet_host }} {
+  import logging notes.log
   import owasp_coraza
   import error_handler
   import letsencrypt_cloudflare_dns
@@ -219,6 +228,7 @@
 }
 
 {{ password_mgr_host }}.{{ internet_host }} {
+  import logging vaultwarden.log
   import owasp_coraza
   import error_handler
   import letsencrypt_cloudflare_dns
@@ -228,6 +238,7 @@
 # RSS service
 
 {{ rss_host }}.{{ internet_host }} {
+  import logging rss.log
   import owasp_coraza
   import error_handler
   import letsencrypt_cloudflare_dns
@@ -237,6 +248,7 @@
 # Photos service
 
 {{ photos_host }}.{{ internet_host }} {
+  import logging immich.log
   import owasp_coraza
   import error_handler
   import letsencrypt_cloudflare_dns
@@ -246,6 +258,7 @@
 # Metrics service
 
 {{ metrics_host }}.{{ internet_host }} {
+  import logging grafana.log
   import owasp_coraza
   import error_handler
   import letsencrypt_cloudflare_dns
@@ -255,6 +268,7 @@
 # Registry service
 
 {{ registry_host }}.{{ internet_host }} {
+  import logging harbor.log
   import owasp_coraza
   import error_handler
   import letsencrypt_cloudflare_dns
@@ -264,6 +278,7 @@
 # Home Assistant
 
 {{ home_assistant_host }}.{{ internet_host }} {
+  import logging home_assistant.log
   import owasp_coraza
   import error_handler
   import letsencrypt_cloudflare_dns
@@ -273,6 +288,7 @@
 # AWX
 
 {{ automation_host }}.{{ internet_host }} {
+  import logging awx.log
   import owasp_coraza
   import error_handler
   import letsencrypt_cloudflare_dns
@@ -282,6 +298,7 @@
 # Termix
 
 {{ remote_ssh_host }}.{{ internet_host }} {
+  import logging termix.log
   import owasp_coraza
   import error_handler
   import letsencrypt_cloudflare_dns
