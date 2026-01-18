@@ -1,0 +1,67 @@
+server:
+  http_listen_port: 9080
+  grpc_listen_port: 0
+positions:
+  filename: /tmp/positions.yaml
+clients:
+  - url: http://10.0.1.12:3100/loki/api/v1/push
+scrape_configs:
+  # OWASP Coraza Audit Log (Security Events)
+  - job_name: caddy_waf
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: caddy_waf
+          host: "reverse-proxy"
+          __path__: /var/log/caddy/coraza_audit.log
+    pipeline_stages:
+      - json:
+          expressions:
+            # Extract deep nested fields to top-level for querying
+            rule_id: transaction.messages[0].data.ruleId
+            attack_msg: transaction.messages[0].msg
+            client_ip: transaction.client_ip
+            uri: transaction.request.uri
+            method: transaction.request.method
+            action: transaction.producer.rule_engine
+      - labels:
+          # Turn these into clickable filters in Grafana
+          rule_id:
+          action:
+  # Service Logs
+  - job_name: caddy
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: caddy
+          agent: caddy-promtail
+          host: "reverse-proxy"
+          __path__: /var/log/caddy/*.log
+    pipeline_stages:
+      # Exclude WAF log
+      - match:
+          selector: '{__path__=~".*coraza_audit.log"}'
+          action: drop
+      #  Extract Service Name from Filename
+      # If file is "/var/log/caddy/navidrome.log", label becomes service="navidrome"
+      - regex:
+          source: __path__
+          expression: '/var/log/caddy/(?P<service_name>.*)\.log'
+      - labels:
+          service_name:
+      # Parse the Caddy JSON
+      - json:
+          expressions:
+            status: status
+            duration: duration
+            method: request.method
+            uri: request.uri
+      - labels:
+          status:
+          duration:
+# Fix Time
+      - timestamp:
+          source: ts
+          format: Unix
