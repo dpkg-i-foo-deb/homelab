@@ -189,6 +189,13 @@ homelab_services:
     tls: false
     private_proxy: '{{ private_reverse_proxy }}'
     private_proxy_vpn: '{{ private_reverse_proxy_vpn }}'
+  termix:
+    name: 'Termix'
+    host: '{{ remote_ssh_host }}'
+    ip: '10.0.1.13'
+    port: '8080'
+    tls: false
+    private_proxy: '{{ private_reverse_proxy }}'
 
 # LAN service DNS prefix
 lan_prefix: 'lan'
