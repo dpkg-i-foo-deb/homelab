@@ -128,7 +128,7 @@
     directives `
       Include @coraza.conf-recommended
       # block_search_ip=0 disables ip reputation checks (slow if not tuned)
-      SecAction "id:900000,phase:1,nolog,pass,t none,setvar:tx.paranoia_level=2"
+      SecAction "id:900000,phase:1,nolog,pass,t:none,setvar:tx.paranoia_level=2"
       # Threshold: 5 (Strict). Defaults are usually higher.
       SecAction "id:900110,phase:1,nolog,pass,t:none,setvar:tx.inbound_anomaly_score_threshold=5,setvar:tx.outbound_anomaly_score_threshold=4"
       SecRule REQUEST_HEADERS:Content-Type "@contains multipart/form-data" \
@@ -143,11 +143,12 @@
       # SecRule REMOTE_ADDR "@ipMatch 192.168.1.50" "id:1000,phase:1,allow,nolog,ctl:ruleEngine=Off"
 
       # Don't scan for Unix Command execution for username fields
-      SecRule REQUEST_URI ".*" \ "id:1010,phase:1,pass,nolog,\
-      ctl:ruleRemoveTargetById=932260;ARGS:u,\
-      ctl:ruleRemoveTargetById=932260;ARGS:username,\
-      ctl:ruleRemoveTargetById=932260;ARGS:json.username,\
-      ctl:ruleRemoveTargetById=932260;ARGS:json.u"
+      SecRule REQUEST_URI ".*" \
+        "id:1010,phase:1,pass,nolog,\
+        ctl:ruleRemoveTargetById=932260;ARGS:u,\
+        ctl:ruleRemoveTargetById=932260;ARGS:username,\
+        ctl:ruleRemoveTargetById=932260;ARGS:json.username,\
+        ctl:ruleRemoveTargetById=932260;ARGS:json.u"
 
 
       # Reject requests when Coraza doesn't like them

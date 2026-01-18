@@ -93,11 +93,12 @@
       # SecRule REMOTE_ADDR "@ipMatch 192.168.1.50" "id:1000,phase:1,allow,nolog,ctl:ruleEngine=Off"
 
       # Don't scan for Unix Command execution for username fields
-      SecRule REQUEST_URI ".*" \ "id:1010,phase:1,pass,nolog,\
-      ctl:ruleRemoveTargetById=932260;ARGS:u,\
-      ctl:ruleRemoveTargetById=932260;ARGS:username,\
-      ctl:ruleRemoveTargetById=932260;ARGS:json.username,\
-      ctl:ruleRemoveTargetById=932260;ARGS:json.u"
+      SecRule REQUEST_URI ".*"\
+        "id:1010,phase:1,pass,nolog,\
+        ctl:ruleRemoveTargetById=932260;ARGS:u,\
+        ctl:ruleRemoveTargetById=932260;ARGS:username,\
+        ctl:ruleRemoveTargetById=932260;ARGS:json.username,\
+        ctl:ruleRemoveTargetById=932260;ARGS:json.u"
 
       # Reject requests when Coraza doesn't like them
       SecRuleEngine On
