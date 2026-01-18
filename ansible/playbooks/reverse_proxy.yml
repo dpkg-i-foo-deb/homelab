@@ -10,11 +10,34 @@
         owner: '{{ container_user }}'
         group: '{{ container_user }}'
 
+    - name: Ensure there's a directory to store Caddy logs
+      become: true
+      ansible.builtin.file:
+        path: /var/log/caddy/
+        state: directory
+        mode: '0755'
+        owner: '{{ container_user }}'
+        group: '{{ container_user }}'
+
     - name: Allow rootless processes to use privileged ports
       become: true
       ansible.builtin.import_role:
         name: podman
         tasks_from: rootless_ports
+
+    - name: Build Caddy image
+      become: true
+      become_user: '{{ container_user }}'
+      vars:
+        caddy_extensions:
+          - github.com/caddy-dns/cloudflare
+          - github.com/corazawaf/coraza-caddy/v2
+      containers.podman.podman_image:
+        name: 'caddy-private:latest'
+        state: build
+        force: true
+        build:
+          container_file: "{{ lookup('template', 'caddy/Containerfile.j2') }}"
 
 - name: Configure reverse proxy on home server
   hosts: private_reverse_proxy
@@ -32,20 +55,6 @@
         mode: '0644'
         owner: '{{ container_user }}'
         group: '{{ container_user }}'
-
-    - name: Build Caddy image
-      become: true
-      become_user: '{{ container_user }}'
-      vars:
-        caddy_extensions:
-          - github.com/caddy-dns/cloudflare
-          - github.com/corazawaf/coraza-caddy/v2
-      containers.podman.podman_image:
-        name: 'caddy-private:latest'
-        state: build
-        force: true
-        build:
-          container_file: "{{ lookup('template', 'caddy/Containerfile.j2') }}"
 
     - name: Deploy Caddy on home server
       ansible.builtin.import_role:
@@ -65,6 +74,9 @@
           file_mounts:
             - src: '/var/caddy/Caddyfile'
               dest: '/etc/caddy/Caddyfile:z'
+          dir_mounts:
+          - src: '/var/log/caddy'
+            dest: '/var/log/caddy:z'
           env:
             CF_API_TOKEN: !vault |
               $ANSIBLE_VAULT;1.1;AES256
@@ -91,20 +103,6 @@
         mode: '0644'
         owner: '{{ container_user }}'
         group: '{{ container_user }}'
-
-    - name: Build Caddy image
-      become: true
-      become_user: '{{ container_user }}'
-      vars:
-        caddy_extensions:
-          - github.com/caddy-dns/cloudflare
-          - github.com/corazawaf/coraza-caddy/v2
-      containers.podman.podman_image:
-        name: 'caddy-public:latest'
-        state: build
-        force: true
-        build:
-          container_file: "{{ lookup('template', 'caddy/Containerfile.j2') }}"
 
     - name: Deploy Caddy on public internet VPS
       ansible.builtin.import_role:
@@ -152,3 +150,6 @@
           file_mounts:
             - src: '/var/caddy/Caddyfile'
               dest: '/etc/caddy/Caddyfile:z'
+          dir_mounts:
+          - src: '/var/log/caddy'
+            dest: '/var/log/caddy:z'
