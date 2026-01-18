@@ -43,6 +43,8 @@
 (letsencrypt_cloudflare_dns) {
   tls {
     dns cloudflare {env.CF_API_TOKEN}
+    propagation_timeout -1
+    propagation_delay 120s
 }
 }
 
