@@ -1,6 +1,8 @@
 # DO NOT MODIFY MANUALLY, GENERATED WITH ANSIBLE
 # Global config
 {
+  # Enable OWASP Coraza
+  order coraza_waf first
 
   admin 0.0.0.0:2019
 
@@ -8,6 +10,11 @@
 
   servers {
     trusted_proxies static private_ranges
+  }
+
+  log {
+    output file /var/log/caddy/access.log
+    format json
   }
 
 }
@@ -20,6 +27,7 @@
     zstd better
     gzip 6
   }
+  header_up X-Real-IP {remote}
   reverse_proxy {args[0]}
 }
 
@@ -30,6 +38,7 @@
     zstd better
     gzip 6
   }
+  header_up X-Real-IP {remote}
   reverse_proxy {args[0]} {
     transport http {
       tls
@@ -48,99 +57,134 @@
   }
 }
 
-# VPN Service
+:80, :443 {
+  coraza_waf {
+    load_owasp_crs
 
-{{ vpn_host }}.{{ internet_host }} {
-  import proxy 10.0.254.3:8080
-}
+    directives `
+      Include @coraza.conf-recommended
+      # block_search_ip=0 disables ip reputation checks (slow if not tuned)
+      SecAction "id:900000,phase:1,nolog,pass,t:none,setvar:tx.paranoia_level=2"
+      # Threshold: 5 (Strict). Defaults are usually higher.
+      SecAction "id:900110,phase:1,nolog,pass,t:none,setvar:tx.inbound_anomaly_score_threshold=5,setvar:tx.outbound_anomaly_score_threshold=4"
+
+      # --- Load Rules ---
+      Include @crs-setup.conf.example
+      Include @owasp_crs/*.conf
+
+      # --- Custom Overrides ---
+      # Example: Whitelist a specific scanner IP
+      # SecRule REMOTE_ADDR "@ipMatch 192.168.1.50" "id:1000,phase:1,allow,nolog,ctl:ruleEngine=Off"
+
+      # --- Audit Logging ---
+      SecAuditLog /var/log/caddy/coraza_audit.log
+      SecAuditLogFormat json
+      SecAuditLogParts ABIJDEFHZ
+      SecAuditEngine RelevantOnly
+    `
+  }
+
+  # Services Definition
+  # VPN Service
+
+  {{ vpn_host }}.{{ internet_host }} {
+    import proxy 10.0.254.3:8080
+  }
 
 
-# Authentication portal
+  # Authentication portal
 
-{{ auth_host }}.{{ internet_host }} {
-  import letsencrypt_cloudflare_dns
-  import proxy https://{{ lan_prefix }}.{{ auth_host }}.{{ internet_host }}
-}
+  {{ auth_host }}.{{ internet_host }} {
+    import letsencrypt_cloudflare_dns
+    import proxy https://{{ lan_prefix }}.{{ auth_host }}.{{ internet_host }}
+  }
 
-{{ remote_host }}.{{ internet_host }} {
-  import letsencrypt_cloudflare_dns
-  import proxy https://{{ lan_prefix }}.{{ remote_host }}.{{ internet_host }}
-}
+  {{ remote_host }}.{{ internet_host }} {
+    import letsencrypt_cloudflare_dns
+    import proxy https://{{ lan_prefix }}.{{ remote_host }}.{{ internet_host }}
+  }
 
-{{ code_personal_host }}.{{ internet_host }} {
-  import letsencrypt_cloudflare_dns
-  import proxy https://{{ lan_prefix }}.{{ code_personal_host }}.{{ internet_host }}
-}
+  {{ code_personal_host }}.{{ internet_host }} {
+    import letsencrypt_cloudflare_dns
+    import proxy https://{{ lan_prefix }}.{{ code_personal_host }}.{{ internet_host }}
+  }
 
-{{ code_work_host }}.{{ internet_host }} {
-  import letsencrypt_cloudflare_dns
-  import proxy https://{{ lan_prefix }}.{{ code_work_host }}.{{ internet_host }}
-}
+  {{ code_work_host }}.{{ internet_host }} {
+    import letsencrypt_cloudflare_dns
+    import proxy https://{{ lan_prefix }}.{{ code_work_host }}.{{ internet_host }}
+  }
 
-# Music service
+  # Music service
 
-{{ music_host }}.{{ internet_host }} {
-  import letsencrypt_cloudflare_dns
-  import proxy https://{{ lan_prefix }}.{{ music_host }}.{{ internet_host }}
-}
+  {{ music_host }}.{{ internet_host }} {
+    import letsencrypt_cloudflare_dns
+    import proxy https://{{ lan_prefix }}.{{ music_host }}.{{ internet_host }}
+  }
 
-# Note taking service
+  # Note taking service
 
-{{ notes_host }}.{{ internet_host }} {
-  import letsencrypt_cloudflare_dns
-  import proxy https://{{ lan_prefix }}.{{ notes_host }}.{{ internet_host }}
-}
+  {{ notes_host }}.{{ internet_host }} {
+    import letsencrypt_cloudflare_dns
+    import proxy https://{{ lan_prefix }}.{{ notes_host }}.{{ internet_host }}
+  }
 
-{{ password_mgr_host }}.{{ internet_host }} {
-  import letsencrypt_cloudflare_dns
-  import proxy https://{{ lan_prefix }}.{{ password_mgr_host }}.{{ internet_host }}
-}
+  {{ password_mgr_host }}.{{ internet_host }} {
+    import letsencrypt_cloudflare_dns
+    import proxy https://{{ lan_prefix }}.{{ password_mgr_host }}.{{ internet_host }}
+  }
 
-# RSS service
+  # RSS service
 
-{{ rss_host }}.{{ internet_host }} {
-  import letsencrypt_cloudflare_dns
-  import proxy https://{{ lan_prefix }}.{{ rss_host }}.{{ internet_host }}
-}
+  {{ rss_host }}.{{ internet_host }} {
+    import letsencrypt_cloudflare_dns
+    import proxy https://{{ lan_prefix }}.{{ rss_host }}.{{ internet_host }}
+  }
 
-# Photos service
+  # Photos service
 
-{{ photos_host }}.{{ internet_host }} {
-  import letsencrypt_cloudflare_dns
-  import proxy https://{{ lan_prefix }}.{{ photos_host }}.{{ internet_host }}
-}
+  {{ photos_host }}.{{ internet_host }} {
+    import letsencrypt_cloudflare_dns
+    import proxy https://{{ lan_prefix }}.{{ photos_host }}.{{ internet_host }}
+  }
 
-# Metrics service
+  # Metrics service
 
-{{ metrics_host }}.{{ internet_host }} {
-  import letsencrypt_cloudflare_dns
-  import proxy https://{{ lan_prefix }}.{{ metrics_host }}.{{ internet_host }}
-}
+  {{ metrics_host }}.{{ internet_host }} {
+    import letsencrypt_cloudflare_dns
+    import proxy https://{{ lan_prefix }}.{{ metrics_host }}.{{ internet_host }}
+  }
 
-# Registry service
+  # Registry service
 
-{{ registry_host }}.{{ internet_host }} {
-  import letsencrypt_cloudflare_dns
-  import proxy https://{{ lan_prefix }}.{{ registry_host }}.{{ internet_host }}
-}
+  {{ registry_host }}.{{ internet_host }} {
+    import letsencrypt_cloudflare_dns
+    import proxy https://{{ lan_prefix }}.{{ registry_host }}.{{ internet_host }}
+  }
 
-# Home Assistant
+  # Home Assistant
 
-{{ home_assistant_host }}.{{ internet_host }} {
-  import letsencrypt_cloudflare_dns
-  import proxy https://{{ lan_prefix }}.{{ home_assistant_host }}.{{ internet_host }}
-}
+  {{ home_assistant_host }}.{{ internet_host }} {
+    import letsencrypt_cloudflare_dns
+    import proxy https://{{ lan_prefix }}.{{ home_assistant_host }}.{{ internet_host }}
+  }
 
-# AWX
+  # AWX
 
-{{ automation_host }}.{{ internet_host }} {
-  import letsencrypt_cloudflare_dns
-  import proxy https://{{ lan_prefix }}.{{ automation_host }}.{{ internet_host }}
-}
+  {{ automation_host }}.{{ internet_host }} {
+    import letsencrypt_cloudflare_dns
+    import proxy https://{{ lan_prefix }}.{{ automation_host }}.{{ internet_host }}
+  }
 
-# Termix
+  # Termix
 
-{{ remote_ssh_host }}.{{ internet_host }} {
-  import letsencrypt_cloudflare_dns
-  import proxy https://{{ lan_prefix }}.{{ remote_ssh_host}}.{{ internet_host }}
+  {{ remote_ssh_host }}.{{ internet_host }} {
+    import letsencrypt_cloudflare_dns
+    import proxy https://{{ lan_prefix }}.{{ remote_ssh_host}}.{{ internet_host }}
+  }
+
+  #ERROR HANDLING
+  handle_errors {
+      @blocked expression {http.error.status_code} == 403
+      respond @blocked "Request blocked by OWASP Coraza WAF. Support ID: {http.request.header.x-request-id}" 403
+  }
 }
