@@ -60,7 +60,19 @@
 
 # OWASP Coraza Configuration
 (owasp_coraza) {
+
+  @static {
+  path *.jpg *.jpeg *.png *.gif *.ico *.svg *.webp *.tiff *.bmp *.heic # Photos
+  path *.mp3 *.wav *.flac *.aac *.ogg *.m4a *.wma *.opus *.mid *.midi # Music
+  path *.mp4 *.mkv *.avi *.mov *.wmv *.flv *.webm *.m4v *.mpg *.mpeg # Video
+  path *.pdf *.doc *.docx *.xls *.xlsx *.ppt *.pptx *.txt *.rtf *.epub # Docs
+  path *.zip *.tar *.gz *.rar *.7z *.bz2 *.xz *.iso *.dmg # Archives
+  }
+
   coraza_waf {
+
+    matcher not @static
+
     load_owasp_crs
 
     directives `
@@ -69,6 +81,8 @@
       SecAction "id:900000,phase:1,nolog,pass,t:none,setvar:tx.paranoia_level=2"
       # Threshold: 5 (Strict). Defaults are usually higher.
       SecAction "id:900110,phase:1,nolog,pass,t:none,setvar:tx.inbound_anomaly_score_threshold=5,setvar:tx.outbound_anomaly_score_threshold=4"
+      SecRule REQUEST_HEADERS:Content-Type "@contains multipart/form-data" \
+        "id:1005,phase:1,nolog,pass,ctl:requestBodyAccess=Off"
 
       # --- Load Rules ---
       Include @crs-setup.conf.example
@@ -78,6 +92,18 @@
       # Example: Whitelist a specific scanner IP
       # SecRule REMOTE_ADDR "@ipMatch 192.168.1.50" "id:1000,phase:1,allow,nolog,ctl:ruleEngine=Off"
       SecRuleEngine On
+      # Disable response body checking due to low VPS RAM
+      SecResponseBodyAccess Off
+      # Process request bodies in small 64KB chunks
+      SecRequestBodyInMemoryLimit 65536
+
+      # Reject uploads larger than 200MB
+      SecRequestBodyLimit 209715200
+      SecRequestBodyLimitAction Reject
+
+      # Stop matching if a Regex takes too much work.
+      SecPcreMatchLimit 1500
+      SecPcreMatchLimitRecursion 1500
 
       # --- Audit Logging ---
       SecAuditLog /var/log/caddy/coraza_audit.log
