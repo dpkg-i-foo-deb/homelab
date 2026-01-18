@@ -28,14 +28,14 @@
             scheme: 'http'
             metrics_path: 'metrics'
             targets:
-              - '100.64.0.2:2019'
+              - '{{ hostvars[''public_reverse_proxy''][''ansible_host''] }}:2019'
           - job_name: 'private-caddy'
             tls_config:
               insecure_skip_verify: true
             scheme: 'http'
             metrics_path: 'metrics'
             targets:
-              - '10.0.5.10:2019'
+              - '{{ hostvars[''private_reverse_proxy''][''ansible_host''] }}:2019'
           - job_name: 'node'
             tls_config:
               insecure_skip_verify: true
