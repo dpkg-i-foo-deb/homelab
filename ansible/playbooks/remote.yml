@@ -1,15 +1,15 @@
-- name: Configure bastion virtual machine
-  hosts: bastion
+- name: Configure remote access services
+  hosts: remote_access_servers
   vars:
-    bastion_guacamole_postgres_db: guacamole_postgres
-    bastion_guacamole_postgres_user: !vault |
+    remote_guacamole_postgres_db: guacamole_postgres
+    remote_guacamole_postgres_user: !vault |
       $ANSIBLE_VAULT;1.1;AES256
       62386163343761343964356335636266333966313163666465613265363939616264633938613465
       6264346664373834346439333834393039663863306536320a336462623838636339653461306162
       30383633363132353733633065313937306464396462656637376266626530623039653338613931
       3533663733363566660a343466303464663865383464356264393635653134646264653430323338
       3963
-    bastion_guacamole_postgres_pass: !vault |
+    remote_guacamole_postgres_pass: !vault |
       $ANSIBLE_VAULT;1.1;AES256
       38643365383938646666313537646136306630396464616234636535353336303666646433616362
       3263316666353133306235323563663734313336313132610a633538343239303132633866613836
@@ -67,9 +67,9 @@
             - src: '/var/guacamole_web/initdb.sql'
               dest: '/docker-entrypoint-initdb.d/initdb.sql:z'
           env:
-            POSTGRES_DB: '{{ bastion_guacamole_postgres_db }}'
-            POSTGRES_USER: '{{ bastion_guacamole_postgres_user }}'
-            POSTGRES_PASSWORD: '{{ bastion_guacamole_postgres_pass }}'
+            POSTGRES_DB: '{{ remote_guacamole_postgres_db }}'
+            POSTGRES_USER: '{{ remote_guacamole_postgres_user }}'
+            POSTGRES_PASSWORD: '{{ remote_guacamole_postgres_pass }}'
 
     - name: Deploy Guacamole guacd
       ansible.builtin.import_role:
@@ -103,10 +103,10 @@
           env:
             GUACD_HOSTNAME: 'guacamole_guacd'
             GUACD_PORT: '4822'
-            POSTGRESQL_HOSTNAME: '{{ bastion_guacamole_postgres_db }}'
-            POSTGRESQL_DATABASE: '{{ bastion_guacamole_postgres_db }}'
-            POSTGRESQL_USER: '{{ bastion_guacamole_postgres_user }}'
-            POSTGRESQL_PASSWORD: '{{ bastion_guacamole_postgres_pass }}'
+            POSTGRESQL_HOSTNAME: '{{ remote_guacamole_postgres_db }}'
+            POSTGRESQL_DATABASE: '{{ remote_guacamole_postgres_db }}'
+            POSTGRESQL_USER: '{{ remote_guacamole_postgres_user }}'
+            POSTGRESQL_PASSWORD: '{{ remote_guacamole_postgres_pass }}'
             POSTGRESQL_AUTO_CREATE_ACCOUNTS: 'true'
             REMOTE_IP_VALVE_ENABLED: 'true'
             TRUSTED_PROXIES: '.*'
@@ -118,3 +118,18 @@
             OPENID_REDIRECT_URI: 'https://{{ remote_host }}.{{ internet_host }}'
             WEBAPP_CONTEXT: 'ROOT'
             LOG_LEVEL: 'debug'
+
+    - name: Deploy Termix
+      ansible.builtin.import_role:
+        name: dpkg_i_foo_deb.homelab.quadlet_service
+      vars:
+        quadlet_service_definition:
+          name: termix
+          image: 'ghcr.io/lukegus/termix:latest'
+          user: '{{ container_user }}'
+          ports: '8080:8080'
+          volumes:
+            - name: 'termix_data'
+              dest: '/app/data:z'
+          env:
+            PORT: '8080'

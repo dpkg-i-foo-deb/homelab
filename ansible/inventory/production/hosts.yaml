@@ -17,7 +17,7 @@ bastion:
       groups: 'trusted,internet_facing'
       container_user: 'bastion'
 
-remote_access_machines:
+remote_access_servers:
   hosts:
     remote_homelab:
       ansible_host: 10.0.1.13
