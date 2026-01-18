@@ -92,7 +92,7 @@
 (error_handler) {
   handle_errors {
     @blocked expression {err.status_code} == 403
-    respond @blocked "Request blocked by OWASP Coraza WAF. Support ID: {http.request.header.x-request-id}" 403
+    respond @blocked "Request blocked by OWASP Coraza WAF" 403
   }
 }
 
