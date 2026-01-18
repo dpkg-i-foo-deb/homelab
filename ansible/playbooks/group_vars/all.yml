@@ -4,12 +4,12 @@ tz: 'America/Bogota'
 
 # Proxy jump to access incus instances on my VPS
 vps_proxy_jump_target: !vault |
-          $ANSIBLE_VAULT;1.1;AES256
-          32643831666562623939343661333433383262316364646263653866336130646565306233353133
-          3434366632626663386436623463386666363830356334350a333439333361316262376231613031
-          66663764633265383537336536613464376163623862326638626631353666336337373032643764
-          6239623833316231660a313165666433613331343163346634356166623434306537623835306532
-          66383062613539336565643438636161333063303738396633623631373833333466
+  $ANSIBLE_VAULT;1.1;AES256
+  32643831666562623939343661333433383262316364646263653866336130646565306233353133
+  3434366632626663386436623463386666363830356334350a333439333361316262376231613031
+  66663764633265383537336536613464376163623862326638626631353666336337373032643764
+  6239623833316231660a313165666433613331343163346634356166623434306537623835306532
+  66383062613539336565643438636161333063303738396633623631373833333466
 
 # Public internet hosts
 
@@ -65,73 +65,63 @@ home_assistant_host: 'home-assistant'
 # Private reverse proxy address
 private_reverse_proxy: '10.0.5.10'
 
-# Private reverse proxy address over VPN
-private_reverse_proxy_vpn: '100.64.0.3'
-
 # Homelab services definition
 homelab_services:
   auth:
-    name: 'Authentication and SSO'
+    name: 'keycloak'
     host: 'auth'
     ip: '10.0.0.11'
     port: '8081'
     tls: false
     private_proxy: '{{ private_reverse_proxy }}'
-    private_proxy_vpn: '{{ private_reverse_proxy_vpn }}'
   music:
-    name: 'Music Streaming'
+    name: 'navidrome'
     host: 'music'
     ip: '10.0.0.13'
     port: '4533'
     tls: false
     private_proxy: '{{ private_reverse_proxy }}'
-    private_proxy_vpn: '{{ private_reverse_proxy_vpn }}'
   vault:
-    name: 'Password Manager'
+    name: 'vaultwarden'
     host: 'vault'
     ip: '10.0.0.11'
     port: '8080'
     tls: false
     private_proxy: '{{ private_reverse_proxy }}'
-    private_proxy_vpn: '{{ private_reverse_proxy_vpn }}'
   code_personal:
-    name: 'Personal code-server'
+    name: 'code-server-personal'
     host: 'personal.code'
     ip: '10.0.0.15'
     port: '8443'
     tls: false
     private_proxy: '{{ private_reverse_proxy }}'
-    private_proxy_vpn: '{{ private_reverse_proxy_vpn }}'
     oauth_proxy:
       ip: '10.0.0.15'
       port: '4181'
   code_work:
-    name: 'Work code-server'
+    name: 'code-server-work'
     host: 'work.code'
     ip: '10.0.0.15'
     port: '8444'
     tls: false
     private_proxy: '{{ private_reverse_proxy }}'
-    private_proxy_vpn: '{{ private_reverse_proxy_vpn }}'
     oauth_proxy:
       ip: '10.0.0.15'
       port: '4180'
   remote:
-    name: 'Bastion WebUI'
+    name: 'apache-guacamole'
     host: 'remote'
     ip: '10.0.1.10'
     port: '8081'
     tls: false
     private_proxy: '{{ private_reverse_proxy }}'
-    private_proxy_vpn: '{{ private_reverse_proxy_vpn }}'
   notes:
-    name: 'Note taking service'
+    name: 'trillium'
     host: 'notes'
     ip: '10.0.0.10'
     port: '8080'
     tls: false
     private_proxy: '{{ private_reverse_proxy }}'
-    private_proxy_vpn: '{{ private_reverse_proxy_vpn }}'
     oauth_proxy:
       ip: '10.0.0.10'
       port: '4180'
@@ -142,7 +132,6 @@ homelab_services:
     port: '8081'
     tls: false
     private_proxy: '{{ private_reverse_proxy }}'
-    private_proxy_vpn: '{{ private_reverse_proxy_vpn }}'
   photos:
     name: 'Photos and Backup'
     host: 'photos'
@@ -150,47 +139,42 @@ homelab_services:
     port: '2283'
     tls: false
     private_proxy: '{{ private_reverse_proxy }}'
-    private_proxy_vpn: '{{ private_reverse_proxy_vpn }}'
   metrics:
-    name: 'Metrics service'
+    name: 'grafana'
     host: 'metrics'
     ip: '10.0.1.12'
     port: '3000'
     tls: false
     private_proxy: '{{ private_reverse_proxy }}'
-    private_proxy_vpn: '{{ private_reverse_proxy_vpn }}'
   registry:
-    name: 'Registry service'
+    name: 'harbor'
     host: 'registry'
     ip: '10.0.0.14'
     port: '80'
     tls: false
     private_proxy: '{{ private_reverse_proxy }}'
-    private_proxy_vpn: '{{ private_reverse_proxy_vpn }}'
   vpn:
-    name: 'Headscale Coordination Server'
+    name: 'headscale'
     host: 'vpn'
     ip: '{{ public_ip }}'
     port: '8080'
     tls: false
   home_assistant:
-    name: 'Home Assistant'
+    name: 'home-assistant'
     host: 'home-assistant'
     ip: '10.0.1.11'
     port: '8123'
     tls: false
     private_proxy: '{{ private_reverse_proxy }}'
-    private_proxy_vpn: '{{ private_reverse_proxy_vpn }}'
   awx:
-    name: 'AWX'
+    name: 'awx'
     host: 'awx'
     ip: '10.0.1.11'
     port: '80'
     tls: false
     private_proxy: '{{ private_reverse_proxy }}'
-    private_proxy_vpn: '{{ private_reverse_proxy_vpn }}'
   termix:
-    name: 'Termix'
+    name: 'termix'
     host: '{{ remote_ssh_host }}'
     ip: '10.0.1.13'
     port: '8080'
