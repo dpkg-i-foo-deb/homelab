@@ -1,6 +1,8 @@
 # DO NOT MODIFY MANUALLY, GENERATED WITH ANSIBLE
 # Global config
 {
+  # Enable OWASP Coraza
+  order coraza_waf first
 
   admin 0.0.0.0:2019
 
@@ -8,6 +10,11 @@
 
   servers {
     trusted_proxies static private_ranges
+  }
+
+  log {
+    output file /var/log/caddy/access.log
+    format json
   }
 }
 
@@ -101,11 +108,88 @@
   }
 }
 
+# OWASP Coraza Configuration
+(owasp_coraza) {
+
+  @waf_scan {
+  not path *.jpg *.jpeg *.png *.gif *.ico *.svg *.webp *.tiff *.bmp *.heic # Photos
+  not path *.mp3 *.wav *.flac *.aac *.ogg *.m4a *.wma *.opus *.mid *.midi # Music
+  not path *.mp4 *.mkv *.avi *.mov *.wmv *.flv *.webm *.m4v *.mpg *.mpeg # Video
+  not path *.pdf *.doc *.docx *.xls *.xlsx *.ppt *.pptx *.txt *.rtf *.epub # Docs
+  not path *.zip *.tar *.gz *.rar *.7z *.bz2 *.xz *.iso *.dmg # Archives
+  }
+
+  coraza_waf @waf_scan {
+
+    load_owasp_crs
+
+    directives `
+      Include @coraza.conf-recommended
+      # block_search_ip=0 disables ip reputation checks (slow if not tuned)
+      SecAction "id:900000,phase:1,nolog,pass,t:none,setvar:tx.paranoia_level=2"
+      # Threshold: 5 (Strict). Defaults are usually higher.
+      SecAction "id:900110,phase:1,nolog,pass,t:none,setvar:tx.inbound_anomaly_score_threshold=5,setvar:tx.outbound_anomaly_score_threshold=4"
+      SecRule REQUEST_HEADERS:Content-Type "@contains multipart/form-data" \
+        "id:1005,phase:1,nolog,pass,ctl:requestBodyAccess=Off"
+
+      # --- Load Rules ---
+      Include @crs-setup.conf.example
+      Include @owasp_crs/*.conf
+
+      # --- Custom Overrides ---
+      # Example: Whitelist a specific scanner IP
+      # SecRule REMOTE_ADDR "@ipMatch 192.168.1.50" "id:1000,phase:1,allow,nolog,ctl:ruleEngine=Off"
+
+      # Reject requests when Coraza doesn't like them
+      SecRuleEngine On
+
+      # Scan Response bodies
+      SecResponseBodyAccess On
+
+      # Only scan response bodies that are not binaries
+      SecResponseBodyMimeType text/plain text/html text/xml application/json application/javascript
+
+      # Cap the response buffer at 512KB
+      SecResponseBodyLimit 524288
+
+      # If a response body if too big, process it partially
+      SecResponseBodyLimitAction ProcessPartial
+
+      # Process request bodies in small 64KB chunks
+      SecRequestBodyInMemoryLimit 65536
+
+      # Reject uploads larger than 200MB
+      SecRequestBodyLimit 209715200
+      SecRequestBodyLimitAction Reject
+
+      # Stop matching if a Regex takes too much work.
+      SecPcreMatchLimit 1500
+      SecPcreMatchLimitRecursion 1500
+
+      # --- Audit Logging ---
+      SecAuditLog /var/log/caddy/coraza_audit.log
+      SecAuditLogFormat json
+      SecAuditLogParts ABIJDEFHZ
+      SecAuditEngine RelevantOnly
+    `
+  }
+}
+
+# Error Handling
+(error_handler) {
+  handle_errors {
+    @blocked expression {err.status_code} == 403
+    respond @blocked "Request blocked by OWASP Coraza WAF" 403
+  }
+}
+
+
 {% for service in caddy_services %}
 # {{ service.name }}
 {{ caddy_lan_prefix }}.{{ service.host }}.{{ caddy_internet_host }},
 {{ service.host }}.{{ caddy_internet_host }} {
-
+  import owasp_coraza
+  import error_handler
   import letsencrypt_cloudflare_dns
 {% if service.oauth_proxy is defined %}
   {%- if service.tls %}
