@@ -77,6 +77,7 @@
       # --- Custom Overrides ---
       # Example: Whitelist a specific scanner IP
       # SecRule REMOTE_ADDR "@ipMatch 192.168.1.50" "id:1000,phase:1,allow,nolog,ctl:ruleEngine=Off"
+      SecRuleEngine On
 
       # --- Audit Logging ---
       SecAuditLog /var/log/caddy/coraza_audit.log
@@ -84,6 +85,14 @@
       SecAuditLogParts ABIJDEFHZ
       SecAuditEngine RelevantOnly
     `
+  }
+}
+
+# Error Handling
+(error_handler) {
+  handle_errors {
+    @blocked expression {err.status_code} == 403
+    respond @blocked "Request blocked by OWASP Coraza WAF. Support ID: {http.request.header.x-request-id}" 403
   }
 }
 
@@ -122,6 +131,7 @@
 
 {{ music_host }}.{{ internet_host }} {
   import owasp_coraza
+  import error_handler
   import letsencrypt_cloudflare_dns
   import proxy https://{{ lan_prefix }}.{{ music_host }}.{{ internet_host }}
 }
@@ -186,9 +196,3 @@
   import letsencrypt_cloudflare_dns
   import proxy https://{{ lan_prefix }}.{{ remote_ssh_host}}.{{ internet_host }}
 }
-
-#ERROR HANDLING
-# handle_errors {
-#     @blocked expression {http.error.status_code} == 403
-#     respond @blocked "Request blocked by OWASP Coraza WAF. Support ID: {http.request.header.x-request-id}" 403
-# }
