@@ -129,6 +129,12 @@
         nolog,\
         ctl:ruleRemoveTargetById=930120;ARGS:vscode-resource-base-authority"
 
+      # Don't scan Trilium admin API
+      SecRule REQUEST_HEADERS:Host "@streq {{ notes_host }}.{{ internet_host }}" \
+        "id:1014,phase:1,pass,nolog,chain"
+          SecRule REQUEST_URI "@beginsWith /api/options" \
+            "ctl:ruleEngine=Off"
+
       # Reject requests when Coraza doesn't like them
       SecRuleEngine On
 
