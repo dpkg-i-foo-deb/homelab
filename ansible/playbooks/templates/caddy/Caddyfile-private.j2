@@ -120,28 +120,22 @@
 (owasp_coraza) {
 
   @waf_scan {
-    not path *.jpg *.jpeg *.png *.gif *.ico *.svg *.webp *.tiff *.bmp *.heic # Photos
-    not path *.mp3 *.wav *.flac *.aac *.ogg *.m4a *.wma *.opus *.mid *.midi # Music
-    not path *.mp4 *.mkv *.avi *.mov *.wmv *.flv *.webm *.m4v *.mpg *.mpeg # Video
-    not path *.pdf *.doc *.docx *.xls *.xlsx *.ppt *.pptx *.txt *.rtf *.epub # Docs
-    not path *.zip *.tar *.gz *.rar *.7z *.bz2 *.xz *.iso *.dmg # Archives
+    # Static file filter
+    not {
+      method GET
+      path *.jpg *.jpeg *.png *.gif *.ico *.svg *.webp *.tiff *.bmp *.heic # Pictures
+      path *.mp3 *.wav *.flac *.aac *.ogg *.m4a *.wma *.opus *.mid *.midi # Audio
+      path *.mp4 *.mkv *.avi *.mov *.wmv *.flv *.webm *.m4v *.mpg *.mpeg # Video
+      path *.pdf *.doc *.docx *.xls *.xlsx *.ppt *.pptx *.txt *.rtf *.epub # Documents
+      path *.zip *.tar *.gz *.rar *.7z *.bz2 *.xz *.iso *.dmg # Archives
+    }
     # Ultimate Websocket Filter
     not {
-      # Looks like a Websocket
       method GET
       header Connection *Upgrade*
       header Upgrade websocket
-      # Smells like a Websocket
-      header Sec-WebSocket-Key *
-      header Sec-WebSocket-Version 13
-      # Endpoint belongs to a websocket                                                                                                              path /api/websocket* # Home Assistant
-      path /notifications/hub* # Vaultwarden
-      path /guacamole/websocket-tunnel* # Apache Guacamole
-      path /api/live/ws* # Grafana Live
-      path /stable-* # Code Server
-      path /socket.io* # Immich
-      path /_static/src/browser/* # Code Server Static Resources
-    }                                                                                          }
+      path /api/websocket /notifications/hub /guacamole/websocket-tunnel /api/live/ws /stable-* /socket.io/* /_static/src/browser/*
+    }
   }
 
   coraza_waf @waf_scan {
