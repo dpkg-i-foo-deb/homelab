@@ -175,7 +175,8 @@
 
       # Don't scan Grafana when saving dashboards
       SecRule REQUEST_HEADERS:Host "@streq metrics.baremetalcloud.org" \
-        "id:1015,phase:1,pass,nolog,chain"                                                                                                           SecRule REQUEST_URI "@beginsWith /apis/dashboard.grafana.app" \
+        "id:1015,phase:1,pass,nolog,chain"
+        SecRule REQUEST_URI "@beginsWith /apis/dashboard.grafana.app" \
           "ctl:ruleRemoveByTag=OWASP_CRS"
 
       # Don't scan code-server when it uses Gemini Code Asssit
