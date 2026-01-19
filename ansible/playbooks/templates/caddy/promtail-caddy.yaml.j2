@@ -40,17 +40,14 @@ scrape_configs:
             # 5. OR "Uncategorized"
             attack_cat: "messages[0].data.tags[?starts_with(@, 'attack-')] | [0] || messages[0].data.tags[?starts_with(@, 'policy-')] | [0] || messages[0].data.tags[?starts_with(@, 'language-')] | [0] || messages[0].data.tags[0] || 'Uncategorized'"
 
-  - labels:
-      host:
-      method:
-      rule_id:
-      attack_cat: # This will now contain clean values like 'attack-sqli'
-      severity:
-      blocked:
       - labels:
-          # Turn these into clickable filters in Grafana
+          host:
+          method:
           rule_id:
-          action:
+          attack_cat:
+          severity:
+          blocked:
+
   # Service Logs
   - job_name: caddy
     static_configs:
