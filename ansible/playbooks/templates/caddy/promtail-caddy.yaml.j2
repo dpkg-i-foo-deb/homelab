@@ -16,6 +16,7 @@ scrape_configs:
           caddy_server: "{{ caddy_promtail_host_tag }}"
           __path__: /var/log/caddy/coraza_audit.log
     pipeline_stages:
+      # 1. Extract the raw tags string to scan
       - json:
           expressions:
             timestamp: transaction.timestamp
@@ -25,21 +26,50 @@ scrape_configs:
             method:    transaction.request.method
             ua:        transaction.request.headers."user-agent"[0]
             blocked:   transaction.is_interrupted
-            # Details
+
             rule_id:     messages[0].data.id
+            severity:    messages[0].data.severity
             attack_msg:  messages[0].message
             attack_data: messages[0].data.data
-            severity:    messages[0].data.severity
 
-            # --- THE SMART TAG EXTRACTOR ---
-            # Logic: 
-            # 1. Look for 'attack-' (Best)
-            # 2. OR Look for 'policy-' (Good)
-            # 3. OR Look for 'language-' (Okay)
-            # 4. OR Fallback to the very first tag (Better than nothing)
-            # 5. OR "Uncategorized"
-            attack_cat: "messages[0].data.tags[?starts_with(@, 'attack-')] | [0] || messages[0].data.tags[?starts_with(@, 'policy-')] | [0] || messages[0].data.tags[?starts_with(@, 'language-')] | [0] || messages[0].data.tags[0] || 'Uncategorized'"
+            # We get the tags as a raw string to check them easily
+            _tags: messages[0].data.tags
 
+      # 2. Set Default to "Uncategorized"
+      - template:
+          source: attack_cat
+          template: 'Uncategorized'
+
+      # 3. LOGIC START: Check for Platform/Language (Low Priority)
+      # "Does the tag list contain 'platform-' or 'language-'?"
+      - match:
+          selector: '{job="caddy_waf"} |= "platform-" |= "language-"'
+          stages:
+            - regex:
+                source: _tags
+                expression: '.*(?P<attack_cat>(platform|language)-[a-zA-Z0-9]+).*'
+
+      # 4. Check for Policy (Medium Priority)
+      # "Does the tag list contain 'policy-'?"
+      # If yes, this overwrites the previous one.
+      - match:
+          selector: '{job="caddy_waf"} |= "policy-"'
+          stages:
+            - regex:
+                source: _tags
+                expression: '.*(?P<attack_cat>policy-[a-zA-Z0-9]+).*'
+
+      # 5. Check for Attack (High Priority - The Boss)
+      # "Does the tag list contain 'attack-'?"
+      # If yes, this overwrites everything else.
+      - match:
+          selector: '{job="caddy_waf"} |= "attack-"'
+          stages:
+            - regex:
+                source: _tags
+                expression: '.*(?P<attack_cat>attack-[a-zA-Z0-9]+).*'
+
+      # 6. Apply the Final Labels
       - labels:
           host:
           method:
@@ -47,7 +77,6 @@ scrape_configs:
           attack_cat:
           severity:
           blocked:
-
   # Service Logs
   - job_name: caddy
     static_configs:
