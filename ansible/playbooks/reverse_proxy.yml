@@ -24,6 +24,8 @@
 
     - name: Template Promtail configuration
       become: true
+      vars:
+        caddy_promtail_host_tag: '{{ inventory_hostname }}'
       ansible.builtin.template:
         src: templates/caddy/promtail-caddy.yaml.j2
         dest: /var/caddy/promtail-caddy.yaml

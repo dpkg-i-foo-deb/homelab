@@ -13,7 +13,7 @@ scrape_configs:
           - localhost
         labels:
           job: caddy_waf
-          host: "reverse-proxy"
+          host: "{{ caddy_promtail_host_tag }}"
           __path__: /var/log/caddy/coraza_audit.log
     pipeline_stages:
       - json:
@@ -37,7 +37,7 @@ scrape_configs:
         labels:
           job: caddy
           agent: caddy-promtail
-          host: "reverse-proxy"
+          host: "{{ caddy_promtail_host_tag }}"
           __path__: /var/log/caddy/*.log
     pipeline_stages:
       # Exclude WAF log
