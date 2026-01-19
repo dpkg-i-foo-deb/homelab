@@ -13,7 +13,7 @@ scrape_configs:
           - localhost
         labels:
           job: caddy_waf
-          host: "{{ caddy_promtail_host_tag }}"
+          caddy_server: "{{ caddy_promtail_host_tag }}"
           __path__: /var/log/caddy/coraza_audit.log
     pipeline_stages:
       - json:
