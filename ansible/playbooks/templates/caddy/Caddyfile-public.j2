@@ -73,8 +73,23 @@
     not path *.mp4 *.mkv *.avi *.mov *.wmv *.flv *.webm *.m4v *.mpg *.mpeg # Video
     not path *.pdf *.doc *.docx *.xls *.xlsx *.ppt *.pptx *.txt *.rtf *.epub # Docs
     not path *.zip *.tar *.gz *.rar *.7z *.bz2 *.xz *.iso *.dmg # Archives
-    # Don't scan Websocket connections specifically on my code-server hosts
-    not expression {header.Upgrade}.contains('websocket') && ({host}.startsWith('{{ code_personal_host }}') || {host}.startsWith('{{ code_work_host }}'))
+    # Ultimate Websocket Filter
+    not {
+      # Looks like a Websocket
+      method GET
+      header Connection *Upgrade*
+      header Upgrade websocket
+      # Smells like a Websocket
+      header Sec-WebSocket-Key *
+      header Sec-WebSocket-Version 13
+      # Endpoint belongs to a websocket                                                                                                              path /api/websocket* # Home Assistant
+      path /notifications/hub* # Vaultwarden
+      path /guacamole/websocket-tunnel* # Apache Guacamole
+      path /api/live/ws* # Grafana Live
+      path /stable-* # Code Server
+      path /socket.io* # Immich
+      path /_static/src/browser/* # Code Server Static Resources
+    }
   }
 
   coraza_waf @waf_scan {
