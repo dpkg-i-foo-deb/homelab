@@ -18,13 +18,35 @@ scrape_configs:
     pipeline_stages:
       - json:
           expressions:
-            # Extract deep nested fields to top-level for querying
-            rule_id: transaction.messages[0].data.ruleId
-            attack_msg: transaction.messages[0].msg
+            timestamp: transaction.timestamp
             client_ip: transaction.client_ip
-            uri: transaction.request.uri
-            method: transaction.request.method
-            action: transaction.producer.rule_engine
+            host:      transaction.server_id
+            uri:       transaction.request.uri
+            method:    transaction.request.method
+            ua:        transaction.request.headers."user-agent"[0]
+            blocked:   transaction.is_interrupted
+            # Details
+            rule_id:     messages[0].data.id
+            attack_msg:  messages[0].message
+            attack_data: messages[0].data.data
+            severity:    messages[0].data.severity
+
+            # --- THE SMART TAG EXTRACTOR ---
+            # Logic: 
+            # 1. Look for 'attack-' (Best)
+            # 2. OR Look for 'policy-' (Good)
+            # 3. OR Look for 'language-' (Okay)
+            # 4. OR Fallback to the very first tag (Better than nothing)
+            # 5. OR "Uncategorized"
+            attack_cat: "messages[0].data.tags[?starts_with(@, 'attack-')] | [0] || messages[0].data.tags[?starts_with(@, 'policy-')] | [0] || messages[0].data.tags[?starts_with(@, 'language-')] | [0] || messages[0].data.tags[0] || 'Uncategorized'"
+
+  - labels:
+      host:
+      method:
+      rule_id:
+      attack_cat: # This will now contain clean values like 'attack-sqli'
+      severity:
+      blocked:
       - labels:
           # Turn these into clickable filters in Grafana
           rule_id:
