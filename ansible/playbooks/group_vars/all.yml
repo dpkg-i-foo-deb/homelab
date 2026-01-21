@@ -67,119 +67,17 @@ private_reverse_proxy: '10.0.5.10'
 
 # Homelab services definition
 homelab_services:
-  auth:
-    name: 'keycloak'
-    host: 'auth'
-    ip: '10.0.0.11'
-    port: '8081'
-    tls: false
-    private_proxy: '{{ private_reverse_proxy }}'
-  music:
-    name: 'navidrome'
-    host: 'music'
-    ip: '10.0.0.13'
-    port: '4533'
-    tls: false
-    private_proxy: '{{ private_reverse_proxy }}'
-  vault:
-    name: 'vaultwarden'
-    host: 'vault'
-    ip: '10.0.0.11'
-    port: '8080'
-    tls: false
-    private_proxy: '{{ private_reverse_proxy }}'
-  code_personal:
-    name: 'code-server-personal'
-    host: 'personal.code'
-    ip: '10.0.0.15'
-    port: '8443'
-    tls: false
-    private_proxy: '{{ private_reverse_proxy }}'
-    oauth_proxy:
-      ip: '10.0.0.15'
-      port: '4181'
-  code_work:
-    name: 'code-server-work'
-    host: 'work.code'
-    ip: '10.0.0.15'
-    port: '8444'
-    tls: false
-    private_proxy: '{{ private_reverse_proxy }}'
-    oauth_proxy:
-      ip: '10.0.0.15'
-      port: '4180'
-  remote:
-    name: 'apache-guacamole'
-    host: 'remote'
-    ip: '10.0.1.10'
-    port: '8081'
-    tls: false
-    private_proxy: '{{ private_reverse_proxy }}'
-  notes:
-    name: 'trillium'
-    host: 'notes'
-    ip: '10.0.0.10'
-    port: '8080'
-    tls: false
-    private_proxy: '{{ private_reverse_proxy }}'
-    oauth_proxy:
-      ip: '10.0.0.10'
-      port: '4180'
-  rss:
-    name: 'rss'
-    host: 'rss'
-    ip: '10.0.0.10'
-    port: '8081'
-    tls: false
-    private_proxy: '{{ private_reverse_proxy }}'
-  photos:
-    name: 'immich'
-    host: 'photos'
-    ip: '10.0.0.13'
-    port: '2283'
-    tls: false
-    private_proxy: '{{ private_reverse_proxy }}'
-  metrics:
-    name: 'grafana'
-    host: 'metrics'
-    ip: '10.0.1.12'
-    port: '3000'
-    tls: false
-    private_proxy: '{{ private_reverse_proxy }}'
-  registry:
-    name: 'harbor'
-    host: 'registry'
-    ip: '10.0.0.14'
-    port: '80'
-    tls: false
-    private_proxy: '{{ private_reverse_proxy }}'
-  vpn:
-    name: 'headscale'
-    host: 'vpn'
-    ip: '{{ public_ip }}'
-    port: '8080'
-    tls: false
-  home_assistant:
-    name: 'home-assistant'
-    host: 'home-assistant'
-    ip: '10.0.1.11'
-    port: '8123'
-    tls: false
-    private_proxy: '{{ private_reverse_proxy }}'
-  awx:
-    name: 'awx'
-    host: 'awx'
-    ip: '10.0.1.11'
-    port: '80'
-    tls: false
-    private_proxy: '{{ private_reverse_proxy }}'
-  termix:
-    name: 'termix'
-    host: '{{ remote_ssh_host }}'
-    ip: '10.0.1.13'
-    port: '8080'
-    tls: false
-    private_proxy: '{{ private_reverse_proxy }}'
+
+
+
+
+
+
+
+
+
+
+
 
 # LAN service DNS prefix
 lan_prefix: 'lan'
