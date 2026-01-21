@@ -1,0 +1,8 @@
+{{ lan_prefix }}.{{ automation_host }}.{{ internet_host }},
+{{ automation_host }}.{{ internet_host }} {
+  import logging awx.log
+  import owasp_coraza
+  import error_handler
+  import letsencrypt_cloudflare_dns
+  import proxy http://{{ hostvars['automation']['ansible_host'] }}:80
+}

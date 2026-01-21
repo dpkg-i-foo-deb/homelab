@@ -1,0 +1,8 @@
+{{ lan_prefix }}.{{ auth_host }}.{{ internet_host }},
+{{ auth_host }}.{{ internet_host }} {
+  import logging keycloak.log
+  import owasp_coraza
+  import error_handler
+  import letsencrypt_cloudflare_dns
+  import proxy http://{{ hostvars['security_vm']['ansible_host'] }}:8081
+}

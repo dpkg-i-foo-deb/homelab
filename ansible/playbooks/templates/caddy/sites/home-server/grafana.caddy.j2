@@ -1,0 +1,8 @@
+{{ lan_prefix }}.{{ metrics_host}}.{{ internet_host }},
+{{ metrics_host }}.{{ internet_host }} {
+  import logging grafana.log
+  import owasp_coraza
+  import error_handler
+  import letsencrypt_cloudflare_dns
+  import proxy http://{{ hostvars['homelab_monitor']['ansible_host'] }}:3000
+}
