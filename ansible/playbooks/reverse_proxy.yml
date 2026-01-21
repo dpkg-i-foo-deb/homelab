@@ -3,8 +3,8 @@
   tags:
     - split-caddy-test
   tasks:
-
     - name: Ensure Caddy configuration directories exist
+      become: true
       ansible.builtin.file:
         path: "/var/caddy/{{ item }}"
         state: directory
@@ -16,6 +16,7 @@
         - sites
 
     - name: Template Caddyfile
+      become: true
       ansible.builtin.template:
         src: "templates/caddy/Caddyfile.{{ caddy_profile }}.j2"
         dest: "/etc/caddy/Caddyfile"
@@ -24,6 +25,7 @@
         mode: '0644'
 
     - name: Template shared snippets
+      become: true
       ansible.builtin.template:
         src: "{{ item }}"
         dest: "/var/caddy/snippets/{{ item | basename }}"
@@ -34,6 +36,7 @@
         - "templates/caddy/snippets/*"
 
     - name: Template Sites for {{ caddy_profile }}
+      become: true
       ansible.builtin.template:
         src: "{{ item }}"
         dest: "/var/caddy/sites/{{ item | basename }}"
