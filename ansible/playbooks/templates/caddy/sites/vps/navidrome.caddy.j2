@@ -8,7 +8,7 @@
   coraza_waf @waf {
     import owasp_coraza_engine
 
-    import waf_tune_unix_like_usernames
+    include /etc/caddy/waf/rules/unix-usernames.conf
   }
 
   import logging navidrome.log
