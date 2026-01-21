@@ -16,6 +16,7 @@
         - snippets
         - sites
         - waf
+        - waf/rules
 
     - name: Template Caddyfile
       become: true
@@ -47,6 +48,17 @@
         mode: '0644'
       with_fileglob:
         - "templates/caddy/waf/*"
+
+    - name: Template WAF Rules
+      become: true
+      ansible.builtin.template:
+        src: "{{ item }}"
+        dest: "/var/caddy/waf/rules/{{ item | basename | regex_replace('\\.j2$', '') }}"
+        owner: "{{ container_user }}"
+        group: "{{ container_user }}"
+        mode: '0644'
+      with_fileglob:
+        - "templates/caddy/waf/rules/*.conf.j2"
 
     - name: Template Sites for {{ caddy_profile }}
       become: true
