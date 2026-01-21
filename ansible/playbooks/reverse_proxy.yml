@@ -19,7 +19,7 @@
       become: true
       ansible.builtin.template:
         src: "templates/caddy/Caddyfile.{{ caddy_profile }}.j2"
-        dest: "/etc/caddy/Caddyfile"
+        dest: "/var/caddy/Caddyfile"
         owner: "{{ container_user }}"
         group: "{{ container_user }}"
         mode: '0644'
