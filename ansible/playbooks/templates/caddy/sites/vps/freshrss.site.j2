@@ -1,0 +1,7 @@
+{{ rss_host }}.{{ internet_host }} {
+  import logging rss.log
+  import owasp_coraza
+  import error_handler
+  import letsencrypt_cloudflare_dns
+  import proxy https://{{ lan_prefix }}.{{ rss_host }}.{{ internet_host }}
+}

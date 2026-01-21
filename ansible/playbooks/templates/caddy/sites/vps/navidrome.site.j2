@@ -1,0 +1,7 @@
+{{ music_host }}.{{ internet_host }} {
+  import logging navidrome.log
+  import owasp_coraza
+  import error_handler
+  import letsencrypt_cloudflare_dns
+  import proxy https://{{ lan_prefix }}.{{ music_host }}.{{ internet_host }}
+}

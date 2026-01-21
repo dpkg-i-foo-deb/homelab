@@ -1,0 +1,7 @@
+{{ remote_ssh_host }}.{{ internet_host }} {
+  import logging termix.log
+  import owasp_coraza
+  import error_handler
+  import letsencrypt_cloudflare_dns
+  import proxy https://{{ lan_prefix }}.{{ remote_ssh_host}}.{{ internet_host }}
+}

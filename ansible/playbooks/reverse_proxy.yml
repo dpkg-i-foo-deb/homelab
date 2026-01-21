@@ -1,3 +1,98 @@
+- name: General configuration tasks for all sites
+  hosts: public_reverse_proxy
+  tags:
+    - split-caddy-test
+  tasks:
+
+    - name: Ensure Caddy configuration directories exist
+      ansible.builtin.file:
+        path: "/var/caddy/{{ item }}"
+        state: directory
+        owner: "{{ container_user }}"
+        group: "{{ container_user }}"
+        mode: '0755'
+      loop:
+        - snippets
+        - sites
+
+    - name: Template Caddyfile
+      ansible.builtin.template:
+        src: "templates/caddy/Caddyfile.{{ caddy_profile }}.j2"
+        dest: "/etc/caddy/Caddyfile"
+        owner: "{{ container_user }}"
+        group: "{{ container_user }}"
+        mode: '0644'
+
+    - name: Template shared snippets
+      ansible.builtin.template:
+        src: "{{ item }}"
+        dest: "/var/caddy/snippets/{{ item | basename }}"
+        owner: "{{ container_user }}"
+        group: "{{ container_user }}"
+        mode: '0644'
+      with_fileglob:
+        - "templates/caddy/snippets/*"
+
+    - name: Template Sites for {{ caddy_profile }}
+      ansible.builtin.template:
+        src: "{{ item }}"
+        dest: "/var/caddy/sites/{{ item | basename }}"
+        owner: "{{ container_user }}"
+        group: "{{ container_user }}"
+        mode: '0644'
+      with_fileglob:
+        - "templates/caddy/sites/{{ caddy_profile }}/*"
+
+    - name: Deploy Caddy on public internet VPS
+      ansible.builtin.import_role:
+        name: dpkg_i_foo_deb.homelab.quadlet_service
+      vars:
+        quadlet_service_definition:
+          name: caddy
+          image: 'localhost/caddy-public:latest'
+          user: '{{ container_user }}'
+          env:
+            CF_API_TOKEN: !vault |
+              $ANSIBLE_VAULT;1.1;AES256
+              66343334363162356564643436323332383862646234396333386138373963356338313536393230
+              6266653764643930323730386234656230623361313666650a636636333265653062623365643966
+              66393561323966633161343636643534636164383737323137643066663634346666383265326231
+              6530623032386361390a663862623238626361363935323739323366653663646530633434333138
+              63653138626437613463376631663233383638366339333736373833373434336464376264613938
+              6231636134346531366564306165393031373263303762383265
+            GOMEMLIMIT: '500MiB'
+            GOGC: '50'
+          host_network: true
+          hosts: "{{
+            {
+            (lan_prefix ~ '.' ~ auth_host ~ '.' ~ internet_host): private_reverse_proxy_host,
+            (lan_prefix ~ '.' ~ remote_host ~ '.' ~ internet_host): private_reverse_proxy_host,
+            (lan_prefix ~ '.' ~ code_personal_host ~ '.' ~ internet_host): private_reverse_proxy_host,
+            (lan_prefix ~ '.' ~ code_work_host ~ '.' ~ internet_host): private_reverse_proxy_host,
+            (lan_prefix ~ '.' ~ music_host ~ '.' ~ internet_host): private_reverse_proxy_host,
+            (lan_prefix ~ '.' ~ notes_host ~ '.' ~ internet_host): private_reverse_proxy_host,
+            (lan_prefix ~ '.' ~ password_mgr_host ~ '.' ~ internet_host): private_reverse_proxy_host,
+            (lan_prefix ~ '.' ~ rss_host ~ '.' ~ internet_host): private_reverse_proxy_host,
+            (lan_prefix ~ '.' ~ photos_host ~ '.' ~ internet_host): private_reverse_proxy_host,
+            (lan_prefix ~ '.' ~ metrics_host ~ '.' ~ internet_host): private_reverse_proxy_host,
+            (lan_prefix ~ '.' ~ registry_host ~ '.' ~ internet_host): private_reverse_proxy_host,
+            (lan_prefix ~ '.' ~ home_assistant_host ~ '.' ~ internet_host): private_reverse_proxy_host,
+            (lan_prefix ~ '.' ~ automation_host ~ '.' ~ internet_host): private_reverse_proxy_host,
+            (lan_prefix ~ '.' ~ remote_ssh_host ~ '.' ~ internet_host): private_reverse_proxy_host,
+            }
+            }}"
+          volumes:
+            - name: 'caddy_data'
+              dest: '/data:z'
+            - name: 'caddy_conf'
+              dest: '/config:z'
+          dir_mounts:
+            - src: '/var/caddy'       # The host folder containing Caddyfile, sites/, snippets/
+              dest: '/etc/caddy:z'
+            - src: '/var/log/caddy'
+              dest: '/var/log/caddy:z'
+
+
 - name: General tasks for all reverse proxy servers
   hosts: reverse_proxy_servers
   tags:
@@ -118,55 +213,6 @@
         owner: '{{ container_user }}'
         group: '{{ container_user }}'
 
-    - name: Deploy Caddy on public internet VPS
-      ansible.builtin.import_role:
-        name: dpkg_i_foo_deb.homelab.quadlet_service
-      vars:
-        quadlet_service_definition:
-          name: caddy
-          image: 'localhost/caddy-public:latest'
-          user: '{{ container_user }}'
-          env:
-            CF_API_TOKEN: !vault |
-              $ANSIBLE_VAULT;1.1;AES256
-              66343334363162356564643436323332383862646234396333386138373963356338313536393230
-              6266653764643930323730386234656230623361313666650a636636333265653062623365643966
-              66393561323966633161343636643534636164383737323137643066663634346666383265326231
-              6530623032386361390a663862623238626361363935323739323366653663646530633434333138
-              63653138626437613463376631663233383638366339333736373833373434336464376264613938
-              6231636134346531366564306165393031373263303762383265
-            GOMEMLIMIT: '500MiB'
-            GOGC: '50'
-          host_network: true
-          hosts: "{{
-            {
-            (lan_prefix ~ '.' ~ auth_host ~ '.' ~ internet_host): private_reverse_proxy_host,
-            (lan_prefix ~ '.' ~ remote_host ~ '.' ~ internet_host): private_reverse_proxy_host,
-            (lan_prefix ~ '.' ~ code_personal_host ~ '.' ~ internet_host): private_reverse_proxy_host,
-            (lan_prefix ~ '.' ~ code_work_host ~ '.' ~ internet_host): private_reverse_proxy_host,
-            (lan_prefix ~ '.' ~ music_host ~ '.' ~ internet_host): private_reverse_proxy_host,
-            (lan_prefix ~ '.' ~ notes_host ~ '.' ~ internet_host): private_reverse_proxy_host,
-            (lan_prefix ~ '.' ~ password_mgr_host ~ '.' ~ internet_host): private_reverse_proxy_host,
-            (lan_prefix ~ '.' ~ rss_host ~ '.' ~ internet_host): private_reverse_proxy_host,
-            (lan_prefix ~ '.' ~ photos_host ~ '.' ~ internet_host): private_reverse_proxy_host,
-            (lan_prefix ~ '.' ~ metrics_host ~ '.' ~ internet_host): private_reverse_proxy_host,
-            (lan_prefix ~ '.' ~ registry_host ~ '.' ~ internet_host): private_reverse_proxy_host,
-            (lan_prefix ~ '.' ~ home_assistant_host ~ '.' ~ internet_host): private_reverse_proxy_host,
-            (lan_prefix ~ '.' ~ automation_host ~ '.' ~ internet_host): private_reverse_proxy_host,
-            (lan_prefix ~ '.' ~ remote_ssh_host ~ '.' ~ internet_host): private_reverse_proxy_host,
-            }
-            }}"
-          volumes:
-            - name: 'caddy_data'
-              dest: '/data:z'
-            - name: 'caddy_conf'
-              dest: '/config:z'
-          file_mounts:
-            - src: '/var/caddy/Caddyfile'
-              dest: '/etc/caddy/Caddyfile:z'
-          dir_mounts:
-          - src: '/var/log/caddy'
-            dest: '/var/log/caddy:z'
 
 - name: Promtail Configuration
   hosts: reverse_proxy_servers

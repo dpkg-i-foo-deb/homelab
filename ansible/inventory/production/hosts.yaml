@@ -113,10 +113,12 @@ reverse_proxy_servers:
       ansible_host: 10.0.5.10
       container_user: reverse-proxy
       groups: 'internet_facing,trusted'
+      caddy_profile: 'home-server'
     public_reverse_proxy:
       ansible_host: 10.0.253.10
       container_user: 'reverse-proxy'
       groups: 'internet_facing, trusted'
+      caddy_profile: 'vps'
 
 knowledge_management:
   hosts:

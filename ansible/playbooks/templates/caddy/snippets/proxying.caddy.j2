@@ -1,0 +1,77 @@
+# Proxy with compression. Uses plain HTTP
+(proxy) {
+  encode {
+    zstd better
+    gzip 6
+  }
+  reverse_proxy {args[0]}
+}
+
+# Proxy with compression. Uses https and ignores tls stuff
+(proxy_tls) {
+  encode {
+    zstd better
+    gzip 6
+  }
+  reverse_proxy {args[0]} {
+    transport http {
+      tls
+      tls_insecure_skip_verify
+    }
+  }
+}
+
+# Proxy with compression, uses oauth2-proxy as an OIDC intermediary
+# first argument is your oauth2-proxy host. Second is your target
+# backend host
+(proxy_oauth) {
+  encode {
+    zstd better
+    gzip 6
+  }
+  handle /oauth2/* {
+    reverse_proxy {args[0]}
+  }
+  handle {
+    forward_auth {args[0]} {
+      uri /oauth2/auth
+      copy_headers Authorization
+
+      @bad status 401
+      handle_response @bad {
+        redir * /oauth2/start
+      }
+    }
+    reverse_proxy {args[1]}
+  }
+}
+
+# Proxy with compression, uses oauth2-proxy as an OIDC intermediary
+# first argument is your oauth2-proxy host. Second is your target
+# backend host
+# Ignores TLS
+(proxy_oauth_tls) {
+  encode {
+    zstd better
+    gzip 6
+  }
+  handle /oauth2/* {
+    reverse_proxy {args[0]}
+  }
+  forward_auth {args[0]} {
+    uri /oauth2/auth
+    copy_headers Authorization
+
+    @bad status 401
+    handle_response @bad {
+      redir * /oauth2/start
+    }
+  }
+
+  reverse_proxy {args[1]} {
+    transport http {
+      tls
+      tls_insecure_skip_verify
+    }
+  }
+}

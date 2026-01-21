@@ -1,0 +1,17 @@
+# DO NOT MODIFY MANUALLY, GENERATED WITH ANSIBLE
+# Global config
+{
+  # Enable OWASP Coraza
+  order coraza_waf first
+
+  admin 0.0.0.0:2019
+
+  metrics
+
+  servers {
+    trusted_proxies static private_ranges
+  }
+}
+
+import snippets/*
+import sites/*
