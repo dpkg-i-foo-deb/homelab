@@ -29,7 +29,7 @@
       become: true
       ansible.builtin.template:
         src: "{{ item }}"
-        dest: "/var/caddy/snippets/{{ item | basename }}"
+        dest: "/var/caddy/snippets/{{ item | basename | regex_replace('\\.j2$', '') }}"
         owner: "{{ container_user }}"
         group: "{{ container_user }}"
         mode: '0644'
@@ -40,7 +40,7 @@
       become: true
       ansible.builtin.template:
         src: "{{ item }}"
-        dest: "/var/caddy/sites/{{ item | basename }}"
+        dest: "/var/caddy/sites/{{ item | basename | regex_replace('\\.j2$', '') }}"
         owner: "{{ container_user }}"
         group: "{{ container_user }}"
         mode: '0644'
