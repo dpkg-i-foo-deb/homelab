@@ -1,6 +1,5 @@
 {{ code_personal_host }}.{{ internet_host }} {
   import logging personal_code.log
-  # import owasp_coraza
   import error_handler
   import letsencrypt_cloudflare_dns
   import proxy https://{{ lan_prefix }}.{{ code_personal_host }}.{{ internet_host }}
@@ -8,7 +7,6 @@
 
 {{ code_work_host }}.{{ internet_host }} {
   import logging work_code.log
-  # import owasp_coraza
   import error_handler
   import letsencrypt_cloudflare_dns
   import proxy https://{{ lan_prefix }}.{{ code_work_host }}.{{ internet_host }}

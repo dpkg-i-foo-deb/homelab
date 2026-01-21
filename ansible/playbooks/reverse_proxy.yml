@@ -1,5 +1,5 @@
 - name: General tasks for all reverse proxy servers
-  hosts: reverse_proxy_servers
+  hosts: public_reverse_proxy
   tags:
   - promtail-deploy
   - caddy-deploy

@@ -1,6 +1,15 @@
 {{ music_host }}.{{ internet_host }} {
+
+  @waf {
+    import waf_skip_audio
+    import waf_skip_images
+  }
+
+  coraza_waf @waf {
+    import owasp_coraza_engine
+  }
+
   import logging navidrome.log
-  import owasp_coraza
   import error_handler
   import letsencrypt_cloudflare_dns
   import proxy https://{{ lan_prefix }}.{{ music_host }}.{{ internet_host }}
