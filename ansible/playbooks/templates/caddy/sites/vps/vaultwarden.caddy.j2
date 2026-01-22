@@ -1,4 +1,9 @@
 {{ password_mgr_host }}.{{ internet_host }} {
+
+  coraza_waf {
+    import owasp_coraza_engine
+  }
+
   import logging vaultwarden.log
   import error_handler
   import letsencrypt_cloudflare_dns
