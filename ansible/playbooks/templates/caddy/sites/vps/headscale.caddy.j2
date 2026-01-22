@@ -1,4 +1,11 @@
 {{ vpn_host }}.{{ internet_host }} {
+
+  coraza_waf {
+    import owasp_coraza_engine
+
+    include /etc/caddy/waf/rules/unix-usernames.conf
+  }
+
   import logging vpn.log
   import letsencrypt_cloudflare_dns
   import proxy 10.0.254.3:8080
