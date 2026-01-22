@@ -1,5 +1,18 @@
 {{ lan_prefix }}.{{ code_personal_host }}.{{ internet_host }},
 {{ code_personal_host }}.{{ internet_host }} {
+
+  @waf {
+    import waf_skip_images
+    import waf_skip_archives
+    import waf_skip_websockets
+  }
+
+  coraza_waf @waf {
+    import owasp_coraza_engine
+
+    include /etc/caddy/waf/rules/code-server.conf
+  }
+
   import logging personal_code.log
   import error_handler
   import letsencrypt_cloudflare_dns
@@ -8,6 +21,19 @@
 
 {{ lan_prefix }}.{{ code_work_host }}.{{ internet_host }},
 {{ code_work_host }}.{{ internet_host }} {
+
+  @waf {
+    import waf_skip_images
+    import waf_skip_archives
+    import waf_skip_websockets
+  }
+
+  coraza_waf @waf {
+    import owasp_coraza_engine
+
+    include /etc/caddy/waf/rules/code-server.conf
+  }
+
   import logging work_code.log
   import error_handler
   import letsencrypt_cloudflare_dns
