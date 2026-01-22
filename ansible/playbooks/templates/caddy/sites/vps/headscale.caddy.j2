@@ -1,6 +1,10 @@
 {{ vpn_host }}.{{ internet_host }} {
 
-  coraza_waf {
+  @waf {
+    import waf_skip_websockets
+  }
+
+  coraza_waf @waf {
     import owasp_coraza_engine
   }
 

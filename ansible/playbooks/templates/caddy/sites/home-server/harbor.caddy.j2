@@ -1,5 +1,10 @@
 {{ lan_prefix }}.{{ registry_host }}.{{ internet_host }},
 {{ registry_host }}.{{ internet_host }} {
+
+  coraza_waf {
+    import owasp_coraza_engine
+  }
+
   import logging harbor.log
   import error_handler
   import letsencrypt_cloudflare_dns
