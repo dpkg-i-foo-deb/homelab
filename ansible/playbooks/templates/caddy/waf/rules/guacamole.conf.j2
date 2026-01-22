@@ -1,0 +1,8 @@
+# Don't block Guacamole when querying for session data
+# And username is an email
+SecRule REQUEST_URI "@beginsWith /api/session/data/openid/users/" \
+  "id:10001,\
+  phase:1,\
+  pass,\
+  nolog,\
+  ctl:ruleRemoveById=920440"
