@@ -1,4 +1,14 @@
 {{ photos_host }}.{{ internet_host }} {
+
+  @waf {
+    import waf_skip_video
+    import waf_skip_images
+  }
+
+  coraza_waf @waf {
+    import owasp_coraza_engine
+  }
+
   import logging immich.log
   import error_handler
   import letsencrypt_cloudflare_dns
