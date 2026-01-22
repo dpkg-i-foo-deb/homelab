@@ -1,6 +1,16 @@
+# Avoid blocking Gemini Code Assist
 SecRule ARGS:vscode-resource-base-authority ".*" \
-  "id:900200,\
+  "id:1002,\
   phase:1,\
   pass,\
   nolog,\
   ctl:ruleRemoveTargetById=930120;ARGS:vscode-resource-base-authority"
+
+# Avoid blocking VSCode extensions
+SecRule REQUEST_URI "@beginsWith /stable-" \
+  "id:1001,\
+  phase:1,\
+  pass,\
+  nolog,\
+  ctl:ruleRemoveTargetById=932260;ARGS:path,\
+  ctl:ruleRemoveTargetById=930120;ARGS:path"
