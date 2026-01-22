@@ -1,7 +1,6 @@
 {{ lan_prefix }}.{{ password_mgr_host }}.{{ internet_host }},
 {{ password_mgr_host }}.{{ internet_host }} {
   import logging vaultwarden.log
-  import owasp_coraza
   import error_handler
   import letsencrypt_cloudflare_dns
   import proxy http://{{ hostvars['security_vm']['ansible_host'] }}:8080

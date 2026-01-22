@@ -1,7 +1,6 @@
 {{ lan_prefix }}.{{ code_personal_host }}.{{ internet_host }},
 {{ code_personal_host }}.{{ internet_host }} {
   import logging personal_code.log
-  # import owasp_coraza
   import error_handler
   import letsencrypt_cloudflare_dns
   import proxy_oauth {{ hostvars['code_server']['ansible_host']}}:4181 http://{{ hostvars['code_server']['ansible_host'] }}:8443
@@ -10,7 +9,6 @@
 {{ lan_prefix }}.{{ code_work_host }}.{{ internet_host }},
 {{ code_work_host }}.{{ internet_host }} {
   import logging work_code.log
-  # import owasp_coraza
   import error_handler
   import letsencrypt_cloudflare_dns
   import proxy_oauth {{ hostvars['code_server']['ansible_host']}}:4180 http://{{ hostvars['code_server']['ansible_host'] }}:8444
