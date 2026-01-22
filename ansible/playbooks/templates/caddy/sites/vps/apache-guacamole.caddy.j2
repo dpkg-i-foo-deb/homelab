@@ -1,4 +1,13 @@
 {{ remote_host }}.{{ internet_host }} {
+
+  @waf {
+    import waf_skip_websockets
+  }
+
+  coraza_waf @waf {
+    import owasp_coraza_engine
+  }
+
   import logging guacamole.log
   import error_handler
   import letsencrypt_cloudflare_dns
