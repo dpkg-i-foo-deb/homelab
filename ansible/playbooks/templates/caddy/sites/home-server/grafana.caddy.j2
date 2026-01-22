@@ -1,5 +1,17 @@
 {{ lan_prefix }}.{{ metrics_host}}.{{ internet_host }},
 {{ metrics_host }}.{{ internet_host }} {
+
+  @waf {
+    import waf_skip_images
+    import waf_skip_websockets
+  }
+
+  coraza_waf @waf {
+    import owasp_coraza_engine
+
+    include /etc/caddy/waf/rules/grafana.conf
+  }
+
   import logging grafana.log
   import error_handler
   import letsencrypt_cloudflare_dns
