@@ -5,9 +5,7 @@
   }
 
   coraza_waf @waf {
-    import owasp_coraza_engine
-
-    include /etc/caddy/waf/rules/guacamole.conf
+    import owasp_coraza /etc/caddy/waf/rules/guacamole.conf
   }
 
   import logging guacamole.log

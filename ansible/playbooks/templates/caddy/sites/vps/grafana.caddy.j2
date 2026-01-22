@@ -6,9 +6,7 @@
   }
 
   coraza_waf @waf {
-    import owasp_coraza_engine
-
-    include /etc/caddy/waf/rules/grafana.conf
+    import owasp_coraza /etc/caddy/waf/rules/grafana.conf
   }
 
   import logging grafana.log

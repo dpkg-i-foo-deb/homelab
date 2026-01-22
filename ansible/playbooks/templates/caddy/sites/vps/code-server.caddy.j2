@@ -27,9 +27,7 @@
   }
 
   coraza_waf @waf {
-    import owasp_coraza_engine
-
-    include /etc/caddy/waf/rules/code-server.conf
+    import owasp_coraza /etc/caddy/waf/rules/code-server.conf
   }
 
   import logging work_code.log

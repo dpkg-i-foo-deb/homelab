@@ -1,5 +1,5 @@
 - name: General tasks for all reverse proxy servers
-  hosts: reverse_proxy_servers
+  hosts: public_reverse_proxy
   tags:
   - promtail-deploy
   - caddy-deploy
@@ -17,6 +17,7 @@
         - sites
         - waf
         - waf/rules
+        - waf/core
 
     - name: Template Caddyfile
       become: true
@@ -59,6 +60,17 @@
         mode: '0644'
       with_fileglob:
         - "templates/caddy/waf/rules/*.conf.j2"
+
+    - name: Template WAF Core
+      become: true
+      ansible.builtin.template:
+        src: "{{ item }}"
+        dest: "/var/caddy/waf/core/{{ item | basename | regex_replace('\\.j2$', '') }}"
+        owner: "{{ container_user }}"
+        group: "{{ container_user }}"
+        mode: '0644'
+      with_fileglob:
+        - "templates/caddy/waf/core/*.conf.j2"
 
     - name: Template Sites for {{ caddy_profile }}
       become: true

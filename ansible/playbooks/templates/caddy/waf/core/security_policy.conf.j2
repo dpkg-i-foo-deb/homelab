@@ -1,0 +1,8 @@
+Include @crs-setup.conf.example
+
+# block_search_ip=0 disables ip reputation checks (slow if not tuned)
+SecAction "id:900000,phase:1,nolog,pass,t:none,setvar:tx.paranoia_level=2"
+# Threshold: 5 (Strict). Defaults are usually higher.
+SecAction "id:900110,phase:1,nolog,pass,t:none,setvar:tx.inbound_anomaly_score_threshold=5,setvar:tx.outbound_anomaly_score_threshold=4"
+SecRule REQUEST_HEADERS:Content-Type "@contains multipart/form-data" \
+  "id:1005,phase:1,nolog,pass,ctl:requestBodyAccess=Off"
