@@ -1,0 +1,6 @@
+SecRule ARGS:vscode-resource-base-authority ".*" \
+  "id:900200,\
+  phase:1,\
+  pass,\
+  nolog,\
+  ctl:ruleRemoveTargetById=930120;ARGS:vscode-resource-base-authority"

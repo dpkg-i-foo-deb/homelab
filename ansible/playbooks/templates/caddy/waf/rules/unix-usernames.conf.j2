@@ -1,9 +1,9 @@
 SecRule REQUEST_URI "@rx ^/(auth/login|rest/|realms/)" \
-    "id:900005,\
-    phase:1,\
-    pass,\
-    nolog,\
-    ctl:ruleRemoveTargetById=932260;ARGS:u,\
-    ctl:ruleRemoveTargetById=932260;ARGS:username,\
-    ctl:ruleRemoveTargetById=932260;ARGS:json.username,\
-    ctl:ruleRemoveTargetById=932260;ARGS:json.u"
+  "id:900005,\
+  phase:1,\
+  pass,\
+  nolog,\
+  ctl:ruleRemoveTargetById=932260;ARGS:u,\
+  ctl:ruleRemoveTargetById=932260;ARGS:username,\
+  ctl:ruleRemoveTargetById=932260;ARGS:json.username,\
+  ctl:ruleRemoveTargetById=932260;ARGS:json.u"
