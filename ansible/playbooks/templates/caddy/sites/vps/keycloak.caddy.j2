@@ -1,8 +1,6 @@
 {{ auth_host }}.{{ internet_host }} {
 
-  @waf {}
-
-  coraza_waf @waf {
+  coraza_waf {
     import owasp_coraza_engine
 
     include /etc/caddy/waf/rules/unix-usernames.conf
