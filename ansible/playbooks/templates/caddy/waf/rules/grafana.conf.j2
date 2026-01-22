@@ -1,0 +1,15 @@
+# Allow PromQL and other Grafana stuff
+SecRule REQUEST_URI "@contains /api/ds/query" \
+  "id:1003,\
+  phase:1,\
+  pass,\
+  nolog,\
+  ctl:requestBodyAccess=Off"
+
+# Allow saving Grafana dashboards
+SecRule REQUEST_URI "@beginsWith /apis/dashboard.grafana.app" \
+  "id:1004,\
+  phase:1,\
+  pass,\
+  nolog,\
+  ctl:ruleRemoveByTag=OWASP_CRS"
