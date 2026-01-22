@@ -1,4 +1,13 @@
 {{ auth_host }}.{{ internet_host }} {
+
+  @waf {}
+
+  coraza_waf @waf {
+    import owasp_coraza_engine
+
+    include /etc/caddy/waf/rules/unix-usernames.conf
+  }
+
   import logging keycloak.log
   import error_handler
   import letsencrypt_cloudflare_dns
