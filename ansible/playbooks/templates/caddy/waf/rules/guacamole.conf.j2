@@ -6,3 +6,12 @@ SecRule REQUEST_URI "@beginsWith /api/session/data/openid/users/" \
   pass,\
   nolog,\
   ctl:ruleRemoveById=920440"
+
+# Don't block guacamole streaming tunnel
+SecRule REQUEST_URI "@beginsWith /tunnel" \
+  "id:10002,\
+  phase:1,\
+  pass,\
+  nolog,\
+  ctl:ruleRemoveById=920420,\
+  ctl:requestBodyAccess=Off"
