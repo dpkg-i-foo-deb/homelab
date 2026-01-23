@@ -59,7 +59,7 @@
         group: "{{ container_user }}"
         mode: '0644'
       with_fileglob:
-        - "templates/caddy/waf/rules/*.conf.j2"
+        - "templates/caddy/waf/rules/*"
 
     - name: Template WAF Core
       become: true
@@ -70,7 +70,7 @@
         group: "{{ container_user }}"
         mode: '0644'
       with_fileglob:
-        - "templates/caddy/waf/core/*.conf.j2"
+        - "templates/caddy/waf/core/*"
 
     - name: Template Sites for {{ caddy_profile }}
       become: true
@@ -91,6 +91,62 @@
         mode: '0755'
         owner: '{{ container_user }}'
         group: '{{ container_user }}'
+
+    - name: Cleanup Orphaned Caddy Files
+      become: true
+      block:
+        - name: Inventory remote files in Caddy directories
+          ansible.builtin.find:
+            paths:
+              - /var/caddy/snippets
+              - /var/caddy/sites
+              - /var/caddy/waf
+              - /var/caddy/waf/rules
+              - /var/caddy/waf/core
+            file_type: file
+            recurse: no
+          register: caddy_found_files
+
+        - name: Define list of expected files
+          ansible.builtin.set_fact:
+            caddy_expected_files: >-
+              {{
+                (
+                  query('fileglob', 'templates/caddy/snippets/*')
+                  | map('basename') | map('regex_replace', '\.j2$', '')
+                  | map('regex_replace', '^', '/var/caddy/snippets/') | list
+                ) +
+                (
+                  query('fileglob', 'templates/caddy/sites/' ~ caddy_profile ~ '/*')
+                  | map('basename') | map('regex_replace', '\.j2$', '')
+                  | map('regex_replace', '^', '/var/caddy/sites/') | list
+                ) +
+                (
+                  query('fileglob', 'templates/caddy/waf/*')
+                  | map('basename') | map('regex_replace', '\.j2$', '')
+                  | map('regex_replace', '^', '/var/caddy/waf/') | list
+                ) +
+                (
+                  query('fileglob', 'templates/caddy/waf/rules/*')
+                  | map('basename') | map('regex_replace', '\.j2$', '')
+                  | map('regex_replace', '^', '/var/caddy/waf/rules/') | list
+                ) +
+                (
+                  query('fileglob', 'templates/caddy/waf/core/*')
+                  | map('basename') | map('regex_replace', '\.j2$', '')
+                  | map('regex_replace', '^', '/var/caddy/waf/core/') | list
+                )
+              }}
+
+        # 3. Delete any file found in Step 1 that isn't in the list from Step 2
+        - name: Remove orphaned files
+          ansible.builtin.file:
+            path: "{{ item.path }}"
+            state: absent
+          loop: "{{ caddy_found_files.files }}"
+          loop_control:
+            label: "{{ item.path }}"
+          when: item.path not in caddy_expected_files
 
     - name: Template Promtail configuration
       become: true
@@ -209,7 +265,6 @@
               dest: '/etc/caddy:z'
             - src: '/var/log/caddy'
               dest: '/var/log/caddy:z'
-
 
 - name: Promtail Configuration
   hosts: reverse_proxy_servers
