@@ -6,7 +6,13 @@
   }
 
   coraza_waf @waf {
-    import owasp_coraza /etc/caddy/waf/rules/unix-usernames.conf
+    load_owasp_crs
+
+    directives "
+      Include /etc/caddy/waf/core/owasp_coraza.conf
+      Include /etc/caddy/waf/rules/unix-usernames.conf
+      Include /etc/caddy/waf/core/crs_rules.conf
+    "
   }
 
   import logging navidrome.log
