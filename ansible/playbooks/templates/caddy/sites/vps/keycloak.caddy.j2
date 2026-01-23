@@ -1,9 +1,13 @@
 {{ auth_host }}.{{ internet_host }} {
 
   coraza_waf {
-    import owasp_coraza_engine
+    load_owasp_crs
 
-    include /etc/caddy/waf/rules/unix-usernames.conf
+    directives "
+      Include /etc/caddy/waf/core/owasp_coraza.conf
+      Include /etc/caddy/waf/rules/unix-usernames.conf
+      Include /etc/caddy/waf/core/crs_rules.conf
+    "
   }
 
   import logging keycloak.log

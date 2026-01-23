@@ -1,7 +1,12 @@
 {{ registry_host }}.{{ internet_host }} {
 
   coraza_waf {
-    import owasp_coraza_engine
+    load_owasp_crs
+
+    directives "
+      Include /etc/caddy/waf/core/owasp_coraza.conf
+      Include /etc/caddy/waf/core/crs_rules.conf
+    "
   }
 
   import logging harbor.log
