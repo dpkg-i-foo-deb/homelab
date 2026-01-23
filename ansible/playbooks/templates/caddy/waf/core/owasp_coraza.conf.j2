@@ -1,3 +1,5 @@
+Include @coraza.conf-recommended
+
 # --- Audit Logging ---
 SecAuditLog /var/log/caddy/coraza_audit.log
 SecAuditLogFormat json
@@ -5,8 +7,6 @@ SecAuditLogParts ABCEFHIJKZ
 SecAuditEngine RelevantOnly
 
 # --- Engine Configuration ---
-
-Include @coraza.conf-recommended
 
 # Reject requests when Coraza doesn't like them
 SecRuleEngine On
