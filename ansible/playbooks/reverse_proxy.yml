@@ -138,7 +138,7 @@
                 )
               }}
 
-        # 3. Delete any file found in Step 1 that isn't in the list from Step 2
+        # Delete any file found in Step 1 that isn't in the list from Step 2
         - name: Remove orphaned files
           ansible.builtin.file:
             path: "{{ item.path }}"
