@@ -1,5 +1,21 @@
 {{ lan_prefix }}.{{ notes_host }}.{{ internet_host }},
 {{ notes_host }}.{{ internet_host }} {
+
+  @waf {
+    import waf_skip_images
+    import waf_skip_websockets
+  }
+
+  coraza_waf @waf {
+    load_owasp_crs
+
+    directives "
+      Include /etc/caddy/waf/core/owasp_coraza.conf
+      Include /etc/caddy/waf/rules/trilium.conf
+      Include /etc/caddy/waf/core/crs_rules.conf
+    "
+  }
+
   import logging notes.log
   import error_handler
   import letsencrypt_cloudflare_dns
