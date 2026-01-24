@@ -41,6 +41,12 @@ resource "incus_instance" "desktop" {
   }
 
   device {
+    name = "tpm"
+    type = "tpm"
+    properties = {}
+  }
+
+  device {
     name = "root"
     type = "disk"
     properties = {
