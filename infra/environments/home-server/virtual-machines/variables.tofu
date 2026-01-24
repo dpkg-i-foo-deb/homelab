@@ -52,6 +52,15 @@ variable "management_net" {
   description = "The name of the management network"
 }
 
+variable "trusted_net" {
+  type = object({
+    name   = string
+    type   = string
+    config = map(string)
+  })
+  description = "The name of the trusted network"
+}
+
 variable "untrusted_net" {
   type = object({
     name   = string
