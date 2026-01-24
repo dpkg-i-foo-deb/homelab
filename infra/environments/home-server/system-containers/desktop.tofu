@@ -57,24 +57,4 @@ resource "incus_instance" "desktop" {
       pool   = var.virt_high_io_pool
     }
   }
-
-  device {
-    name = "music"
-    type = "disk"
-    properties = {
-      path   = "/music"
-      source = var.music_vol
-      pool   = var.virt_spin0_pool
-    }
-  }
-
-  device {
-    name = "downloads"
-    type = "disk"
-    properties = {
-      path = "/downloads"
-      source = var.downloads_vol
-      pool = var.virt_spin0_pool
-    }
-  }
 }
