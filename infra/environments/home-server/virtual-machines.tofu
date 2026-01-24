@@ -18,7 +18,8 @@ module "virtual-machines" {
   virt_main_pool    = module.storage-pools.virt_main
   virt_high_io_pool = module.storage-pools.virt_high_io
 
-  management_net = module.networks.management
-  untrusted_net  = module.networks.untrusted
+  management_net    = module.networks.management
+  trusted_net       = module.networks.trusted
+  untrusted_net     = module.networks.untrusted
   reverse_proxy_net = module.networks.reverse_proxy
 }

@@ -9,12 +9,12 @@ resource "incus_storage_volume" "desktop_data" {
 
 resource "incus_instance" "desktop" {
   name  = "desktop"
-  image = "images:debian/trixie/cloud"
+  type  = "virtual-machine"
+  image = "images:ubuntu/questing/cloud"
 
   config = {
     "boot.autostart"              = true
     "limits.cpu"                  = 2
-    "limits.cpu.allowance"        = "20%"
     "limits.memory"               = "8GiB"
     "limits.memory.swap"          = "true"
     "limits.memory.swap.priority" = "0"
@@ -24,7 +24,7 @@ resource "incus_instance" "desktop" {
         ssh_public_key           = var.ssh_public_key
         lxc_user_password        = var.lxc_user_password
         lxc_username             = "desktop"
-        lxc_username_description = "Linux System Container with Desktop"
+        lxc_username_description = "Desktop Main User"
         ansible_password         = var.ansible_password
       }
     )
@@ -38,6 +38,12 @@ resource "incus_instance" "desktop" {
       network        = var.trusted_net.name
       "ipv4.address" = "10.0.0.17"
     }
+  }
+
+  device {
+    name = "tpm"
+    type = "tpm"
+    properties = {}
   }
 
   device {
@@ -55,26 +61,6 @@ resource "incus_instance" "desktop" {
       path   = "/home"
       source = incus_storage_volume.desktop_data.name
       pool   = var.virt_high_io_pool
-    }
-  }
-
-  device {
-    name = "music"
-    type = "disk"
-    properties = {
-      path   = "/music"
-      source = var.music_vol
-      pool   = var.virt_spin0_pool
-    }
-  }
-
-  device {
-    name = "downloads"
-    type = "disk"
-    properties = {
-      path = "/downloads"
-      source = var.downloads_vol
-      pool = var.virt_spin0_pool
     }
   }
 }
