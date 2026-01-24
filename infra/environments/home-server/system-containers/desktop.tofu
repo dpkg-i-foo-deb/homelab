@@ -24,7 +24,7 @@ resource "incus_instance" "desktop" {
         ssh_public_key           = var.ssh_public_key
         lxc_user_password        = var.lxc_user_password
         lxc_username             = "desktop"
-        lxc_username_description = "Linux System Container with Desktop"
+        lxc_username_description = "Desktop Main User"
         ansible_password         = var.ansible_password
       }
     )
