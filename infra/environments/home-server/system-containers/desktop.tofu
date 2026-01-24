@@ -1,11 +1,11 @@
-resource "incus_storage_volume" "desktop_data" {
-  name    = "desktop_data"
-  pool    = var.virt_high_io_pool
-  project = "default"
-  config = {
-    "size" = "40GiB"
-  }
-}
+# resource "incus_storage_volume" "desktop_data" {
+# name    = "desktop_data"
+# pool    = var.virt_high_io_pool
+# project = "default"
+# config = {
+#   "size" = "40GiB"
+# }
+# }
 
 # resource "incus_instance" "desktop" {
 #   name  = "desktop"
