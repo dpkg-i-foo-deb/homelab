@@ -1,12 +1,3 @@
-resource "incus_storage_volume" "vpn_gateway_data" {
-  name    = "vpn-gateway-data"
-  pool    = var.virt_main_pool
-  project = "default"
-  config = {
-    size = "1GiB"
-  }
-}
-
 resource "incus_instance" "vpn_gateway" {
   name  = "vpn-gateway"
   image = "images:debian/trixie/cloud"
