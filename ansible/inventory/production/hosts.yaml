@@ -25,18 +25,18 @@ remote_access_servers:
       groups: 'trusted'
       container_user: 'remote'
 
-subnet_routers:
+vpn_gateways:
   hosts:
-    vps_subnet_router:
-      ansible_host: 10.0.254.6
-      siem-agent: vps-subnet-router
+    vps_vpn_gateway:
+      ansible_host: 10.0.252.20
+      siem-agent: 'vps-vpn-gateway'
       groups: 'trusted'
-      container_user: 'subnet-router'
-    homelab_subnet_router:
-      ansible_host: 10.0.0.5
-      siem_agent: 'homelab-subnet-router'
+      container_user: 'vpn-gateway'
+    homelab_vpn_gateway:
+      ansible_host: 10.0.6.20
+      siem_agent: 'homelab-vpn-gateway'
       groups: 'trusted'
-      container_user: 'subnet-router'
+      container_user: 'vpn-gateway'
 
 vpn_servers:
   hosts:
