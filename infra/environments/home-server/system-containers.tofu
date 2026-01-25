@@ -14,6 +14,7 @@ module "system-containers" {
   untrusted_net     = module.networks.untrusted
   management_net    = module.networks.management
   torrent_net       = module.networks.torrent
+  transit_net       = module.network.transit
 
 
   virt_main_pool    = module.storage-pools.virt_main

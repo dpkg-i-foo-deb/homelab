@@ -1,12 +1,3 @@
-resource "incus_storage_volume" "vpn_gateway_data" {
-  name    = "vpn-gateway-data"
-  pool    = var.virt_main_pool
-  project = "default"
-  config = {
-    size = "1GiB"
-  }
-}
-
 resource "incus_instance" "vpn_gateway" {
   name  = "vpn-gateway"
   image = "images:debian/trixie/cloud"
@@ -15,16 +6,16 @@ resource "incus_instance" "vpn_gateway" {
     "boot.autostart"              = true
     "limits.cpu"                  = 1
     "limits.cpu.allowance"        = "50%"
-    "limits.memory"               = "256MiB"
+    "limits.memory"               = "1GiB"
     "limits.memory.swap"          = "true"
     "limits.memory.swap.priority" = "0"
     "cloud-init.user-data" = templatefile(
       "${path.root}/cloud-init/generic.yml.tftpl",
       {
-        ssh_public_key           = var.ssh_public_key,
+        ssh_public_key           = var.ssh_public_key
         lxc_username             = "vpn-gateway"
-        lxc_username_description = "vpn-gateway Linux System Container"
-        lxc_user_password        = var.lxc_user_password,
+        lxc_username_description = "VPN Gateway Linux System Container"
+        lxc_user_password        = var.lxc_user_password
         ansible_password         = var.ansible_password
       }
     )
@@ -36,7 +27,7 @@ resource "incus_instance" "vpn_gateway" {
     type = "nic"
     properties = {
       network        = var.transit_net.name
-      "ipv4.address" = "10.0.252.20"
+      "ipv4.address" = "10.0.6.20"
     }
   }
 
@@ -45,7 +36,7 @@ resource "incus_instance" "vpn_gateway" {
     type = "nic"
     properties = {
       network        = var.trusted_net.name
-      "ipv4.address" = "10.0.254.20"
+      "ipv4.address" = "10.0.0.20"
     }
   }
 
@@ -53,8 +44,17 @@ resource "incus_instance" "vpn_gateway" {
     name = "eth2"
     type = "nic"
     properties = {
-      network        = var.dmz_net.name
-      "ipv4.address" = "10.0.253.20"
+      network        = var.reverse_proxy_net.name
+      "ipv4.address" = "10.0.5.20"
+    }
+  }
+
+  device {
+    name = "eth3"
+    type = "nic"
+    properties = {
+      network        = var.management_net.name
+      "ipv4.address" = "10.0.1.20"
     }
   }
 

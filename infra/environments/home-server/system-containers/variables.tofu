@@ -89,6 +89,15 @@ variable "torrent_net" {
   description = "Torrent network object"
 }
 
+variable "transit_net" {
+  type = object({
+    name   = string
+    type   = string
+    config = map(string)
+  })
+  description = "Transit network object"
+}
+
 # Storage pools available for system containers
 
 variable "virt_main_pool" {
