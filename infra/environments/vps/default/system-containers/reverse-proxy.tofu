@@ -84,6 +84,17 @@ resource "incus_instance" "reverse_proxy" {
   }
 
   device {
+    name = "wireguard"
+    type = "proxy"
+
+    properties = {
+      listen  = "udp:178.156.140.92:51820"
+      connect = "udp:0.0.0.0:51820"
+      nat     = "true"
+    }
+  }
+
+  device {
     name = "root"
     type = "disk"
     properties = {
