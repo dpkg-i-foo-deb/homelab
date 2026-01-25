@@ -35,3 +35,12 @@ variable "dmz_net" {
   })
   description = "DMZ network object"
 }
+
+variable "transit_net" {
+  type = object({
+    name   = string
+    type   = string
+    config = map(string)
+  })
+  description = "Transit network object"
+}

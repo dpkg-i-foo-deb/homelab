@@ -15,7 +15,7 @@ resource "incus_instance" "reverse_proxy" {
     "boot.autostart"              = true
     "limits.cpu"                  = 2
     "limits.cpu.allowance"        = "50%"
-    "limits.memory"               = "512MiB"
+    "limits.memory"               = "700MiB"
     "limits.memory.swap"          = "true"
     "limits.memory.swap.priority" = "0"
     "cloud-init.user-data" = templatefile(
