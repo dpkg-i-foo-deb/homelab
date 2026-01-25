@@ -15,7 +15,7 @@ module "system-containers" {
   management_net    = module.networks.management
   torrent_net       = module.networks.torrent
   transit_net       = module.networks.transit
-
+  monitoring_net    = module.networks.monitoring
 
   virt_main_pool    = module.storage-pools.virt_main
   virt_high_io_pool = module.storage-pools.virt_high_io

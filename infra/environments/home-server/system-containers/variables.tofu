@@ -98,6 +98,15 @@ variable "transit_net" {
   description = "Transit network object"
 }
 
+variable "monitoring_net" {
+  type = object({
+    name   = string
+    type   = string
+    config = map(string)
+  })
+  description = "Monitoring network object"
+}
+
 # Storage pools available for system containers
 
 variable "virt_main_pool" {
