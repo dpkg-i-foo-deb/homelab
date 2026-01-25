@@ -56,7 +56,7 @@ resource "incus_instance" "vpn_gateway" {
 
     properties = {
       listen  = "udp:178.156.140.92:51820"
-      connect = "udp:0.0.0.0:51820"
+      connect = "udp:10.0.252.20:51820"
       nat     = "true"
     }
   }
@@ -67,7 +67,7 @@ resource "incus_instance" "vpn_gateway" {
 
     properties = {
       listen  = "udp:178.156.140.92:51821"
-      connect = "udp:0.0.0.0:51821"
+      connect = "udp:10.0.252.20:51821"
       nat     = "true"
     }
   }
