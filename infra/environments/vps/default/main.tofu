@@ -9,6 +9,8 @@ module "system_containers" {
 
   trusted_net = var.trusted_net
   dmz_net     = var.dmz_net
+  transit_net = var.transit_net
+
 
   ansible_password  = var.ansible_password
   lxc_user_password = var.lxc_user_password

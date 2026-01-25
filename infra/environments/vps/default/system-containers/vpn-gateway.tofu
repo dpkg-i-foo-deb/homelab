@@ -30,8 +30,18 @@ resource "incus_instance" "vpn_gateway" {
     )
     "security.nesting" = true
   }
+
   device {
     name = "eth0"
+    type = "nic"
+    properties = {
+      network        = var.transit_net.name
+      "ipv4.address" = "10.0.252.20"
+    }
+  }
+
+  device {
+    name = "eth1"
     type = "nic"
     properties = {
       network        = var.trusted_net.name
@@ -40,7 +50,7 @@ resource "incus_instance" "vpn_gateway" {
   }
 
   device {
-    name = "eth1"
+    name = "eth2"
     type = "nic"
     properties = {
       network        = var.dmz_net.name

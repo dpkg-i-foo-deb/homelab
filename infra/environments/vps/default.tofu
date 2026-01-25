@@ -13,4 +13,5 @@ module "default" {
 
   trusted_net = module.networks.trusted
   dmz_net     = module.networks.dmz
+  transit_net = module.networks.transit
 }
