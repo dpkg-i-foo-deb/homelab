@@ -33,3 +33,8 @@ output "torrent" {
   description = "Network for torrent services"
 
 }
+
+output "transit" {
+  value       = incus_network.transit
+  description = "Network for transit services"
+}
