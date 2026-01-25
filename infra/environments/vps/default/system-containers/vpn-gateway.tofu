@@ -49,6 +49,29 @@ resource "incus_instance" "vpn_gateway" {
     }
   }
 
+
+  device {
+    name = "wg_proxy"
+    type = "proxy"
+
+    properties = {
+      listen  = "udp:178.156.140.92:51820"
+      connect = "udp:0.0.0.0:51820"
+      nat     = "true"
+    }
+  }
+
+  device {
+    name = "wg_mon"
+    type = "proxy"
+
+    properties = {
+      listen  = "udp:178.156.140.92:51821"
+      connect = "udp:0.0.0.0:51821"
+      nat     = "true"
+    }
+  }
+
   device {
     name = "root"
     type = "disk"
