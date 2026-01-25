@@ -1,11 +1,11 @@
-resource "incus_storage_volume" "subnet_router_data" {
-  name    = "subnet-router-data"
-  pool    = var.virt_main_pool
-  project = "default"
-  config = {
-    size = "1GiB"
-  }
-}
+# resource "incus_storage_volume" "subnet_router_data" {
+#   name    = "subnet-router-data"
+#   pool    = var.virt_main_pool
+#   project = "default"
+#   config = {
+#     size = "1GiB"
+#   }
+# }
 
 # resource "incus_instance" "subnet_router" {
 #   name  = "subnet-router"
