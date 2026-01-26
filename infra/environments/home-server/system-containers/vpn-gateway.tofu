@@ -59,6 +59,15 @@ resource "incus_instance" "vpn_gateway" {
   }
 
   device {
+    name = "eth4"
+    type = "nic"
+    properties = {
+      network        = var.monitoring_net.name
+      "ipv4.address" = "10.0.7.20"
+    }
+  }
+
+  device {
     name = "root"
     type = "disk"
     properties = {

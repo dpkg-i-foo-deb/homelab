@@ -1,17 +1,17 @@
 {{ vpn_host }}.{{ internet_host }} {
 
-  @waf {
-    import waf_skip_websockets
-  }
-
-  coraza_waf @waf {
-    load_owasp_crs
-
-    directives "
-      Include /etc/caddy/waf/core/owasp_coraza.conf
-      Include /etc/caddy/waf/core/crs_rules.conf
-    "
-  }
+#  @waf {
+#    import waf_skip_websockets
+#  }
+#
+#  coraza_waf @waf {
+#    load_owasp_crs
+#
+#    directives "
+#      Include /etc/caddy/waf/core/owasp_coraza.conf
+#      Include /etc/caddy/waf/core/crs_rules.conf
+#    "
+#  }
 
   import logging vpn.log
   import letsencrypt_cloudflare_dns

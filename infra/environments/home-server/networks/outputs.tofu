@@ -38,3 +38,8 @@ output "transit" {
   value       = incus_network.transit
   description = "Network for transit services"
 }
+
+output "monitoring" {
+  value       = incus_network.monitoring
+  description = "Network for monitoring services"
+}
