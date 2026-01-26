@@ -84,6 +84,17 @@ resource "incus_instance" "vpn_gateway" {
   }
 
   device {
+    name = "wg_admin"
+    type = "proxy"
+
+    properties = {
+      listen  = "udp:178.156.140.92:51823"
+      connect = "udp:10.0.252.20:51823"
+      nat     = "true"
+    }
+  }
+
+  device {
     name = "root"
     type = "disk"
     properties = {
