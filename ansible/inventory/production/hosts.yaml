@@ -76,11 +76,6 @@ vpn_dns:
       container_user: dns-vpn-0
       siem_agent: dns-vpn-0
       groups: 'internet_facing,trusted'
-    backup_vpn_dns:
-      ansible_host: 10.0.2.5
-      container_user: dns-vpn-1
-      siem_agent: dns-vpn-1
-      groups: 'internet_facing,trusted'
     vps_vpn_dns:
       ansible_host: 10.0.254.5
       container_user: 'dns-vpn'
