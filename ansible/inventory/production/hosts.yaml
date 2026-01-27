@@ -95,7 +95,7 @@ streaming:
 torrent:
   hosts:
     torrent_vm:
-      ansible_host: 10.0.0.16
+      ansible_host: 10.0.4.10
       container_user: torrent
 security:
   hosts:
