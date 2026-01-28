@@ -303,11 +303,13 @@ dns:
   # so far only A and AAAA records are supported (on the tailscale side)
   # See: docs/ref/dns.md
   extra_records:
+{% if headscale_dns_records is defined %}
 {%for record in headscale_dns_records %}
     - name: "{{ record.domain }}"
       type: "A"
       value: "{{ record.address }}"
 {% endfor %}
+{% endif %}
   #   - name: "grafana.myvpn.example.com"
   #     type: "A"
   #     value: "100.64.0.3"
