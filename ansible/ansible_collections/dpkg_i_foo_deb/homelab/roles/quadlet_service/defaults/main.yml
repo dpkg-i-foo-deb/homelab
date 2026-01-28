@@ -9,3 +9,4 @@ default_bind_mount_recurse: 'true'
 default_quadlet_service_daemon_reload: 'true'
 default_quadlet_service_state: 'restarted'
 default_quadlet_pull_image: true
+default_quadlet_image_tag: 'latest'
