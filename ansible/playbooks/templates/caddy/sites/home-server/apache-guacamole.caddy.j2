@@ -18,5 +18,5 @@
   import logging guacamole.log
   import error_handler
   import letsencrypt_cloudflare_dns
-  import proxy http://{{ hostvars['homelab_bastion']['ansible_host'] }}:8081
+  import proxy http://{{ hostvars['remote_homelab']['ansible_host'] }}:8081
 }
