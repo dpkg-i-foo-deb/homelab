@@ -33,8 +33,10 @@ resource "incus_instance" "torrent" {
     name = "eth0"
     type = "nic"
     properties = {
-      "ipv4.address" = "10.0.4.10"
-      network        = var.torrent_net.name
+      "ipv4.address"            = "10.0.4.10"
+      network                   = var.torrent_net.name
+      "security.ipv4_filtering" = true
+      "security.mac_filtering"  = true
     }
   }
 
