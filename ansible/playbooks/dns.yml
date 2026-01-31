@@ -28,6 +28,14 @@
         group: "root"
         mode: "0644"
 
+    - name: Ensure there's a directory to store Pi-Hole wildcard DNS
+      become: true
+      ansible.builtin.file:
+        path: "/var/pihole"
+        state: directory
+        owner: "{{ container_user }}"
+        group: "{{ container_user }}"
+        mode: "0644"
 
 - name: Configure DNS Servers
   hosts: vpn_dns, home_dns, homelab_dns
