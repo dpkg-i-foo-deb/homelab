@@ -1,5 +1,5 @@
 - name: Common configuration for all DNS servers
-  hosts: vpn_dns, home_dns
+  hosts: vpn_dns, home_dns, homelab_dns
   tasks:
     - name: Allow usage of privileged ports by rootless processes
       ansible.builtin.import_role:
@@ -30,7 +30,7 @@
 
 
 - name: Configure DNS Servers
-  hosts: vpn_dns, home_dns
+  hosts: vpn_dns, home_dns, homelab_dns
   vars:
     dns_sync_pass: !vault |
           $ANSIBLE_VAULT;1.1;AES256
