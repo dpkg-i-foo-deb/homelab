@@ -51,8 +51,11 @@ resource "incus_instance" "monitoring" {
     name = "eth0"
     type = "nic"
     properties = {
-      network        = var.monitoring_net.name
-      "ipv4.address" = "10.0.7.10"
+      network                   = var.monitoring_net.name
+      "ipv4.address"            = "10.0.7.10"
+      "security.ipv4_filtering" = true
+      "security.ipv6_filtering" = true
+      "security.mac_filtering"  = true
     }
   }
 
