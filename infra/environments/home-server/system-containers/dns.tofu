@@ -47,6 +47,7 @@ resource "incus_instance" "dns_home_0" {
       "security.ipv4_filtering" = true
       "security.ipv6_filtering" = true
       "security.mac_filtering"  = true
+      "security.port_isolation" = true
     }
   }
 
@@ -102,6 +103,7 @@ resource "incus_instance" "dns_home_1" {
       "security.ipv4_filtering" = true
       "security.ipv6_filtering" = true
       "security.mac_filtering"  = true
+      "security.port_isolation" = true
     }
   }
 
@@ -158,6 +160,7 @@ resource "incus_instance" "dns_vpn_0" {
       "security.ipv4_filtering" = true
       "security.ipv6_filtering" = true
       "security.mac_filtering"  = true
+      "security.port_isolation" = true
     }
   }
 
