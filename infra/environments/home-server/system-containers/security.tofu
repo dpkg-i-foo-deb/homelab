@@ -40,6 +40,7 @@ resource "incus_instance" "security" {
       "security.ipv4_filtering" = true
       "security.ipv6_filtering" = true
       "security.mac_filtering"  = true
+      "security.port_isolation" = true
     }
 
   }
