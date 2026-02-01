@@ -42,8 +42,11 @@ resource "incus_instance" "dns_home_0" {
     name = "eth0"
     type = "nic"
     properties = {
-      network        = var.dns_net.name
-      "ipv4.address" = "10.0.2.2"
+      network                   = var.dns_net.name
+      "ipv4.address"            = "10.0.2.2"
+      "security.ipv4_filtering" = true
+      "security.ipv6_filtering" = true
+      "security.mac_filtering"  = true
     }
   }
 
@@ -94,8 +97,11 @@ resource "incus_instance" "dns_home_1" {
     name = "eth0"
     type = "nic"
     properties = {
-      network        = var.dns_net.name
-      "ipv4.address" = "10.0.2.3"
+      network                   = var.dns_net.name
+      "ipv4.address"            = "10.0.2.3"
+      "security.ipv4_filtering" = true
+      "security.ipv6_filtering" = true
+      "security.mac_filtering"  = true
     }
   }
 
@@ -147,8 +153,11 @@ resource "incus_instance" "dns_vpn_0" {
     name = "eth0"
     type = "nic"
     properties = {
-      network        = var.dns_net.name
-      "ipv4.address" = "10.0.2.4"
+      network                   = var.dns_net.name
+      "ipv4.address"            = "10.0.2.4"
+      "security.ipv4_filtering" = true
+      "security.ipv6_filtering" = true
+      "security.mac_filtering"  = true
     }
   }
 
