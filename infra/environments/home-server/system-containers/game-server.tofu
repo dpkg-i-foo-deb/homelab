@@ -6,8 +6,8 @@ resource "incus_storage_volume" "game-server-data" {
 
 
 resource "incus_instance" "game-server" {
-  name  = "game-server"
-  image = "images:debian/trixie/cloud"
+  name    = "game-server"
+  image   = "images:debian/trixie/cloud"
   running = false
 
   config = {
@@ -33,8 +33,11 @@ resource "incus_instance" "game-server" {
     name = "eth0"
     type = "nic"
     properties = {
-      network        = var.untrusted_net.name
-      "ipv4.address" = "10.0.8.11"
+      network                   = var.untrusted_net.name
+      "ipv4.address"            = "10.0.8.11"
+      "security.ipv4_filtering" = true
+      "security.ipv6_filtering" = true
+      "security.mac_filtering"  = true
     }
   }
   device {
