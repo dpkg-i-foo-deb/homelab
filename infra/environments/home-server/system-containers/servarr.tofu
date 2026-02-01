@@ -46,7 +46,7 @@ resource "incus_instance" "servarr" {
     properties = {
       network                   = var.trusted_net.name
       "ipv4.address"            = "10.0.0.12"
-      "security.ipv4.filtering" = true
+      "security.ipv4_filtering" = true
       "security.ipv4_filtering" = true
       "security.mac_filtering"  = true
     }
