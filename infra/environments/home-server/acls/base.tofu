@@ -5,7 +5,7 @@ resource "incus_network_acl" "base" {
   egress = [
     {
       action = "allow"
-      state  = "established, related"
+      state  = "enabled"
     },
 
     # Allow instances to request network configuration (Client -> Server)
@@ -57,13 +57,6 @@ resource "incus_network_acl" "base" {
       description      = "Allow NTP"
       state            = "enabled"
     },
-    # Block outgonig ICMP so that my machines don't ping random stuff
-    {
-      action      = "drop"
-      protocol    = "icmp4"
-      description = "Block Outbound Ping"
-      state       = "enabled"
-    }
   ]
 
   ingress = [
@@ -83,13 +76,5 @@ resource "incus_network_acl" "base" {
       description      = "Block Rogue DHCP Server"
       state            = "enabled"
     },
-    # ICMP: Allow receiving ping only from management subnet
-    {
-      action      = "allow"
-      protocol    = "icmp4"
-      source      = var.network_management_cidr
-      description = "Allow Ping from Management"
-      state       = "enabled"
-    }
   ]
 }
