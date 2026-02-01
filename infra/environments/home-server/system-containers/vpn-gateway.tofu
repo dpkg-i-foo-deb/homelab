@@ -35,7 +35,6 @@ resource "incus_instance" "vpn_gateway" {
       network                   = var.transit_net.name
       "ipv4.address"            = "10.0.6.20"
       "security.mac_filtering"  = true
-      "security.port_isolation" = true
     }
   }
 
@@ -43,9 +42,9 @@ resource "incus_instance" "vpn_gateway" {
     name = "eth1"
     type = "nic"
     properties = {
-      network                  = var.trusted_net.name
-      "ipv4.address"           = "10.0.0.20"
-      "security.mac_filtering" = true
+      network                   = var.trusted_net.name
+      "ipv4.address"            = "10.0.0.20"
+      "security.mac_filtering"  = true
     }
   }
 
