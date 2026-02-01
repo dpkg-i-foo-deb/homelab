@@ -34,8 +34,11 @@ resource "incus_instance" "reverse_proxy" {
     name = "eth0"
     type = "nic"
     properties = {
-      network        = var.dmz_net.name
-      "ipv4.address" = "10.0.253.10"
+      network                   = var.dmz_net.name
+      "ipv4.address"            = "10.0.253.10"
+      "security.ipv4_filtering" = true
+      "security.ipv6_filtering" = true
+      "security.mac_filtering"  = true
     }
   }
 

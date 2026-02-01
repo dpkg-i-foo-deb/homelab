@@ -26,8 +26,9 @@ resource "incus_instance" "vpn_gateway" {
     name = "eth0"
     type = "nic"
     properties = {
-      network        = var.transit_net.name
-      "ipv4.address" = "10.0.252.20"
+      network                  = var.transit_net.name
+      "ipv4.address"           = "10.0.252.20"
+      "security.mac_filtering" = true
     }
   }
 
@@ -35,8 +36,9 @@ resource "incus_instance" "vpn_gateway" {
     name = "eth1"
     type = "nic"
     properties = {
-      network        = var.trusted_net.name
-      "ipv4.address" = "10.0.254.20"
+      network                  = var.trusted_net.name
+      "ipv4.address"           = "10.0.254.20"
+      "security.mac_filtering" = true
     }
   }
 
@@ -44,8 +46,9 @@ resource "incus_instance" "vpn_gateway" {
     name = "eth2"
     type = "nic"
     properties = {
-      network        = var.dmz_net.name
-      "ipv4.address" = "10.0.253.20"
+      network                   = var.dmz_net.name
+      "security.mac_filtering"  = true
+      "ipv4.address"            = "10.0.253.20"
     }
   }
 
