@@ -28,11 +28,14 @@ resource "incus_instance" "vpn_gateway" {
     properties = {
       network                   = var.transit_net.name
       "ipv4.address"            = "10.0.6.20"
-      "security.ipv4_filtering" = true
-      "security.ipv6_filtering" = true
       "security.mac_filtering"  = true
     }
   }
+
+  # IPv4 and IPv6 filtering are disabled because they are required in order
+  # for a router to work properly, since it is replacing its source ip with
+  # another machine's ip... Mac filtering is still enabled to ensure
+  # at least some network security
 
   device {
     name = "eth1"
@@ -40,8 +43,6 @@ resource "incus_instance" "vpn_gateway" {
     properties = {
       network                   = var.trusted_net.name
       "ipv4.address"            = "10.0.0.20"
-      "security.ipv4_filtering" = true
-      "security.ipv6_filtering" = true
       "security.mac_filtering"  = true
     }
   }
@@ -52,8 +53,6 @@ resource "incus_instance" "vpn_gateway" {
     properties = {
       network                   = var.reverse_proxy_net.name
       "ipv4.address"            = "10.0.5.20"
-      "security.ipv4_filtering" = true
-      "security.ipv6_filtering" = true
       "security.mac_filtering"  = true
     }
   }
@@ -64,8 +63,6 @@ resource "incus_instance" "vpn_gateway" {
     properties = {
       network                   = var.management_net.name
       "ipv4.address"            = "10.0.1.20"
-      "security.ipv4_filtering" = true
-      "security.ipv6_filtering" = true
       "security.mac_filtering"  = true
     }
   }
@@ -76,8 +73,6 @@ resource "incus_instance" "vpn_gateway" {
     properties = {
       network                   = var.monitoring_net.name
       "ipv4.address"            = "10.0.7.20"
-      "security.ipv4_filtering" = true
-      "security.ipv6_filtering" = true
       "security.mac_filtering"  = true
     }
   }
