@@ -31,8 +31,11 @@ resource "incus_instance" "reverse_proxy" {
     name = "eth0"
     type = "nic"
     properties = {
-      network        = var.reverse_proxy_net.name
-      "ipv4.address" = "10.0.5.10"
+      network                   = var.reverse_proxy_net.name
+      "ipv4.address"            = "10.0.5.10"
+      "security.ipv4_filtering" = true
+      "security.ipv4_filtering" = true
+      "security.mac_filtering"  = true
     }
   }
 
