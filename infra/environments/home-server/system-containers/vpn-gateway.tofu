@@ -35,6 +35,7 @@ resource "incus_instance" "vpn_gateway" {
       network                   = var.transit_net.name
       "ipv4.address"            = "10.0.6.20"
       "security.mac_filtering"  = true
+      "security.port_isolation" = true
     }
   }
 
@@ -42,9 +43,9 @@ resource "incus_instance" "vpn_gateway" {
     name = "eth1"
     type = "nic"
     properties = {
-      network                   = var.trusted_net.name
-      "ipv4.address"            = "10.0.0.20"
-      "security.mac_filtering"  = true
+      network                  = var.trusted_net.name
+      "ipv4.address"           = "10.0.0.20"
+      "security.mac_filtering" = true
     }
   }
 
@@ -52,9 +53,9 @@ resource "incus_instance" "vpn_gateway" {
     name = "eth2"
     type = "nic"
     properties = {
-      network                   = var.reverse_proxy_net.name
-      "ipv4.address"            = "10.0.5.20"
-      "security.mac_filtering"  = true
+      network                  = var.reverse_proxy_net.name
+      "ipv4.address"           = "10.0.5.20"
+      "security.mac_filtering" = true
     }
   }
 
@@ -62,9 +63,9 @@ resource "incus_instance" "vpn_gateway" {
     name = "eth3"
     type = "nic"
     properties = {
-      network                   = var.management_net.name
-      "ipv4.address"            = "10.0.1.20"
-      "security.mac_filtering"  = true
+      network                  = var.management_net.name
+      "ipv4.address"           = "10.0.1.20"
+      "security.mac_filtering" = true
     }
   }
 
@@ -72,9 +73,9 @@ resource "incus_instance" "vpn_gateway" {
     name = "eth4"
     type = "nic"
     properties = {
-      network                   = var.monitoring_net.name
-      "ipv4.address"            = "10.0.7.20"
-      "security.mac_filtering"  = true
+      network                  = var.monitoring_net.name
+      "ipv4.address"           = "10.0.7.20"
+      "security.mac_filtering" = true
     }
   }
 
