@@ -27,7 +27,6 @@ module "external" {
   ansible_password  = var.ansible_password
 
   virt_high_io_pool = var.virt_high_io_pool
-  management_subnet = var.management_subnet
   reverse_proxy_net = var.reverse_proxy_net
 
 }
