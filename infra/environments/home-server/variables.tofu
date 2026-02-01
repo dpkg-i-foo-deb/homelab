@@ -15,6 +15,11 @@ variable "ansible_password" {
   description = "Ansible Automation Account Password"
 }
 
+variable "vps_public_ip" {
+  type        = string
+  description = "Public IP address of my VPS"
+}
+
 # vc-cluster project
 
 variable "vc_cluster_ssh_public_key" {
@@ -30,9 +35,4 @@ variable "vc_cluster_lxc_user_password" {
 variable "vc_cluster_ansible_password" {
   type        = string
   description = "vc-cluster Ansible password"
-}
-
-variable "home_subnet" {
-  type        = string
-  description = "Home subnet for management"
 }

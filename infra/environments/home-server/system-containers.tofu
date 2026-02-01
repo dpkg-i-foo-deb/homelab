@@ -5,8 +5,6 @@ module "system-containers" {
   ssh_public_key    = var.ssh_public_key
   ansible_password  = var.ansible_password
 
-  management_subnet = var.home_subnet
-
   dns_net           = module.networks.dns
   reverse_proxy_net = module.networks.reverse_proxy
   vcsoft_net        = module.networks.vcsoft
