@@ -34,7 +34,7 @@ resource "incus_instance" "reverse_proxy" {
       network                   = var.reverse_proxy_net.name
       "ipv4.address"            = "10.0.5.10"
       "security.ipv4_filtering" = true
-      "security.ipv4_filtering" = true
+      "security.ipv6_filtering" = true
       "security.mac_filtering"  = true
     }
   }

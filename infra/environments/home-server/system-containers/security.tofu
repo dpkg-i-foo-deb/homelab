@@ -38,7 +38,7 @@ resource "incus_instance" "security" {
       network                   = var.trusted_net.name
       "ipv4.address"            = "10.0.0.11"
       "security.ipv4_filtering" = true
-      "security.ipv4_filtering" = true
+      "security.ipv6_filtering" = true
       "security.mac_filtering"  = true
     }
 
