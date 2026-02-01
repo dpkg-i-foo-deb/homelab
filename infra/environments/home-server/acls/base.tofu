@@ -3,11 +3,6 @@ resource "incus_network_acl" "base" {
   description = "Base ACL rules: DHCP, NTP y DNS are veryyyy strict "
 
   egress = [
-    {
-      action = "allow"
-      state  = "enabled"
-    },
-
     # Allow instances to request network configuration (Client -> Server)
     {
       action           = "allow"
@@ -32,21 +27,6 @@ resource "incus_network_acl" "base" {
       destination      = var.dns_server_internal_ip
       destination_port = "53"
       description      = "Allow Internal DNS (TCP)"
-      state            = "enabled"
-    },
-    # DNS: Block DNS requests to external servers
-    {
-      action           = "drop"
-      protocol         = "udp"
-      destination_port = "53"
-      description      = "Block Rogue DNS (UDP)"
-      state            = "enabled"
-    },
-    {
-      action           = "drop"
-      protocol         = "tcp"
-      destination_port = "53"
-      description      = "Block Rogue DNS (TCP)"
       state            = "enabled"
     },
     # Allow time to be synced (TODO: Host my own NTP server)

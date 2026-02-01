@@ -18,14 +18,6 @@ resource "incus_network_acl" "management_ingress" {
       icmp_type   = "8"
       description = "Allow ICMP from management network"
       state       = "enabled"
-    },
-    # Drop SSH connections that come from any other machine
-    {
-      action           = "drop"
-      protocol         = "tcp"
-      destination_port = "22"
-      description      = "Drop SSH"
-      state            = "enabled"
     }
   ]
   # Allow replying SSH and ICMP only to management networks
