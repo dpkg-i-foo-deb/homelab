@@ -1,50 +1,29 @@
-output "external_dns" {
-  value       = incus_network_acl.external_dns.name
-  description = "ACL to allow access to external DNS services"
+output "base" {
+  value       = incus_network_acl.base.name
+  description = "Base ACL that allows machines to work"
 }
 
-output "internal_dns" {
-  value       = incus_network_acl.internal_dns.name
-  description = "ACL to allow access to internal DNS services"
+output "drop" {
+  value       = incus_network_acl.drop
+  description = "ACL to kill everything"
 }
 
-output "inbound_dns" {
-  value       = incus_network_acl.inbound_dns.name
-  description = "ACL to allow inbound DNS connections"
+output "management_ingress" {
+  value       = incus_network_acl.management_ingress
+  description = "ACL to allow management machines to do their thing"
 }
 
-output "http" {
-  value       = incus_network_acl.http.name
-  description = "ACL to allow access to HTTP services"
+output "reverse_proxy" {
+  value       = incus_network_acl.reverse_proxy
+  description = "ACL for reverse proxies"
 }
 
-output "http_inbound" {
-  value       = incus_network_acl.http_inbound.name
-  description = "ACL to allow inbound HTTP connections"
+output "vpn_gateway" {
+  value       = incus_network_acl.vpn_gateway
+  description = "ACL for VPN Gateways"
 }
 
-output "ssh_mgmt" {
-  value       = incus_network_acl.ssh_mgmt.name
-  description = "ACL to allow inbound management SSH connections"
-}
-
-output "ssh_outbound" {
-  description = "ACL to allow outbound SSH connections"
-  value       = incus_network_acl.ssh_outbound.name
-}
-
-output "tailscale_inbound" {
-  value       = incus_network_acl.tailscale_inbound.name
-  description = "ACL to allow Tailscale functionality"
-}
-
-
-output "rdp_inbound" {
-  value       = incus_network_acl.rdp_inbound.name
-  description = "ACL to allow inbound RDP connections"
-}
-
-output "dchp_outbound" {
-  value       = incus_network_acl.dchp_outbound.name
-  description = "ACL to allow outbound DHCP connections"
+output "web_client" {
+  value       = incus_network_acl.web_client
+  description = "ACL for web clients"
 }
