@@ -22,6 +22,12 @@ resource "incus_instance" "vpn_gateway" {
     "security.nesting" = true
   }
 
+
+  # IPv4 and IPv6 filtering are disabled because they are required in order
+  # for a router to work properly, since it is replacing its source ip with
+  # another machine's ip... Mac filtering is still enabled to ensure
+  # at least some network security
+
   device {
     name = "eth0"
     type = "nic"
@@ -31,11 +37,6 @@ resource "incus_instance" "vpn_gateway" {
       "security.mac_filtering"  = true
     }
   }
-
-  # IPv4 and IPv6 filtering are disabled because they are required in order
-  # for a router to work properly, since it is replacing its source ip with
-  # another machine's ip... Mac filtering is still enabled to ensure
-  # at least some network security
 
   device {
     name = "eth1"
