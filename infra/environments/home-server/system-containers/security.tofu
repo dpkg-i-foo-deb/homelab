@@ -12,8 +12,8 @@ resource "incus_instance" "security" {
   image = "images:debian/trixie/cloud"
 
   config = {
-    "boot.autostart"              = true
-    "limits.cpu"                  = 2
+    "boot.autostart" = true
+    "limits.cpu"     = 2
     # "limits.cpu.allowance"        = "50%"
     "limits.memory"               = "16GiB"
     "limits.memory.swap"          = "true"
@@ -35,8 +35,11 @@ resource "incus_instance" "security" {
     name = "eth0"
     type = "nic"
     properties = {
-      network        = var.trusted_net.name
-      "ipv4.address" = "10.0.0.11"
+      network                   = var.trusted_net.name
+      "ipv4.address"            = "10.0.0.11"
+      "security.ipv4_filtering" = true
+      "security.ipv4_filtering" = true
+      "security.mac_filtering"  = true
     }
 
   }
