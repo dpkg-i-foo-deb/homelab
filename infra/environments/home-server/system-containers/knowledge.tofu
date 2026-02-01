@@ -36,6 +36,7 @@ resource "incus_instance" "knowledge" {
       "security.ipv4_filtering" = true
       "security.ipv6_filtering" = true
       "security.mac_filtering"  = true
+      "security.port_isolation" = true
     }
   }
   device {
