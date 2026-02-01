@@ -3,11 +3,6 @@ output "base" {
   description = "Base ACL that allows machines to work"
 }
 
-output "drop" {
-  value       = incus_network_acl.drop.name
-  description = "ACL to kill everything"
-}
-
 output "management_ingress" {
   value       = incus_network_acl.management_ingress.name
   description = "ACL to allow management machines to do their thing"

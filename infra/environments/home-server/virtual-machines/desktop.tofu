@@ -41,7 +41,6 @@ resource "incus_instance" "desktop" {
         var.base_acl,
         var.management_ingress_acl,
         var.web_client_acl,
-        var.drop_acl
       ])
       "security.ipv4_filtering" = true
       "security.ipv6_filtering" = true

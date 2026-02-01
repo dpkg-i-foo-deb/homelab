@@ -24,6 +24,5 @@ module "virtual-machines" {
   base_acl               = module.acls.base
   management_ingress_acl = module.acls.management_ingress
   web_client_acl         = module.acls.web_client
-  drop_acl               = module.acls.drop
 
 }
