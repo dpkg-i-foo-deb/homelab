@@ -22,4 +22,10 @@ module "virtual-machines" {
   trusted_net       = module.networks.trusted
   untrusted_net     = module.networks.untrusted
   reverse_proxy_net = module.networks.reverse_proxy
+
+  base_acl               = module.acls.base
+  management_ingress_acl = module.acls.management_ingress
+  web_client_acl         = module.acls.web_client
+  drop_acl               = module.acls.drop
+
 }

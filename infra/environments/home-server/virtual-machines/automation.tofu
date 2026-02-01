@@ -24,8 +24,14 @@ resource "incus_instance" "automation" {
     name = "eth0"
     type = "nic"
     properties = {
-      network                   = var.management_net.name
-      "ipv4.address"            = "10.0.1.11"
+      network        = var.management_net.name
+      "ipv4.address" = "10.0.1.11"
+      "security.acls" = join(",", [
+        var.base_acl,
+        var.management_ingress_acl,
+        var.web_client_acl,
+        var.drop_acl
+      ])
       "security.ipv4_filtering" = true
       "security.ipv6_filtering" = true
       "security.mac_filtering"  = true

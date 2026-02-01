@@ -78,6 +78,29 @@ variable "reverse_proxy_net" {
   })
   description = "Reverse Proxy network object"
 }
+
+# Network ACLs
+
+variable "base_acl" {
+  type        = string
+  description = "The name of the base ACL"
+}
+
+variable "management_ingress_acl" {
+  type        = string
+  description = "The name of the management ingress ACL"
+}
+
+variable "web_client_acl" {
+  type        = string
+  description = "The name of the web client ACL"
+}
+
+variable "drop_acl" {
+  type        = string
+  description = "The name of the drop ACL"
+}
+
 # Storage pools available for system containers
 
 variable "virt_main_pool" {
