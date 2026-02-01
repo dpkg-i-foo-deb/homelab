@@ -35,14 +35,17 @@ resource "incus_instance" "desktop" {
     name = "eth0"
     type = "nic"
     properties = {
-      network        = var.trusted_net.name
-      "ipv4.address" = "10.0.0.17"
+      network                   = var.trusted_net.name
+      "ipv4.address"            = "10.0.0.17"
+      "security.ipv4_filtering" = true
+      "security.ipv6_filtering" = true
+      "security.mac_filtering"  = true
     }
   }
 
   device {
-    name = "tpm"
-    type = "tpm"
+    name       = "tpm"
+    type       = "tpm"
     properties = {}
   }
 

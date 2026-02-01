@@ -1,12 +1,12 @@
 resource "incus_instance" "automation" {
   name  = "automation"
-  type    = "virtual-machine"
+  type  = "virtual-machine"
   image = "images:debian/trixie/cloud"
 
   config = {
-    "boot.autostart" = true
-    "limits.cpu"     = 3
-    "limits.memory"  = "12GiB"
+    "boot.autostart"      = true
+    "limits.cpu"          = 3
+    "limits.memory"       = "12GiB"
     "security.secureboot" = true
     "cloud-init.user-data" = templatefile(
       "${path.root}/cloud-init/generic.yml.tftpl",
@@ -24,8 +24,11 @@ resource "incus_instance" "automation" {
     name = "eth0"
     type = "nic"
     properties = {
-      network        = var.management_net.name
-      "ipv4.address" = "10.0.1.11"
+      network                   = var.management_net.name
+      "ipv4.address"            = "10.0.1.11"
+      "security.ipv4_filtering" = true
+      "security.ipv6_filtering" = true
+      "security.mac_filtering"  = true
     }
   }
 
