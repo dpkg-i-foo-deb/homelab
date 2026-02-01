@@ -2,5 +2,7 @@
   ansible.builtin.import_tasks: limits.yml
 - name: Configure sysctl for production Incus
   ansible.builtin.import_tasks: sysctl.yml
+- name: Load modules needed for Incus
+  ansible.builtin.import_tasks: modprobe.yml
 - name: Package configuration
   ansible.builtin.import_tasks: packages.yml
