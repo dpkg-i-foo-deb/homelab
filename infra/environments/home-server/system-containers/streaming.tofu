@@ -2,8 +2,8 @@ resource "incus_storage_volume" "streaming_data" {
   name    = "streaming_data"
   pool    = var.virt_main_pool
   project = "default"
-  config  = {
-     "size" = "30GiB"
+  config = {
+    "size" = "30GiB"
   }
 }
 
@@ -44,8 +44,11 @@ resource "incus_instance" "streaming" {
     name = "eth0"
     type = "nic"
     properties = {
-      network        = var.trusted_net.name
-      "ipv4.address" = "10.0.0.13"
+      network                   = var.trusted_net.name
+      "ipv4.address"            = "10.0.0.13"
+      "security.ipv4_filtering" = true
+      "security.ipv6_filtering" = true
+      "security.mac_filtering"  = true
     }
   }
 
