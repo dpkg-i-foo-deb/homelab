@@ -10,6 +10,12 @@ variable "network_management_cidr" {
   default     = "10.0.1.0/24"
 }
 
+variable "network_reverse_proxy_cidr" {
+  description = "CIDR where reverse proxy servers live so that machines can use HTTP(S) on it"
+  type        = string
+  default     = "10.0.5.0/24"
+}
+
 variable "dns_server_internal_ip" {
   description = "Authorized DNS for homelab instances"
   type        = string

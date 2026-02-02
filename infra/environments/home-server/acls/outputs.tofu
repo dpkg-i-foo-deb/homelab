@@ -22,3 +22,8 @@ output "web_client" {
   value       = incus_network_acl.web_client.name
   description = "ACL for web clients"
 }
+
+output "internal_services_client" {
+  value       = incus_network_acl.internal_services_client.name
+  description = "ACL for internal services clients"
+}

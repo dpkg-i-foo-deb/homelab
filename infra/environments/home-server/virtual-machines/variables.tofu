@@ -89,6 +89,11 @@ variable "web_client_acl" {
   description = "The name of the web client ACL"
 }
 
+variable "internal_services_client_acl" {
+  type        = string
+  description = "The name of the internal services client ACL"
+}
+
 # Storage pools available for system containers
 
 variable "virt_main_pool" {
