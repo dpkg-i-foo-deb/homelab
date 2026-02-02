@@ -39,6 +39,7 @@ resource "incus_network_acl" "base" {
     },
   ]
   ingress = [
+    # Allow DHCP response
     {
       action           = "allow"
       protocol         = "udp"
@@ -46,6 +47,22 @@ resource "incus_network_acl" "base" {
       source_port      = "67"
       description      = "Allow DHCP Offer/Ack (Server -> Client)"
       state            = "enabled"
-    }
+    },
+    # Allow reverse proxy to reach me unless it is SSH
+    {
+      action      = "allow"
+      source      = var.network_reverse_proxy_cidr
+      protocol    = "tcp"
+      description = "Allow Ingress from Reverse Proxy to Backends"
+      state       = "enabled"
+    },
+    {
+      action           = "drop"
+      source           = var.network_reverse_proxy_cidr
+      protocol         = "tcp"
+      destination_port = "22"
+      description      = "Prevent Reverse Proxy from talking to SSH port"
+      state            = "enabled"
+    },
   ]
 }
