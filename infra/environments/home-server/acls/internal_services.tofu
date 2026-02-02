@@ -18,3 +18,17 @@ resource "incus_network_acl" "internal_services_client" {
     },
   ]
 }
+
+resource "incus_network_acl" "internal_registry_client" {
+  name        = "internal-registry-client-acl"
+  description = "Allow using internal registry only"
+  egress = [ # Only registry port is allowed
+    {
+      action           = "allow"
+      destination      = var.network_reverse_proxy_cidr
+      protocol         = "tcp"
+      destination_port = "5000"
+      state            = "enabled"
+    },
+  ]
+}
