@@ -38,4 +38,14 @@ resource "incus_network_acl" "base" {
       state            = "enabled"
     },
   ]
+  ingress = [
+    {
+      action           = "allow"
+      protocol         = "udp"
+      destination_port = "68"
+      source_port      = "67"
+      description      = "Allow DHCP Offer/Ack (Server -> Client)"
+      state            = "enabled"
+    }
+  ]
 }
