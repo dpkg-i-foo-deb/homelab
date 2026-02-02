@@ -38,23 +38,4 @@ resource "incus_network_acl" "base" {
       state            = "enabled"
     },
   ]
-
-  ingress = [
-    # Allow instances to receive network configuration (Server -> Client)
-    {
-      action           = "allow"
-      protocol         = "udp"
-      destination_port = "68"
-      description      = "Allow DHCP Offer"
-      state            = "enabled"
-    },
-    # DHCP: Don't allow some weirdo instance to become a DHCP server
-    {
-      action           = "drop"
-      protocol         = "udp"
-      destination_port = "67"
-      description      = "Block Rogue DHCP Server"
-      state            = "enabled"
-    },
-  ]
 }
