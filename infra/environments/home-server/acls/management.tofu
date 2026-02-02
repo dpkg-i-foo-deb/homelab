@@ -20,21 +20,4 @@ resource "incus_network_acl" "management_ingress" {
       state       = "enabled"
     }
   ]
-  # Allow replying SSH and ICMP only to management networks
-  egress = [{
-    action      = "allow"
-    protocol    = "tcp"
-    destination = var.network_management_cidr
-    source_port = "22"
-    description = "Allow SSH Replies to management network"
-    state       = "disabled"
-    }
-    , {
-      action      = "allow"
-      protocol    = "icmp4"
-      destination = var.network_management_cidr
-      icmp_type   = "0"
-      description = "Allow ICMP Replies to management network"
-      state       = "disabled"
-  }]
 }
