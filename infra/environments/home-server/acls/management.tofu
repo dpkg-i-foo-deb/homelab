@@ -27,7 +27,7 @@ resource "incus_network_acl" "management_ingress" {
     destination = var.network_management_cidr
     source_port = "22"
     description = "Allow SSH Replies to management network"
-    state       = "enabled"
+    state       = "disabled"
     }
     , {
       action      = "allow"
@@ -35,6 +35,6 @@ resource "incus_network_acl" "management_ingress" {
       destination = var.network_management_cidr
       icmp_type   = "0"
       description = "Allow ICMP Replies to management network"
-      state       = "enabled"
+      state       = "disabled"
   }]
 }
