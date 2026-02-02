@@ -21,8 +21,9 @@ module "virtual-machines" {
   untrusted_net     = module.networks.untrusted
   reverse_proxy_net = module.networks.reverse_proxy
 
-  base_acl               = module.acls.base
-  management_ingress_acl = module.acls.management_ingress
-  web_client_acl         = module.acls.web_client
+  base_acl                     = module.acls.base
+  management_ingress_acl       = module.acls.management_ingress
+  web_client_acl               = module.acls.web_client
+  internal_services_client_acl = module.acls.internal_services_client
 
 }
