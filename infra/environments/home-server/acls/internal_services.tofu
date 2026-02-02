@@ -17,5 +17,4 @@ resource "incus_network_acl" "internal_services_client" {
       state            = "enabled"
     },
   ]
-  ingress = []
 }
