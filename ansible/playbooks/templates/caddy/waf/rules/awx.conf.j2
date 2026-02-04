@@ -1,16 +1,16 @@
 # Allow many methods for AWX API
 SecAction \
-    "id:1002,\
-    phase:1,\
-    nolog,\
-    pass,\
-    t:none,\
-    setvar:'tx.allowed_methods=GET HEAD POST OPTIONS PATCH PUT DELETE'"
+  "id:1002,\
+  phase:1,\
+  nolog,\
+  pass,\
+  t:none,\
+  setvar:'tx.allowed_methods=GET HEAD POST OPTIONS PATCH PUT DELETE'"
 
 # Ignore Unix stuff when using AWX
 SecRule REQUEST_URI "@beginsWith /api/v2/job_templates/" \
-    "id:1001,\
-    phase:1,\
-    pass,\
-    nolog,\
-    ctl:ruleRemoveTargetById=932260;ARGS:json.playbook"
+  "id:1001,\
+  phase:1,\
+  pass,\
+  nolog,\
+  ctl:ruleRemoveTargetById=932260;ARGS:json.playbook"
