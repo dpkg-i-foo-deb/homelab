@@ -15,3 +15,30 @@
   import letsencrypt_cloudflare_dns
   import proxy http://{{ hostvars['registry']['ansible_host'] }}:80
 }
+
+{{ registry_host }}.{{ internet_host }},
+{{ registry_host }}.{{ internet_host }}:5000 {
+
+  coraza_waf {
+    load_owasp_crs
+
+    directives "
+      Include /etc/caddy/waf/core/owasp_coraza.conf
+      Include /etc/caddy/waf/core/crs_rules.conf
+    "
+  }
+
+  @registry_traffic {
+    path /v2/*
+    path /service/*
+    path /c/*
+  }
+
+  handle @registry_traffic {
+    import proxy http://{{ hostvars['registry']['ansible_host'] }}:80
+  }
+
+  handle {
+    respond "Access denied: Container API is only available on port 5000, use 443/80 for web UI" 403
+  }
+}
