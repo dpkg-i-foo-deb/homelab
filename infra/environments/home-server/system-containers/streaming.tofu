@@ -59,6 +59,7 @@ resource "incus_instance" "streaming" {
     properties = {
       path = "/"
       pool = var.virt_main_pool
+      size = "20GiB"
     }
   }
 
