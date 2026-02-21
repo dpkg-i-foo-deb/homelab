@@ -104,7 +104,7 @@
               - /var/caddy/waf/rules
               - /var/caddy/waf/core
             file_type: file
-            recurse: no
+            recurse: false
           register: caddy_found_files
 
         - name: Define list of expected files
