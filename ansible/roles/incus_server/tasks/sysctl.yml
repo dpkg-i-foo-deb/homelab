@@ -14,6 +14,20 @@
     state: present
     sysctl_file: /etc/sysctl.d/incus.conf
 
+- name: Optimize network stack - TCP/UDP buffers
+  become: true
+  ansible.posix.sysctl:
+    name: "{{ item.key }}"
+    value: "{{ item.value }}"
+    state: present
+    sysctl_file: /etc/sysctl.d/99-network-tuning.conf
+    reload: true
+  loop:
+    - { key: 'net.core.rmem_max', value: '7500000' }
+    - { key: 'net.core.wmem_max', value: '7500000' }
+    - { key: 'net.core.rmem_default', value: '1048576' }
+    - { key: 'net.core.wmem_default', value: '1048576' }
+
 - name: Ensure many inotify instances can be created
   become: true
   ansible.posix.sysctl:
