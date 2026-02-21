@@ -59,7 +59,6 @@ resource "incus_instance" "streaming" {
     properties = {
       path = "/"
       pool = var.virt_main_pool
-      size = "20GiB"
     }
   }
 
@@ -70,7 +69,6 @@ resource "incus_instance" "streaming" {
       path   = "/home"
       source = incus_storage_volume.streaming_data.name
       pool   = var.virt_main_pool
-      size   = "40GiB"
     }
   }
 
