@@ -27,3 +27,8 @@ output "internal_services_client" {
   value       = incus_network_acl.internal_services_client.name
   description = "ACL for internal services clients"
 }
+
+output "internal_registry_client" {
+  value       = incus_network_acl.internal_registry_client.name
+  description = "ACL for internal registry clients"
+}
