@@ -84,7 +84,7 @@ resource "incus_instance" "vpn_gateway" {
     properties = {
       path = "/"
       pool = var.virt_main_pool
-      size = "2GiB"
+      size = "3GiB"
     }
   }
 }
