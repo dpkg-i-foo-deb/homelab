@@ -16,7 +16,7 @@
   import proxy http://{{ hostvars['registry']['ansible_host'] }}:80
 }
 
-{{ registry_host }}.{{ internet_host }},
+{{ registry_host }}.{{ internet_host }}:5000,
 {{ lan_prefix }}.{{ registry_host }}.{{ internet_host }}:5000 {
 
   coraza_waf {
