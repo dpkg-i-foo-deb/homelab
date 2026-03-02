@@ -14,7 +14,7 @@
   import logging harbor.log
   import error_handler
   import letsencrypt_cloudflare_dns
-  import proxy http://{{ hostvars['Include /etc/caddy/waf/rules/unix-usernames.conf']['ansible_host'] }}:80
+  import proxy http://{{ hostvars['registry']['ansible_host'] }}:80
 }
 
 {{ registry_host }}.{{ internet_host }}:5000,
