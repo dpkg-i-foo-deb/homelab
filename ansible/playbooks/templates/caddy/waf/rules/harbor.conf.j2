@@ -5,3 +5,11 @@ SecRule REQUEST_URI "@rx ^/(c/login|service/token)" \
   nolog,\
   ctl:ruleRemoveTargetById=932260;ARGS:principal,\
   ctl:ruleRemoveTargetById=932260;ARGS:account"
+
+SecRule REQUEST_URI "@rx ^/api/v2\.0/registries" \
+  "id:900007,\
+  phase:1,\
+  pass,\
+  nolog,\
+  ctl:ruleRemoveTargetById=932235;ARGS:q,\
+  ctl:ruleRemoveTargetById=932260;ARGS:q"
