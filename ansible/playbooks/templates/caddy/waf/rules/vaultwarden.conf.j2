@@ -1,0 +1,6 @@
+SecRule REQUEST_URI "@rx ^/api/" \
+  "id:900008,\
+  phase:1,\
+  pass,\
+  nolog,\
+  ctl:ruleRemoveById=911100"
