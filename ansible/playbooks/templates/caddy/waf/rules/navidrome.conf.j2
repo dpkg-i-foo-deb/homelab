@@ -4,3 +4,10 @@ SecRule REQUEST_URI "@rx ^/api/" \
   pass,\
   nolog,\
   ctl:ruleRemoveById=911100"
+
+SecRule REQUEST_URI "@rx ^/api/events" \
+  "id:900011,\
+  phase:1,\
+  pass,\
+  nolog,\
+  ctl:responseBodyAccess=Off"
