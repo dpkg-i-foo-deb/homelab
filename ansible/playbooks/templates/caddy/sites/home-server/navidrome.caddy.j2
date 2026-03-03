@@ -4,6 +4,7 @@
   @waf {
     import waf_skip_audio
     import waf_skip_images
+    import waf_skip_server_sent_events
   }
 
   coraza_waf @waf {
@@ -12,7 +13,6 @@
     directives "
       Include /etc/caddy/waf/core/owasp_coraza.conf
       Include /etc/caddy/waf/rules/unix-usernames.conf
-      Include /etc/caddy/waf/rules/navidrome.conf
       Include /etc/caddy/waf/core/crs_rules.conf
     "
   }
