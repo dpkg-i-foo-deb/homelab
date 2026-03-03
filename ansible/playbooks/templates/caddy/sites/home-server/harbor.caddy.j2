@@ -41,7 +41,10 @@
   import letsencrypt_cloudflare_dns
 
   handle @registry_traffic {
-    import proxy http://{{ hostvars['registry']['ansible_host'] }}:80
+    reverse_proxy http://{{ hostvars['registry']['ansible_host'] }}:80 {
+      header_up Host {{ registry_host }}.{{ internet_host }}
+      header_down Www-Authenticate "https://{{ registry_host }}.{{ internet_host }}" "https://{hostport}"
+    }
   }
 
   handle {
