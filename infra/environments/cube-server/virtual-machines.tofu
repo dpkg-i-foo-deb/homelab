@@ -1,0 +1,24 @@
+module "virtual-machines" {
+  source = "./virtual-machines"
+
+  providers = {
+    incus = incus
+  }
+
+  lxc_user_password = var.lxc_user_password
+  ssh_public_key    = var.ssh_public_key
+  ansible_password  = var.ansible_password
+
+  virt_main_pool    = module.storage-pools.virt_main
+
+  management_net    = module.networks.management
+  trusted_net       = module.networks.trusted
+  untrusted_net     = module.networks.untrusted
+  reverse_proxy_net = module.networks.reverse_proxy
+
+  base_acl                     = module.acls.base
+  management_ingress_acl       = module.acls.management_ingress
+  web_client_acl               = module.acls.web_client
+  internal_services_client_acl = module.acls.internal_services_client
+
+}
