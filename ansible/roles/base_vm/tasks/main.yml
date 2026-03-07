@@ -1,4 +1,7 @@
 ---
+- name: Ensure custom prompt is used
+  ansible.builtin.import_tasks: prompt.yml
+
 - name: Install packages
   ansible.builtin.import_tasks: packages.yml
 
