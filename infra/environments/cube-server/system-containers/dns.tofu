@@ -143,7 +143,7 @@ resource "incus_instance" "dns_home_unrestricted" {
     type = "disk"
     properties = {
       path   = "/home"
-      source = incus_storage_volume.dns_home_data_1.name
+      source = incus_storage_volume.dns_home_unrestricted.name
       pool   = var.virt_main_pool
     }
   }
