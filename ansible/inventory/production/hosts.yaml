@@ -68,7 +68,7 @@ homelab_dns:
   hosts:
     unrestricted_homelab_dns:
       ansible_host: 10.0.2.3
-      container_user: dns-home-1
+      container_user: bmc
       siem_agent: dns-home-1
       groups: 'trusted'
 
@@ -77,7 +77,7 @@ home_dns:
   hosts:
     primary_home_dns:
       ansible_host: 10.0.2.2
-      container_user: dns-home-0
+      container_user: bmc
       siem_agent: dns-home-0
       groups: 'trusted'
 
@@ -85,12 +85,12 @@ vpn_dns:
   hosts:
     primary_vpn_dns:
       ansible_host: 10.0.2.4
-      container_user: dns-vpn-0
+      container_user: bmc
       siem_agent: dns-vpn-0
       groups: 'internet_facing,trusted'
-    vps_vpn_dns:
-      ansible_host: 10.0.254.5
-      container_user: 'dns-vpn'
+    # vps_vpn_dns:
+    #  ansible_host: 10.0.254.5
+    #  container_user: 'dns-vpn'
       # ansible_ssh_common_args: '-o ProxyCommand="ssh -o StrictHostKeyChecking=no -W %h:%p -q {{ vps_proxy_jump_target }}"'
 
 automation_servers:
