@@ -1,7 +1,6 @@
 resource "incus_instance" "vpn_gateway" {
   name  = "vpn-gateway"
   image = "images:debian/trixie/cloud"
-  running = "false"
 
   config = {
     "boot.autostart"              = true
