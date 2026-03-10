@@ -1,7 +1,0 @@
----
-- name: Ensure SELinux is enabled
-  become: true
-  when: ansible_os_family == "Almalinux"
-  ansible.posix.selinux:
-    state: enforcing
-    policy: targeted
