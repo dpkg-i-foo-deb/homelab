@@ -3,4 +3,4 @@
   tasks:
     - name: General virtual machine configuration
       ansible.builtin.import_role:
-        name: base_vm
+        name: base

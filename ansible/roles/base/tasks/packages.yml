@@ -49,9 +49,11 @@
     name:
       - tuned
       # - qemu-guest-agent
+      - rsync
       - telnet
       - acl
       - htop
-      - incus-client
+      - traceroute
+      # - incus-client
       - tree
     state: present
