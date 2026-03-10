@@ -9,7 +9,6 @@ resource "incus_storage_volume" "bastion_data" {
 
 resource "incus_instance" "bastion" {
   name  = "bastion"
-  running = "false"
   image = "images:debian/trixie/cloud"
   config = {
     "boot.autostart"              = true
