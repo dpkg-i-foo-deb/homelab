@@ -17,7 +17,7 @@ resource "incus_storage_volume" "dns_home_unrestricted_data" {
 }
 
 resource "incus_instance" "dns_home" {
-  name  = "dns-home-0"
+  name  = "dns-home"
   image = "images:debian/trixie/cloud"
 
   config = {
@@ -76,8 +76,7 @@ resource "incus_instance" "dns_home" {
     type = "disk"
     properties = {
       path   = "/tmp"
-      fstype = "tmpfs"
-      source = "none"
+      source = "tmpfs:"
     }
   }
 
@@ -86,8 +85,7 @@ resource "incus_instance" "dns_home" {
     type = "disk"
     properties = {
       path   = "/var/tmp"
-      fstype = "tmpfs"
-      source = "none"
+      source = "tmpfs:"
     }
   }
 
@@ -153,8 +151,7 @@ resource "incus_instance" "dns_home_unrestricted" {
     type = "disk"
     properties = {
       path   = "/tmp"
-      fstype = "tmpfs"
-      source = "none"
+      source = "tmpfs:"
     }
   }
 
@@ -163,15 +160,14 @@ resource "incus_instance" "dns_home_unrestricted" {
     type = "disk"
     properties = {
       path   = "/var/tmp"
-      fstype = "tmpfs"
-      source = "none"
+      source = "tmpfs:"
     }
   }
 
 }
 
 resource "incus_instance" "dns_vpn" {
-  name  = "dns-vpn-0"
+  name  = "dns-vpn"
   image = "images:debian/trixie/cloud"
 
   config = {
@@ -230,8 +226,7 @@ resource "incus_instance" "dns_vpn" {
     type = "disk"
     properties = {
       path   = "/tmp"
-      fstype = "tmpfs"
-      source = "none"
+      source = "tmpfs:"
     }
   }
 
@@ -240,8 +235,7 @@ resource "incus_instance" "dns_vpn" {
     type = "disk"
     properties = {
       path   = "/var/tmp"
-      fstype = "tmpfs"
-      source = "none"
+      source = "tmpfs:"
     }
   }
 
