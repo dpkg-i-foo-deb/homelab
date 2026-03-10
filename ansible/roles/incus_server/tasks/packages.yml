@@ -8,6 +8,6 @@
 - name: Ensure Incus is installed and updated
   become: true
   ansible.builtin.apt:
-    name: incus
+    name: incus-base
     state: present
     update_cache: true
