@@ -7,7 +7,7 @@ resource "incus_storage_volume" "reverse_proxy_data" {
 resource "incus_instance" "reverse_proxy" {
   name  = "reverse-proxy"
   image = "images:debian/trixie/cloud"
-
+  running = "false"
   config = {
     "boot.autostart"              = true
     "limits.cpu"                  = 2
@@ -65,8 +65,7 @@ resource "incus_instance" "reverse_proxy" {
     type = "disk"
     properties = {
       path   = "/tmp"
-      fstype = "tmpfs"
-      source = "none"
+      source = "tmpfs:"
     }
   }
 
@@ -75,8 +74,7 @@ resource "incus_instance" "reverse_proxy" {
     type = "disk"
     properties = {
       path   = "/var/tmp"
-      fstype = "tmpfs"
-      source = "none"
+      source = "tmpfs:"
     }
   }
 }

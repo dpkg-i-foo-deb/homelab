@@ -1,6 +1,7 @@
 resource "incus_instance" "vpn_gateway" {
   name  = "vpn-gateway"
   image = "images:debian/trixie/cloud"
+  running = "false"
 
   config = {
     "boot.autostart"              = true
@@ -93,8 +94,7 @@ resource "incus_instance" "vpn_gateway" {
     type = "disk"
     properties = {
       path   = "/tmp"
-      fstype = "tmpfs"
-      source = "none"
+      source = "tmpfs:"
     }
   }
 
@@ -103,8 +103,7 @@ resource "incus_instance" "vpn_gateway" {
     type = "disk"
     properties = {
       path   = "/var/tmp"
-      fstype = "tmpfs"
-      source = "none"
+      source = "tmpfs:"
     }
   }
 }
