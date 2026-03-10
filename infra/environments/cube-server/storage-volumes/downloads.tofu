@@ -3,6 +3,6 @@ resource "incus_storage_volume" "downloads" {
   pool = var.virt_main_pool
   project = "default"
   config = {
-    "size" = "100GiB"
+    "size" = "50GiB"
   }
 }
