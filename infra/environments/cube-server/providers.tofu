@@ -18,7 +18,7 @@ provider "incus" {
 
   remote {
     name    = "cube"
-    address = "https://192.168.8.10:8443"
+    address = "https://10.0.1.1:8443"
   }
 }
 
