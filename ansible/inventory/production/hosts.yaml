@@ -118,7 +118,7 @@ reverse_proxy_servers:
   hosts:
     private_reverse_proxy:
       ansible_host: 10.0.5.10
-      container_user: reverse-proxy
+      container_user: bmc
       groups: 'internet_facing,trusted'
       caddy_profile: 'home-server'
     public_reverse_proxy:
