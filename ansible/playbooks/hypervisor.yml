@@ -14,14 +14,6 @@
         state: started
         enabled: true
 
-    - name: Cockpit configuration
-      ansible.builtin.import_role:
-        name: cockpit
-
-    # - name: OpenRGB configuration
-    #   ansible.builtin.import_role:
-    #     name: openrgb
-
     - name: Incus configuration
       ansible.builtin.import_role:
         name: incus_server

@@ -8,6 +8,8 @@ hypervisors:
         - { name: 'eth2', mac: '1c:86:0b:24:18:26' }
         - { name: 'eth3', mac: '1c:86:0b:24:18:27' }
         - { name: 'eth4', mac: '1c:86:0b:24:18:28' }
+    cube_server:
+      ansible_host: 192.168.8.10
 
 bastion:
   hosts:
