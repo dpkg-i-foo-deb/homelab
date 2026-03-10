@@ -9,10 +9,11 @@ resource "incus_storage_volume" "bastion_data" {
 
 resource "incus_instance" "bastion" {
   name  = "bastion"
+  running = "false"
   image = "images:debian/trixie/cloud"
   config = {
     "boot.autostart"              = true
-    "limits.cpu"                  = 1
+    "limits.cpu"                  = 2
     "limits.cpu.allowance"        = "20%"
     "limits.memory"               = "4GiB"
     "limits.memory.swap"          = "true"
@@ -66,8 +67,7 @@ resource "incus_instance" "bastion" {
     type = "disk"
     properties = {
       path   = "/tmp"
-      fstype = "tmpfs"
-      source = "none"
+      source = "tmpfs:"
     }
   }
 
@@ -76,8 +76,7 @@ resource "incus_instance" "bastion" {
     type = "disk"
     properties = {
       path   = "/var/tmp"
-      fstype = "tmpfs"
-      source = "none"
+      source = "tmpfs:"
     }
   }
 }
