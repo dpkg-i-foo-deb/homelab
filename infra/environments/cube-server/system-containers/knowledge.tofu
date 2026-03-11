@@ -7,7 +7,6 @@ resource "incus_storage_volume" "knowledge_data" {
 resource "incus_instance" "knowledge" {
   name  = "knowledge"
   image = "images:debian/trixie/cloud"
-
   config = {
     "boot.autostart"              = true
     "limits.cpu"                  = 1
@@ -63,8 +62,7 @@ resource "incus_instance" "knowledge" {
     type = "disk"
     properties = {
       path   = "/tmp"
-      fstype = "tmpfs"
-      source = "none"
+      source = "tmpfs:"
     }
   }
 
@@ -73,8 +71,7 @@ resource "incus_instance" "knowledge" {
     type = "disk"
     properties = {
       path   = "/var/tmp"
-      fstype = "tmpfs"
-      source = "none"
+      source = "tmpfs:"
     }
   }
 }
