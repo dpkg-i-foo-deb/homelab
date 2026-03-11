@@ -14,7 +14,7 @@
   import logging harbor.log
   import error_handler
   import letsencrypt_cloudflare_dns
-  import proxy http://{{ hostvars['registry']['ansible_host'] }}:80
+  import proxy http://{{ hostvars['registry']['ansible_host'] }}:5000
 }
 
 {{ registry_host }}.{{ internet_host }}:5000,
@@ -41,7 +41,7 @@
   import letsencrypt_cloudflare_dns
 
   handle @registry_traffic {
-    reverse_proxy http://{{ hostvars['registry']['ansible_host'] }}:80 {
+    reverse_proxy http://{{ hostvars['registry']['ansible_host'] }}:5000 {
       header_up Host {{ registry_host }}.{{ internet_host }}
       header_down Www-Authenticate "https://{{ registry_host }}.{{ internet_host }}" "https://{hostport}"
     }
