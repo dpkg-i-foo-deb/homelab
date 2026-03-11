@@ -22,7 +22,7 @@
         name: podman
         tasks_from: login
       vars:
-        podman_login_registry: '{{ registry_host }}.{{ internet_host }}'
+        podman_login_registry: '{{ registry_host }}.{{ internet_host }}:5000'
         podman_login_user: '{{ homelab_registry_user }}'
         podman_login_pass: '{{ homelab_registry_pass }}'
         podman_user: '{{ container_user }}'
@@ -51,7 +51,7 @@
       vars:
         quadlet_service_definition:
           name: guacamole_postgres
-          image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/library/postgres:latest'
+          image: '{{ registry_host }}.{{ internet_host }}:5000/dockerhub/library/postgres:latest'
           registry_user: '{{ homelab_registry_user }}'
           registry_pass: '{{ homelab_registry_pass }}'
           user: '{{ container_user }}'
@@ -77,7 +77,7 @@
       vars:
         quadlet_service_definition:
           name: guacamole_guacd
-          image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/guacamole/guacd:latest'
+          image: '{{ registry_host }}.{{ internet_host }}:5000/dockerhub/guacamole/guacd:latest'
           registry_user: '{{ homelab_registry_user }}'
           registry_pass: '{{ homelab_registry_pass }}'
           user: '{{ container_user }}'
@@ -92,7 +92,7 @@
       vars:
         quadlet_service_definition:
           name: guacamole_web
-          image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/guacamole/guacamole:latest'
+          image: '{{ registry_host }}.{{ internet_host }}:5000/dockerhub/guacamole/guacamole:latest'
           registry_user: '{{ homelab_registry_user }}'
           registry_pass: '{{ homelab_registry_pass }}'
           user: '{{ container_user }}'
@@ -125,7 +125,7 @@
       vars:
         quadlet_service_definition:
           name: termix
-          image: 'ghcr.io/lukegus/termix:latest'
+          image: '{{ registry_host }}.{{ internet_host }}:5000/ghcr/lukegus/termix:latest'
           user: '{{ container_user }}'
           ports: '8080:8080'
           volumes:
