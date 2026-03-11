@@ -25,7 +25,7 @@ remote_access_servers:
       ansible_host: 10.0.1.13
       siem_agent: remote-homelab
       groups: 'trusted'
-      container_user: 'remote'
+      container_user: 'bmc'
 
 vpn_gateways:
   hosts:
