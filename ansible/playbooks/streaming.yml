@@ -22,7 +22,7 @@
         name: podman
         tasks_from: login
       vars:
-        podman_login_registry: '{{ registry_host }}.{{ internet_host }}'
+        podman_login_registry: '{{ registry_host }}.{{ internet_host }}:5000'
         podman_login_user: '{{ homelab_registry_user }}'
         podman_login_pass: '{{ homelab_registry_pass }}'
         podman_user: '{{ container_user }}'
@@ -35,7 +35,7 @@
       vars:
         quadlet_service_definition:
           name: navidrome
-          image: '{{ registry_host }}.{{ internet_host }}/dockerhub-proxy/deluan/navidrome:latest'
+          image: '{{ registry_host }}.{{ internet_host }}:5000/dockerhub/deluan/navidrome:latest'
           registry_user: '{{ homelab_registry_user }}'
           registry_pass: '{{ homelab_registry_pass }}'
           user: '{{ container_user }}'
@@ -86,8 +86,8 @@
       vars:
         quadlet_service_definition:
           name: immich_postgres
-          image: "{{ registry_host }}.{{ internet_host }}\
-            /ghcr-proxy/immich-app/postgres:14-vectorchord0.4.3-pgvectors0.2.0@sha256:bcf63357191b76a916ae5eb93464d65c07511da41e3bf7a8416db519b40b1c23"
+          image: "{{ registry_host }}.{{ internet_host }}:5000\
+            /ghcr/immich-app/postgres:14-vectorchord0.4.3-pgvectors0.2.0@sha256:bcf63357191b76a916ae5eb93464d65c07511da41e3bf7a8416db519b40b1c23"
           registry_user: '{{ homelab_registry_user }}'
           registry_pass: '{{ homelab_registry_pass }}'
           user: '{{ container_user }}'
@@ -121,8 +121,8 @@
       vars:
         quadlet_service_definition:
           name: redis
-          image: "{{ registry_host }}.{{ internet_host }}\
-            /dockerhub-proxy/valkey/valkey:9@sha256:fb8d272e529ea567b9bf1302245796f21a2672b8368ca3fcb938ac334e613c8f"
+          image: "{{ registry_host }}.{{ internet_host }}:5000\
+            /dockerhub/valkey/valkey:9@sha256:fb8d272e529ea567b9bf1302245796f21a2672b8368ca3fcb938ac334e613c8f"
           registry_user: '{{ homelab_registry_user }}'
           registry_pass: '{{ homelab_registry_pass }}'
           user: '{{ container_user }}'
@@ -140,7 +140,7 @@
       vars:
         quadlet_service_definition:
           name: immich_server
-          image: '{{ registry_host }}.{{ internet_host }}/ghcr-proxy/immich-app/immich-server:release'
+          image: '{{ registry_host }}.{{ internet_host }}:5000/ghcr/immich-app/immich-server:release'
           registry_user: '{{ homelab_registry_user }}'
           registry_pass: '{{ homelab_registry_pass }}'
           user: '{{ container_user }}'
@@ -168,7 +168,7 @@
       vars:
         quadlet_service_definition:
           name: immich_machine_learning
-          image: '{{ registry_host }}.{{ internet_host }}/ghcr-proxy/immich-app/immich-machine-learning:release'
+          image: '{{ registry_host }}.{{ internet_host }}:5000/ghcr/immich-app/immich-machine-learning:release'
           registry_user: '{{ homelab_registry_user }}'
           registry_pass: '{{ homelab_registry_pass }}'
           user: '{{ container_user }}'
