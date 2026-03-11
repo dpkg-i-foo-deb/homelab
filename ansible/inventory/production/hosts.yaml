@@ -103,7 +103,7 @@ streaming:
   hosts:
     streaming_vm:
       ansible_host: 10.0.0.13
-      container_user: streaming
+      container_user: bmc
 torrent:
   hosts:
     torrent_vm:
