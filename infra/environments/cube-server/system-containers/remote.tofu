@@ -10,7 +10,6 @@ resource "incus_storage_volume" "remote_data" {
 resource "incus_instance" "remote" {
   name  = "remote"
   image = "images:debian/trixie/cloud"
-
   config = {
     "boot.autostart"              = true
     "limits.cpu"                  = 2
@@ -69,8 +68,7 @@ resource "incus_instance" "remote" {
     type = "disk"
     properties = {
       path   = "/tmp"
-      fstype = "tmpfs"
-      source = "none"
+      source = "tmpfs:"
     }
   }
 
@@ -79,8 +77,7 @@ resource "incus_instance" "remote" {
     type = "disk"
     properties = {
       path   = "/var/tmp"
-      fstype = "tmpfs"
-      source = "none"
+      source = "tmpfs:"
     }
   }
 }
