@@ -57,7 +57,7 @@ code:
   hosts:
     code_server:
       ansible_host: 10.0.0.15
-      container_user: 'code'
+      container_user: 'bmc'
 servarr:
   hosts:
     servarr_vm:
