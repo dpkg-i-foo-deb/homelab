@@ -1,7 +1,6 @@
 - name: Configure personal code-server
   hosts: code
   vars:
-    code_user: code
 
   tasks:
     - name: Login to homelab registry
@@ -9,16 +8,16 @@
         name: podman
         tasks_from: login
       vars:
-        podman_login_registry: '{{ registry_host }}.{{ internet_host }}'
+        podman_login_registry: '{{ registry_host }}.{{ internet_host }}:5000'
         podman_login_user: '{{ homelab_registry_user }}'
         podman_login_pass: '{{ homelab_registry_pass }}'
-        podman_user: '{{ code_user }}'
+        podman_user: '{{ container_user }}'
 
     - name: Deploy personal code-server
       ansible.builtin.import_role:
         name: code_server
       vars:
-        code_server_user: '{{ code_user }}'
+        code_server_user: '{{ container_user }}'
         code_server_container: code-server-personal
         code_server_image: code-server-personal
         code_server_http_port: '8443'
@@ -48,14 +47,13 @@
 - name: Configure work code-server
   hosts: code
   vars:
-    code_user: code
 
   tasks:
     - name: Deploy work code-server
       ansible.builtin.import_role:
         name: code_server
       vars:
-        code_server_user: '{{ code_user }}'
+        code_server_user: '{{ container_user }}'
         code_server_container: code-server-work
         code_server_image: code-server-work
         code_server_http_port: '8444'
@@ -89,8 +87,8 @@
       vars:
         quadlet_service_definition:
           name: 'code-server-work-oauth2-proxy'
-          image: '{{ registry_host }}.{{ internet_host }}/quay-proxy/oauth2-proxy/oauth2-proxy'
-          user: '{{ code_user }}'
+          image: '{{ registry_host }}.{{ internet_host }}:5000/quay/oauth2-proxy/oauth2-proxy'
+          user: '{{ container_user }}'
           ports:
             - '4180:4180'
           env:
@@ -120,8 +118,8 @@
       vars:
         quadlet_service_definition:
           name: 'code-server-personal-oauth2-proxy'
-          image: '{{ registry_host }}.{{ internet_host }}/quay-proxy/oauth2-proxy/oauth2-proxy'
-          user: '{{ code_user }}'
+          image: '{{ registry_host }}.{{ internet_host }}:5000/quay/oauth2-proxy/oauth2-proxy'
+          user: '{{ container_user }}'
           ports:
             - '4181:4181'
           env:
@@ -145,18 +143,3 @@
             OAUTH2_PROXY_OIDC_ISSUER_URL: 'https://{{ auth_host }}.{{ internet_host }}/realms/{{ homelab_realm }}'
             OAUTH2_PROXY_INSECURE_OIDC_ALLOW_UNVERIFIED_EMAIL: 'true'
 
-- name: Configure Wazuh agent
-  hosts: code
-  vars:
-    code_user: code
-
-  tasks:
-    - name: Deploy Wazuh agent
-      ansible.builtin.import_role:
-        name: wazuh_agent
-      vars:
-        wazuh_agent_version: '4.x'
-        wazuh_agent_manager_host: '{{ siem_host }}'
-        wazuh_agent_registration_pass: '{{ siem_enrollment_pass }}'
-        wazuh_agent_name: 'code'
-        wazuh_agent_groups: 'internet_facing,trusted'
