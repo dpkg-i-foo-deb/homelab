@@ -52,7 +52,7 @@ registry_servers:
       ansible_host: 10.0.0.14
       siem_agent: registry
       groups: 'trusted,internet_facing'
-      container_user: 'registry'
+      container_user: 'bmc'
 code:
   hosts:
     code_server:
@@ -113,7 +113,7 @@ security:
   hosts:
     security_vm:
       ansible_host: 10.0.0.11
-      container_user: security
+      container_user: bmc
 reverse_proxy_servers:
   hosts:
     private_reverse_proxy:
