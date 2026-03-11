@@ -19,11 +19,10 @@ resource "incus_storage_volume" "streaming_cache" {
 resource "incus_instance" "streaming" {
   name  = "streaming"
   image = "images:debian/trixie/cloud"
-
   config = {
     "boot.autostart"              = true
     "limits.cpu"                  = 2
-    "limits.cpu.allowance"        = "50%"
+    "limits.cpu.allowance"        = "20%"
     "limits.memory"               = "8GiB"
     "limits.memory.swap"          = "true"
     "limits.memory.swap.priority" = "0"
@@ -107,8 +106,7 @@ resource "incus_instance" "streaming" {
     type = "disk"
     properties = {
       path   = "/tmp"
-      fstype = "tmpfs"
-      source = "none"
+      source = "tmpfs:"
     }
   }
 
@@ -117,8 +115,7 @@ resource "incus_instance" "streaming" {
     type = "disk"
     properties = {
       path   = "/var/tmp"
-      fstype = "tmpfs"
-      source = "none"
+      source = "tmpfs:"
     }
   }
 }
