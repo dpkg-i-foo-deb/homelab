@@ -131,7 +131,7 @@ knowledge_management:
   hosts:
     knowledge:
       ansible_host: 10.0.0.10
-      container_user: knowledge
+      container_user: bmc
 monitoring:
   hosts:
     homelab_monitor:
