@@ -9,12 +9,12 @@
   ansible.builtin.import_role:
     name: podman
 
-# - name: Login to homelab registry
-#   ansible.builtin.import_role:
-#     name: podman
-#     tasks_from: login
-#   vars:
-#     podman_login_registry: '{{ registry_host }}.{{ internet_host }}'
-#     podman_login_user: '{{ homelab_registry_user }}'
-#     podman_login_pass: '{{ homelab_registry_pass }}'
-#     podman_user: '{{ container_user }}'
+ - name: Login to homelab registry
+   ansible.builtin.import_role:
+     name: podman
+     tasks_from: login
+   vars:
+     podman_login_registry: '{{ registry_host }}.{{ internet_host }}:5000'
+     podman_login_user: '{{ homelab_registry_user }}'
+     podman_login_pass: '{{ homelab_registry_pass }}'
+     podman_user: '{{ container_user }}'
