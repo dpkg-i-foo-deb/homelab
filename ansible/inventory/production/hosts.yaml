@@ -1,13 +1,5 @@
 hypervisors:
   hosts:
-    homelab_hypervisor:
-      ansible_host: 192.168.8.4
-      hypervisor_interfaces:
-        - { name: 'eth0', mac: '74:56:3c:c7:00:e6' }
-        - { name: 'eth1', mac: '1c:86:0b:24:18:25' }
-        - { name: 'eth2', mac: '1c:86:0b:24:18:26' }
-        - { name: 'eth3', mac: '1c:86:0b:24:18:27' }
-        - { name: 'eth4', mac: '1c:86:0b:24:18:28' }
     cube_server:
       ansible_host: 192.168.8.10
 
@@ -15,29 +7,21 @@ bastion:
   hosts:
     homelab_bastion:
       ansible_host: 10.0.1.10
-      siem_agent: homelab-bastion
-      groups: 'trusted,internet_facing'
-      container_user: 'bastion'
+      container_user: 'bmc'
 
 remote_access_servers:
   hosts:
     remote_homelab:
       ansible_host: 10.0.1.13
-      siem_agent: remote-homelab
-      groups: 'trusted'
       container_user: 'bmc'
 
 vpn_gateways:
   hosts:
     vps_vpn_gateway:
       ansible_host: 10.0.252.20
-      siem-agent: 'vps-vpn-gateway'
-      groups: 'trusted'
       container_user: 'vpn-gateway'
     homelab_vpn_gateway:
       ansible_host: 10.0.6.20
-      siem_agent: 'homelab-vpn-gateway'
-      groups: 'trusted'
       container_user: 'vpn-gateway'
 
 vpn_servers:
@@ -50,8 +34,6 @@ registry_servers:
   hosts:
     registry:
       ansible_host: 10.0.0.14
-      siem_agent: registry
-      groups: 'trusted,internet_facing'
       container_user: 'bmc'
 code:
   hosts:
@@ -69,25 +51,18 @@ homelab_dns:
     unrestricted_homelab_dns:
       ansible_host: 10.0.2.3
       container_user: bmc
-      siem_agent: dns-home-1
-      groups: 'trusted'
-
 
 home_dns:
   hosts:
     primary_home_dns:
       ansible_host: 10.0.2.2
       container_user: bmc
-      siem_agent: dns-home-0
-      groups: 'trusted'
 
 vpn_dns:
   hosts:
     primary_vpn_dns:
       ansible_host: 10.0.2.4
-      container_user: bmc
-      siem_agent: dns-vpn-0
-      groups: 'internet_facing,trusted'
+      container_user: 'bmc'
     # vps_vpn_dns:
     #  ansible_host: 10.0.254.5
     #  container_user: 'dns-vpn'
@@ -97,7 +72,7 @@ automation_servers:
   hosts:
     automation:
       ansible_host: 10.0.1.11
-      container_user: automation
+      container_user: 'bmc'
 
 streaming:
   hosts:
@@ -119,12 +94,10 @@ reverse_proxy_servers:
     private_reverse_proxy:
       ansible_host: 10.0.5.10
       container_user: bmc
-      groups: 'internet_facing,trusted'
       caddy_profile: 'home-server'
     public_reverse_proxy:
       ansible_host: 10.0.253.10
       container_user: 'reverse-proxy'
-      groups: 'internet_facing, trusted'
       caddy_profile: 'vps'
 
 knowledge_management:
@@ -136,8 +109,8 @@ monitoring:
   hosts:
     homelab_monitor:
       ansible_host: 10.0.7.10
-      groups: 'trusted'
       container_user: monitoring
+
 vps:
   hosts:
     vps_hetzner:
