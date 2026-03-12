@@ -4,3 +4,7 @@
     - name: General virtual machine configuration
       ansible.builtin.import_role:
         name: base
+      vars:
+        base_shell_promt:
+          - { path: '/home/{{ container_user }}/.bashrc', owner: '{{ container_user }}' }
+          - { path: '/root/.bashrc', owner: 'root' }
