@@ -47,7 +47,6 @@
   become: true
   ansible.builtin.package:
     name:
-      - tuned
       # - qemu-guest-agent
       - rsync
       - telnet
