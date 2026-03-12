@@ -7,6 +7,9 @@ resource "incus_instance" "automation" {
     "limits.cpu"           = 2
     "limits.cpu.allowance" = "10%"
     "limits.memory"        = "12GiB"
+    "security.syscalls.intercept.setxattr" = true
+    "security.syscalls.intercept.mknod" = true
+    "raw.lxc" = "lxc.apparmor.profile = unconfined"
     "cloud-init.user-data" = templatefile(
       "${path.root}/cloud-init/generic.yml.tftpl",
       {
