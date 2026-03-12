@@ -19,11 +19,11 @@ resource "incus_storage_volume" "servarr_cache" {
 resource "incus_instance" "servarr" {
   name  = "servarr"
   image = "images:debian/trixie/cloud"
-
-  config = {
+  
+config = {
     "boot.autostart"              = true
-    "limits.cpu"                  = 1
-    "limits.cpu.allowance"        = "20%"
+    "limits.cpu"                  = 2
+    "limits.cpu.allowance"        = "10%"
     "limits.memory"               = "4GiB"
     "limits.memory.swap"          = "true"
     "limits.memory.swap.priority" = "0"
@@ -108,8 +108,7 @@ resource "incus_instance" "servarr" {
     type = "disk"
     properties = {
       path   = "/tmp"
-      fstype = "tmpfs"
-      source = "none"
+      source = "tmpfs:"
     }
   }
 
@@ -118,8 +117,7 @@ resource "incus_instance" "servarr" {
     type = "disk"
     properties = {
       path   = "/var/tmp"
-      fstype = "tmpfs"
-      source = "none"
+      source = "tmpfs:"
     }
   }
 }
