@@ -10,4 +10,4 @@
     owner: "{{ item.owner }}"
     group: "{{ item.owner }}"
     mode: '0644'
-  loop: "{{ base_shell_promt }}"
+  loop: "{{ base_shell_prompt }}"
