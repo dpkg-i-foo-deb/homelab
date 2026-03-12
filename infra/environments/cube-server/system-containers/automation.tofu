@@ -1,13 +1,14 @@
 resource "incus_instance" "automation" {
-  name  = "automation"
-  type  = "virtual-machine"
-  image = "images:debian/trixie/cloud"
+  name    = "automation"
+  image   = "images:debian/trixie/cloud"
+  running = "false"
 
   config = {
-    "boot.autostart"      = true
-    "limits.cpu"          = 2
-    "limits.memory"       = "12GiB"
-    "security.secureboot" = true
+    "boot.autostart"       = true
+    "limits.cpu"           = 2
+    "limits.cpu.allowance" = "10%"
+    "limits.memory"        = "12GiB"
+    "security.secureboot"  = true
     "cloud-init.user-data" = templatefile(
       "${path.root}/cloud-init/generic.yml.tftpl",
       {
@@ -47,8 +48,7 @@ resource "incus_instance" "automation" {
     type = "disk"
     properties = {
       path   = "/tmp"
-      fstype = "tmpfs"
-      source = "none"
+      source = "tmpfs:"
     }
   }
 
@@ -57,8 +57,7 @@ resource "incus_instance" "automation" {
     type = "disk"
     properties = {
       path   = "/var/tmp"
-      fstype = "tmpfs"
-      source = "none"
+      source = "tmpfs:"
     }
   }
 }
