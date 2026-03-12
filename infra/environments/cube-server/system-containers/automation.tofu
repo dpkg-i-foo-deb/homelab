@@ -1,7 +1,6 @@
 resource "incus_instance" "automation" {
   name    = "automation"
   image   = "images:debian/trixie/cloud"
-  running = "false"
 
   config = {
     "boot.autostart"       = true
