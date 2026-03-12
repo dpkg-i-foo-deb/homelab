@@ -62,7 +62,7 @@ servarr:
   hosts:
     servarr_vm:
       ansible_host: 10.0.0.12
-      container_user: servarr
+      container_user: 'bmc'
 
 homelab_dns:
   hosts:
