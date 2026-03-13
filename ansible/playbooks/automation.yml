@@ -79,11 +79,12 @@
           user: '{{ container_user }}'
           ports:
             - '8080:8080'
+            - '9000:9000'
           volumes:
             - name: 'woodpecker_data'
               dest: '/var/lib/woodpecker:z'
           env:
-            WOODPECKER_OPEN: 'true'
+            WOODPECKER_OPEN: 'false'
             WOODPECKER_HOST: 'https://{{ cicd_host }}.{{ internet_host }}'
             WOODPECKER_GITHUB: 'true'
             WOODPECKER_AGENT_SECRET: '{{ woodpecker_agent_secret }}'
