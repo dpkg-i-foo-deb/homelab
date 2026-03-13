@@ -1,8 +1,8 @@
 - name: General tasks for all reverse proxy servers
   hosts: reverse_proxy_servers
   tags:
-  - promtail-deploy
-  - caddy-deploy
+    - promtail-deploy
+    - caddy-deploy
   tasks:
     - name: Ensure Caddy configuration directories exist
       become: true
