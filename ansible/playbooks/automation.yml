@@ -41,6 +41,15 @@
   hosts: automation_servers
   tags:
     - ci-cd-deploy
+  vars:
+    woodpecker_agent_secret: !vault |
+      $ANSIBLE_VAULT;1.1;AES256
+      32613033383632353363353334396533373939653536616135363332613335663434623464633762
+      3139353135306236326139356535626331326433393939620a653534343366366638303861356532
+      31336433653766346135306262393963306364373762643365316339396566363034656536366666
+      3161363338333639620a356530616438373862383235616462303736396262633135643663363536
+      36646462396333313161623133333164613838346634653537326334623563623430633964376132
+      3535653662633734363065326137386434323162303238366364
   tasks:
     - name: Deploy Woodpecker server
       ansible.builtin.import_role:
@@ -58,9 +67,30 @@
               dest: '/var/lib/woodpecker:z'
             - '8080:8080'
           env:
-            WOODPECKER_OPEN=true
-            WOODPECKER_HOST=${WOODPECKER_HOST}
-            WOODPECKER_GITHUB=true
-            WOODPECKER_GITHUB_CLIENT=${WOODPECKER_GITHUB_CLIENT}
-            WOODPECKER_GITHUB_SECRET=${WOODPECKER_GITHUB_SECRET}
-            WOODPECKER_AGENT_SECRET=${WOODPECKER_AGENT_SECRET}
+            WOODPECKER_OPEN: 'true'
+            WOODPECKER_HOST: '{{ cicd_host }}.{{ internet_host }}'
+            WOODPECKER_GITHUB: 'true'
+            WOODPECKER_AGENT_SECRET: '{{ woodpecker_agent_secret }}'
+            # WOODPECKER_GITHUB_CLIENT=${WOODPECKER_GITHUB_CLIENT}
+            # WOODPECKER_GITHUB_SECRET=${WOODPECKER_GITHUB_SECRET}
+
+    - name: Deploy Woodpecker agent
+      ansible.builtin.import_role:
+        name: dpkg_i_foo_deb.homelab.quadlet_service
+      vars:
+        quadlet_service_definition:
+          name: woodpecker-agent
+          command: agent
+          image: '{{ registry_host }}.{{ internet_host }}:5000/dockerhub/woodpeckerci/woodpecker-agent:v3'
+          registry_user: '{{ homelab_registry_user }}'
+          registry_pass: '{{ homelab_registry_pass }}'
+          user: '{{ container_user }}'
+          volumes:
+            - name: 'woodpecker_agent_data'
+              dest: '/etc/woodpecker:z'
+          file_mounts:
+            - src: '/run/podman/podman.sock'
+              dest: '/var/run/docker/docker.sock'
+          env:
+            WOODPECKER_SERVER: 'host.container.internal:9000'
+            WOODPECKER_AGENT_SECRET: '{{ woodpecker_agent_secret }}'
