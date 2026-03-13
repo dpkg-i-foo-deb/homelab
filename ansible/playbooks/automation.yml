@@ -62,6 +62,11 @@
         scope: user
         enabled: true
 
+    - name: Fetch container_user uid
+      ansible.builtin.getent:
+        database: passwd
+        key: "{{ container_user }}"
+
     - name: Deploy Woodpecker server
       ansible.builtin.import_role:
         name: dpkg_i_foo_deb.homelab.quadlet_service
@@ -100,7 +105,7 @@
             - name: 'woodpecker_agent_data'
               dest: '/etc/woodpecker:z'
           file_mounts:
-            - src: '/run/user/{{ ansible_user_uid }}/podman/podman.sock'
+            - src: '/run/user/{{ getent_passwd[container_user][1] }}/podman/podman.sock'
               dest: '/var/run/docker/docker.sock'
           env:
             WOODPECKER_SERVER: 'host.container.internal:9000'
