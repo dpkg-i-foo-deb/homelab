@@ -56,9 +56,3 @@
       # - incus-client
       - tree
     state: present
-
-- name: Ensure Wazuh Agent is absent
-  become: true
-  ansible.builtin.package:
-    name: wazuh-agent
-    state: absent
