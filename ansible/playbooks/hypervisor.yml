@@ -16,4 +16,4 @@
 
     - name: Incus configuration
       ansible.builtin.import_role:
-        name: incus_server
+        name: dpkg_i_foo_deb.homelab.incus_server
