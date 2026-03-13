@@ -100,7 +100,7 @@
             - name: 'woodpecker_agent_data'
               dest: '/etc/woodpecker:z'
           file_mounts:
-            - src: '%t/podman/podman.sock:/var/run/docker.sock:z'
+            - src: '/run/{{ ansible_user_uid }}/podman/podman.sock:/var/run/docker.sock:z'
               dest: '/var/run/docker/docker.sock'
           env:
             WOODPECKER_SERVER: 'host.container.internal:9000'
