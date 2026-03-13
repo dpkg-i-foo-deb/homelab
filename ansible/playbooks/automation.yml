@@ -110,4 +110,5 @@
               dest: '/var/run/docker/docker.sock'
           env:
             WOODPECKER_SERVER: 'host.containers.internal:9000'
+            WOODPECKER_BACKEND: 'docker'
             WOODPECKER_AGENT_SECRET: '{{ woodpecker_agent_secret }}'
