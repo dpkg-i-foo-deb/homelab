@@ -62,10 +62,10 @@
           registry_pass: '{{ homelab_registry_pass }}'
           user: '{{ container_user }}'
           ports:
+            - '8080:8080'
           volumes:
             - name: 'woodpecker_data'
               dest: '/var/lib/woodpecker:z'
-            - '8080:8080'
           env:
             WOODPECKER_OPEN: 'true'
             WOODPECKER_HOST: '{{ cicd_host }}.{{ internet_host }}'
