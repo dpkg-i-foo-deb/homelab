@@ -62,7 +62,7 @@
         scope: user
         enabled: true
 
-    - name: Fetch container_user uid
+    - name: Fetch container_user info
       ansible.builtin.getent:
         database: passwd
         key: "{{ container_user }}"
@@ -108,5 +108,5 @@
             - src: '/run/user/{{ getent_passwd[container_user][1] }}/podman/podman.sock'
               dest: '/var/run/docker/docker.sock'
           env:
-            WOODPECKER_SERVER: 'host.container.internal:9000'
+            WOODPECKER_SERVER: 'host.containers.internal:9000'
             WOODPECKER_AGENT_SECRET: '{{ woodpecker_agent_secret }}'
