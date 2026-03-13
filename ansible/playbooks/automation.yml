@@ -53,7 +53,9 @@
   tasks:
 
     - name: Ensure podman socket is enabled and running
+      become: true
       ansible.builtin.systemd_service:
+        name: podman.socket
         state: started
         masked: false
         enabled: true
