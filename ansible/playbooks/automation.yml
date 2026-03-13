@@ -59,6 +59,7 @@
         name: podman.socket
         state: started
         masked: false
+        scope: user
         enabled: true
 
     - name: Deploy Woodpecker server
