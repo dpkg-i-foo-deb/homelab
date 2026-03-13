@@ -251,7 +251,6 @@
             (lan_prefix ~ '.' ~ metrics_host ~ '.' ~ internet_host): private_reverse_proxy_host,
             (lan_prefix ~ '.' ~ registry_host ~ '.' ~ internet_host): private_reverse_proxy_host,
             (lan_prefix ~ '.' ~ home_assistant_host ~ '.' ~ internet_host): private_reverse_proxy_host,
-            (lan_prefix ~ '.' ~ automation_host ~ '.' ~ internet_host): private_reverse_proxy_host,
             (lan_prefix ~ '.' ~ remote_ssh_host ~ '.' ~ internet_host): private_reverse_proxy_host,
             }
             }}"

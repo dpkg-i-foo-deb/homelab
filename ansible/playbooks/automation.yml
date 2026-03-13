@@ -1,23 +1,66 @@
+- name: Common automation server tasks
+  hosts: automation_servers
+  tags:
+    - ci-cd-deploy
+  tasks:
+    - name: Login to homelab registry
+      ansible.builtin.import_role:
+        name: podman
+        tasks_from: login
+      vars:
+        podman_login_registry: '{{ registry_host }}.{{ internet_host }}:5000'
+        podman_login_user: '{{ homelab_registry_user }}'
+        podman_login_pass: '{{ homelab_registry_pass }}'
+        podman_user: '{{ container_user }}'
+
 - name: Configure automation servers
   hosts: automation_servers
   tags:
     - automation_deploy
   tasks:
-    - name: Deploy Home Assistant
+    # - name: Deploy Home Assistant
+    #   ansible.builtin.import_role:
+    #     name: dpkg_i_foo_deb.homelab.quadlet_service
+    #   vars:
+    #     quadlet_service_definition:
+    #       name: home-assistant
+    #       image: 'ghcr.io/home-assistant/home-assistant:stable'
+    #       user: '{{ container_user }}'
+    #       ports:
+    #         - '8123:8123'
+    #       dir_mounts:
+    #         - src: '/var/home-assistant'
+    #           dest: '/config:z'
+    #       system_mounts:
+    #         - src: '/etc/localtime'
+    #           dest: '/etc/localtime:ro'
+    #         - src: '/run/dbus'
+    #           dest: '/run/dbus:ro'
+
+- name: Configure CI/CD tools
+  hosts: automation_servers
+  tags:
+    - ci-cd-deploy
+  tasks:
+    - name: Deploy Woodpecker server
       ansible.builtin.import_role:
         name: dpkg_i_foo_deb.homelab.quadlet_service
       vars:
         quadlet_service_definition:
-          name: home-assistant
-          image: 'ghcr.io/home-assistant/home-assistant:stable'
+          name: woodpecker
+          image: '{{ registry_host }}.{{ internet_host }}:5000/dockerhub/woodpeckerci/woodpecker-server:v3'
+          registry_user: '{{ homelab_registry_user }}'
+          registry_pass: '{{ homelab_registry_pass }}'
           user: '{{ container_user }}'
           ports:
-            - '8123:8123'
-          dir_mounts:
-            - src: '/var/home-assistant'
-              dest: '/config:z'
-          system_mounts:
-            - src: '/etc/localtime'
-              dest: '/etc/localtime:ro'
-            - src: '/run/dbus'
-              dest: '/run/dbus:ro'
+          volumes:
+            - name: 'woodpecker_data'
+              dest: '/var/lib/woodpecker:z'
+            - '8080:8080'
+          env:
+            WOODPECKER_OPEN=true
+            WOODPECKER_HOST=${WOODPECKER_HOST}
+            WOODPECKER_GITHUB=true
+            WOODPECKER_GITHUB_CLIENT=${WOODPECKER_GITHUB_CLIENT}
+            WOODPECKER_GITHUB_SECRET=${WOODPECKER_GITHUB_SECRET}
+            WOODPECKER_AGENT_SECRET=${WOODPECKER_AGENT_SECRET}
