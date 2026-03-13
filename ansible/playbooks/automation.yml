@@ -51,6 +51,13 @@
       36646462396333313161623133333164613838346634653537326334623563623430633964376132
       3535653662633734363065326137386434323162303238366364
   tasks:
+
+    - name: Ensure podman socket is enabled and running
+      ansible.builtin.systemd_service:
+        state: 'started'
+        masked: false
+        enabled: true
+
     - name: Deploy Woodpecker server
       ansible.builtin.import_role:
         name: dpkg_i_foo_deb.homelab.quadlet_service
