@@ -75,7 +75,7 @@
               dest: '/var/lib/woodpecker:z'
           env:
             WOODPECKER_OPEN: 'true'
-            WOODPECKER_HOST: '{{ cicd_host }}.{{ internet_host }}'
+            WOODPECKER_HOST: 'https://{{ cicd_host }}.{{ internet_host }}'
             WOODPECKER_GITHUB: 'true'
             WOODPECKER_AGENT_SECRET: '{{ woodpecker_agent_secret }}'
             # WOODPECKER_GITHUB_CLIENT=${WOODPECKER_GITHUB_CLIENT}
