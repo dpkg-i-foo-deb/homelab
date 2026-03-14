@@ -10,7 +10,7 @@ resource "incus_instance" "knowledge" {
   config = {
     "boot.autostart"              = true
     "limits.cpu"                  = 1
-    "limits.cpu.allowance"        = "10%"
+    "limits.cpu.allowance"        = "40%"
     "limits.memory"               = "4GiB"
     "limits.memory.swap"          = "true"
     "limits.memory.swap.priority" = "0"

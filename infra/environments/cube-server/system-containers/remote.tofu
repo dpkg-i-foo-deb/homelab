@@ -13,7 +13,7 @@ resource "incus_instance" "remote" {
   config = {
     "boot.autostart"              = true
     "limits.cpu"                  = 2
-    "limits.cpu.allowance"        = "10%"
+    "limits.cpu.allowance"        = "50%"
     "limits.memory"               = "4GiB"
     "limits.memory.swap"          = "true"
     "limits.memory.swap.priority" = "0"

@@ -9,8 +9,8 @@ resource "incus_instance" "reverse_proxy" {
   image = "images:debian/trixie/cloud"
   config = {
     "boot.autostart"              = true
-    "limits.cpu"                  = 2
-    "limits.cpu.allowance"        = "50%"
+    "limits.cpu"                  = 1
+    "limits.cpu.allowance"        = "40%"
     "limits.memory"               = "4GiB"
     "limits.memory.swap"          = "true"
     "limits.memory.swap.priority" = "0"

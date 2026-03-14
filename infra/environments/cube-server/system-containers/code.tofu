@@ -14,7 +14,7 @@ resource "incus_instance" "code" {
   config = {
     "boot.autostart"              = true
     "limits.cpu"                  = 2
-    "limits.cpu.allowance"        = "50%"
+    "limits.cpu.allowance"        = "80%"
     "limits.memory"               = "8GiB"
     "limits.memory.swap"          = "true"
     "limits.memory.swap.priority" = "0"

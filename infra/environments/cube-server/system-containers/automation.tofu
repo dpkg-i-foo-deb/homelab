@@ -5,7 +5,7 @@ resource "incus_instance" "automation" {
   config = {
     "boot.autostart"       = true
     "limits.cpu"           = 2
-    "limits.cpu.allowance" = "10%"
+    "limits.cpu.allowance" = "50%"
     "limits.memory"        = "12GiB"
     "security.syscalls.intercept.setxattr" = true
     "security.syscalls.intercept.mknod" = true

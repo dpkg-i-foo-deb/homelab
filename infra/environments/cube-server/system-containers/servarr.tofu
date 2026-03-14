@@ -19,11 +19,11 @@ resource "incus_storage_volume" "servarr_cache" {
 resource "incus_instance" "servarr" {
   name  = "servarr"
   image = "images:debian/trixie/cloud"
-  
+
 config = {
     "boot.autostart"              = true
     "limits.cpu"                  = 2
-    "limits.cpu.allowance"        = "10%"
+    "limits.cpu.allowance"        = "60%"
     "limits.memory"               = "4GiB"
     "limits.memory.swap"          = "true"
     "limits.memory.swap.priority" = "0"

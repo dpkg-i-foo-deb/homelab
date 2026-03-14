@@ -12,8 +12,8 @@ resource "incus_instance" "bastion" {
   image = "images:debian/trixie/cloud"
   config = {
     "boot.autostart"              = true
-    "limits.cpu"                  = 2
-    "limits.cpu.allowance"        = "10%"
+    "limits.cpu"                  = 1
+    "limits.cpu.allowance"        = "20%"
     "limits.memory"               = "4GiB"
     "limits.memory.swap"          = "true"
     "limits.memory.swap.priority" = "0"

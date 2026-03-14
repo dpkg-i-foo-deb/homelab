@@ -22,8 +22,8 @@ resource "incus_instance" "dns_home" {
 
   config = {
     "boot.autostart"              = true
-    "limits.cpu"                  = 2
-    "limits.cpu.allowance"        = "50%"
+    "limits.cpu"                  = 1
+    "limits.cpu.allowance"        = "20%"
     "limits.memory"               = "4GiB"
     "limits.memory.swap"          = "true"
     "limits.memory.swap.priority" = "0"
@@ -97,8 +97,8 @@ resource "incus_instance" "dns_home_unrestricted" {
 
   config = {
     "boot.autostart"              = true
-    "limits.cpu"                  = 2
-    "limits.cpu.allowance"        = "50%"
+    "limits.cpu"                  = 1
+    "limits.cpu.allowance"        = "20%"
     "limits.memory"               = "4GiB"
     "limits.memory.swap"          = "true"
     "limits.memory.swap.priority" = "0"
@@ -173,7 +173,7 @@ resource "incus_instance" "dns_vpn" {
   config = {
     "boot.autostart"              = true
     "limits.cpu"                  = 1
-    "limits.cpu.allowance"        = "50%"
+    "limits.cpu.allowance"        = "20%"
     "limits.memory"               = "4GiB"
     "limits.memory.swap"          = "true"
     "limits.memory.swap.priority" = "0"

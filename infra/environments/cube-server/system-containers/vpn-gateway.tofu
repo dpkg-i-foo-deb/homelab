@@ -4,7 +4,7 @@ resource "incus_instance" "vpn_gateway" {
 
   config = {
     "boot.autostart"              = true
-    "limits.cpu"                  = 1
+    "limits.cpu"                  = 2
     "limits.cpu.allowance"        = "50%"
     "limits.memory"               = "1GiB"
     "limits.memory.swap"          = "true"
