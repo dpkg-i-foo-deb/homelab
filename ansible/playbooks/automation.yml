@@ -105,6 +105,7 @@
             WOODPECKER_AGENT_SECRET: '{{ woodpecker_agent_secret }}'
             WOODPECKER_GITHUB_CLIENT: '{{ woodpecker_github_client_id }}'
             WOODPECKER_GITHUB_SECRET: '{{ woodpecker_agent_secret }}'
+            WOODPECKER_ADMIN: 'dpkg-i-foo-deb'
 
     - name: Deploy Woodpecker agent
       ansible.builtin.import_role:
