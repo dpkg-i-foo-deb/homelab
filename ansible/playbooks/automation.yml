@@ -78,7 +78,7 @@
           registry_pass: '{{ homelab_registry_pass }}'
           user: '{{ container_user }}'
           ports:
-            - '8080:8080'
+            - '8000:8000'
             - '9000:9000'
           volumes:
             - name: 'woodpecker_data'
