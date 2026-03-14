@@ -81,6 +81,8 @@
         podman_user: '{{ container_user }}'
 
     - name: Deploy Postgres for immich
+      tags:
+        - photos
       ansible.builtin.import_role:
         name: dpkg_i_foo_deb.homelab.quadlet_service
       vars:
