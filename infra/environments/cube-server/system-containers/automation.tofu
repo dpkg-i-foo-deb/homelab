@@ -1,15 +1,13 @@
 resource "incus_instance" "automation" {
-  name    = "automation"
-  image   = "images:debian/trixie/cloud"
+  name  = "automation"
+  image = "images:debian/trixie/cloud"
 
   config = {
     "boot.autostart"       = true
     "limits.cpu"           = 2
     "limits.cpu.allowance" = "50%"
     "limits.memory"        = "12GiB"
-    "security.syscalls.intercept.setxattr" = true
-    "security.syscalls.intercept.mknod" = true
-    "raw.lxc" = "lxc.apparmor.profile = unconfined"
+    "security.nesting"     = true
     "cloud-init.user-data" = templatefile(
       "${path.root}/cloud-init/generic.yml.tftpl",
       {
