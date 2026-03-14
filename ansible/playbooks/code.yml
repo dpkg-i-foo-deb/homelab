@@ -1,7 +1,5 @@
 - name: Configure personal code-server
   hosts: code
-  vars:
-
   tasks:
     - name: Login to homelab registry
       ansible.builtin.import_role:
@@ -46,8 +44,6 @@
 
 - name: Configure work code-server
   hosts: code
-  vars:
-
   tasks:
     - name: Deploy work code-server
       ansible.builtin.import_role:
@@ -142,4 +138,3 @@
             OAUTH2_PROXY_REDIRECT_URL: 'https://{{ code_personal_host }}.{{ internet_host }}/oauth2/callback'
             OAUTH2_PROXY_OIDC_ISSUER_URL: 'https://{{ auth_host }}.{{ internet_host }}/realms/{{ homelab_realm }}'
             OAUTH2_PROXY_INSECURE_OIDC_ALLOW_UNVERIFIED_EMAIL: 'true'
-
