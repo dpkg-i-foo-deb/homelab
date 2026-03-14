@@ -246,7 +246,7 @@
             (lan_prefix ~ '.' ~ music_host ~ '.' ~ internet_host): private_reverse_proxy_host,
             (lan_prefix ~ '.' ~ notes_host ~ '.' ~ internet_host): private_reverse_proxy_host,
             (lan_prefix ~ '.' ~ password_mgr_host ~ '.' ~ internet_host): private_reverse_proxy_host,
-            (lan_prefix ~ '.' ~ rss_host ~ '.' ~ internet_host): private_reverse_proxy_host,
+            (lan_prefix ~ '.' ~ cicd_host ~ '.' ~ internet_host): private_reverse_proxy_host,
             (lan_prefix ~ '.' ~ photos_host ~ '.' ~ internet_host): private_reverse_proxy_host,
             (lan_prefix ~ '.' ~ metrics_host ~ '.' ~ internet_host): private_reverse_proxy_host,
             (lan_prefix ~ '.' ~ registry_host ~ '.' ~ internet_host): private_reverse_proxy_host,
