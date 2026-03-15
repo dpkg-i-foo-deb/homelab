@@ -19,7 +19,7 @@
   tasks:
     - name: Login to homelab registry
       ansible.builtin.import_role:
-        name: podman
+        name: dpkg_i_foo_deb.homelab.podman
         tasks_from: login
       vars:
         podman_login_registry: '{{ registry_host }}.{{ internet_host }}:5000'

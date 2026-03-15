@@ -1,7 +1,7 @@
 ---
 - name: Ensure there's a volume to store code-server workspace
   ansible.builtin.import_role:
-    name: podman
+    name: dpkg_i_foo_deb.homelab.podman
     tasks_from: local_volume
   vars:
     podman_local_volume: "{{ code_server_workspace }}"

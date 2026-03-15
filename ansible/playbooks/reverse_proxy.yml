@@ -162,7 +162,7 @@
     - name: Allow rootless processes to use privileged ports
       become: true
       ansible.builtin.import_role:
-        name: podman
+        name: dpkg_i_foo_deb.homelab.podman
         tasks_from: rootless_ports
 
     - name: Build Caddy image

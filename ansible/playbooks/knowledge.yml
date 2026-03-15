@@ -4,7 +4,7 @@
 
     - name: Login to homelab registry
       ansible.builtin.import_role:
-        name: podman
+        name: dpkg_i_foo_deb.homelab.podman
         tasks_from: login
       vars:
         podman_login_registry: '{{ registry_host }}.{{ internet_host }}:5000'
@@ -66,4 +66,3 @@
             OAUTH2_PROXY_AUTH_LOGGING: 'true'
             OAUTH2_PROXY_STANDARD_LOGGING: 'true'
             OAUTH2_PROXY_CODE_CHALLENGE_METHOD: S256
-

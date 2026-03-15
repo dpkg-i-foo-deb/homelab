@@ -5,7 +5,7 @@
   tasks:
     - name: Login to homelab registry
       ansible.builtin.import_role:
-        name: podman
+        name: dpkg_i_foo_deb.homelab.podman
         tasks_from: login
       vars:
         podman_login_registry: '{{ registry_host }}.{{ internet_host }}:5000'
@@ -144,10 +144,10 @@
         owner: '{{ container_user }}'
         group: '{{ container_user }}'
         mode: '0755'
-    
+
     - name: Ensure there's a network for Librechat
       ansible.builtin.import_role:
-        name: dpkg_i_foo_deb.homelab
+        name: dpkg_i_foo_deb.homelab.podman
 
     - name: Template LibreChat config
       become: true
