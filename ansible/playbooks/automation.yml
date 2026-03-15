@@ -66,7 +66,6 @@
       36393764306234366336623432386635316638303866396634383433386638613031396365356535
       3130366537626331626361313837376330663566363164623136
   tasks:
-
     - name: Ensure podman socket is enabled and running
       become: true
       become_user: '{{ container_user }}'
@@ -80,7 +79,7 @@
     - name: Fetch container_user info
       ansible.builtin.getent:
         database: passwd
-        key: "{{ container_user }}"
+        key: '{{ container_user }}'
 
     - name: Deploy Woodpecker server
       ansible.builtin.import_role:
@@ -128,3 +127,132 @@
             WOODPECKER_SERVER: 'host.containers.internal:9000'
             WOODPECKER_BACKEND: 'docker'
             WOODPECKER_AGENT_SECRET: '{{ woodpecker_agent_secret }}'
+
+- name: Deploy LibreChat
+  hosts: automation_servers
+  tags:
+    - ai-chat
+  vars:
+    librechat_conf_dir: '/var/librechat'
+    meili_master_key: 'TODO'
+  tasks:
+    - name: Ensure there's a directory to store Librechat config
+      become: true
+      ansible.builtin.file:
+        path: '{{ librechat_conf_dir }}'
+        state: directory
+        owner: '{{ container_user }}'
+        group: '{{ container_user }}'
+        mode: '0755'
+    
+    - name: Ensure there's a network for Librechat
+      ansible.builtin.import_role:
+        name: dpkg_i_foo_deb.homelab
+
+    - name: Template LibreChat config
+      become: true
+      ansible.builtin.template:
+        src: 'templates/librechat/env.conf.j2'
+        dest: '{{ librechat_data_dir }}/.env'
+        owner: '{{ container_user }}'
+        group: '{{ container_user }}'
+        mode: '0755'
+
+    - name: Deploy LibreChat DB
+      ansible.builtin.import_role:
+        name: dpkg_i_foo_deb.homelab.quadlet_service
+      vars:
+        quadlet_service_definition:
+          name: librechat-vectordb
+          image: '{{ registry_host }}.{{ internet_host }}:5000/dockerhub/pgvector/pgvector:0.8.0-pg15-trixie'
+          user: '{{ container_user }}'
+          networks:
+            - name: librechat_net
+          volumes:
+            - name: pgdata2
+              dest: /var/lib/postgresql/data:z
+          env:
+            POSTGRES_DB: mydatabase
+            POSTGRES_USER: myuser
+            POSTGRES_PASSWORD: mypassword
+
+    - name: Deploy LibreChat MongoDB
+      ansible.builtin.import_role:
+        name: dpkg_i_foo_deb.homelab.quadlet_service
+      vars:
+        quadlet_service_definition:
+          name: chat-mongodb
+          image: mongo:8.0.17
+          command: mongod --noauth
+          user: '{{ container_user }}'
+          networks:
+            - name: librechat_net
+          dir_mounts:
+            - src: '{{ librechat_data_dir }}/data-node'
+              dest: /data/db:z
+
+    - name: Deploy LibreChat Meilisearch
+      ansible.builtin.import_role:
+        name: dpkg_i_foo_deb.homelab.quadlet_service
+      vars:
+        quadlet_service_definition:
+          name: chat-meilisearch
+          image: getmeili/meilisearch:v1.35.1
+          user: '{{ container_user }}'
+          networks:
+            - name: librechat_net
+          dir_mounts:
+            - src: '{{ librechat_data_dir }}/meili_data_v1.35.1'
+              dest: /meili_data:z
+          env:
+            MEILI_HOST: 'http://chat-meilisearch:7700'
+            MEILI_NO_ANALYTICS: 'true'
+            MEILI_MASTER_KEY: '{{ meili_master_key }}'
+
+    - name: Deploy LibreChat RAG API
+      ansible.builtin.import_role:
+        name: dpkg_i_foo_deb.homelab.quadlet_service
+      vars:
+        quadlet_service_definition:
+          name: chat-rag-api
+          image: registry.librechat.ai/danny-avila/librechat-rag-api-dev-lite:latest
+          user: '{{ container_user }}'
+          networks:
+            - name: librechat_net
+          file_mounts:
+            - src: '{{ librechat_data_dir }}/.env'
+              dest: /app/.env
+          env:
+            DB_HOST: chat-vectordb
+            RAG_PORT: '8000'
+
+    - name: Deploy LibreChat API
+      ansible.builtin.import_role:
+        name: dpkg_i_foo_deb.homelab.quadlet_service
+      vars:
+        quadlet_service_definition:
+          name: chat-api
+          image: registry.librechat.ai/danny-avila/librechat-dev:latest
+          user: '{{ container_user }}'
+          ports:
+            - '3080:3080'
+          networks:
+            - name: librechat_net
+          hosts:
+            host.docker.internal: host-gateway
+          file_mounts:
+            - src: '{{ librechat_data_dir }}/.env'
+              dest: /app/.env
+          dir_mounts:
+            - src: '{{ librechat_data_dir }}/images'
+              dest: /app/client/public/images:z
+            - src: '{{ librechat_data_dir }}/uploads'
+              dest: /app/uploads:z
+            - src: '{{ librechat_data_dir }}/logs'
+              dest: /app/logs:z
+          env:
+            HOST: '0.0.0.0'
+            MONGO_URI: 'mongodb://chat-mongodb:27017/LibreChat'
+            MEILI_HOST: 'http://chat-meilisearch:7700'
+            RAG_PORT: '8000'
+            RAG_API_URL: 'http://chat-rag-api:8000'
