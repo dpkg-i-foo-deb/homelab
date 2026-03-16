@@ -70,6 +70,28 @@
               30373138663138386663336537363433396464626564336566663763636634663735646533343933
               6561336366386535353135633839376462326437323436326537
 
+    - name: Deploy MusicBrainz Picard
+      tags:
+        - music
+      ansible.builtin.import_role:
+        name: dpkg_i_foo_deb.homelab.quadlet_service
+      vars:
+        quadlet_service_definition:
+          name: musicbrainz-picard
+          user: "{{ container_user }}"
+          image: "{{ registry_host }}.{{ internet_host }}:5000/dockerhub/jlesage/musicbrainz-picard:latest"
+          registry_user: '{{ homelab_registry_user }}'
+          registry_pass: '{{ homelab_registry_pass }}'
+          ports:
+            - '5800:5800'
+          volumes:
+            - name: 'musicbrainz_config'
+              dest: '/config:z'
+          dir_mounts:
+            - src: '/music'
+              dest: '/storage:rw,z'
+
+
     - name: Ensure there's a virtual network for Immich
       tags:
         - photos
