@@ -1,0 +1,22 @@
+FROM alpine:3.19
+
+RUN apk add --no-cache \
+    python3 \
+    py3-pip \
+    openssh-client \
+    sshpass \
+    git \
+    bash
+
+RUN python3 -m venv /opt/ansible-venv
+ENV PATH="/opt/ansible-venv/bin:$PATH"
+
+RUN pip install --no-cache-dir --upgrade pip setuptools && \
+    pip install --no-cache-dir ansible
+
+COPY requirements.yml /tmp/requirements.yml
+
+RUN ansible-galaxy install -r /tmp/requirements.yml && \
+    rm /tmp/requirements.yml
+
+WORKDIR /woodpecker

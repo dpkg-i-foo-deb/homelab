@@ -1,0 +1,21 @@
+when:
+  - event: push
+    branch: main
+    path:
+      - "images/ansible/Containerfile"
+      - "requirements.yml"
+
+steps:
+  build-and-push:
+    image: woodpeckerci/plugin-kaniko
+    secrets:
+      - source: REGISTRY_USER
+        target: PLUGIN_USERNAME
+      - source: REGISTRY_PASS
+        target: PLUGIN_PASSWORD
+    settings:
+      registry: registry.baremetalcloud.org:5000
+      repo: registry.baremetalcloud.org:5000/ansible-woodpecker
+      tags: latest
+      dockerfile: images/ansible/Containerfile
+      context: .
