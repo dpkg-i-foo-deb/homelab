@@ -9,14 +9,13 @@ when:
 steps:
   build-and-push:
     image: woodpeckerci/plugin-kaniko
-    environment:
-      PLUGIN_USERNAME:
-        from_secret: REGISTRY_USER
-      PLUGIN_PASSWORD:
-        from_secret: REGISTRY_PASS
     settings:
       registry: registry.baremetalcloud.org:5000
       repo: registry.baremetalcloud.org:5000/ansible-woodpecker
       tags: latest
+      username:
+        from_secret: REGISTRY_USER
+      password:
+        from_secret: REGISTRY_PASS
       dockerfile: images/ansible/Containerfile
       context: .
