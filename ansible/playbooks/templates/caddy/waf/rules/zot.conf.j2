@@ -1,0 +1,16 @@
+SecAction \
+ "id:900060,\
+  phase:1,\
+  nolog,\
+  pass,\
+  t:none,\
+  setvar:'tx.allowed_methods=GET HEAD POST OPTIONS DELETE PATCH PUT'"
+
+SecRule REQUEST_URI "@rx /v2/.*/blobs/uploads/" \
+  "id:900100,\
+  phase:1,\
+  pass,\
+  nolog,\
+  ctl:ruleRemoveTargetById=932230;ARGS_NAMES,\
+  ctl:ruleRemoveTargetById=932230;ARGS,\
+  ctl:ruleRemoveById=932230
