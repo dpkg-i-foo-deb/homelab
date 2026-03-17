@@ -8,3 +8,10 @@
         base_shell_prompt:
           - { path: '/home/{{ container_user }}/.bashrc', owner: '{{ container_user }}' }
           - { path: '/root/.bashrc', owner: 'root' }
+
+    - name: Ensure CI/CD SSH key is authorized for Ansible account
+      become: true
+      ansible.posix.authorized_key:
+        user: "{{ ansible_user }}"
+        state: present
+        key: "{{ lookup('file', 'files/woodpecker-deploy-key.pub') }}"
