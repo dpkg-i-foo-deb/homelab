@@ -4,6 +4,7 @@ when:
     path:
       - "images/ansible/Containerfile"
       - "requirements.yml"
+  - event: manual
 
 steps:
   build-and-push:
