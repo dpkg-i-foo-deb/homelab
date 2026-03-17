@@ -10,8 +10,10 @@
           - { path: '/root/.bashrc', owner: 'root' }
 
     - name: Ensure CI/CD SSH key is authorized for Ansible account
+      tags:
+        - ssh-keys
       become: true
       ansible.posix.authorized_key:
         user: "{{ ansible_user }}"
         state: present
-        key: "{{ lookup('file', 'files/woodpecker-deploy-key.pub') }}"
+        key: "{{ lookup('file', 'files/woodpecker/woodpecker-deploy-key.pub') }}"
