@@ -7,11 +7,11 @@ when:
   - event: manual
 
 steps:
-  build-and-push:
+  build-woodpecker-ansible-image:
     image: woodpeckerci/plugin-kaniko
     settings:
       registry: registry.baremetalcloud.org:5000
-      repo: registry.baremetalcloud.org:5000/ansible-woodpecker
+      repo: ansible-woodpecker
       tags: latest
       username:
         from_secret: REGISTRY_USER
