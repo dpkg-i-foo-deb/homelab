@@ -1,9 +1,9 @@
-- name: Configure base dependencies for all virtual machines
+- name: Configure base dependencies for all instances
   hosts: all, !hypervisors
   tasks:
     - name: General virtual machine configuration
       ansible.builtin.import_role:
-        name: base
+        name: dpkg_i_foo_deb.homelab.base
       vars:
         base_shell_prompt:
           - { path: '/home/{{ container_user }}/.bashrc', owner: '{{ container_user }}' }
