@@ -8,11 +8,11 @@ when:
 steps:
   build-and-push:
     image: woodpeckerci/plugin-kaniko
-    secrets:
-      - source: REGISTRY_USER
-        target: PLUGIN_USERNAME
-      - source: REGISTRY_PASS
-        target: PLUGIN_PASSWORD
+    environment:
+      PLUGIN_USERNAME:
+        from_secret: REGISTRY_USER
+      PLUGIN_PASSWORD:
+        from_secret: REGISTRY_PASS
     settings:
       registry: registry.baremetalcloud.org:5000
       repo: registry.baremetalcloud.org:5000/ansible-woodpecker
