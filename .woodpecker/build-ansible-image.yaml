@@ -4,7 +4,7 @@ when:
     path:
       - "images/ansible/Containerfile"
       - "requirements.yml"
-  - event: manual
+  # - event: manual
 
 steps:
   build-woodpecker-ansible-image:
