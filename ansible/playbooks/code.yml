@@ -1,4 +1,4 @@
-- name: Configure personal code-server
+- name: General tasks for all code servers
   hosts: code
   tasks:
     - name: Login to homelab registry
@@ -11,72 +11,53 @@
         podman_login_pass: '{{ homelab_registry_pass }}'
         podman_user: '{{ container_user }}'
 
+- name: Configure personal code-server
+  hosts: code
+  tasks:
     - name: Deploy personal code-server
       ansible.builtin.import_role:
-        name: code_server
+        name: dpkg_i_foo_deb.homelab.quadlet_service
       vars:
-        code_server_user: '{{ container_user }}'
-        code_server_container: code-server-personal
-        code_server_image: code-server-personal
-        code_server_http_port: '8443'
-        code_server_sudo_pass: 'code'
-        code_server_proxy_domain: '{{ code_personal_host }}.{{ internet_host }}'
-        code_server_workspace: code_server_personal
-        code_server_registry_user: '{{ homelab_registry_user }}'
-        code_server_registry_pass: '{{ homelab_registry_pass }}'
-        code_server_extra_pkgs:
-          - git
-          - curl
-          - wget
-          - python3-pip
-          - direnv
-          - telnet
-          - inetutils-ping
-          - zip
-          - unzip
-          - dnsutils
-          - gettext-base
-          - vim
-          - ansible
-          - ansible-lint
-          - caddy
-        code_server_docker_host: '10.0.8.12'
+        quadlet_service_definition:
+          name: code-server-personal
+          image: '{{ registry_host }}.{{ internet_host }}:5000/code-server:latest'
+          registry_user: '{{ homelab_registry_user }}'
+          registry_pass: '{{ homelab_registry_pass }}'
+          user: '{{ container_user }}'
+          ports:
+            - '8443:8443'
+          volumes:
+            - name: 'code_server_personal'
+              dest: '/config:z'
+          env:
+            SUDO_PASSWORD: 'code'
+            PROXY_DOMAIN: '{{ code_personal_host }}.{{ internet_host }}'
 
 - name: Configure work code-server
   hosts: code
   tasks:
     - name: Deploy work code-server
       ansible.builtin.import_role:
-        name: code_server
+        name: dpkg_i_foo_deb.homelab.quadlet_service
       vars:
-        code_server_user: '{{ container_user }}'
-        code_server_container: code-server-work
-        code_server_image: code-server-work
-        code_server_http_port: '8444'
-        code_server_sudo_pass: 'code'
-        code_server_proxy_domain: '{{ code_work_host }}.{{ internet_host }}'
-        code_server_workspace: code_server_work
-        code_server_registry_user: '{{ homelab_registry_user }}'
-        code_server_registry_pass: '{{ homelab_registry_pass }}'
-        code_server_extra_pkgs:
-          - git
-          - curl
-          - direnv
-          - telnet
-          - gettext-base
-          - vim
-          - inetutils-ping
-          - zip
-          - unzip
-          - python3-pip
-          - dnsutils
-          - nodejs
-          - npm
-          - ansible
-          - ansible-lint
-          - caddy
-        code_server_docker_host: '10.0.8.12'
+        quadlet_service_definition:
+          name: code-server-work
+          image: '{{ registry_host }}.{{ internet_host }}:5000/code-server:latest'
+          registry_user: '{{ homelab_registry_user }}'
+          registry_pass: '{{ homelab_registry_pass }}'
+          user: '{{ container_user }}'
+          ports:
+            - '8444:8443'
+          volumes:
+            - name: 'code_server_work'
+              dest: '/config:z'
+          env:
+            SUDO_PASSWORD: 'code'
+            PROXY_DOMAIN: '{{ code_work_host }}.{{ internet_host }}'
 
+- name: Configure oauth2-proxy for code-server
+  hosts: code
+  tasks:
     - name: Deploy oauth2_proxy for work code_server
       ansible.builtin.import_role:
         name: dpkg_i_foo_deb.homelab.quadlet_service
