@@ -21,6 +21,7 @@ steps:
       - chmod 600 ~/.ssh/id_rsa
       - export ANSIBLE_HOST_KEY_CHECKING=False
       - echo "$VAULT_PASS" > /tmp/.vault_pass.txt
+      - chmod o-w .
       - >
         ansible-playbook ansible/playbooks/streaming.yml
         --vault-password-file /tmp/.vault_pass.txt
