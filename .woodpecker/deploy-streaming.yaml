@@ -1,0 +1,27 @@
+when:
+  - event: push
+    branch: main
+    path:
+      - "ansible/playbooks/streaming.yml"
+  - event: manual
+
+steps:
+  run-playbook:
+    image: registry.baremetalcloud.org:5000/ansible-woodpecker:latest
+    environment:
+      SSH_PRIVATE_KEY:
+        from_secret: SSH_PRIVATE_KEY
+      VAULT_PASS:
+        from_secret: ANSIBLE_VAULT_PASS
+      BECOME_PASS:
+        from_secret: ANSIBLE_BECOME_PASS
+    commands:
+      - mkdir -p ~/.ssh
+      - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+      - chmod 600 ~/.ssh/id_rsa
+      - export ANSIBLE_HOST_KEY_CHECKING=False
+      - echo "$VAULT_PASS" > /tmp/.vault_pass.txt
+      - >
+        ansible-playbook ansible/playbooks/streaming.yml
+        --vault-password-file /tmp/.vault_pass.txt
+        -e "ansible_become_pass=$BECOME_PASS"
