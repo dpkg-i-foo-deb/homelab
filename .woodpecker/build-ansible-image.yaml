@@ -18,4 +18,6 @@ steps:
       password:
         from_secret: REGISTRY_PASS
       dockerfile: images/ansible/Containerfile
+      cache: true
+      cache_repo: registry.baremetalcloud.org:5000/ansible-woodpecker-cache
       context: .
