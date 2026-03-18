@@ -1,0 +1,21 @@
+when:
+  - event: push
+    branch: main
+    path:
+      - "images/code-server/Containerfile"
+
+steps:
+  build-woodpecker-ansible-image:
+    image: woodpeckerci/plugin-kaniko
+    settings:
+      registry: registry.baremetalcloud.org:5000
+      repo: code-server
+      tags: latest
+      username:
+        from_secret: REGISTRY_USER
+      password:
+        from_secret: REGISTRY_PASS
+      dockerfile: images/code-server/Containerfile
+      cache: true
+      cache_repo: registry.baremetalcloud.org:5000/code-server-cache
+      context: .
