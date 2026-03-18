@@ -1,6 +1,4 @@
-FROM {{ registry_host }}.{{ internet_host }}:5000/lscr/linuxserver/code-server:latest
-
-# Docker cli installation
+FROM registry.baremetalcloud.org:5000/lscr/linuxserver/code-server:latest
 
 RUN apt-get update
 RUN apt-get install ca-certificates curl -y
@@ -43,6 +41,24 @@ RUN apt-get install tofu -y
 
 RUN apt-get full-upgrade -y
 
-RUN apt-get install -y {{ code_server_extra_pkgs | join(' ') }}
+RUN apt-get update && \
+    apt-get install -y \
+        git \
+        curl \
+        direnv \
+        telnet \
+        gettext-base \
+        vim \
+        inetutils-ping \
+        zip \
+        unzip \
+        python3-pip \
+        dnsutils \
+        nodejs \
+        npm \
+        ansible \
+        ansible-lint \
+        caddy && \
+    rm -rf /var/lib/apt/lists/*
 
 ENTRYPOINT [ "/init" ]
