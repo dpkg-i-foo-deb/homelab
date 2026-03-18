@@ -5,7 +5,7 @@ when:
       - "images/code-server/Containerfile"
 
 steps:
-  build-woodpecker-ansible-image:
+  build-code-server-image:
     image: woodpeckerci/plugin-kaniko
     settings:
       registry: registry.baremetalcloud.org:5000
