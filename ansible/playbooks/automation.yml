@@ -1,23 +1,258 @@
+- name: Common automation server tasks
+  hosts: automation_servers
+  tags:
+    - ci-cd-deploy
+  tasks:
+    - name: Login to homelab registry
+      ansible.builtin.import_role:
+        name: dpkg_i_foo_deb.homelab.podman
+        tasks_from: login
+      vars:
+        podman_login_registry: '{{ registry_host }}.{{ internet_host }}:5000'
+        podman_login_user: '{{ homelab_registry_user }}'
+        podman_login_pass: '{{ homelab_registry_pass }}'
+        podman_user: '{{ container_user }}'
+
 - name: Configure automation servers
   hosts: automation_servers
   tags:
     - automation_deploy
   tasks:
-    - name: Deploy Home Assistant
+    # - name: Deploy Home Assistant
+    #   ansible.builtin.import_role:
+    #     name: dpkg_i_foo_deb.homelab.quadlet_service
+    #   vars:
+    #     quadlet_service_definition:
+    #       name: home-assistant
+    #       image: 'ghcr.io/home-assistant/home-assistant:stable'
+    #       user: '{{ container_user }}'
+    #       ports:
+    #         - '8123:8123'
+    #       dir_mounts:
+    #         - src: '/var/home-assistant'
+    #           dest: '/config:z'
+    #       system_mounts:
+    #         - src: '/etc/localtime'
+    #           dest: '/etc/localtime:ro'
+    #         - src: '/run/dbus'
+    #           dest: '/run/dbus:ro'
+
+- name: Configure CI/CD tools
+  hosts: automation_servers
+  tags:
+    - ci-cd-deploy
+  vars:
+    woodpecker_agent_secret: !vault |
+      $ANSIBLE_VAULT;1.1;AES256
+      32613033383632353363353334396533373939653536616135363332613335663434623464633762
+      3139353135306236326139356535626331326433393939620a653534343366366638303861356532
+      31336433653766346135306262393963306364373762643365316339396566363034656536366666
+      3161363338333639620a356530616438373862383235616462303736396262633135643663363536
+      36646462396333313161623133333164613838346634653537326334623563623430633964376132
+      3535653662633734363065326137386434323162303238366364
+    woodpecker_github_client_id: !vault |
+      $ANSIBLE_VAULT;1.1;AES256
+      39383334643032626338376137313761616566653466333833363736393766333961313065383861
+      3133626234303037363332313163656534333862616530630a626438313239666435376336656436
+      34383738363539643533326436346133383561626565656234663264373739653933656432383434
+      6432343833336435610a353235393764633035633164346663623739326563326563343766313038
+      31353934316262393462386432376264393762353164656530633335393530623836
+    woodpecker_github_client_secret: !vault |
+      $ANSIBLE_VAULT;1.1;AES256
+      35383463313831643739313730653739663238666662313137356563303933656463323163666539
+      3538393035323531663961323864646563653336353865320a303765613135313637353430306139
+      64383735333162326233326437363132313737666234613735323238363737373834386338633831
+      3666333439353532610a306233613331623766663464633961323634666538636430356430386639
+      36393764306234366336623432386635316638303866396634383433386638613031396365356535
+      3130366537626331626361313837376330663566363164623136
+  tasks:
+    - name: Ensure podman socket is enabled and running
+      become: true
+      become_user: '{{ container_user }}'
+      ansible.builtin.systemd_service:
+        name: podman.socket
+        state: started
+        masked: false
+        scope: user
+        enabled: true
+
+    - name: Fetch container_user info
+      ansible.builtin.getent:
+        database: passwd
+        key: '{{ container_user }}'
+
+    - name: Deploy Woodpecker server
       ansible.builtin.import_role:
         name: dpkg_i_foo_deb.homelab.quadlet_service
       vars:
         quadlet_service_definition:
-          name: home-assistant
-          image: 'ghcr.io/home-assistant/home-assistant:stable'
+          name: woodpecker
+          image: '{{ registry_host }}.{{ internet_host }}:5000/dockerhub/woodpeckerci/woodpecker-server:v3'
+          registry_user: '{{ homelab_registry_user }}'
+          registry_pass: '{{ homelab_registry_pass }}'
           user: '{{ container_user }}'
           ports:
-            - '8123:8123'
+            - '8000:8000'
+            - '9000:9000'
+          volumes:
+            - name: 'woodpecker_data'
+              dest: '/var/lib/woodpecker:z'
+          env:
+            WOODPECKER_OPEN: 'false'
+            WOODPECKER_HOST: 'https://{{ cicd_host }}.{{ internet_host }}'
+            WOODPECKER_GITHUB: 'true'
+            WOODPECKER_AGENT_SECRET: '{{ woodpecker_agent_secret }}'
+            WOODPECKER_GITHUB_CLIENT: '{{ woodpecker_github_client_id }}'
+            WOODPECKER_GITHUB_SECRET: '{{ woodpecker_github_client_secret }}'
+            WOODPECKER_ADMIN: 'dpkg-i-foo-deb'
+
+    - name: Deploy Woodpecker agent
+      ansible.builtin.import_role:
+        name: dpkg_i_foo_deb.homelab.quadlet_service
+      vars:
+        quadlet_service_definition:
+          name: woodpecker-agent
+          command: agent
+          image: '{{ registry_host }}.{{ internet_host }}:5000/dockerhub/woodpeckerci/woodpecker-agent:v3'
+          registry_user: '{{ homelab_registry_user }}'
+          registry_pass: '{{ homelab_registry_pass }}'
+          user: '{{ container_user }}'
+          volumes:
+            - name: 'woodpecker_agent_data'
+              dest: '/etc/woodpecker:z'
+          file_mounts:
+            - src: '/run/user/{{ getent_passwd[container_user][1] }}/podman/podman.sock'
+              dest: '/var/run/docker.sock'
+          env:
+            WOODPECKER_SERVER: 'host.containers.internal:9000'
+            WOODPECKER_BACKEND: 'docker'
+            WOODPECKER_AGENT_SECRET: '{{ woodpecker_agent_secret }}'
+
+- name: Deploy LibreChat
+  hosts: automation_servers
+  tags:
+    - ai-chat
+  vars:
+    librechat_conf_dir: '/var/librechat'
+    meili_master_key: 'TODO'
+  tasks:
+    - name: Ensure there's a directory to store Librechat config
+      become: true
+      ansible.builtin.file:
+        path: '{{ librechat_conf_dir }}'
+        state: directory
+        owner: '{{ container_user }}'
+        group: '{{ container_user }}'
+        mode: '0755'
+
+    - name: Ensure there's a network for Librechat
+      ansible.builtin.import_role:
+        name: dpkg_i_foo_deb.homelab.podman
+
+    - name: Template LibreChat config
+      become: true
+      ansible.builtin.template:
+        src: 'templates/librechat/env.conf.j2'
+        dest: '{{ librechat_data_dir }}/.env'
+        owner: '{{ container_user }}'
+        group: '{{ container_user }}'
+        mode: '0755'
+
+    - name: Deploy LibreChat DB
+      ansible.builtin.import_role:
+        name: dpkg_i_foo_deb.homelab.quadlet_service
+      vars:
+        quadlet_service_definition:
+          name: librechat-vectordb
+          image: '{{ registry_host }}.{{ internet_host }}:5000/dockerhub/pgvector/pgvector:0.8.0-pg15-trixie'
+          user: '{{ container_user }}'
+          networks:
+            - name: librechat_net
+          volumes:
+            - name: pgdata2
+              dest: /var/lib/postgresql/data:z
+          env:
+            POSTGRES_DB: mydatabase
+            POSTGRES_USER: myuser
+            POSTGRES_PASSWORD: mypassword
+
+    - name: Deploy LibreChat MongoDB
+      ansible.builtin.import_role:
+        name: dpkg_i_foo_deb.homelab.quadlet_service
+      vars:
+        quadlet_service_definition:
+          name: chat-mongodb
+          image: mongo:8.0.17
+          command: mongod --noauth
+          user: '{{ container_user }}'
+          networks:
+            - name: librechat_net
           dir_mounts:
-            - src: '/var/home-assistant'
-              dest: '/config:z'
-          system_mounts:
-            - src: '/etc/localtime'
-              dest: '/etc/localtime:ro'
-            - src: '/run/dbus'
-              dest: '/run/dbus:ro'
+            - src: '{{ librechat_data_dir }}/data-node'
+              dest: /data/db:z
+
+    - name: Deploy LibreChat Meilisearch
+      ansible.builtin.import_role:
+        name: dpkg_i_foo_deb.homelab.quadlet_service
+      vars:
+        quadlet_service_definition:
+          name: chat-meilisearch
+          image: getmeili/meilisearch:v1.35.1
+          user: '{{ container_user }}'
+          networks:
+            - name: librechat_net
+          dir_mounts:
+            - src: '{{ librechat_data_dir }}/meili_data_v1.35.1'
+              dest: /meili_data:z
+          env:
+            MEILI_HOST: 'http://chat-meilisearch:7700'
+            MEILI_NO_ANALYTICS: 'true'
+            MEILI_MASTER_KEY: '{{ meili_master_key }}'
+
+    - name: Deploy LibreChat RAG API
+      ansible.builtin.import_role:
+        name: dpkg_i_foo_deb.homelab.quadlet_service
+      vars:
+        quadlet_service_definition:
+          name: chat-rag-api
+          image: registry.librechat.ai/danny-avila/librechat-rag-api-dev-lite:latest
+          user: '{{ container_user }}'
+          networks:
+            - name: librechat_net
+          file_mounts:
+            - src: '{{ librechat_data_dir }}/.env'
+              dest: /app/.env
+          env:
+            DB_HOST: chat-vectordb
+            RAG_PORT: '8000'
+
+    - name: Deploy LibreChat API
+      ansible.builtin.import_role:
+        name: dpkg_i_foo_deb.homelab.quadlet_service
+      vars:
+        quadlet_service_definition:
+          name: chat-api
+          image: registry.librechat.ai/danny-avila/librechat-dev:latest
+          user: '{{ container_user }}'
+          ports:
+            - '3080:3080'
+          networks:
+            - name: librechat_net
+          hosts:
+            host.docker.internal: host-gateway
+          file_mounts:
+            - src: '{{ librechat_data_dir }}/.env'
+              dest: /app/.env
+          dir_mounts:
+            - src: '{{ librechat_data_dir }}/images'
+              dest: /app/client/public/images:z
+            - src: '{{ librechat_data_dir }}/uploads'
+              dest: /app/uploads:z
+            - src: '{{ librechat_data_dir }}/logs'
+              dest: /app/logs:z
+          env:
+            HOST: '0.0.0.0'
+            MONGO_URI: 'mongodb://chat-mongodb:27017/LibreChat'
+            MEILI_HOST: 'http://chat-meilisearch:7700'
+            RAG_PORT: '8000'
+            RAG_API_URL: 'http://chat-rag-api:8000'

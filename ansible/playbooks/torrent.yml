@@ -3,10 +3,10 @@
   tasks:
     - name: Login to homelab registry
       ansible.builtin.import_role:
-        name: podman
+        name: dpkg_i_foo_deb.homelab.podman
         tasks_from: login
       vars:
-        podman_login_registry: '{{ registry_host }}.{{ internet_host }}'
+        podman_login_registry: '{{ registry_host }}.{{ internet_host }}:5000'
         podman_login_user: '{{ homelab_registry_user }}'
         podman_login_pass: '{{ homelab_registry_pass }}'
         podman_user: '{{ container_user }}'
@@ -17,7 +17,7 @@
       vars:
         quadlet_service_definition:
           name: qbittorrent
-          image: '{{ registry_host }}.{{ internet_host }}/lscr-proxy/linuxserver/qbittorrent:latest'
+          image: '{{ registry_host }}.{{ internet_host }}:5000/lscr/linuxserver/qbittorrent:latest'
           registry_user: '{{ homelab_registry_user }}'
           registry_pass: '{{ homelab_registry_pass }}'
           user: '{{ container_user }}'
@@ -32,8 +32,6 @@
             - '6881:6881'
             - '6881:6881/udp'
           dns:
-            - '1.1.1.1'
-            - '1.0.0.1'
-            - '8.8.8.8'
+            - '10.0.2.3'
           env:
             TORRENTING_PORT: '6881'

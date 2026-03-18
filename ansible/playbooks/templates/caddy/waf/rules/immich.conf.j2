@@ -1,0 +1,25 @@
+# Allow many methods on Immich
+SecAction \
+ "id:900200,\
+  phase:1,\
+  nolog,\
+  pass,\
+  t:none,\
+  setvar:'tx.allowed_methods=GET HEAD POST OPTIONS DELETE PUT PATCH'"
+
+#Allow weird content types on Immich
+SecAction \
+ "id:900220,\
+  phase:1,\
+  nolog,\
+  pass,\
+  t:none,\
+  setvar:'tx.allowed_request_content_type=|application/x-www-form-urlencoded| |multipart/form-data| |text/xml| |application/xml| |application/soap+xml| |application/json| |text/plain|'"
+
+# Allow saving immich settings
+SecRule REQUEST_URI "@beginsWith /api/system-config" \
+  "id:10001,\
+  phase:1,\
+  pass,\
+  nolog,\
+  ctl:ruleRemoveTargetById=930120;ARGS_NAMES:json.oauth.profileSigningAlgorithm"

@@ -3,7 +3,7 @@
   tasks:
     - name: Allow usage of privileged ports by rootless processes
       ansible.builtin.import_role:
-        name: podman
+        name: dpkg_i_foo_deb.homelab.podman
         tasks_from: rootless_ports
 
     - name: Ensure systemd-resolved is stopped and disabled

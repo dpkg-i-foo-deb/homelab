@@ -1,24 +1,102 @@
 - name: Configure Homelab Registry
   hosts: registry_servers
+  tags:
+    - registry-deploy
   tasks:
 
-    - name: Fix broken Harbor permissions
+    - name: Ensure there's a directory to store Zot configuration file
       become: true
       ansible.builtin.file:
-        path: "/home/{{ container_user }}/harbor/harbor"
+        path: '/var/zot'
         state: directory
-        mode: '0777'
+        mode: '0755'
         owner: '{{ container_user }}'
         group: '{{ container_user }}'
-        recurse: true
 
-    - name: Deploy and Restart Harbor Registry
+    - name: Ensure there's a directory to store Zot blobs
       become: true
-      community.docker.docker_compose_v2:
-        project_src: "/home/{{ container_user }}/harbor"
-        state: restarted
-      register: output
+      ansible.builtin.file:
+        path: '/blobs'
+        state: directory
+        mode: '0755'
+        owner: '{{ container_user }}'
+        group: '{{ container_user }}'
 
-    - name: Show results
-      ansible.builtin.debug:
-        var: output
+    - name: Template Zot configuration file
+      become: true
+      vars:
+        registry_enable_ui: "true"
+        registry_cve_update_interval: '24h'
+      ansible.builtin.template:
+        src: 'templates/zot/config.json.j2'
+        dest: '/var/zot/config.json'
+        owner: '{{ container_user }}'
+        group: '{{ container_user }}'
+        mode: '0755'
+
+    - name: Template Zot authentication file
+      become: true
+      ansible.builtin.template:
+        src: 'templates/zot/htpass.j2'
+        dest: '/var/zot/htpass'
+        owner: '{{ container_user }}'
+        group: '{{ container_user }}'
+        mode: '0755'
+
+    - name: Template Zot sync credentials file
+      become: true
+      vars:
+        registry_dockerhub_user: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          37653336346232383230666534393565326266303062346131613632376132346466326230323533
+          6366643137346436353335353438653162376165633035350a613231643034663562316239303666
+          35356430656130383431383166643137386261643933646664343462616335643333343165366238
+          6262383435303635330a646661393930653865336638633263306437303664306536363935386263
+          3539
+        registry_dockerhub_pass: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          65316161616631663534306236643938643335306434623439646435333332386132356338633136
+          6438656236663263393538393864653238376566393136340a626534373635326333386232383537
+          38343635646362356463616136313932326239343732316231633662616233646161353438643663
+          3162383738386563350a663661633261333338663238623461623365383538346538393739353062
+          35333764653564393437313465396361366630393436366131326365306339316636626239313265
+          6633613862393365326430623464373264656535613636623961
+        registry_quay_user: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          35623731326238396361663062343732346331313965613162653632393230343434666336363936
+          6136326661613261656431636432386162646539366466610a353132316661396631636663323334
+          64386335653139643738666436343562336135636538366666636330346161653838313662323531
+          6432626561346436640a303661386266663164653339326233626638346333363139653237633361
+          6537
+        registry_quay_pass: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          38373366383266353862623735623037613037386436373138386633336131666632376164356433
+          6162666563363333633839653835306366663834613033360a363339623930646237396434383734
+          35353730383438633663623366653033666337333466326461663266323530616466613638323530
+          6537356431386261370a363435326338653530343230316465616138373131623466393261333332
+          35363430666439376661656232616231336133663465666135623533623538323830623134653937
+          64623463646136343561373362636432613131323136353234333738373538663332326530393762
+          38646565396639386131343661346565323066356233366364343832316561373431386436613735
+          33633739666565653534
+      ansible.builtin.template:
+        src: 'templates/zot/sync-creds.json.j2'
+        dest: '/var/zot/sync-creds.json'
+        owner: '{{ container_user }}'
+        group: '{{ container_user }}'
+        mode: '0755'
+
+    - name: Deploy Zot registry
+      ansible.builtin.import_role:
+        name: dpkg_i_foo_deb.homelab.quadlet_service
+      vars:
+        quadlet_service_definition:
+          name: zot
+          image: 'ghcr.io/project-zot/zot:latest'
+          user: '{{ container_user }}'
+          ports:
+            - '5000:5000'
+          dir_mounts:
+            - src: '/var/zot'
+              dest: '/etc/zot:z'
+            - src: '/blobs'
+              dest: '/var/lib/registry:z'

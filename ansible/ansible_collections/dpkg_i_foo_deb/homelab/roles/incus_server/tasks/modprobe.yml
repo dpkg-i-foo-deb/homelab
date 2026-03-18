@@ -1,0 +1,5 @@
+- name: Add the br_netfilter module
+  become: true
+  community.general.modprobe:
+    name: br_netfilter
+    state: present

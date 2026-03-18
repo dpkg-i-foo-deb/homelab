@@ -1,7 +1,0 @@
----
-- name: Ensure Wazuh agent is running
-  become: true
-  ansible.builtin.service:
-    name: wazuh-agent
-    enabled: true
-    state: started

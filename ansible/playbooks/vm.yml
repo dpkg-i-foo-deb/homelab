@@ -1,6 +1,0 @@
-- name: Configure base dependencies for all virtual machines
-  hosts: all, !hypervisors
-  tasks:
-    - name: General virtual machine configuration
-      ansible.builtin.import_role:
-        name: base_vm

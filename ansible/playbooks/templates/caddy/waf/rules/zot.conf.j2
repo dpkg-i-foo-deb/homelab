@@ -1,0 +1,10 @@
+SecRule REQUEST_URI "@rx ^/v2/" \
+  "id:900200,\
+  phase:1,\
+  pass,\
+  nolog,\
+  ctl:ruleRemoveById=911100,\
+  ctl:ruleRemoveById=920420,\
+  ctl:ruleRemoveById=920230,\
+  ctl:ruleRemoveById=920270,\
+  ctl:requestBodyAccess=Off"

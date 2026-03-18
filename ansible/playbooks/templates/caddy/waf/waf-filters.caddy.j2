@@ -33,6 +33,14 @@
 	}
 }
 
+(waf_skip_server_sent_events) {
+	not {
+		method GET
+		header Accept *text/event-stream*
+		path /api/events
+	}
+}
+
 (waf_skip_websockets) {
 	not {
 		method GET
