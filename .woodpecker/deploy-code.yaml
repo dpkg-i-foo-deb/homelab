@@ -2,7 +2,8 @@ when:
   - event: push
     branch: main
     path:
-      - "ansible/playbooks/streaming.yml"
+      - "ansible/playbooks/code.yml"
+  - event: manual
 
 steps:
   run-playbook:
@@ -22,6 +23,6 @@ steps:
       - printf "%s" "$VAULT_PASS" > /tmp/.vault_pass.txt
       - chmod o-w .
       - >
-        ansible-playbook ansible/playbooks/streaming.yml
+        ansible-playbook ansible/playbooks/code.yml
         --vault-password-file /tmp/.vault_pass.txt
         -e "ansible_become_pass={{ lookup('env', 'BECOME_PASS') }}"
