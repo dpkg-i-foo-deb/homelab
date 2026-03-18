@@ -8,6 +8,9 @@ RUN apk add --no-cache \
     git \
     gcc \
     oniguruma-dev \
+    musl-dev \
+    python3-dev \
+    libffi-dev \
     bash
 
 RUN python3 -m venv /opt/ansible-venv
