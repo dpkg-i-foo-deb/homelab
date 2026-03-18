@@ -1,0 +1,7 @@
+{{ lan_prefix }}.{{ cicd_host }}.{{ internet_host }},
+{{ cicd_host }}.{{ internet_host }} {
+  import logging cicd.log
+  import error_handler
+  import letsencrypt_cloudflare_dns
+  import proxy http://{{ hostvars['automation']['ansible_host']}}:8000
+}

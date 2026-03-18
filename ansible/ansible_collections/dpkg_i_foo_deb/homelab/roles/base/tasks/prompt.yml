@@ -1,0 +1,13 @@
+- name: Ensure custom prompt is present (PS1)
+  become: true
+  ansible.builtin.lineinfile:
+    path: "{{ item.path }}"
+    regexp: '^export PS1=.*{{ internet_host }}.*'
+    line: 'export PS1="\[\033[38;5;33m\]\u@\h.{{ internet_host }}\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\${{ " " }}"'
+    insertafter: EOF
+    state: present
+    create: true
+    owner: "{{ item.owner }}"
+    group: "{{ item.owner }}"
+    mode: '0644'
+  loop: "{{ base_shell_prompt }}"

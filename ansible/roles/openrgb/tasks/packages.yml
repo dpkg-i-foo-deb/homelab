@@ -1,7 +1,0 @@
----
-- name: Install OpenRGB dependencies
-  become: true
-  ansible.builtin.package:
-    update_cache: true
-    name:
-      - i2c-tools

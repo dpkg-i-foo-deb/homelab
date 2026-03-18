@@ -1,0 +1,53 @@
+{{ lan_prefix }}.{{ registry_host }}.{{ internet_host }},
+{{ registry_host }}.{{ internet_host }} {
+
+  coraza_waf {
+    load_owasp_crs
+
+    directives "
+      Include /etc/caddy/waf/core/owasp_coraza.conf
+      Include /etc/caddy/waf/rules/zot.conf
+      Include /etc/caddy/waf/core/crs_rules.conf
+    "
+  }
+
+  import logging harbor.log
+  import error_handler
+  import letsencrypt_cloudflare_dns
+  import proxy http://{{ hostvars['registry']['ansible_host'] }}:5000
+}
+
+{{ registry_host }}.{{ internet_host }}:5000,
+{{ lan_prefix }}.{{ registry_host }}.{{ internet_host }}:5000 {
+
+  coraza_waf {
+    load_owasp_crs
+
+    directives "
+      Include /etc/caddy/waf/core/owasp_coraza.conf
+      Include /etc/caddy/waf/rules/zot.conf
+      Include /etc/caddy/waf/core/crs_rules.conf
+    "
+  }
+
+  @registry_traffic {
+    path /v2/*
+    path /service/*
+    path /c/*
+  }
+
+  import logging harbor.log
+  import error_handler
+  import letsencrypt_cloudflare_dns
+
+  handle @registry_traffic {
+    reverse_proxy http://{{ hostvars['registry']['ansible_host'] }}:5000 {
+      header_up Host {{ registry_host }}.{{ internet_host }}
+      header_down Www-Authenticate "https://{{ registry_host }}.{{ internet_host }}" "https://{hostport}"
+    }
+  }
+
+  handle {
+    respond "Access denied: Container API is only available on port 5000, use 443/80 for web UI" 403
+  }
+}

@@ -9,6 +9,17 @@ SecRule REQUEST_URI "@beginsWith /api/" \
 
 # Allow saving notes that contain Unix commands or other
 # technical docs
+# Allow methods for the Trilium API, used to save notes
+SecRule REQUEST_URI "@beginsWith /api/" \
+  "id:10006,\
+  phase:1,\
+  pass,\
+  nolog,\
+  t:none,\
+  setvar:'tx.allowed_methods=GET HEAD POST OPTIONS PUT PATCH DELETE'"
+
+# Allow saving notes that contain Unix commands or other
+# technical docs
 SecRule REQUEST_METHOD "@streq PUT" \
   "id:10007,\
   phase:1,\
@@ -21,4 +32,5 @@ SecRule REQUEST_METHOD "@streq PUT" \
       ctl:ruleRemoveByTag=attack-injection-php,\
       ctl:ruleRemoveByTag=attack-rce,\
       ctl:ruleRemoveByTag=attack-protocol,\
-      ctl:ruleRemoveByTag=attack-xss"
+      ctl:ruleRemoveByTag=attack-xss,\
+      ctl:ruleRemoveByTag=attack-lfi"

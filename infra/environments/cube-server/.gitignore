@@ -1,0 +1,39 @@
+# Local directories and caches
+**/.terraform/*
+**/.tofu/*
+**/.terragrunt-cache/*
+
+# State files
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+
+# Variable files
+*.tfvars
+*.tfvars.json
+*auto.tfvars
+*auto.tfvars.json
+
+# Plan files
+*.tfplan
+*.plan
+
+# Override files
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Local CLI configuration files
+.terraformrc
+terraform.rc
+
+# Error logs
+crash.log
+crash.*.log
+
+# Files that shouldn't be skipped
+!**/.terraform.lock.hcl
+
+!example.tfvars
+!template.tfvars

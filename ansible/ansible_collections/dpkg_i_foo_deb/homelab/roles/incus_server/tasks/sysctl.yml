@@ -1,0 +1,141 @@
+- name: Ensure many I/O operations can be performed
+  become: true
+  ansible.posix.sysctl:
+    name: 'fs.aio-max-nr'
+    value: '524288'
+    state: present
+    sysctl_file: /etc/sysctl.d/incus.conf
+
+- name: Ensure many events can be queued
+  become: true
+  ansible.posix.sysctl:
+    name: 'fs.inotify.max_queued_events'
+    value: '1048576'
+    state: present
+    sysctl_file: /etc/sysctl.d/incus.conf
+
+- name: Optimize network stack - TCP/UDP buffers
+  become: true
+  ansible.posix.sysctl:
+    name: "{{ item.key }}"
+    value: "{{ item.value }}"
+    state: present
+    sysctl_file: /etc/sysctl.d/99-network-tuning.conf
+    reload: true
+  loop:
+    - { key: 'net.core.rmem_max', value: '7500000' }
+    - { key: 'net.core.wmem_max', value: '7500000' }
+    - { key: 'net.core.rmem_default', value: '1048576' }
+    - { key: 'net.core.wmem_default', value: '1048576' }
+
+- name: Ensure many inotify instances can be created
+  become: true
+  ansible.posix.sysctl:
+    name: 'fs.inotify.max_user_instances'
+    value: '1048576'
+    state: present
+    sysctl_file: /etc/sysctl.d/incus.conf
+
+- name: Ensure many inotify watches can be created
+  become: true
+  ansible.posix.sysctl:
+    name: 'fs.inotify.max_user_watches'
+    value: '1048576'
+    state: present
+    sysctl_file: /etc/sysctl.d/incus.conf
+
+- name: Ensure access to kernel messages is restricted
+  become: true
+  ansible.posix.sysctl:
+    name: 'kernel.dmesg_restrict'
+    value: '1'
+    state: present
+    sysctl_file: /etc/sysctl.d/incus.conf
+
+- name: Ensure the maximum size of key ring is increased
+  become: true
+  ansible.posix.sysctl:
+    name: 'kernel.keys.maxbytes'
+    value: '2000000'
+    state: present
+    sysctl_file: /etc/sysctl.d/incus.conf
+
+- name: Ensure the maximum size of keys is increased
+  become: true
+  ansible.posix.sysctl:
+    name: 'kernel.keys.maxkeys'
+    value: '200000'
+    state: present
+    sysctl_file: /etc/sysctl.d/incus.conf
+
+- name: Ensure the maximum size of ebpf jit allocations is increased
+  become: true
+  ansible.posix.sysctl:
+    name: 'net.core.bpf_jit_limit'
+    value: '1000000000'
+    state: present
+    sysctl_file: /etc/sysctl.d/incus.conf
+
+- name: Ensure there can be many entries in the IPv4 ARP table
+  become: true
+  ansible.posix.sysctl:
+    name: 'net.ipv4.neigh.default.gc_thresh3'
+    value: '8192'
+    state: present
+    sysctl_file: /etc/sysctl.d/incus.conf
+
+- name: Ensure there can be many entries in the IPv6 ARP table
+  become: true
+  ansible.posix.sysctl:
+    name: 'net.ipv6.neigh.default.gc_thresh3'
+    value: '8192'
+    state: present
+    sysctl_file: /etc/sysctl.d/incus.conf
+
+- name: Ensure a process can have many memory map areas
+  become: true
+  ansible.posix.sysctl:
+    name: 'vm.max_map_count'
+    value: '262144'
+    state: present
+    sysctl_file: /etc/sysctl.d/incus.conf
+
+- name: Ensure the queue length is big enough
+  become: true
+  ansible.posix.sysctl:
+    name: 'net.core.netdev_max_backlog'
+    value: '182757'
+    state: present
+    sysctl_file: /etc/sysctl.d/incus.conf
+
+- name: Ensure inotify has a large value
+  become: true
+  ansible.posix.sysctl:
+    name: 'fs.inotify.max_user_watches'
+    value: '20000000'
+    state: present
+    sysctl_file: /etc/sysctl.d/incus.conf
+
+- name: Ensure RAM can be overcommited
+  become: true
+  ansible.posix.sysctl:
+    name: 'vm.overcommit_memory'
+    value: '1'
+    state: present
+    sysctl_file: /etc/sysctl.d/incus.conf
+
+- name: Ensure host reboots 10 seconds after a Kernel panic
+  become: true
+  ansible.posix.sysctl:
+    name: 'kernel.panic'
+    value: '10'
+    state: present
+    sysctl_file: /etc/sysctl.d/incus.conf
+
+- name: Ensure host kernel panics as soon as any error happens
+  become: true
+  ansible.posix.sysctl:
+    name: 'kernel.panic_on_oops'
+    value: '1'
+    state: present
+    sysctl_file: /etc/sysctl.d/incus.conf

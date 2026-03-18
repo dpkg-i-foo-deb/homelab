@@ -1,8 +1,8 @@
 - name: General tasks for all reverse proxy servers
   hosts: reverse_proxy_servers
   tags:
-  - promtail-deploy
-  - caddy-deploy
+    - promtail-deploy
+    - caddy-deploy
   tasks:
     - name: Ensure Caddy configuration directories exist
       become: true
@@ -104,7 +104,7 @@
               - /var/caddy/waf/rules
               - /var/caddy/waf/core
             file_type: file
-            recurse: no
+            recurse: false
           register: caddy_found_files
 
         - name: Define list of expected files
@@ -162,7 +162,7 @@
     - name: Allow rootless processes to use privileged ports
       become: true
       ansible.builtin.import_role:
-        name: podman
+        name: dpkg_i_foo_deb.homelab.podman
         tasks_from: rootless_ports
 
     - name: Build Caddy image
@@ -246,12 +246,11 @@
             (lan_prefix ~ '.' ~ music_host ~ '.' ~ internet_host): private_reverse_proxy_host,
             (lan_prefix ~ '.' ~ notes_host ~ '.' ~ internet_host): private_reverse_proxy_host,
             (lan_prefix ~ '.' ~ password_mgr_host ~ '.' ~ internet_host): private_reverse_proxy_host,
-            (lan_prefix ~ '.' ~ rss_host ~ '.' ~ internet_host): private_reverse_proxy_host,
+            (lan_prefix ~ '.' ~ cicd_host ~ '.' ~ internet_host): private_reverse_proxy_host,
             (lan_prefix ~ '.' ~ photos_host ~ '.' ~ internet_host): private_reverse_proxy_host,
             (lan_prefix ~ '.' ~ metrics_host ~ '.' ~ internet_host): private_reverse_proxy_host,
             (lan_prefix ~ '.' ~ registry_host ~ '.' ~ internet_host): private_reverse_proxy_host,
             (lan_prefix ~ '.' ~ home_assistant_host ~ '.' ~ internet_host): private_reverse_proxy_host,
-            (lan_prefix ~ '.' ~ automation_host ~ '.' ~ internet_host): private_reverse_proxy_host,
             (lan_prefix ~ '.' ~ remote_ssh_host ~ '.' ~ internet_host): private_reverse_proxy_host,
             }
             }}"

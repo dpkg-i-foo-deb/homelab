@@ -1,6 +1,0 @@
-- name: Ensure ip_tables module is loaded
-  become: true
-  community.general.modprobe:
-    name: ip_tables
-    state: present
-    persistent: present
