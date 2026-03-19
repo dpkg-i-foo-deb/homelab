@@ -32,6 +32,8 @@
           env:
             SUDO_PASSWORD: 'code'
             PROXY_DOMAIN: '{{ code_personal_host }}.{{ internet_host }}'
+            PUID: '1000'
+            PGID: '1000'
 
 - name: Configure work code-server
   hosts: code
@@ -54,6 +56,8 @@
           env:
             SUDO_PASSWORD: 'code'
             PROXY_DOMAIN: '{{ code_work_host }}.{{ internet_host }}'
+            PUID: '1000'
+            PGID: '1000'
 
 - name: Configure oauth2-proxy for code-server
   hosts: code
