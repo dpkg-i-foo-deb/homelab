@@ -22,7 +22,7 @@ resource "incus_instance" "reverse_proxy" {
       "${path.root}/cloud-init/generic.yml.tftpl",
       {
         ssh_public_key           = var.ssh_public_key,
-        lxc_username             = "reverse-proxy"
+        lxc_username             = "bmc"
         lxc_username_description = "Reverse Proxy Linux System Container"
         lxc_user_password        = var.lxc_user_password,
         ansible_password         = var.ansible_password

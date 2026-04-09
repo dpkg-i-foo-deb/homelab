@@ -10,10 +10,10 @@ terraform {
 provider "incus" {
   generate_client_certificates = true
   accept_remote_certificate    = true
-  default_remote = "vps"
+  default_remote = "hetzner-vps"
 
   remote {
-    name    = "vps"
+    name    = "hetzner-vps"
     address = "https://${var.vps_address}:8443"
   }
 }
