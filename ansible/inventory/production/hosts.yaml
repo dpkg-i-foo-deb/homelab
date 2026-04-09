@@ -97,7 +97,7 @@ reverse_proxy_servers:
       caddy_profile: 'home-server'
     public_reverse_proxy:
       ansible_host: 10.0.253.10
-      container_user: 'reverse-proxy'
+      container_user: 'bmc'
       caddy_profile: 'vps'
 
 knowledge_management:
