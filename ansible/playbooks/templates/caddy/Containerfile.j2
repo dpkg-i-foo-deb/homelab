@@ -1,4 +1,4 @@
-FROM public.ecr.aws/docker/library/caddy:builder AS builder
+FROM docker.io/library/caddy:builder AS builder
 
 {% set extensions = caddy_extensions | join(' --with ') %}
 
