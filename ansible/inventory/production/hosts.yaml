@@ -2,6 +2,9 @@ hypervisors:
   hosts:
     cube_server:
       ansible_host: 192.168.8.10
+    vps-hetzner:
+      ansible_host: 46.224.174.85
+      container_user: 'bmc'
 
 bastion:
   hosts:
@@ -122,6 +125,3 @@ vps:
         3938303235313139380a643735343066393561383666313561626131393261636634386435326432
         3431
       container_user: 'vps-hetzner'
-    vps-hetzner:
-      ansible_host: 46.224.174.85
-      container_user: 'bmc'
