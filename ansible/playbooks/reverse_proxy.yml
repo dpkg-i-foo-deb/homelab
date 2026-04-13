@@ -218,6 +218,8 @@
 
 - name: Configure reverse proxy on public internet VPS
   hosts: public_reverse_proxy
+  tags:
+    - public-caddy-deploy
   tasks:
     - name: Deploy Caddy on public internet VPS
       ansible.builtin.import_role:
