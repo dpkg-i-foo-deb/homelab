@@ -2,6 +2,8 @@ FROM docker.io/library/caddy:builder AS builder
 
 {% set extensions = caddy_extensions | join(' --with ') %}
 
+ENV XCADDY_SKIP_CLEANUP=0
+
 RUN xcaddy build --with {{ extensions }}
 
 FROM public.ecr.aws/docker/library/caddy:latest
