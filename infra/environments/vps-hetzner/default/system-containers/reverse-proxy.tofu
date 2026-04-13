@@ -93,7 +93,7 @@ resource "incus_instance" "reverse_proxy" {
     properties = {
       path = "/"
       pool = var.virt_main_pool
-      size = "5GiB"
+      size = "10GiB"
     }
   }
 
