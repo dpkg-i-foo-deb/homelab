@@ -168,6 +168,8 @@
     - name: Build Caddy image
       become: true
       become_user: '{{ container_user }}'
+      tags:
+        - caddy-build
       vars:
         caddy_extensions:
           - github.com/caddy-dns/cloudflare
