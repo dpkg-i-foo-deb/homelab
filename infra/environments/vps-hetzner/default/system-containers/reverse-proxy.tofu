@@ -3,7 +3,7 @@ resource "incus_storage_volume" "reverse_proxy_data" {
   pool    = var.virt_main_pool
   project = "default"
   config = {
-    size = "30GiB"
+    size = "10GiB"
   }
 }
 
@@ -93,7 +93,7 @@ resource "incus_instance" "reverse_proxy" {
     properties = {
       path = "/"
       pool = var.virt_main_pool
-      size = "2GiB"
+      size = "5GiB"
     }
   }
 
