@@ -175,7 +175,7 @@
           - github.com/caddy-dns/cloudflare
           - github.com/corazawaf/coraza-caddy/v2
       containers.podman.podman_image:
-        name: 'caddy-private:latest'
+        name: 'caddy-custom:latest'
         state: build
         force: true
         build:
@@ -190,9 +190,11 @@
       vars:
         quadlet_service_definition:
           name: caddy
-          image: 'localhost/caddy-private:latest'
+          image: 'localhost/caddy-custom:latest'
           user: '{{ container_user }}'
           pull_image: false
+          auto_update_strategy: 'local'
+          pull_strategy: 'never'
           host_network: true
           volumes:
             - name: 'caddy_data'
@@ -227,8 +229,10 @@
       vars:
         quadlet_service_definition:
           name: caddy
-          image: 'localhost/caddy-public:latest'
+          image: 'localhost/caddy-custom:latest'
           pull_image: false
+          auto_update_strategy: 'local'
+          pull_strategy: 'never'
           user: '{{ container_user }}'
           env:
             CF_API_TOKEN: !vault |
