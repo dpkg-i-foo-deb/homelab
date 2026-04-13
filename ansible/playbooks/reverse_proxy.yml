@@ -226,6 +226,7 @@
         quadlet_service_definition:
           name: caddy
           image: 'localhost/caddy-public:latest'
+          pull_image: false
           user: '{{ container_user }}'
           env:
             CF_API_TOKEN: !vault |
