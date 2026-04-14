@@ -13,5 +13,5 @@
   import logging keycloak.log
   import error_handler
   import letsencrypt_cloudflare_dns
-  import proxy https://{{ lan_prefix }}.{{ auth_host }}.{{ internet_host }}
+  import proxy http://{{ hostvars['security_hetzner']['ansible_host'] }}:8081
 }
