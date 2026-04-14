@@ -45,8 +45,10 @@
               31363662613932623136646332383738663433376634363637333533333466383538323832613638
               35656232303366366331
 
-- name: Configure security virtual machine
-  hosts: security
+- name: Configure OIDC Provider
+  hosts: security_hetzner
+  tags:
+    - oidc-deploy
   vars:
     security_network: security
     security_keycloak_pg_pass: !vault |
@@ -73,14 +75,12 @@
 
   tasks:
     - name: Deploy Postgres for keycloak
-      tags:
-        - oidc
       ansible.builtin.import_role:
         name: dpkg_i_foo_deb.homelab.quadlet_service
       vars:
         quadlet_service_definition:
           name: postgres
-          image: '{{ registry_host }}.{{ internet_host }}:5000/dockerhub/library/postgres:latest'
+          image: 'docker.io/library/postgres:latest'
           registry_user: '{{ homelab_registry_user }}'
           registry_pass: '{{ homelab_registry_pass }}'
           user: '{{ container_user }}'
@@ -97,8 +97,6 @@
             POSTGRES_PASSWORD: '{{ security_keycloak_pg_pass }}'
 
     - name: Deploy Keycloak
-      tags:
-        - oidc
       ansible.builtin.import_role:
         name: dpkg_i_foo_deb.homelab.quadlet_service
       vars:
@@ -130,8 +128,6 @@
         seconds: 60
 
     - name: Ensure homelab Keycloak realm is configured
-      tags:
-        - keycloak-clients
       middleware_automation.keycloak.keycloak_realm:
         auth_client_id: admin-cli
         auth_keycloak_url: 'https://{{ auth_host }}.{{ internet_host }}'
@@ -160,8 +156,6 @@
         state: present
 
     - name: Ensure Code service is registered as a client
-      tags:
-        - keycloak-clients
       middleware_automation.keycloak.keycloak_client:
         auth_client_id: admin-cli
         auth_keycloak_url: 'https://{{ auth_host }}.{{ internet_host }}'
@@ -206,8 +200,6 @@
         always_display_in_console: true
 
     - name: Ensure Remote service is registered as a client
-      tags:
-        - keycloak-clients
       middleware_automation.keycloak.keycloak_client:
         auth_client_id: admin-cli
         auth_keycloak_url: 'https://{{ auth_host }}.{{ internet_host }}'
@@ -251,8 +243,6 @@
         always_display_in_console: true
 
     - name: Ensure Notes taking service is registered as a client
-      tags:
-        - keycloak-clients
       middleware_automation.keycloak.keycloak_client:
         auth_client_id: admin-cli
         auth_keycloak_url: 'https://{{ auth_host }}.{{ internet_host }}'
@@ -296,8 +286,6 @@
         always_display_in_console: true
 
     - name: Ensure RSS service is registered as a client
-      tags:
-        - keycloak-clients
       middleware_automation.keycloak.keycloak_client:
         auth_client_id: admin-cli
         auth_keycloak_url: 'https://{{ auth_host }}.{{ internet_host }}'
@@ -344,8 +332,6 @@
         always_display_in_console: true
 
     - name: Ensure Photos service is registered as a client
-      tags:
-        - keycloak-clients
       middleware_automation.keycloak.keycloak_client:
         auth_client_id: admin-cli
         auth_keycloak_url: 'https://{{ auth_host }}.{{ internet_host }}'
@@ -392,8 +378,6 @@
         always_display_in_console: true
 
     - name: Ensure Metrics service is registered as a client
-      tags:
-        - keycloak-clients
       middleware_automation.keycloak.keycloak_client:
         auth_client_id: admin-cli
         auth_keycloak_url: 'https://{{ auth_host }}.{{ internet_host }}'
@@ -440,8 +424,6 @@
         always_display_in_console: true
 
     - name: Ensure Remote-SSH service is registered as a client
-      tags:
-        - keycloak-clients
       middleware_automation.keycloak.keycloak_client:
         auth_client_id: admin-cli
         auth_keycloak_url: 'https://{{ auth_host }}.{{ internet_host }}'
