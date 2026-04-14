@@ -69,7 +69,7 @@ vpn_dns:
     # vps_vpn_dns:
     #  ansible_host: 10.0.254.5
     #  container_user: 'dns-vpn'
-      # ansible_ssh_common_args: '-o ProxyCommand="ssh -o StrictHostKeyChecking=no -W %h:%p -q {{ vps_proxy_jump_target }}"'
+    # ansible_ssh_common_args: '-o ProxyCommand="ssh -o StrictHostKeyChecking=no -W %h:%p -q {{ vps_proxy_jump_target }}"'
 
 automation_servers:
   hosts:
@@ -91,6 +91,9 @@ security:
   hosts:
     security_vm:
       ansible_host: 10.0.0.11
+      container_user: bmc
+    security_hetzner:
+      ansible_host: 10.0.254.10
       container_user: bmc
 reverse_proxy_servers:
   hosts:
