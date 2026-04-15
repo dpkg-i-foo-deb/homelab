@@ -63,6 +63,24 @@ resource "incus_instance" "dns" {
     }
   }
 
+  device {
+    name = "tmp"
+    type = "disk"
+    properties = {
+      path   = "/tmp"
+      source = "tmpfs:"
+    }
+  }
+
+  device {
+    name = "vartmp"
+    type = "disk"
+    properties = {
+      path   = "/var/tmp"
+      source = "tmpfs:"
+    }
+  }
+
 }
 
 
