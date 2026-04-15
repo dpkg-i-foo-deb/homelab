@@ -11,7 +11,8 @@ module "default" {
 
   virt_main_pool = module.storage_pools.virt_main
 
-  trusted_net = module.networks.trusted
-  dmz_net     = module.networks.dmz
-  transit_net = module.networks.transit
+  trusted_net    = module.networks.trusted
+  dmz_net        = module.networks.dmz
+  transit_net    = module.networks.transit
+  management_net = module.networks.management
 }
