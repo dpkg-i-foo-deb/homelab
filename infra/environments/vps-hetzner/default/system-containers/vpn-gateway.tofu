@@ -52,6 +52,16 @@ resource "incus_instance" "vpn_gateway" {
     }
   }
 
+  device {
+    name = "eth3"
+    type = "nic"
+    properties = {
+      network = var.management_net.name
+      "security.mac_filtering" = "true"
+      "ipv4.address"           = "10.0.251.20"
+    }
+  }
+
 
   device {
     name = "wg_proxy"
