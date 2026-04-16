@@ -114,6 +114,10 @@ knowledge_management:
     knowledge:
       ansible_host: 10.0.0.10
       container_user: bmc
+    knowledge_hetzner:
+      ansible_host: 10.0.254.11
+      container_user: bmc
+
 monitoring:
   hosts:
     homelab_monitor:
