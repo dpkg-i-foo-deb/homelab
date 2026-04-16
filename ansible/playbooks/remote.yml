@@ -124,6 +124,8 @@
 
 - name: Configure Termix
   hosts: remote_hetzner
+  tags:
+    - termix-deploy
   tasks:
     - name: Deploy Termix
       ansible.builtin.import_role:
