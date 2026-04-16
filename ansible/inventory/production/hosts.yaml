@@ -17,6 +17,9 @@ remote_access_servers:
     remote_homelab:
       ansible_host: 10.0.1.13
       container_user: 'bmc'
+    remote_hetzner:
+      ansible_host: 10.0.251.10
+      container_user: 'bmc'
 
 vpn_gateways:
   hosts:
