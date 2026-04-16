@@ -1,5 +1,18 @@
-- name: Configure remote access services
+- name: General remote acccess server configuration
   hosts: remote_access_servers
+  tasks:
+    - name: Login to homelab registry
+      ansible.builtin.import_role:
+        name: dpkg_i_foo_deb.homelab.podman
+        tasks_from: login
+      vars:
+        podman_login_registry: '{{ registry_host }}.{{ internet_host }}:5000'
+        podman_login_user: '{{ homelab_registry_user }}'
+        podman_login_pass: '{{ homelab_registry_pass }}'
+        podman_user: '{{ container_user }}'
+
+- name: Configure Apache Guacamole
+  hosts: remote_homelab
   vars:
     remote_guacamole_postgres_db: guacamole_postgres
     remote_guacamole_postgres_user: !vault |
@@ -17,16 +30,6 @@
       3732303938323461380a333363393230383766363263363630356662643131376330383638303134
       6337
   tasks:
-    - name: Login to homelab registry
-      ansible.builtin.import_role:
-        name: dpkg_i_foo_deb.homelab.podman
-        tasks_from: login
-      vars:
-        podman_login_registry: '{{ registry_host }}.{{ internet_host }}:5000'
-        podman_login_user: '{{ homelab_registry_user }}'
-        podman_login_pass: '{{ homelab_registry_pass }}'
-        podman_user: '{{ container_user }}'
-
     - name: Ensure there's a directory to store guacamole-web init script
       become: true
       ansible.builtin.file:
@@ -119,6 +122,9 @@
             WEBAPP_CONTEXT: 'ROOT'
             LOG_LEVEL: 'debug'
 
+- name: Configure Termix
+  hosts: remote_hetzner
+  tasks:
     - name: Deploy Termix
       ansible.builtin.import_role:
         name: dpkg_i_foo_deb.homelab.quadlet_service
