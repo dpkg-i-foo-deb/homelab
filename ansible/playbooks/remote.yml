@@ -133,7 +133,7 @@
       vars:
         quadlet_service_definition:
           name: termix
-          image: '{{ registry_host }}.{{ internet_host }}:5000/ghcr/lukegus/termix:latest'
+          image: 'ghcr.io/lukegus/termix:latest'
           user: '{{ container_user }}'
           ports: '8080:8080'
           volumes:
