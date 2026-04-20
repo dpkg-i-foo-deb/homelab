@@ -18,5 +18,5 @@
   import logging notes.log
   import error_handler
   import letsencrypt_cloudflare_dns
-  import proxy https://{{ lan_prefix }}.{{ notes_host }}.{{ internet_host }}
+  import proxy_oauth {{ hostvars['knowledge_hetzner']['ansible_host']}}:4180 http://{{ hostvars['knowledge_hetzner']['ansible_host'] }}:8080
 }
