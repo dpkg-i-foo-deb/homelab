@@ -1,5 +1,5 @@
 - name: Configure VPN Servers
-  hosts: vpn_servers
+  hosts: vpn_hetzner
   tasks:
     # - name: Build dns_records for Headscale
     #   ansible.builtin.set_fact:
