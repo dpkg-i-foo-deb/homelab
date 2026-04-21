@@ -49,7 +49,7 @@ resource "incus_instance" "vpn" {
     properties = {
       path = "/"
       pool = var.virt_main_pool
-      size = "1GiB"
+      size = "2GiB"
     }
   }
 
