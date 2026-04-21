@@ -2,6 +2,9 @@ resource "incus_storage_volume" "knowledge_data" {
   name    = "knowledge_data"
   pool    = var.virt_main_pool
   project = "default"
+  config = {
+    size = "10GiB"
+  }
 }
 
 resource "incus_instance" "knowledge" {
@@ -9,9 +12,9 @@ resource "incus_instance" "knowledge" {
   image = "images:debian/trixie/cloud"
   config = {
     "boot.autostart"              = true
-    "limits.cpu"                  = 1
-    "limits.cpu.allowance"        = "40%"
-    "limits.memory"               = "4GiB"
+    "limits.cpu"                  = 2
+    "limits.cpu.allowance"        = "50%"
+    "limits.memory"               = "1GiB"
     "limits.memory.swap"          = "true"
     "limits.memory.swap.priority" = "0"
     "cloud-init.user-data" = templatefile(
@@ -31,7 +34,7 @@ resource "incus_instance" "knowledge" {
     type = "nic"
     properties = {
       network                   = var.trusted_net.name
-      "ipv4.address"            = "10.0.0.10"
+      "ipv4.address"            = "10.0.254.11"
       "security.ipv4_filtering" = true
       "security.ipv6_filtering" = true
       "security.mac_filtering"  = true
@@ -44,6 +47,7 @@ resource "incus_instance" "knowledge" {
     properties = {
       path = "/"
       pool = var.virt_main_pool
+      size = "2GiB"
     }
   }
 

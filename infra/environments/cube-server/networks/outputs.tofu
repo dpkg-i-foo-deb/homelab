@@ -13,11 +13,6 @@ output "reverse_proxy" {
   description = "Network for reverse proxy services"
 }
 
-output "vcsoft" {
-  value       = incus_network.vcsoft
-  description = "Network for VC services"
-}
-
 output "trusted" {
   value       = incus_network.trusted
   description = "Network where trusted services live"

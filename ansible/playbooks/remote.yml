@@ -1,5 +1,5 @@
-- name: Configure remote access services
-  hosts: remote_access_servers
+- name: Configure Apache Guacamole
+  hosts: remote_homelab
   vars:
     remote_guacamole_postgres_db: guacamole_postgres
     remote_guacamole_postgres_user: !vault |
@@ -17,7 +17,7 @@
       3732303938323461380a333363393230383766363263363630356662643131376330383638303134
       6337
   tasks:
-    - name: Login to homelab registry
+    - name: Login to homelab registry - Internal
       ansible.builtin.import_role:
         name: dpkg_i_foo_deb.homelab.podman
         tasks_from: login
@@ -119,13 +119,28 @@
             WEBAPP_CONTEXT: 'ROOT'
             LOG_LEVEL: 'debug'
 
+- name: Configure Termix
+  hosts: remote_hetzner
+  tags:
+    - termix-deploy
+  tasks:
+    - name: Login to homelab registry - Public Internet
+      ansible.builtin.import_role:
+        name: dpkg_i_foo_deb.homelab.podman
+        tasks_from: login
+      vars:
+        podman_login_registry: '{{ registry_host }}.{{ internet_host }}:443'
+        podman_login_user: '{{ homelab_registry_user }}'
+        podman_login_pass: '{{ homelab_registry_pass }}'
+        podman_user: '{{ container_user }}'
+
     - name: Deploy Termix
       ansible.builtin.import_role:
         name: dpkg_i_foo_deb.homelab.quadlet_service
       vars:
         quadlet_service_definition:
           name: termix
-          image: '{{ registry_host }}.{{ internet_host }}:5000/ghcr/lukegus/termix:latest'
+          image: '{{ registry_host }}.{{ internet_host }}:443/ghcr/lukegus/termix:latest'
           user: '{{ container_user }}'
           ports: '8080:8080'
           volumes:

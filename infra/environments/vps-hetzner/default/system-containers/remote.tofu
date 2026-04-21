@@ -1,30 +1,29 @@
-resource "incus_storage_volume" "security_data" {
-  name    = "security_data"
+resource "incus_storage_volume" "remote_data" {
+  name    = "remote_data"
   pool    = var.virt_main_pool
   project = "default"
   config = {
-    "size" = "40GiB"
+    size = "5GiB"
   }
 }
 
-resource "incus_instance" "security" {
-  name  = "security"
+resource "incus_instance" "remote" {
+  name  = "remote"
   image = "images:debian/trixie/cloud"
-
   config = {
     "boot.autostart"              = true
     "limits.cpu"                  = 2
     "limits.cpu.allowance"        = "50%"
-    "limits.memory"               = "12GiB"
+    "limits.memory"               = "2GiB"
     "limits.memory.swap"          = "true"
     "limits.memory.swap.priority" = "0"
     "cloud-init.user-data" = templatefile(
       "${path.root}/cloud-init/generic.yml.tftpl",
       {
-        ssh_public_key           = var.ssh_public_key,
+        ssh_public_key           = var.ssh_public_key
         lxc_username             = "bmc"
-        lxc_username_description = "Security Linux System Container"
-        lxc_user_password        = var.lxc_user_password,
+        lxc_username_description = "remote Linux System Container"
+        lxc_user_password        = var.lxc_user_password
         ansible_password         = var.ansible_password
       }
     )
@@ -35,21 +34,22 @@ resource "incus_instance" "security" {
     name = "eth0"
     type = "nic"
     properties = {
-      network                   = var.trusted_net.name
-      "ipv4.address"            = "10.0.0.11"
+      network                   = var.management_net.name
+      "ipv4.address"            = "10.0.251.10"
       "security.ipv4_filtering" = true
       "security.ipv6_filtering" = true
       "security.mac_filtering"  = true
       "security.port_isolation" = true
     }
-
   }
+
   device {
     name = "root"
     type = "disk"
     properties = {
       path = "/"
       pool = var.virt_main_pool
+      size = "2GiB"
     }
   }
 
@@ -58,7 +58,7 @@ resource "incus_instance" "security" {
     type = "disk"
     properties = {
       path   = "/home"
-      source = incus_storage_volume.security_data.name
+      source = incus_storage_volume.remote_data.name
       pool   = var.virt_main_pool
     }
   }

@@ -11,7 +11,7 @@ SecRule REQUEST_URI "@beginsWith /api/" \
 # technical docs
 # Allow methods for the Trilium API, used to save notes
 SecRule REQUEST_URI "@beginsWith /api/" \
-  "id:10006,\
+  "id:10007,\
   phase:1,\
   pass,\
   nolog,\
@@ -21,7 +21,7 @@ SecRule REQUEST_URI "@beginsWith /api/" \
 # Allow saving notes that contain Unix commands or other
 # technical docs
 SecRule REQUEST_METHOD "@streq PUT" \
-  "id:10007,\
+  "id:10008,\
   phase:1,\
   pass,\
   nolog,\

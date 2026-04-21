@@ -1,5 +1,5 @@
 - name: Configure VPN Servers
-  hosts: vpn_servers
+  hosts: vpn_hetzner
   tasks:
     # - name: Build dns_records for Headscale
     #   ansible.builtin.set_fact:
@@ -11,6 +11,15 @@
     # - name: Display DNS Records
     #   ansible.builtin.debug:
     #     msg: '{{ dns_records }}'
+
+    - name: Ensure there's a directory to store Headscale configuration
+      become: true
+      ansible.builtin.file:
+        path: '/var/headscale'
+        state: directory
+        owner: '{{ container_user }}'
+        group: '{{ container_user }}'
+        mode: '0644'
 
     - name: Template Headscale configuration
       vars:

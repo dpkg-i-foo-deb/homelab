@@ -2,6 +2,9 @@ hypervisors:
   hosts:
     cube_server:
       ansible_host: 192.168.8.10
+    vps-hetzner:
+      ansible_host: 46.224.174.85
+      container_user: 'bmc'
 
 bastion:
   hosts:
@@ -14,22 +17,25 @@ remote_access_servers:
     remote_homelab:
       ansible_host: 10.0.1.13
       container_user: 'bmc'
+    remote_hetzner:
+      ansible_host: 10.0.251.10
+      container_user: 'bmc'
 
 vpn_gateways:
   hosts:
     vps_vpn_gateway:
       ansible_host: 10.0.252.20
-      container_user: 'vpn-gateway'
+      container_user: 'bmc'
     homelab_vpn_gateway:
       ansible_host: 10.0.6.20
-      container_user: 'vpn-gateway'
+      container_user: 'bmc'
 
 vpn_servers:
   hosts:
-    homelab_vpn:
-      ansible_host: 10.0.254.3
+    vpn_hetzner:
+      ansible_host: 10.0.254.12
       # ansible_ssh_common_args: '-o ProxyCommand="ssh -o StrictHostKeyChecking=no -W %h:%p -q {{ vps_proxy_jump_target }}"'
-      container_user: 'vpn'
+      container_user: 'bmc'
 registry_servers:
   hosts:
     registry:
@@ -66,7 +72,7 @@ vpn_dns:
     # vps_vpn_dns:
     #  ansible_host: 10.0.254.5
     #  container_user: 'dns-vpn'
-      # ansible_ssh_common_args: '-o ProxyCommand="ssh -o StrictHostKeyChecking=no -W %h:%p -q {{ vps_proxy_jump_target }}"'
+    # ansible_ssh_common_args: '-o ProxyCommand="ssh -o StrictHostKeyChecking=no -W %h:%p -q {{ vps_proxy_jump_target }}"'
 
 automation_servers:
   hosts:
@@ -86,8 +92,8 @@ torrent:
       container_user: 'bmc'
 security:
   hosts:
-    security_vm:
-      ansible_host: 10.0.0.11
+    security_hetzner:
+      ansible_host: 10.0.254.10
       container_user: bmc
 reverse_proxy_servers:
   hosts:
@@ -97,14 +103,15 @@ reverse_proxy_servers:
       caddy_profile: 'home-server'
     public_reverse_proxy:
       ansible_host: 10.0.253.10
-      container_user: 'reverse-proxy'
+      container_user: 'bmc'
       caddy_profile: 'vps'
 
 knowledge_management:
   hosts:
-    knowledge:
-      ansible_host: 10.0.0.10
+    knowledge_hetzner:
+      ansible_host: 10.0.254.11
       container_user: bmc
+
 monitoring:
   hosts:
     homelab_monitor:

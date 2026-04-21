@@ -13,7 +13,7 @@ resource "incus_instance" "vpn_gateway" {
       "${path.root}/cloud-init/generic.yml.tftpl",
       {
         ssh_public_key           = var.ssh_public_key,
-        lxc_username             = "vpn-gateway"
+        lxc_username             = "bmc"
         lxc_username_description = "vpn-gateway Linux System Container"
         lxc_user_password        = var.lxc_user_password,
         ansible_password         = var.ansible_password
@@ -52,13 +52,23 @@ resource "incus_instance" "vpn_gateway" {
     }
   }
 
+  device {
+    name = "eth3"
+    type = "nic"
+    properties = {
+      network = var.management_net.name
+      "security.mac_filtering" = "true"
+      "ipv4.address"           = "10.0.251.20"
+    }
+  }
+
 
   device {
     name = "wg_proxy"
     type = "proxy"
 
     properties = {
-      listen  = "udp:178.156.140.92:51820"
+      listen  = "udp:46.224.174.85:51820"
       connect = "udp:10.0.252.20:51820"
       nat     = "true"
     }
@@ -69,7 +79,7 @@ resource "incus_instance" "vpn_gateway" {
     type = "proxy"
 
     properties = {
-      listen  = "udp:178.156.140.92:51821"
+      listen  = "udp:46.224.174.85:51821"
       connect = "udp:10.0.252.20:51821"
       nat     = "true"
     }
@@ -80,7 +90,7 @@ resource "incus_instance" "vpn_gateway" {
     type = "proxy"
 
     properties = {
-      listen  = "udp:178.156.140.92:51822"
+      listen  = "udp:46.224.174.85:51822"
       connect = "udp:10.0.252.20:51822"
       nat     = "true"
     }
@@ -91,7 +101,7 @@ resource "incus_instance" "vpn_gateway" {
     type = "proxy"
 
     properties = {
-      listen  = "udp:178.156.140.92:51823"
+      listen  = "udp:46.224.174.85:51823"
       connect = "udp:10.0.252.20:51823"
       nat     = "true"
     }

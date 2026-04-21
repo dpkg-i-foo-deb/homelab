@@ -1,31 +1,6 @@
-- name: Configure security virtual machine
+- name: General security server setup
   hosts: security
-  vars:
-    security_network: security
-    security_keycloak_pg_pass: !vault |
-      $ANSIBLE_VAULT;1.1;AES256
-      34623238643730623933356136663966326437333764343138313661383733393837326336376162
-      3165623636366538653037343839313835376138616336620a353638633138643535316664626232
-      33653234373836303139346238643336653139646663626636613766636465313463666536313730
-      3266623763376635370a386135663562613737663431336464663666363839356235633939626330
-      6561
-    security_keycloak_admin_user: !vault |
-      $ANSIBLE_VAULT;1.1;AES256
-      31636265363930343931613234333463333837653765333633336132663035313036383761616630
-      6637393066343333626236383066366136343863353963310a633330313065363534633661373730
-      38643361316332656433326262656464636130323132303237616639306466653837633133353831
-      6533373938626333380a363132343063366230353736383766633436353338656364633535363162
-      3863
-    security_keycloak_admin_password: !vault |
-      $ANSIBLE_VAULT;1.1;AES256
-      30613837336139366632376265353233353532633765363632373063393162343037343833343037
-      3364363865346164663537346537396637666563336139310a316463623463373333613864396631
-      30376566326439353732653334303437343837643664346634373735343565356132643230323434
-      6436636335386631310a323835636630353865313832303862633366326463663439646630383362
-      3562
-
   tasks:
-
     - name: Login to homelab registry
       tags:
         - general
@@ -38,62 +13,12 @@
         podman_login_pass: '{{ homelab_registry_pass }}'
         podman_user: '{{ container_user }}'
 
-    - name: Deploy Postgres for keycloak
-      tags:
-        - oidc
-      ansible.builtin.import_role:
-        name: dpkg_i_foo_deb.homelab.quadlet_service
-      vars:
-        quadlet_service_definition:
-          name: postgres
-          image: '{{ registry_host }}.{{ internet_host }}:5000/dockerhub/library/postgres:latest'
-          registry_user: '{{ homelab_registry_user }}'
-          registry_pass: '{{ homelab_registry_pass }}'
-          user: '{{ container_user }}'
-          networks:
-            - name: '{{ security_network }}'
-          ports:
-            - '5432:5432'
-          volumes:
-            - name: 'postgres_keycloak'
-              dest: '/var/lib/postgresql/:z'
-          env:
-            POSTGRES_DB: 'keycloak'
-            POSTGRES_USER: 'keycloak'
-            POSTGRES_PASSWORD: '{{ security_keycloak_pg_pass }}'
-
-    - name: Deploy Keycloak
-      tags:
-        - oidc
-      ansible.builtin.import_role:
-        name: dpkg_i_foo_deb.homelab.quadlet_service
-      vars:
-        quadlet_service_definition:
-          name: keycloak
-          image: 'quay.io/keycloak/keycloak:latest'
-          user: '{{ container_user }}'
-          command: 'start'
-          ports:
-            - '8081:8080'
-          networks:
-            - name: '{{ security_network }}'
-          env:
-            KC_DB: postgres
-            KC_DB_USERNAME: keycloak
-            KC_DB_PASSWORD: '{{ security_keycloak_pg_pass }}'
-            KC_HOSTNAME_PORT: 8080
-            KC_DB_URL: jdbc:postgresql://postgres:5432/keycloak
-            KC_PROXY_HEADERS: xforwarded
-            KC_HOSTNAME_STRICT_HTTPS: 'false'
-            KC_HOSTNAME_STRICT: 'false'
-            KC_HOSTNAME_URL: 'https://auth.{{ internet_host }}'
-            KC_HTTP_ENABLED: 'true'
-            # KC_BOOTSTRAP_ADMIN_USERNAME
-            # KC_BOOTSTRAP_ADMIN_PASSWORD
-
+- name: Configure password manager
+  hosts: security_hetzner
+  tags:
+    - password-manager-deploy
+  tasks:
     - name: Deploy Vaultwarden
-      tags:
-        - password-manager
       ansible.builtin.import_role:
         name: dpkg_i_foo_deb.homelab.quadlet_service
       vars:
@@ -120,13 +45,87 @@
               31363662613932623136646332383738663433376634363637333533333466383538323832613638
               35656232303366366331
 
+- name: Configure OIDC Provider
+  hosts: security_hetzner
+  tags:
+    - oidc-deploy
+  vars:
+    security_network: security
+    security_keycloak_pg_pass: !vault |
+      $ANSIBLE_VAULT;1.1;AES256
+      34623238643730623933356136663966326437333764343138313661383733393837326336376162
+      3165623636366538653037343839313835376138616336620a353638633138643535316664626232
+      33653234373836303139346238643336653139646663626636613766636465313463666536313730
+      3266623763376635370a386135663562613737663431336464663666363839356235633939626330
+      6561
+    security_keycloak_admin_user: !vault |
+      $ANSIBLE_VAULT;1.1;AES256
+      31636265363930343931613234333463333837653765333633336132663035313036383761616630
+      6637393066343333626236383066366136343863353963310a633330313065363534633661373730
+      38643361316332656433326262656464636130323132303237616639306466653837633133353831
+      6533373938626333380a363132343063366230353736383766633436353338656364633535363162
+      3863
+    security_keycloak_admin_password: !vault |
+      $ANSIBLE_VAULT;1.1;AES256
+      30613837336139366632376265353233353532633765363632373063393162343037343833343037
+      3364363865346164663537346537396637666563336139310a316463623463373333613864396631
+      30376566326439353732653334303437343837643664346634373735343565356132643230323434
+      6436636335386631310a323835636630353865313832303862633366326463663439646630383362
+      3562
+
+  tasks:
+    - name: Deploy Postgres for keycloak
+      ansible.builtin.import_role:
+        name: dpkg_i_foo_deb.homelab.quadlet_service
+      vars:
+        quadlet_service_definition:
+          name: postgres
+          image: 'docker.io/library/postgres:latest'
+          user: '{{ container_user }}'
+          networks:
+            - name: '{{ security_network }}'
+          ports:
+            - '5432:5432'
+          volumes:
+            - name: 'postgres_keycloak'
+              dest: '/var/lib/postgresql/:z'
+          env:
+            POSTGRES_DB: 'keycloak'
+            POSTGRES_USER: 'keycloak'
+            POSTGRES_PASSWORD: '{{ security_keycloak_pg_pass }}'
+
+    - name: Deploy Keycloak
+      ansible.builtin.import_role:
+        name: dpkg_i_foo_deb.homelab.quadlet_service
+      vars:
+        quadlet_service_definition:
+          name: keycloak
+          image: 'quay.io/keycloak/keycloak:latest'
+          user: '{{ container_user }}'
+          command: 'start'
+          ports:
+            - '8081:8080'
+          networks:
+            - name: '{{ security_network }}'
+          env:
+            KC_DB: postgres
+            KC_DB_USERNAME: keycloak
+            KC_DB_PASSWORD: '{{ security_keycloak_pg_pass }}'
+            KC_HOSTNAME_PORT: 8080
+            KC_DB_URL: jdbc:postgresql://postgres:5432/keycloak
+            KC_PROXY_HEADERS: xforwarded
+            KC_HOSTNAME_STRICT_HTTPS: 'false'
+            KC_HOSTNAME_STRICT: 'false'
+            KC_HOSTNAME_URL: 'https://auth.{{ internet_host }}'
+            KC_HTTP_ENABLED: 'true'
+            # KC_BOOTSTRAP_ADMIN_USERNAME
+            # KC_BOOTSTRAP_ADMIN_PASSWORD
+
     - name: Wait a minute for Keycloak to initialize
       ansible.builtin.pause:
         seconds: 60
 
     - name: Ensure homelab Keycloak realm is configured
-      tags:
-        - keycloak-clients
       middleware_automation.keycloak.keycloak_realm:
         auth_client_id: admin-cli
         auth_keycloak_url: 'https://{{ auth_host }}.{{ internet_host }}'
@@ -155,8 +154,6 @@
         state: present
 
     - name: Ensure Code service is registered as a client
-      tags:
-        - keycloak-clients
       middleware_automation.keycloak.keycloak_client:
         auth_client_id: admin-cli
         auth_keycloak_url: 'https://{{ auth_host }}.{{ internet_host }}'
@@ -201,8 +198,6 @@
         always_display_in_console: true
 
     - name: Ensure Remote service is registered as a client
-      tags:
-        - keycloak-clients
       middleware_automation.keycloak.keycloak_client:
         auth_client_id: admin-cli
         auth_keycloak_url: 'https://{{ auth_host }}.{{ internet_host }}'
@@ -246,8 +241,6 @@
         always_display_in_console: true
 
     - name: Ensure Notes taking service is registered as a client
-      tags:
-        - keycloak-clients
       middleware_automation.keycloak.keycloak_client:
         auth_client_id: admin-cli
         auth_keycloak_url: 'https://{{ auth_host }}.{{ internet_host }}'
@@ -291,8 +284,6 @@
         always_display_in_console: true
 
     - name: Ensure RSS service is registered as a client
-      tags:
-        - keycloak-clients
       middleware_automation.keycloak.keycloak_client:
         auth_client_id: admin-cli
         auth_keycloak_url: 'https://{{ auth_host }}.{{ internet_host }}'
@@ -339,8 +330,6 @@
         always_display_in_console: true
 
     - name: Ensure Photos service is registered as a client
-      tags:
-        - keycloak-clients
       middleware_automation.keycloak.keycloak_client:
         auth_client_id: admin-cli
         auth_keycloak_url: 'https://{{ auth_host }}.{{ internet_host }}'
@@ -387,8 +376,6 @@
         always_display_in_console: true
 
     - name: Ensure Metrics service is registered as a client
-      tags:
-        - keycloak-clients
       middleware_automation.keycloak.keycloak_client:
         auth_client_id: admin-cli
         auth_keycloak_url: 'https://{{ auth_host }}.{{ internet_host }}'
@@ -435,8 +422,6 @@
         always_display_in_console: true
 
     - name: Ensure Remote-SSH service is registered as a client
-      tags:
-        - keycloak-clients
       middleware_automation.keycloak.keycloak_client:
         auth_client_id: admin-cli
         auth_keycloak_url: 'https://{{ auth_host }}.{{ internet_host }}'

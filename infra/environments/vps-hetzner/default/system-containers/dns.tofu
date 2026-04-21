@@ -1,5 +1,5 @@
-resource "incus_storage_volume" "dns_vpn_data" {
-  name    = "dns-vpn-data"
+resource "incus_storage_volume" "dns_data" {
+  name    = "dns-data"
   pool    = var.virt_main_pool
   project = "default"
   config = {
@@ -7,8 +7,8 @@ resource "incus_storage_volume" "dns_vpn_data" {
   }
 }
 
-resource "incus_instance" "dns_vpn" {
-  name  = "dns-vpn"
+resource "incus_instance" "dns" {
+  name  = "dns"
   image = "images:debian/trixie/cloud"
 
   config = {
@@ -22,7 +22,7 @@ resource "incus_instance" "dns_vpn" {
       "${path.root}/cloud-init/generic.yml.tftpl",
       {
         ssh_public_key           = var.ssh_public_key,
-        lxc_username             = "dns-vpn"
+        lxc_username             = "bmc"
         lxc_username_description = "DNS Linux System Container"
         lxc_user_password        = var.lxc_user_password,
         ansible_password         = var.ansible_password
@@ -58,8 +58,26 @@ resource "incus_instance" "dns_vpn" {
     type = "disk"
     properties = {
       path   = "/home"
-      source = incus_storage_volume.dns_vpn_data.name
+      source = incus_storage_volume.dns_data.name
       pool   = var.virt_main_pool
+    }
+  }
+
+  device {
+    name = "tmp"
+    type = "disk"
+    properties = {
+      path   = "/tmp"
+      source = "tmpfs:"
+    }
+  }
+
+  device {
+    name = "vartmp"
+    type = "disk"
+    properties = {
+      path   = "/var/tmp"
+      source = "tmpfs:"
     }
   }
 

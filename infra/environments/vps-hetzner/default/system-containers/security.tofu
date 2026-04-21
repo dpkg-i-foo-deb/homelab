@@ -1,55 +1,56 @@
-resource "incus_storage_volume" "vpn_data" {
-  name    = "vpn-data"
+resource "incus_storage_volume" "security_data" {
+  name    = "security_data"
   pool    = var.virt_main_pool
   project = "default"
   config = {
-    size = "1GiB"
+    "size" = "5GiB"
   }
 }
 
-resource "incus_instance" "vpn" {
-  name  = "vpn"
+resource "incus_instance" "security" {
+  name  = "security"
   image = "images:debian/trixie/cloud"
 
   config = {
     "boot.autostart"              = true
     "limits.cpu"                  = 1
-    "limits.cpu.allowance"        = "10%"
-    "limits.memory"               = "512MiB"
+    "limits.cpu.allowance"        = "50%"
+    "limits.memory"               = "2GiB"
     "limits.memory.swap"          = "true"
     "limits.memory.swap.priority" = "0"
     "cloud-init.user-data" = templatefile(
       "${path.root}/cloud-init/generic.yml.tftpl",
       {
         ssh_public_key           = var.ssh_public_key,
-        lxc_username             = "vpn"
-        lxc_username_description = "VPN Linux System Container"
+        lxc_username             = "bmc"
+        lxc_username_description = "Security Linux System Container"
         lxc_user_password        = var.lxc_user_password,
         ansible_password         = var.ansible_password
       }
     )
     "security.nesting" = true
   }
+
   device {
     name = "eth0"
     type = "nic"
     properties = {
       network                   = var.trusted_net.name
-      "ipv4.address"            = "10.0.254.3"
+      "ipv4.address"            = "10.0.254.10"
       "security.ipv4_filtering" = true
       "security.ipv6_filtering" = true
       "security.mac_filtering"  = true
       "security.port_isolation" = true
     }
-  }
 
+  }
   device {
     name = "root"
     type = "disk"
     properties = {
       path = "/"
       pool = var.virt_main_pool
-      size = "2GiB"
+      size = "5GiB"
     }
   }
 
@@ -58,9 +59,26 @@ resource "incus_instance" "vpn" {
     type = "disk"
     properties = {
       path   = "/home"
-      source = incus_storage_volume.vpn_data.name
+      source = incus_storage_volume.security_data.name
       pool   = var.virt_main_pool
     }
   }
 
+  device {
+    name = "tmp"
+    type = "disk"
+    properties = {
+      path   = "/tmp"
+      source = "tmpfs:"
+    }
+  }
+
+  device {
+    name = "vartmp"
+    type = "disk"
+    properties = {
+      path   = "/var/tmp"
+      source = "tmpfs:"
+    }
+  }
 }

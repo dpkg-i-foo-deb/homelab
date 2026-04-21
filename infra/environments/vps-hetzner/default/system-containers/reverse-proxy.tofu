@@ -3,7 +3,7 @@ resource "incus_storage_volume" "reverse_proxy_data" {
   pool    = var.virt_main_pool
   project = "default"
   config = {
-    size = "1GiB"
+    size = "10GiB"
   }
 }
 
@@ -22,7 +22,7 @@ resource "incus_instance" "reverse_proxy" {
       "${path.root}/cloud-init/generic.yml.tftpl",
       {
         ssh_public_key           = var.ssh_public_key,
-        lxc_username             = "reverse-proxy"
+        lxc_username             = "bmc"
         lxc_username_description = "Reverse Proxy Linux System Container"
         lxc_user_password        = var.lxc_user_password,
         ansible_password         = var.ansible_password
@@ -48,7 +48,7 @@ resource "incus_instance" "reverse_proxy" {
     type = "proxy"
 
     properties = {
-      listen  = "tcp:178.156.140.92:80"
+      listen  = "tcp:46.224.174.85:80"
       connect = "tcp:0.0.0.0:80"
       nat     = "true"
     }
@@ -59,7 +59,7 @@ resource "incus_instance" "reverse_proxy" {
     type = "proxy"
 
     properties = {
-      listen  = "udp:178.156.140.92:80"
+      listen  = "udp:46.224.174.85:80"
       connect = "udp:0.0.0.0:80"
       nat     = "true"
     }
@@ -70,7 +70,7 @@ resource "incus_instance" "reverse_proxy" {
     type = "proxy"
 
     properties = {
-      listen  = "tcp:178.156.140.92:443"
+      listen  = "tcp:46.224.174.85:443"
       connect = "tcp:0.0.0.0:443"
       nat     = "true"
     }
@@ -81,7 +81,7 @@ resource "incus_instance" "reverse_proxy" {
     type = "proxy"
 
     properties = {
-      listen  = "udp:178.156.140.92:443"
+      listen  = "udp:46.224.174.85:443"
       connect = "udp:0.0.0.0:443"
       nat     = "true"
     }
@@ -93,7 +93,7 @@ resource "incus_instance" "reverse_proxy" {
     properties = {
       path = "/"
       pool = var.virt_main_pool
-      size = "2GiB"
+      size = "10GiB"
     }
   }
 
