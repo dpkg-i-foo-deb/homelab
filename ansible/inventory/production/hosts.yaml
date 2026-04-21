@@ -25,17 +25,17 @@ vpn_gateways:
   hosts:
     vps_vpn_gateway:
       ansible_host: 10.0.252.20
-      container_user: 'vpn-gateway'
+      container_user: 'bmc'
     homelab_vpn_gateway:
       ansible_host: 10.0.6.20
-      container_user: 'vpn-gateway'
+      container_user: 'bmc'
 
 vpn_servers:
   hosts:
-    homelab_vpn:
-      ansible_host: 10.0.254.3
+    vpn_hetzner:
+      ansible_host: 10.0.254.12
       # ansible_ssh_common_args: '-o ProxyCommand="ssh -o StrictHostKeyChecking=no -W %h:%p -q {{ vps_proxy_jump_target }}"'
-      container_user: 'vpn'
+      container_user: 'bmc'
 registry_servers:
   hosts:
     registry:
