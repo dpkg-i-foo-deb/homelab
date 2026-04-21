@@ -15,5 +15,5 @@
 
   import logging vpn.log
   import letsencrypt_cloudflare_dns
-  import proxy 10.0.254.3:8080
+  import proxy http://{{ hostvars['vpn_hetzner']['ansible_host'] }}:8080
 }
