@@ -12,6 +12,15 @@
     #   ansible.builtin.debug:
     #     msg: '{{ dns_records }}'
 
+    - name: Ensure there's a directory to store Headscale configuration
+      become: true
+      ansible.builtin.file:
+        path: '/var/headscale'
+        state: directory
+        owner: '{{ container_user }}'
+        group: '{{ container_user }}'
+        mode: '0644'
+
     - name: Template Headscale configuration
       vars:
         headscale_http_port: '8080'
