@@ -12,8 +12,6 @@ module "vc" {
   management_net    = var.management_net
   dns_net           = var.dns_net
   untrusted_net     = var.untrusted_net
-  vcsoft_net        = var.vcsoft_net
-
   virt_main_pool    = var.virt_main_pool
 
 }

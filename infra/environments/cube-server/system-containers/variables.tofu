@@ -46,15 +46,6 @@ variable "reverse_proxy_net" {
   description = "Reverse Proxy network object"
 }
 
-variable "vcsoft_net" {
-  type = object({
-    name   = string
-    type   = string
-    config = map(string)
-  })
-  description = "vcsoft network object"
-}
-
 variable "trusted_net" {
   type = object({
     name   = string

@@ -7,7 +7,6 @@ module "system-containers" {
 
   dns_net           = module.networks.dns
   reverse_proxy_net = module.networks.reverse_proxy
-  vcsoft_net        = module.networks.vcsoft
   trusted_net       = module.networks.trusted
   untrusted_net     = module.networks.untrusted
   management_net    = module.networks.management
