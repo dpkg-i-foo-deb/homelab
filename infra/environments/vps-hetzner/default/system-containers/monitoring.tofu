@@ -3,7 +3,7 @@ resource "incus_storage_volume" "monitoring_data" {
   pool    = var.virt_main_pool
   project = "default"
   config = {
-    size = "1GiB"
+    size = "2GiB"
   }
 }
 
