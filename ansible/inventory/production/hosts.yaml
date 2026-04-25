@@ -112,7 +112,7 @@ knowledge_management:
       ansible_host: 10.0.254.11
       container_user: bmc
 
-monitoring:
+monitoring_servers:
   hosts:
     homelab_monitor:
       ansible_host: 10.0.7.10
