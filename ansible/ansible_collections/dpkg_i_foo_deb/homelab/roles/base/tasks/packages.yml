@@ -4,7 +4,7 @@
   ansible.builtin.package:
     update_cache: true
 
-- name: Install web tools
+- name: Ensure web tools are installed
   become: true
   ansible.builtin.package:
     name:
@@ -12,7 +12,7 @@
       - curl
     state: present
 
-- name: Install text editors
+- name: Ensure text editors are present
   become: true
   ansible.builtin.package:
     name:
@@ -20,7 +20,7 @@
       - nano
     state: present
 
-- name: Install RHEL Family specific packages
+- name: Ensure RHEL specific packages are installed
   become: true
   when: ansible_os_family == "RedHat"
   ansible.builtin.package:
@@ -31,7 +31,7 @@
       - bind-utils
     state: present
 
-- name: Install Debian Family specific packages
+- name: Ensure Debian specific packages are installed
   become: true
   when: ansible_os_family == "Debian"
   ansible.builtin.package:
@@ -43,7 +43,7 @@
 
     state: present
 
-- name: Install misc tools
+- name: Ensure misc tools are installed
   become: true
   ansible.builtin.package:
     name:
