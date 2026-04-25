@@ -4,6 +4,7 @@ when:
     path:
       - "ansible/playbooks/monitoring.yml"
   - event: manual
+    evaluate: "TARGET == 'monitoring'"
 
 steps:
   run-playbook:
