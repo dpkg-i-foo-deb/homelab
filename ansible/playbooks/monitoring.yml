@@ -1,4 +1,4 @@
-- name: Configure monitoring virtual machine
+- name: Common tasks for all monitoring servers
   hosts: monitoring
   tasks:
     - name: Login to homelab registry
@@ -11,6 +11,9 @@
         podman_login_pass: '{{ homelab_registry_pass }}'
         podman_user: '{{ container_user }}'
 
+- name: Deploy Grafana + Promethus + Loki stack
+  hosts: homelab_monitor
+  tasks:
     - name: Template Prometheus configuration file
       become: true
       vars:

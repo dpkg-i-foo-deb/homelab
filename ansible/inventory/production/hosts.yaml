@@ -116,7 +116,7 @@ monitoring:
   hosts:
     homelab_monitor:
       ansible_host: 10.0.7.10
-      container_user: 
+      container_user:
     hetzner_monitor:
       ansible_host: 10.0.251.11
       container_user: bmc
