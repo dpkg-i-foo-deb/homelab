@@ -46,11 +46,11 @@ code:
     code_server:
       ansible_host: 10.0.0.15
       container_user: 'bmc'
-servarr:
-  hosts:
-    servarr_vm:
-      ansible_host: 10.0.0.12
-      container_user: 'bmc'
+# servarr:
+#   hosts:
+#     servarr_vm:
+#       ansible_host: 10.0.0.12
+#       container_user: 'bmc'
 
 homelab_dns:
   hosts:
@@ -85,16 +85,17 @@ streaming:
     streaming_vm:
       ansible_host: 10.0.0.13
       container_user: bmc
-torrent:
-  hosts:
-    torrent_vm:
-      ansible_host: 10.0.4.10
-      container_user: 'bmc'
+# torrent:
+#   hosts:
+#     torrent_vm:
+#       ansible_host: 10.0.4.10
+#       container_user: 'bmc'
 security:
   hosts:
     security_hetzner:
       ansible_host: 10.0.254.10
       container_user: bmc
+
 reverse_proxy_servers:
   hosts:
     private_reverse_proxy:
@@ -124,11 +125,5 @@ monitoring_servers:
 vps:
   hosts:
     vps_hetzner:
-      ansible_host: !vault |
-        $ANSIBLE_VAULT;1.1;AES256
-        34353032633165656230313731313733613561313537323436376666376136343662356434326537
-        6639323137626137353438316330646363343539353965330a333263623836633432383833643730
-        32363836303865393839316366663066326365633137663034373233316639383438383833656239
-        3938303235313139380a643735343066393561383666313561626131393261636634386435326432
-        3431
+      ansible_host: 46.224.174.85
       container_user: 'vps-hetzner'
