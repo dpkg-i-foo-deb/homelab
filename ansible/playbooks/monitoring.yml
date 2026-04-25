@@ -28,6 +28,15 @@
 - name: Deploy Grafana + Promethus + Loki stack
   hosts: homelab_monitor
   tasks:
+    - name: Ensure there's a directory to store Prometheus stuff
+      become: true
+      ansible.builtin.file:
+        path: '/var/prometheus'
+        state: directory
+        owner: '{{ container_user }}'
+        group: '{{ container_user }}'
+        mode: '0755'
+
     - name: Template Prometheus configuration file
       become: true
       vars:

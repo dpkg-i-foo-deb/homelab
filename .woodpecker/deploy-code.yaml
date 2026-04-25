@@ -4,6 +4,7 @@ when:
     path:
       - "ansible/playbooks/code.yml"
   - event: manual
+    evaluate: "TARGET == 'code'"
 
 steps:
   run-playbook:
