@@ -121,9 +121,3 @@ monitoring_servers:
     hetzner_monitor:
       ansible_host: 10.0.251.11
       container_user: bmc
-
-vps:
-  hosts:
-    vps_hetzner:
-      ansible_host: 46.224.174.85
-      container_user: 'vps-hetzner'
