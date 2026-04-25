@@ -251,7 +251,6 @@
             (lan_prefix ~ '.' ~ auth_host ~ '.' ~ internet_host): private_reverse_proxy_host,
             (lan_prefix ~ '.' ~ remote_host ~ '.' ~ internet_host): private_reverse_proxy_host,
             (lan_prefix ~ '.' ~ code_personal_host ~ '.' ~ internet_host): private_reverse_proxy_host,
-            (lan_prefix ~ '.' ~ code_work_host ~ '.' ~ internet_host): private_reverse_proxy_host,
             (lan_prefix ~ '.' ~ music_host ~ '.' ~ internet_host): private_reverse_proxy_host,
             (lan_prefix ~ '.' ~ notes_host ~ '.' ~ internet_host): private_reverse_proxy_host,
             (lan_prefix ~ '.' ~ cicd_host ~ '.' ~ internet_host): private_reverse_proxy_host,

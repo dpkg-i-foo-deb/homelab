@@ -35,7 +35,6 @@ vpn_host: vpn
 registry_host: registry
 
 code_personal_host: personal.code
-code_work_host: work.code
 
 remote_host: remote
 
