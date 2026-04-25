@@ -4,7 +4,7 @@
   ansible.builtin.command: "loginctl enable-linger {{ container_user }}"
   changed_when: false
 
-- name: Install podman
+- name: Ensure Podman is installed
   become: true
   ansible.builtin.package:
     update_cache: true
