@@ -11,20 +11,6 @@
         podman_login_pass: '{{ homelab_registry_pass }}'
         podman_user: '{{ container_user }}'
 
-    - name: Deploy Uptime Kuma
-      ansible.builtin.import_role:
-        name: dpkg_i_foo_deb.homelab.quadlet_service
-      vars:
-        quadlet_service_definition:
-          name: uptime-kuma
-          image: 'docker.io/louislam/uptime-kuma:2'
-          user: '{{ container_user }}'
-          volumes:
-            - name: 'kuma_data'
-              dest: '/app/data '
-          ports:
-            - '3001:3001'
-
 - name: Deploy Grafana + Promethus + Loki stack
   hosts: homelab_monitor
   tasks:
