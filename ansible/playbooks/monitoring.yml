@@ -11,6 +11,41 @@
         podman_login_pass: '{{ homelab_registry_pass }}'
         podman_user: '{{ container_user }}'
 
+    - name: Ensure there's a directory to store Gatus stuff
+      become: true
+      ansible.builtin.file:
+        path: '/var/gatus'
+        state: directory
+        owner: '{{ container_user }}'
+        group: '{{ container_user }}'
+        mode: '0755'
+
+    - name: Ensure gatus configuration file is present and updated
+      become: true
+      ansible.builtin.template:
+        src: templates/gatus/config.yaml.j2
+        dest: '/var/gatus/config.yaml'
+        owner: '{{ container_user }}'
+        group: '{{ container_user }}'
+        mode: '0755'
+
+    - name: Deploy Gatus monitoring
+      ansible.builtin.import_role:
+        name: dpkg_i_foo_deb.homelab.quadlet_service
+      vars:
+        quadlet_service_definition:
+          name: gatus
+          image: 'ghcr.io/twin/gatus:stable'
+          user: '{{ container_user }}'
+          file_mounts:
+            - src: '/var/gatus/config.yaml'
+              dest: '/config.yaml:z'
+          volumes:
+            - name: 'gatus_data'
+              dest: '/data'
+          ports:
+            - '8080:8080'
+
 - name: Deploy Grafana + Promethus + Loki stack
   hosts: homelab_monitor
   tasks:
@@ -47,7 +82,8 @@
             scheme: 'http'
             metrics_path: 'metrics'
             targets:
-              - '{{ hostvars[''private_reverse_proxy''][''ansible_host''] }}:2019'
+              - '{{ hostvars[''private_reverse_proxy''][''ansible_host'']
+                }}:2019'
           - job_name: 'hypervisor'
             tls_config:
               insecure_skip_verify: true
@@ -75,7 +111,8 @@
       vars:
         quadlet_service_definition:
           name: prometheus
-          image: '{{ registry_host }}.{{ internet_host }}/quay/prometheus/prometheus:latest'
+          image: '{{ registry_host }}.{{ internet_host
+            }}/quay/prometheus/prometheus:latest'
           registry_user: '{{ homelab_registry_user }}'
           registry_pass: '{{ homelab_registry_pass }}'
           user: '{{ container_user }}'
@@ -113,7 +150,8 @@
       vars:
         quadlet_service_definition:
           name: grafana
-          image: '{{ registry_host }}.{{ internet_host }}/dockerhub/grafana/grafana-oss:latest'
+          image: '{{ registry_host }}.{{ internet_host
+            }}/dockerhub/grafana/grafana-oss:latest'
           registry_user: '{{ homelab_registry_user }}'
           registry_pass: '{{ homelab_registry_pass }}'
           user: '{{ container_user }}'
