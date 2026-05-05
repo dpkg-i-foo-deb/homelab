@@ -3,6 +3,8 @@ when:
     branch: main
     path:
       - "ansible/playbooks/monitoring.yml"
+      - "ansible/playbooks/templates/gatus/**"
+      - "ansible/playbooks/templates/prometheus/**"
   - event: manual
     evaluate: "TARGET == 'monitoring'"
 
