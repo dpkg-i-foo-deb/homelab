@@ -55,9 +55,11 @@
           name: gatus
           image: 'ghcr.io/twin/gatus:stable'
           user: '{{ container_user }}'
+          env:
+            GATUS_CONFIG_PATH: '/config'
           file_mounts:
-            - src: '/var/gatus/config.yaml'
-              dest: '/config.yaml:z'
+            - src: '/var/gatus/'
+              dest: '/config/:z'
           volumes:
             - name: 'gatus_data'
               dest: '/data'
