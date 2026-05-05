@@ -20,14 +20,32 @@
         group: '{{ container_user }}'
         mode: '0755'
 
-    - name: Ensure gatus configuration file is present and updated
+    - name: Ensure gatus configuration files are present and updated
       become: true
       ansible.builtin.template:
-        src: templates/gatus/config.yaml.j2
-        dest: '/var/gatus/config.yaml'
+        src: '{{ item }}'
+        dest: '/var/gatus/{{ item | basename | splitext | first }}'
         owner: '{{ container_user }}'
         group: '{{ container_user }}'
         mode: '0755'
+      with_fileglob:
+        - 'templates/gatus/*.j2'
+      register: _gatus_templates
+
+    - name: Find existing gatus configuration files
+      become: true
+      ansible.builtin.find:
+        paths: '/var/gatus'
+        file_type: file
+      register: _existing_gatus_files
+
+    - name: Remove unmanaged gatus configuration files
+      become: true
+      ansible.builtin.file:
+        path: '{{ item.path }}'
+        state: absent
+      loop: '{{ _existing_gatus_files.files }}'
+      when: item.path not in (_gatus_templates.results | default([]) | map(attribute='dest') | list)
 
     - name: Deploy Gatus monitoring
       ansible.builtin.import_role:
