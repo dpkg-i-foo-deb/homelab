@@ -1,0 +1,7 @@
+endpoints:
+  - name: "Knowledge Instance - Hetzner"
+    group: infrastructure
+    url: "tcp://{{ hostvars['knowledge_hetzner']['ansible_host'] }}:22"
+    interval: 1m
+    conditions:
+      - "[CONNECTED] == true"
