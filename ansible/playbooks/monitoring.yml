@@ -57,7 +57,7 @@
           user: '{{ container_user }}'
           env:
             GATUS_CONFIG_PATH: '/config'
-          file_mounts:
+          dir_mounts:
             - src: '/var/gatus/'
               dest: '/config/:z'
           volumes:
