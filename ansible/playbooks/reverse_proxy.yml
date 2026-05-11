@@ -32,56 +32,61 @@
       become: true
       ansible.builtin.template:
         src: "{{ item }}"
-        dest: "/var/caddy/snippets/{{ item | basename | regex_replace('\\.j2$', '') }}"
+        dest: "/var/caddy/snippets/{{ item | basename | splitext | first }}"
         owner: "{{ container_user }}"
         group: "{{ container_user }}"
         mode: '0644'
       with_fileglob:
         - "templates/caddy/snippets/*"
+      register: _caddy_snippets
 
     - name: Template WAF configuration
       become: true
       ansible.builtin.template:
         src: "{{ item }}"
-        dest: "/var/caddy/waf/{{ item | basename | regex_replace('\\.j2$', '') }}"
+        dest: "/var/caddy/waf/{{ item | basename | splitext | first }}"
         owner: "{{ container_user }}"
         group: "{{ container_user }}"
         mode: '0644'
       with_fileglob:
         - "templates/caddy/waf/*"
+      register: _caddy_waf
 
     - name: Template WAF Rules
       become: true
       ansible.builtin.template:
         src: "{{ item }}"
-        dest: "/var/caddy/waf/rules/{{ item | basename | regex_replace('\\.j2$', '') }}"
+        dest: "/var/caddy/waf/rules/{{ item | basename | splitext | first }}"
         owner: "{{ container_user }}"
         group: "{{ container_user }}"
         mode: '0644'
       with_fileglob:
         - "templates/caddy/waf/rules/*"
+      register: _caddy_waf_rules
 
     - name: Template WAF Core
       become: true
       ansible.builtin.template:
         src: "{{ item }}"
-        dest: "/var/caddy/waf/core/{{ item | basename | regex_replace('\\.j2$', '') }}"
+        dest: "/var/caddy/waf/core/{{ item | basename | splitext | first }}"
         owner: "{{ container_user }}"
         group: "{{ container_user }}"
         mode: '0644'
       with_fileglob:
         - "templates/caddy/waf/core/*"
+      register: _caddy_waf_core
 
     - name: Template Sites for {{ caddy_profile }}
       become: true
       ansible.builtin.template:
         src: "{{ item }}"
-        dest: "/var/caddy/sites/{{ item | basename | regex_replace('\\.j2$', '') }}"
+        dest: "/var/caddy/sites/{{ item | basename | splitext | first }}"
         owner: "{{ container_user }}"
         group: "{{ container_user }}"
         mode: '0644'
       with_fileglob:
         - "templates/caddy/sites/{{ caddy_profile }}/*"
+      register: _caddy_sites
 
     - name: Ensure there's a directory to store Caddy logs
       become: true
@@ -107,38 +112,7 @@
             recurse: false
           register: caddy_found_files
 
-        - name: Define list of expected files
-          ansible.builtin.set_fact:
-            caddy_expected_files: >-
-              {{
-                (
-                  query('fileglob', 'templates/caddy/snippets/*')
-                  | map('basename') | map('regex_replace', '\.j2$', '')
-                  | map('regex_replace', '^', '/var/caddy/snippets/') | list
-                ) +
-                (
-                  query('fileglob', 'templates/caddy/sites/' ~ caddy_profile ~ '/*')
-                  | map('basename') | map('regex_replace', '\.j2$', '')
-                  | map('regex_replace', '^', '/var/caddy/sites/') | list
-                ) +
-                (
-                  query('fileglob', 'templates/caddy/waf/*')
-                  | map('basename') | map('regex_replace', '\.j2$', '')
-                  | map('regex_replace', '^', '/var/caddy/waf/') | list
-                ) +
-                (
-                  query('fileglob', 'templates/caddy/waf/rules/*')
-                  | map('basename') | map('regex_replace', '\.j2$', '')
-                  | map('regex_replace', '^', '/var/caddy/waf/rules/') | list
-                ) +
-                (
-                  query('fileglob', 'templates/caddy/waf/core/*')
-                  | map('basename') | map('regex_replace', '\.j2$', '')
-                  | map('regex_replace', '^', '/var/caddy/waf/core/') | list
-                )
-              }}
-
-        # Delete any file found in Step 1 that isn't in the list from Step 2
+        # Delete any file found in Step 1 that isn't in the registered templates
         - name: Remove orphaned files
           ansible.builtin.file:
             path: "{{ item.path }}"
@@ -146,7 +120,14 @@
           loop: "{{ caddy_found_files.files }}"
           loop_control:
             label: "{{ item.path }}"
-          when: item.path not in caddy_expected_files
+          when: >
+            item.path not in (
+              (_caddy_snippets.results | default([]) +
+               _caddy_waf.results | default([]) +
+               _caddy_waf_rules.results | default([]) +
+               _caddy_waf_core.results | default([]) +
+               _caddy_sites.results | default([])) | map(attribute='dest') | list
+            )
 
     - name: Template Promtail configuration
       become: true
