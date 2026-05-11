@@ -1,5 +1,6 @@
 - name: General tasks for all reverse proxy servers
   hosts: reverse_proxy_servers
+  any_errors_fatal: true
   tags:
     - promtail-deploy
     - caddy-deploy
@@ -7,23 +8,29 @@
     - name: Ensure Caddy configuration directories exist
       become: true
       ansible.builtin.file:
-        path: "/var/caddy/{{ item }}"
+        path: "{{ item.0 }}/{{ item.1 }}"
         state: directory
         owner: "{{ container_user }}"
         group: "{{ container_user }}"
         mode: '0755'
-      loop:
-        - snippets
-        - sites
-        - waf
-        - waf/rules
-        - waf/core
+      with_nested:
+        - ['/var/tmp/caddy', '/var/caddy']
+        - ['snippets', 'sites', 'waf', 'waf/rules', 'waf/core']
+
+    - name: Ensure Caddy logs directory exists
+      become: true
+      ansible.builtin.file:
+        path: /var/log/caddy/
+        state: directory
+        mode: '0755'
+        owner: '{{ container_user }}'
+        group: '{{ container_user }}'
 
     - name: Template Caddyfile
       become: true
       ansible.builtin.template:
         src: "templates/caddy/Caddyfile.{{ caddy_profile }}.j2"
-        dest: "/var/caddy/Caddyfile"
+        dest: "/var/tmp/caddy/Caddyfile"
         owner: "{{ container_user }}"
         group: "{{ container_user }}"
         mode: '0644'
@@ -32,7 +39,7 @@
       become: true
       ansible.builtin.template:
         src: "{{ item }}"
-        dest: "/var/caddy/snippets/{{ item | basename | splitext | first }}"
+        dest: "/var/tmp/caddy/snippets/{{ item | basename | splitext | first }}"
         owner: "{{ container_user }}"
         group: "{{ container_user }}"
         mode: '0644'
@@ -44,7 +51,7 @@
       become: true
       ansible.builtin.template:
         src: "{{ item }}"
-        dest: "/var/caddy/waf/{{ item | basename | splitext | first }}"
+        dest: "/var/tmp/caddy/waf/{{ item | basename | splitext | first }}"
         owner: "{{ container_user }}"
         group: "{{ container_user }}"
         mode: '0644'
@@ -56,7 +63,7 @@
       become: true
       ansible.builtin.template:
         src: "{{ item }}"
-        dest: "/var/caddy/waf/rules/{{ item | basename | splitext | first }}"
+        dest: "/var/tmp/caddy/waf/rules/{{ item | basename | splitext | first }}"
         owner: "{{ container_user }}"
         group: "{{ container_user }}"
         mode: '0644'
@@ -68,7 +75,7 @@
       become: true
       ansible.builtin.template:
         src: "{{ item }}"
-        dest: "/var/caddy/waf/core/{{ item | basename | splitext | first }}"
+        dest: "/var/tmp/caddy/waf/core/{{ item | basename | splitext | first }}"
         owner: "{{ container_user }}"
         group: "{{ container_user }}"
         mode: '0644'
@@ -80,22 +87,13 @@
       become: true
       ansible.builtin.template:
         src: "{{ item }}"
-        dest: "/var/caddy/sites/{{ item | basename | splitext | first }}"
+        dest: "/var/tmp/caddy/sites/{{ item | basename | splitext | first }}"
         owner: "{{ container_user }}"
         group: "{{ container_user }}"
         mode: '0644'
       with_fileglob:
         - "templates/caddy/sites/{{ caddy_profile }}/*"
       register: _caddy_sites
-
-    - name: Ensure there's a directory to store Caddy logs
-      become: true
-      ansible.builtin.file:
-        path: /var/log/caddy/
-        state: directory
-        mode: '0755'
-        owner: '{{ container_user }}'
-        group: '{{ container_user }}'
 
     - name: Cleanup Orphaned Caddy Files
       become: true
@@ -126,7 +124,7 @@
                _caddy_waf.results | default([]) +
                _caddy_waf_rules.results | default([]) +
                _caddy_waf_core.results | default([]) +
-               _caddy_sites.results | default([])) | map(attribute='dest') | list
+               _caddy_sites.results | default([])) | map(attribute='dest') | map('regex_replace', '^/var/tmp/caddy', '/var/caddy') | list
             )
 
     - name: Template Promtail configuration
@@ -135,7 +133,7 @@
         caddy_promtail_host_tag: '{{ inventory_hostname }}'
       ansible.builtin.template:
         src: templates/caddy/promtail-caddy.yaml.j2
-        dest: /var/caddy/promtail-caddy.yaml
+        dest: /var/tmp/caddy/promtail-caddy.yaml
         mode: '0644'
         owner: '{{ container_user }}'
         group: '{{ container_user }}'
@@ -161,6 +159,35 @@
         force: true
         build:
           container_file: "{{ lookup('template', 'caddy/Containerfile.j2') }}"
+
+    - name: Validate Caddy configuration
+      become: true
+      become_user: '{{ container_user }}'
+      containers.podman.podman_container:
+        name: caddy-config-validate
+        image: 'localhost/caddy-custom:latest'
+        state: started
+        detach: false
+        rm: true
+        command: caddy validate --config /etc/caddy/Caddyfile
+        volume:
+          - /var/tmp/caddy:/etc/caddy:z
+          - /var/log/caddy:/var/log/caddy:z
+
+    - name: Promote Caddy configuration to production
+      become: true
+      ansible.posix.synchronize:
+        src: /var/tmp/caddy/
+        dest: /var/caddy/
+        delete: true
+        recursive: true
+      delegate_to: "{{ inventory_hostname }}"
+
+    - name: Cleanup temporary Caddy configuration directory
+      become: true
+      ansible.builtin.file:
+        path: /var/tmp/caddy
+        state: absent
 
 - name: Configure reverse proxy on home server
   hosts: private_reverse_proxy
@@ -254,6 +281,7 @@
 
 - name: Promtail Configuration
   hosts: reverse_proxy_servers
+  any_errors_fatal: true
   tags:
     - promtail-deploy
   tasks:
