@@ -2,7 +2,7 @@ when:
   - event: push
     branch: main
     path:
-      - "ansible/playbooks/reverse-proxy.yml"
+      - "ansible/playbooks/reverse_proxy.yml"
       - "ansible/playbooks/templates/caddy/**"
   - event: manual
     evaluate: "TARGET == 'reverse-proxy'"
