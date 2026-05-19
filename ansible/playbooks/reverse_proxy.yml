@@ -101,38 +101,6 @@
         - "templates/caddy/sites/{{ caddy_profile }}/*"
       register: _caddy_sites
 
-    - name: Cleanup Orphaned Caddy Files
-      become: true
-      block:
-        - name: Inventory remote files in Caddy directories
-          ansible.builtin.find:
-            paths:
-              - /var/caddy/snippets
-              - /var/caddy/sites
-              - /var/caddy/waf
-              - /var/caddy/waf/rules
-              - /var/caddy/waf/core
-            file_type: file
-            recurse: false
-          register: caddy_found_files
-
-        # Delete any file found in Step 1 that isn't in the registered templates
-        - name: Remove orphaned files
-          ansible.builtin.file:
-            path: "{{ item.path }}"
-            state: absent
-          loop: "{{ caddy_found_files.files }}"
-          loop_control:
-            label: "{{ item.path }}"
-          when: >
-            item.path not in (
-              (_caddy_snippets.results | default([]) +
-               _caddy_waf.results | default([]) +
-               _caddy_waf_rules.results | default([]) +
-               _caddy_waf_core.results | default([]) +
-               _caddy_sites.results | default([])) | map(attribute='dest') | map('regex_replace', '^/var/tmp/caddy', '/var/caddy') | list
-            )
-
     - name: Template Promtail configuration
       become: true
       vars:
@@ -188,6 +156,39 @@
         delete: true
         recursive: true
       delegate_to: "{{ inventory_hostname }}"
+
+    - name: Cleanup Orphaned Caddy Files
+      become: true
+      block:
+        - name: Inventory remote files in Caddy directories
+          ansible.builtin.find:
+            paths:
+              - /var/caddy/snippets
+              - /var/caddy/sites
+              - /var/caddy/waf
+              - /var/caddy/waf/rules
+              - /var/caddy/waf/core
+            file_type: file
+            recurse: false
+          register: caddy_found_files
+
+        # Delete any file found in Step 1 that isn't in the registered templates
+        - name: Remove orphaned files
+          ansible.builtin.file:
+            path: "{{ item.path }}"
+            state: absent
+          loop: "{{ caddy_found_files.files }}"
+          loop_control:
+            label: "{{ item.path }}"
+          when: >
+            item.path not in (
+              (_caddy_snippets.results | default([]) +
+               _caddy_waf.results | default([]) +
+               _caddy_waf_rules.results | default([]) +
+               _caddy_waf_core.results | default([]) +
+               _caddy_sites.results | default([])) | map(attribute='dest') | map('regex_replace', '^/var/tmp/caddy', '/var/caddy') | list
+            )
+
 
 - name: Configure reverse proxy on home server
   hosts: private_reverse_proxy
