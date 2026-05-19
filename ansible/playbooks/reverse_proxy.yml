@@ -5,6 +5,12 @@
     - promtail-deploy
     - caddy-deploy
   tasks:
+    - name: Cleanup temporary Caddy configuration directory
+      become: true
+      ansible.builtin.file:
+        path: /var/tmp/caddy
+        state: absent
+
     - name: Ensure Caddy configuration directories exist
       become: true
       ansible.builtin.file:
@@ -182,12 +188,6 @@
         delete: true
         recursive: true
       delegate_to: "{{ inventory_hostname }}"
-
-    - name: Cleanup temporary Caddy configuration directory
-      become: true
-      ansible.builtin.file:
-        path: /var/tmp/caddy
-        state: absent
 
 - name: Configure reverse proxy on home server
   hosts: private_reverse_proxy
