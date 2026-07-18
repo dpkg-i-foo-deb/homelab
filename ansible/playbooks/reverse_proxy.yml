@@ -5,7 +5,7 @@
     - promtail-deploy
     - caddy-deploy
   tasks:
-    - name: Cleanup temporary Caddy configuration directory
+    - name: Ensure temporary Caddy configuration directory is cleared
       become: true
       ansible.builtin.file:
         path: /var/tmp/caddy
