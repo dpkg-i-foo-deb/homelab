@@ -146,7 +146,7 @@
         quadlet_service_definition:
           name: redis
           image: "{{ registry_host }}.{{ internet_host }}:5000\
-            /dockerhub/valkey/valkey:9@sha256:546304417feac0874c3dd576e0952c6bb8f06bb4093ea0c9ca303c73cf458f63"
+            /dockerhub/valkey/valkey:9@sha256:4963247afc4cd33c7d3b2d2816b9f7f8eeebab148d29056c2ca4d7cbc966f2d9"
           registry_user: '{{ homelab_registry_user }}'
           registry_pass: '{{ homelab_registry_pass }}'
           user: '{{ container_user }}'
