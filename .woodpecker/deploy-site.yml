@@ -5,6 +5,8 @@ when:
       - "ansible/playbooks/site.yml"
   - event: manual
     evaluate: "TARGET == 'site'"
+  - event: cron
+    cron: 0 3 * * *
 
 steps:
   run-playbook:
