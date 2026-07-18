@@ -5,6 +5,12 @@
     - promtail-deploy
     - caddy-deploy
   tasks:
+    - name: Ensure temporary Caddy configuration directory is cleared
+      become: true
+      ansible.builtin.file:
+        path: /var/tmp/caddy
+        state: absent
+
     - name: Ensure Caddy configuration directories exist
       become: true
       ansible.builtin.file:
@@ -95,38 +101,6 @@
         - "templates/caddy/sites/{{ caddy_profile }}/*"
       register: _caddy_sites
 
-    - name: Cleanup Orphaned Caddy Files
-      become: true
-      block:
-        - name: Inventory remote files in Caddy directories
-          ansible.builtin.find:
-            paths:
-              - /var/caddy/snippets
-              - /var/caddy/sites
-              - /var/caddy/waf
-              - /var/caddy/waf/rules
-              - /var/caddy/waf/core
-            file_type: file
-            recurse: false
-          register: caddy_found_files
-
-        # Delete any file found in Step 1 that isn't in the registered templates
-        - name: Remove orphaned files
-          ansible.builtin.file:
-            path: "{{ item.path }}"
-            state: absent
-          loop: "{{ caddy_found_files.files }}"
-          loop_control:
-            label: "{{ item.path }}"
-          when: >
-            item.path not in (
-              (_caddy_snippets.results | default([]) +
-               _caddy_waf.results | default([]) +
-               _caddy_waf_rules.results | default([]) +
-               _caddy_waf_core.results | default([]) +
-               _caddy_sites.results | default([])) | map(attribute='dest') | map('regex_replace', '^/var/tmp/caddy', '/var/caddy') | list
-            )
-
     - name: Template Promtail configuration
       become: true
       vars:
@@ -173,6 +147,15 @@
         volume:
           - /var/tmp/caddy:/etc/caddy:z
           - /var/log/caddy:/var/log/caddy:z
+        env:
+          CF_API_TOKEN: !vault |
+            $ANSIBLE_VAULT;1.1;AES256
+            66343334363162356564643436323332383862646234396333386138373963356338313536393230
+            6266653764643930323730386234656230623361313666650a636636333265653062623365643966
+            66393561323966633161343636643534636164383737323137643066663634346666383265326231
+            6530623032386361390a663862623238626361363935323739323366653663646530633434333138
+            63653138626437613463376631663233383638366339333736373833373434336464376264613938
+            6231636134346531366564306165393031373263303762383265
 
     - name: Promote Caddy configuration to production
       become: true
@@ -183,11 +166,38 @@
         recursive: true
       delegate_to: "{{ inventory_hostname }}"
 
-    - name: Cleanup temporary Caddy configuration directory
+    - name: Cleanup Orphaned Caddy Files
       become: true
-      ansible.builtin.file:
-        path: /var/tmp/caddy
-        state: absent
+      block:
+        - name: Inventory remote files in Caddy directories
+          ansible.builtin.find:
+            paths:
+              - /var/caddy/snippets
+              - /var/caddy/sites
+              - /var/caddy/waf
+              - /var/caddy/waf/rules
+              - /var/caddy/waf/core
+            file_type: file
+            recurse: false
+          register: caddy_found_files
+
+        # Delete any file found in Step 1 that isn't in the registered templates
+        - name: Remove orphaned files
+          ansible.builtin.file:
+            path: "{{ item.path }}"
+            state: absent
+          loop: "{{ caddy_found_files.files }}"
+          loop_control:
+            label: "{{ item.path }}"
+          when: >
+            item.path not in (
+              (_caddy_snippets.results | default([]) +
+               _caddy_waf.results | default([]) +
+               _caddy_waf_rules.results | default([]) +
+               _caddy_waf_core.results | default([]) +
+               _caddy_sites.results | default([])) | map(attribute='dest') | map('regex_replace', '^/var/tmp/caddy', '/var/caddy') | list
+            )
+
 
 - name: Configure reverse proxy on home server
   hosts: private_reverse_proxy
