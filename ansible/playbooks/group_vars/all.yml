@@ -36,8 +36,6 @@ registry_host: registry
 
 code_personal_host: personal.code
 
-remote_host: remote
-
 remote_ssh_host: termix
 
 password_mgr_host: vault
