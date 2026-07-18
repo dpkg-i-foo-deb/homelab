@@ -1,0 +1,8 @@
+# Allow several HTTP methods for Keycloak
+SecAction \
+ "id:900200,\
+ phase:1,\
+ nolog,\
+ pass,\
+ t:none,\
+ setvar:'tx.allowed_methods=GET HEAD POST OPTIONS DELETE PUT PATCH'"
