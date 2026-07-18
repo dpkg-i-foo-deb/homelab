@@ -4,7 +4,10 @@ when:
     path:
       - "images/ansible/Containerfile"
       - "requirements.yml"
-  # - event: manual
+  - event: cron
+    cron: 0 1 * * *
+  - event: manual
+    evaluate: "TARGET == 'build-ansible-image'"
 
 steps:
   build-woodpecker-ansible-image:
