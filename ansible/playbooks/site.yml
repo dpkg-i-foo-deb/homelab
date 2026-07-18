@@ -3,3 +3,5 @@
   ansible.builtin.import_playbook: "hypervisor.yml"
 - name: Remote access services configuration
   ansible.builtin.import_playbook: "remote.yml"
+- name: Streaming services configuration
+  ansible.builtin.import_playbook: "streaming.yml"
