@@ -21,7 +21,9 @@ RUN pip install --no-cache-dir --upgrade pip setuptools && \
 
 COPY requirements.yml /tmp/requirements.yml
 
-RUN ansible-galaxy install -r /tmp/requirements.yml --force && \
+ARG CACHE_BUSTER=
+RUN echo "Cache buster: ${CACHE_BUSTER}" && \
+    ansible-galaxy install -r /tmp/requirements.yml --force && \
     rm /tmp/requirements.yml
 
 WORKDIR /woodpecker
