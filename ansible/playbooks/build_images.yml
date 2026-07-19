@@ -42,6 +42,24 @@
         build:
           container_file: "{{ lookup('template', 'code_server/Containerfile.j2') }}"
 
+    - name: Ensure there is a directory to store ansible requirements
+      become: true
+      ansible.builtin.file:
+        path: '/home/{{ container_user }}/ansible-requirements'
+        state: directory
+        owner: '{{ container_user }}'
+        group: '{{ container_user }}'
+        mode: '0755'
+
+    - name: Push requirements.yml file to ansible requirements directory
+      become: true
+      ansible.builtin.copy:
+        src: 'requirements.yml'
+        dest: '/home/{{ container_user }}/ansible-requirements/requirements.yml'
+        owner: '{{ container_user }}'
+        group: '{{ container_user }}'
+        mode: '0644'
+
     - name: Build woodpecker runner image
       become: true
       become_user: '{{ container_user }}'
