@@ -62,7 +62,7 @@
         quadlet_service_definition:
           name: 'blocky'
           user: '{{ container_user }}'
-          image: 'docker.io/pihole/pihole:latest'
+          image: 'docker.io/spx01/blocky:latest'
           host_network: false
           ports:
             - '5353:53/udp'
