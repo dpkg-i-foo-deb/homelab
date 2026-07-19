@@ -37,3 +37,14 @@
         push: true
         build:
           container_file: "{{ lookup('template', 'code_server/Containerfile.j2') }}"
+
+    - name: Build woodpecker runner image
+      become: true
+      become_user: '{{ container_user }}'
+      containers.podman.podman_image:
+        name: '{{ registry_host }}.{{ internet_host }}:5000/ansible-woodpecker:latest'
+        state: build
+        force: true
+        push: true
+        build:
+          container_file: "{{ lookup('template', 'code_server/Containerfile.j2') }}"

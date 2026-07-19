@@ -4,6 +4,7 @@ when:
     path:
       - "**/*Containerfile"
       - "**/*Containerfile.j2"
+      - "requirements.yml"
   - event: manual
     evaluate: "TARGET == 'image-build'"
   - event: cron

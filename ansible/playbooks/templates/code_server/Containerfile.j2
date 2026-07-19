@@ -59,6 +59,7 @@ RUN apt-get update && \
         ansible \
         ansible-lint \
         caddy && \
+        python3-venv \
     rm -rf /var/lib/apt/lists/*
 
 ENTRYPOINT [ "/init" ]
