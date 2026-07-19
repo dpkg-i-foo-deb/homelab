@@ -57,6 +57,7 @@ resource "incus_instance" "monitoring" {
     properties = {
       network                   = var.monitoring_net.name
       "ipv4.address"            = "10.0.7.10"
+      "ipv6.address"            = "none"
       "security.ipv4_filtering" = true
       "security.ipv6_filtering" = true
       "security.mac_filtering"  = true

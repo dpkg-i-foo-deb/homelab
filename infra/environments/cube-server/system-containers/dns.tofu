@@ -46,6 +46,7 @@ resource "incus_instance" "dns_home" {
     properties = {
       network                   = var.dns_net.name
       "ipv4.address"            = "10.0.2.2"
+      "ipv6.address"            = "none"
       "security.ipv4_filtering" = true
       "security.ipv6_filtering" = true
       "security.mac_filtering"  = true
@@ -122,6 +123,7 @@ resource "incus_instance" "dns_vpn" {
     properties = {
       network                   = var.dns_net.name
       "ipv4.address"            = "10.0.2.4"
+      "ipv6.address"            = "none"
       "security.ipv4_filtering" = true
       "security.ipv6_filtering" = true
       "security.mac_filtering"  = true
@@ -198,6 +200,7 @@ resource "incus_instance" "dns_homelab" {
     properties = {
       network                   = var.dns_net.name
       "ipv4.address"            = "10.0.2.5"
+      "ipv6.address"            = "none"
       "security.ipv4_filtering" = true
       "security.ipv6_filtering" = true
       "security.mac_filtering"  = true

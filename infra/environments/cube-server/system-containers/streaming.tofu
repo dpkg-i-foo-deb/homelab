@@ -46,6 +46,7 @@ resource "incus_instance" "streaming" {
     properties = {
       network                   = var.trusted_net.name
       "ipv4.address"            = "10.0.0.13"
+      "ipv6.address"            = "none"
       "security.ipv4_filtering" = true
       "security.ipv6_filtering" = true
       "security.mac_filtering"  = true
