@@ -9,6 +9,13 @@
           - { path: '/home/{{ container_user }}/.bashrc', owner: '{{ container_user }}' }
           - { path: '/root/.bashrc', owner: 'root' }
 
+    - name: Ensure users can read journal logs
+      ansible.builtin.user:
+        name: "username"
+        groups: "sudo,adm,systemd-journal"
+        append: true
+      become: true
+
 - name: Configure SSH keys
   hosts: all
   tasks:
