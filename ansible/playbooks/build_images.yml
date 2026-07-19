@@ -71,4 +71,3 @@
         path: '/home/{{ container_user }}/ansible-requirements/'
         build:
           container_file: "{{ lookup('template', 'woodpecker/Containerfile.j2') }}"
-          cache: false
