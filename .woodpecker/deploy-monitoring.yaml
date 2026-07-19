@@ -11,6 +11,7 @@ when:
 steps:
   run-playbook:
     image: registry.baremetalcloud.org:5000/ansible-woodpecker:latest
+    pull: true
     environment:
       SSH_PRIVATE_KEY:
         from_secret: SSH_PRIVATE_KEY
