@@ -4,8 +4,8 @@ resource "incus_instance" "automation" {
 
   config = {
     "boot.autostart"       = true
-    "limits.cpu"           = 2
-    "limits.cpu.allowance" = "50%"
+    "limits.cpu"           = 4
+    "limits.cpu.allowance" = "80%"
     "limits.memory"        = "12GiB"
     "security.nesting"     = true
     "cloud-init.user-data" = templatefile(
