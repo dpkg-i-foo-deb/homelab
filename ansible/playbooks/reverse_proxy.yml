@@ -14,10 +14,10 @@
     - name: Ensure Caddy configuration directories exist
       become: true
       ansible.builtin.file:
-        path: "{{ item.0 }}/{{ item.1 }}"
+        path: '{{ item.0 }}/{{ item.1 }}'
         state: directory
-        owner: "{{ container_user }}"
-        group: "{{ container_user }}"
+        owner: '{{ container_user }}'
+        group: '{{ container_user }}'
         mode: '0755'
       with_nested:
         - ['/var/tmp/caddy', '/var/caddy']
@@ -35,70 +35,70 @@
     - name: Template Caddyfile
       become: true
       ansible.builtin.template:
-        src: "templates/caddy/Caddyfile.{{ caddy_profile }}.j2"
-        dest: "/var/tmp/caddy/Caddyfile"
-        owner: "{{ container_user }}"
-        group: "{{ container_user }}"
+        src: 'templates/caddy/Caddyfile.{{ caddy_profile }}.j2'
+        dest: '/var/tmp/caddy/Caddyfile'
+        owner: '{{ container_user }}'
+        group: '{{ container_user }}'
         mode: '0644'
 
     - name: Template shared snippets
       become: true
       ansible.builtin.template:
-        src: "{{ item }}"
-        dest: "/var/tmp/caddy/snippets/{{ item | basename | splitext | first }}"
-        owner: "{{ container_user }}"
-        group: "{{ container_user }}"
+        src: '{{ item }}'
+        dest: '/var/tmp/caddy/snippets/{{ item | basename | splitext | first }}'
+        owner: '{{ container_user }}'
+        group: '{{ container_user }}'
         mode: '0644'
       with_fileglob:
-        - "templates/caddy/snippets/*"
+        - 'templates/caddy/snippets/*'
       register: _caddy_snippets
 
     - name: Template WAF configuration
       become: true
       ansible.builtin.template:
-        src: "{{ item }}"
-        dest: "/var/tmp/caddy/waf/{{ item | basename | splitext | first }}"
-        owner: "{{ container_user }}"
-        group: "{{ container_user }}"
+        src: '{{ item }}'
+        dest: '/var/tmp/caddy/waf/{{ item | basename | splitext | first }}'
+        owner: '{{ container_user }}'
+        group: '{{ container_user }}'
         mode: '0644'
       with_fileglob:
-        - "templates/caddy/waf/*"
+        - 'templates/caddy/waf/*'
       register: _caddy_waf
 
     - name: Template WAF Rules
       become: true
       ansible.builtin.template:
-        src: "{{ item }}"
-        dest: "/var/tmp/caddy/waf/rules/{{ item | basename | splitext | first }}"
-        owner: "{{ container_user }}"
-        group: "{{ container_user }}"
+        src: '{{ item }}'
+        dest: '/var/tmp/caddy/waf/rules/{{ item | basename | splitext | first }}'
+        owner: '{{ container_user }}'
+        group: '{{ container_user }}'
         mode: '0644'
       with_fileglob:
-        - "templates/caddy/waf/rules/*"
+        - 'templates/caddy/waf/rules/*'
       register: _caddy_waf_rules
 
     - name: Template WAF Core
       become: true
       ansible.builtin.template:
-        src: "{{ item }}"
-        dest: "/var/tmp/caddy/waf/core/{{ item | basename | splitext | first }}"
-        owner: "{{ container_user }}"
-        group: "{{ container_user }}"
+        src: '{{ item }}'
+        dest: '/var/tmp/caddy/waf/core/{{ item | basename | splitext | first }}'
+        owner: '{{ container_user }}'
+        group: '{{ container_user }}'
         mode: '0644'
       with_fileglob:
-        - "templates/caddy/waf/core/*"
+        - 'templates/caddy/waf/core/*'
       register: _caddy_waf_core
 
     - name: Template Sites for {{ caddy_profile }}
       become: true
       ansible.builtin.template:
-        src: "{{ item }}"
-        dest: "/var/tmp/caddy/sites/{{ item | basename | splitext | first }}"
-        owner: "{{ container_user }}"
-        group: "{{ container_user }}"
+        src: '{{ item }}'
+        dest: '/var/tmp/caddy/sites/{{ item | basename | splitext | first }}'
+        owner: '{{ container_user }}'
+        group: '{{ container_user }}'
         mode: '0644'
       with_fileglob:
-        - "templates/caddy/sites/{{ caddy_profile }}/*"
+        - 'templates/caddy/sites/{{ caddy_profile }}/*'
       register: _caddy_sites
 
     - name: Template Promtail configuration
@@ -148,7 +148,7 @@
         dest: /var/caddy/
         delete: true
         recursive: true
-      delegate_to: "{{ inventory_hostname }}"
+      delegate_to: '{{ inventory_hostname }}'
 
     - name: Cleanup Orphaned Caddy Files
       become: true
@@ -168,11 +168,11 @@
         # Delete any file found in Step 1 that isn't in the registered templates
         - name: Remove orphaned files
           ansible.builtin.file:
-            path: "{{ item.path }}"
+            path: '{{ item.path }}'
             state: absent
-          loop: "{{ caddy_found_files.files }}"
+          loop: '{{ caddy_found_files.files }}'
           loop_control:
-            label: "{{ item.path }}"
+            label: '{{ item.path }}'
           when: >
             item.path not in (
               (_caddy_snippets.results | default([]) +
@@ -181,7 +181,6 @@
                _caddy_waf_core.results | default([]) +
                _caddy_sites.results | default([])) | map(attribute='dest') | map('regex_replace', '^/var/tmp/caddy', '/var/caddy') | list
             )
-
 
 - name: Configure reverse proxy on home server
   hosts: private_reverse_proxy
@@ -232,6 +231,10 @@
   tags:
     - public-caddy-deploy
   tasks:
+    - name: Wait a minute for home server reverse proxy to initialize
+      ansible.builtin.pause:
+        seconds: 60
+
     - name: Login to homelab registry
       ansible.builtin.import_role:
         name: dpkg_i_foo_deb.homelab.podman
