@@ -26,5 +26,6 @@ steps:
       - chmod o-w .
       - >
         ansible-playbook ansible/playbooks/base.yml
+        --private-key ~/.ssh/id_rsa
         --vault-password-file /tmp/.vault_pass.txt
         -e "ansible_become_pass={{ lookup('env', 'BECOME_PASS') }}"

@@ -29,4 +29,5 @@ steps:
       - >
         ansible-playbook ansible/playbooks/monitoring.yml
         --vault-password-file /tmp/.vault_pass.txt
+        --private-key ~/.ssh/id_rsa
         -e "ansible_become_pass={{ lookup('env', 'BECOME_PASS') }}"
