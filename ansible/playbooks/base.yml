@@ -9,6 +9,9 @@
           - { path: '/home/{{ container_user }}/.bashrc', owner: '{{ container_user }}' }
           - { path: '/root/.bashrc', owner: 'root' }
 
+- name: Configure SSH keys
+  hosts: all
+  tasks:
     - name: Ensure CI/CD SSH key is authorized for Ansible account
       tags:
         - ssh-keys
