@@ -35,7 +35,7 @@ resource "incus_instance" "torrent" {
     type = "nic"
     properties = {
       "ipv4.address"            = "10.0.4.10"
-      "ipv6.address"            = "none"
+      "ipv6.address"            = "fd19:e607:9497::b"
       network                   = var.torrent_net.name
       "security.ipv4_filtering" = true
       "security.ipv6_filtering" = true
