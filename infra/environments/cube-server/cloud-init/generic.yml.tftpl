@@ -12,6 +12,7 @@ users:
     lock_passwd: false
     ssh_authorized_keys:
       - ${ssh_public_key}
+      - ${ssh_automation_key}
     passwd: ${lxc_user_password}
   - name: ansible
     gecos: Ansible Automation Account
@@ -22,6 +23,7 @@ users:
     lock_passwd: false
     ssh_authorized_keys:
       - ${ssh_public_key}
+      - ${ssh_automation_key}
     passwd: ${ansible_password}
 ssh_pwauth: False
 packages:
