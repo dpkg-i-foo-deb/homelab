@@ -3,6 +3,12 @@ upstreams:
     default:
       - 1.1.1.1
       - 8.8.8.8
+loading:
+  downloads:
+    timeout: 10m
+    attempts: 10
+    cooldown: 5s
+    # cachePath: /var/cache/blocky/lists
 blocking:
   denylists:
     ads:
@@ -15,8 +21,7 @@ blocking:
     annoyances:
       - https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/popupads.txt
       - https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/nsfw.txt
-      - https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/spam-tlds-adblock.txt
-      - https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/spam-tlds.txt
+      - https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/spam-tlds-onlydomains.txt
       - https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/gambling.txt
     vendor:
       - https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.amazon.txt

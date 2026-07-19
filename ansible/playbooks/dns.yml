@@ -65,7 +65,8 @@
           image: 'docker.io/spx01/blocky:latest'
           host_network: false
           ports:
-            - '5353:53/udp'
+            - '53:53/udp'
+            - '53:53/tcp'
           file_mounts:
             - src: '/var/blocky/config.yml'
               dest: '/app/config.yml:ro,z'
