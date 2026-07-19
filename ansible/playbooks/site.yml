@@ -3,8 +3,6 @@
   ansible.builtin.import_playbook: "hypervisor.yml"
 - name: Reverse proxy configuration
   ansible.builtin.import_playbook: "reverse_proxy.yml"
-- name: Build container images
-  ansible.builtin.import_playbook: "build_images.yml"
 - name: Security services configuration
   ansible.builtin.import_playbook: "security.yml"
 - name: Remote access services configuration
