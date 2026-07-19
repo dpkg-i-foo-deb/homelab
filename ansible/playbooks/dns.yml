@@ -70,6 +70,9 @@
           file_mounts:
             - src: '/var/blocky/config.yml'
               dest: '/app/config.yml:ro,z'
+          volumes:
+            - name: 'blocky_cache'
+              dest: '/var/cache/blocky/lists:z'
           # cap_add:
           #   - NET_ADMIN
           #   - SYS_TIME

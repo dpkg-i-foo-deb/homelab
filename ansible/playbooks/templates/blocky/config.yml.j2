@@ -36,11 +36,12 @@ blocking:
       - annoyances
       - vendor
   loading:
+    strategy: fast
     downloads:
       timeout: 10m
       attempts: 10
       cooldown: 5s
-      # cachePath: /var/cache/blocky/lists
+      cachePath: /var/cache/blocky/lists
 ports:
   dns: 53
   http: 4000
