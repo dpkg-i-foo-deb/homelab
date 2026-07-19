@@ -31,3 +31,12 @@ SecRule REQUEST_URI "@rx ^/admin/realms/[^/]+/users" \
     pass,\
     nolog,\
     ctl:ruleRemoveById=932260"
+
+# Allow placeholder variables in core realm configuration updates
+SecRule REQUEST_URI "@rx ^/admin/realms/[^/]+$" \
+    "id:10004,\
+    phase:1,\
+    pass,\
+    nolog,\
+    ctl:ruleRemoveById=932130,\
+    ctl:ruleRemoveById=933135"
