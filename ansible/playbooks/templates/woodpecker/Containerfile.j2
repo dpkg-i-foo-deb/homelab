@@ -1,4 +1,4 @@
-FROM alpine:3.19
+FROM alpine:latest
 
 RUN apk add --no-cache \
     python3 \
@@ -17,11 +17,13 @@ RUN python3 -m venv /opt/ansible-venv
 ENV PATH="/opt/ansible-venv/bin:$PATH"
 
 RUN pip install --no-cache-dir --upgrade pip setuptools && \
-    pip install --no-cache-dir ansible ansible-lint ansible-dev-tools
+    pip install --no-cache-dir ansible-core ansible-lint ansible-dev-tools
 
 COPY requirements.yml /tmp/requirements.yml
 
-RUN ansible-galaxy install -r /tmp/requirements.yml && \
+ARG CACHE_BUSTER=
+RUN echo "Cache buster: ${CACHE_BUSTER}" && \
+    ansible-galaxy collection install -r /tmp/requirements.yml -p /usr/share/ansible/collections --force && \
     rm /tmp/requirements.yml
 
 WORKDIR /woodpecker
