@@ -54,7 +54,7 @@
     - name: Push requirements.yml file to ansible requirements directory
       become: true
       ansible.builtin.copy:
-        src: 'requirements.yml'
+        src: "{{ lookup('env', 'PWD') }}/requirements.yml"
         dest: '/home/{{ container_user }}/ansible-requirements/requirements.yml'
         owner: '{{ container_user }}'
         group: '{{ container_user }}'
@@ -68,6 +68,7 @@
         state: build
         force: true
         push: true
+        path: '/home/{{ container_user }}/ansible-requirements/'
         build:
           container_file: "{{ lookup('template', 'woodpecker/Containerfile.j2') }}"
           cache: false
