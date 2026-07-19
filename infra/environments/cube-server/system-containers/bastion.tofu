@@ -21,6 +21,7 @@ resource "incus_instance" "bastion" {
       "${path.root}/cloud-init/generic.yml.tftpl",
       {
         ssh_public_key           = var.ssh_public_key,
+        ssh_automation_key       = var.ssh_automation_key
         lxc_username             = "bmc",
         lxc_username_description = "Bastion Linux System Container",
         lxc_user_password        = var.lxc_user_password

@@ -22,6 +22,7 @@ resource "incus_instance" "code" {
       "${path.root}/cloud-init/generic.yml.tftpl",
       {
         ssh_public_key           = var.ssh_public_key
+        ssh_automation_key       = var.ssh_automation_key
         lxc_user_password        = var.lxc_user_password
         lxc_username             = "bmc"
         lxc_username_description = "Coding Linux System Container"

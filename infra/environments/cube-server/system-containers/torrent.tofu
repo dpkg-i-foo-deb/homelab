@@ -20,6 +20,7 @@ resource "incus_instance" "torrent" {
       "${path.root}/cloud-init/generic.yml.tftpl",
       {
         ssh_public_key           = var.ssh_public_key,
+        ssh_automation_key       = var.ssh_automation_key
         lxc_username             = "bmc"
         lxc_username_description = "Torrenting Linux System Container"
         lxc_user_password        = var.lxc_user_password,
