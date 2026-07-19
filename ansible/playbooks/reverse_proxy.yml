@@ -24,9 +24,9 @@
         name: '{{ registry_host }}.{{ internet_host }}:5000/caddy-bmc:latest'
         state: build
         force: true
+        push: true
         build:
           container_file: "{{ lookup('template', 'caddy/Containerfile.j2') }}"
-          push: true
 
 - name: General tasks for all reverse proxy servers
   hosts: reverse_proxy_servers
