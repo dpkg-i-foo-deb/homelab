@@ -48,3 +48,4 @@
         push: true
         build:
           container_file: "{{ lookup('template', 'code_server/Containerfile.j2') }}"
+          cache: false
