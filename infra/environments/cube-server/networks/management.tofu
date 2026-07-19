@@ -4,6 +4,7 @@ resource "incus_network" "management" {
   config = {
     "ipv4.address"    = "10.0.1.1/24"
     "ipv4.nat"        = false
+    "ipv6.address"    = "none"
     "dns.nameservers" = "10.0.2.5"
     "ipv4.dhcp.routes" = join(",", [
       "0.0.0.0/0,10.0.1.1",
