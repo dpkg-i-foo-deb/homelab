@@ -13,11 +13,17 @@
         state: stopped
         enabled: false
 
-    - name: Ensure resolv.conf is absent even as a symbolic link
+    - name: Get resolv.conf facts
+      ansible.builtin.stat:
+        path: /etc/resolv.conf
+      register: resolv_conf_stat
+
+    - name: Ensure resolv.conf is absent if its a symbolic link
       become: true
       ansible.builtin.file:
         path: '/etc/resolv.conf'
         state: absent
+      when: resolv_conf_stat.stat.exists and resolv_conf_stat.stat.islnk
 
     - name: Ensure working resolv.conf file is present
       become: true
@@ -32,6 +38,7 @@
   hosts: home_dns
   tasks:
     - name: Ensure there's a directory to store blocky configuration
+      become: true
       ansible.builtin.file:
         path: '/var/blocky'
         state: directory
@@ -40,6 +47,7 @@
         mode: '0755'
 
     - name: Ensure Blocky DNS config file is present
+      become: true
       ansible.builtin.template:
         src: 'files/blocky/config.yml.j2'
         dest: '/var/blocky/config.yml'
