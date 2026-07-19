@@ -18,7 +18,7 @@
       vars:
         quadlet_service_definition:
           name: trilium
-          image: '{{ registry_host }}.{{ internet_host }}:443/dockerhub/triliumnext/notes:main'
+          image: '{{ registry_host }}.{{ internet_host }}:443/dockerhub/triliumnext/trilium:latest'
           registry_user: '{{ homelab_registry_user }}'
           registry_pass: '{{ homelab_registry_pass }}'
           user: '{{ container_user }}'
