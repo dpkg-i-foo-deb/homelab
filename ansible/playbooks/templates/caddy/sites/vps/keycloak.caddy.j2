@@ -1,5 +1,7 @@
 {{ auth_host }}.{{ internet_host }} {
 
+  respond /metrics* "Forbidden" 403
+
   coraza_waf {
     load_owasp_crs
 
