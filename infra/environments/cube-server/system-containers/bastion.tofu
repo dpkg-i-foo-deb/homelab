@@ -36,7 +36,7 @@ resource "incus_instance" "bastion" {
     properties = {
       network                   = var.management_net.name
       "ipv4.address"            = "10.0.1.10"
-      "ipv6.address"            = "none"
+      "ipv6.address"            = "fd19:e607:9497::2"
       "security.ipv4_filtering" = true
       "security.ipv6_filtering" = true
       "security.mac_filtering"  = true
