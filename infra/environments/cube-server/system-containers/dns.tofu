@@ -101,6 +101,7 @@ resource "incus_instance" "dns_vpn" {
       "${path.root}/cloud-init/generic.yml.tftpl",
       {
         ssh_public_key           = var.ssh_public_key,
+        ssh_automation_key       = var.ssh_automation_key
         lxc_username             = "bmc"
         lxc_username_description = "DNS server for VPN"
         lxc_user_password        = var.lxc_user_password,
