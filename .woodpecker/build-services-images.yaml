@@ -5,6 +5,8 @@ when:
       - "**/*Containerfile"
   - event: manual
     evaluate: "TARGET == 'image-build'"
+  - event: cron
+    cron: 0 1 * * *
 
 steps:
   run-playbook:
