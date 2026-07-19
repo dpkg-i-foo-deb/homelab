@@ -23,7 +23,7 @@ COPY requirements.yml /tmp/requirements.yml
 
 ARG CACHE_BUSTER=
 RUN echo "Cache buster: ${CACHE_BUSTER}" && \
-    ansible-galaxy collection install -r /tmp/requirements.yml --force && \
+    ansible-galaxy collection install -r /tmp/requirements.yml -p /usr/share/ansible/collections --force && \
     rm /tmp/requirements.yml
 
 WORKDIR /woodpecker
