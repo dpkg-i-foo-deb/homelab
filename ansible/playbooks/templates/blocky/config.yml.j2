@@ -3,12 +3,6 @@ upstreams:
     default:
       - 1.1.1.1
       - 8.8.8.8
-loading:
-  downloads:
-    timeout: 10m
-    attempts: 10
-    cooldown: 5s
-    # cachePath: /var/cache/blocky/lists
 blocking:
   denylists:
     ads:
@@ -41,6 +35,12 @@ blocking:
       - security
       - annoyances
       - vendor
+  loading:
+    downloads:
+      timeout: 10m
+      attempts: 10
+      cooldown: 5s
+      # cachePath: /var/cache/blocky/lists
 ports:
   dns: 53
   http: 4000
