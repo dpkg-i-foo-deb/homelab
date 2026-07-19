@@ -6,3 +6,20 @@ SecAction \
  pass,\
  t:none,\
  setvar:'tx.allowed_methods=GET HEAD POST OPTIONS DELETE PUT PATCH'"
+
+# Allow plaintext and other payload type for credentials endpoints
+SecRule REQUEST_URI "@rx ^/admin/realms/[^/]+/users/[^/]+/credentials/[^/]+/userLabel$" \
+    "id:10001,\
+    phase:1,\
+    pass,\
+    nolog,\
+    ctl:ruleRemoveById=920420"
+
+# Allow special characters when granting riles to users
+SecRule REQUEST_URI "@rx ^/admin/realms/[^/]+/users/[^/]+/role-mappings" \
+    "id:10002,\
+    phase:1,\
+    pass,\
+    nolog,\
+    ctl:ruleRemoveById=932130,\
+    ctl:ruleRemoveById=933135"
