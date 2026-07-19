@@ -1,9 +1,10 @@
 module "system-containers" {
   source = "./system-containers"
 
-  lxc_user_password = var.lxc_user_password
-  ssh_public_key    = var.ssh_public_key
-  ansible_password  = var.ansible_password
+  lxc_user_password  = var.lxc_user_password
+  ssh_public_key     = var.ssh_public_key
+  ssh_automation_key = var.ssh_automation_key
+  ansible_password   = var.ansible_password
 
   dns_net           = module.networks.dns
   reverse_proxy_net = module.networks.reverse_proxy
@@ -14,7 +15,7 @@ module "system-containers" {
   transit_net       = module.networks.transit
   monitoring_net    = module.networks.monitoring
 
-  virt_main_pool    = module.storage-pools.virt_main
+  virt_main_pool = module.storage-pools.virt_main
 
   music_vol     = module.storage-volumes.music
   downloads_vol = module.storage-volumes.downloads

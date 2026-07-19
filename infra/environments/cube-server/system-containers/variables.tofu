@@ -5,6 +5,11 @@ variable "ssh_public_key" {
   description = "The SSH public key to inject into containers."
 }
 
+variable "ssh_automation_key" {
+  type        = string
+  description = "The Automation SSH public key to inject into containers."
+}
+
 variable "lxc_user_password" {
   type        = string
   description = "The default password for the lxc user."

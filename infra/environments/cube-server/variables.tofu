@@ -5,6 +5,11 @@ variable "ssh_public_key" {
   description = "SSH Public Key"
 }
 
+variable "ssh_automation_key" {
+  type        = string
+  description = "SSH Automation Public Key"
+}
+
 variable "lxc_user_password" {
   type        = string
   description = "LXC Password used for Instances"
