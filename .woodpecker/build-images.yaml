@@ -5,6 +5,7 @@ when:
       - "**/*Containerfile"
       - "**/*Containerfile.j2"
       - "requirements.yml"
+      - "ansible.cfg"
   - event: manual
     evaluate: "TARGET == 'image-build'"
   - event: cron
