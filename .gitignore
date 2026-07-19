@@ -4,3 +4,5 @@
 terraform.tfvars
 *.tfvars
 **/*.tfvars
+ansible/ansible_collections/*
+!ansible/ansible_collections/dpkg_i_foo_deb/
