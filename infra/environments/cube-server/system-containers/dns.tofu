@@ -198,7 +198,7 @@ resource "incus_instance" "dns_homelab" {
     name = "eth0"
     type = "nic"
     properties = {
-      network                   = var.dns_net..name
+      network                   = var.dns_net.name
       "ipv4.address"            = "10.0.2.5"
       "ipv6.address"            = "fd19:e607:9497::6"
       "security.ipv4_filtering" = true
