@@ -2,6 +2,10 @@
   hosts: registry_servers
   tags: image-build
   tasks:
+    - name: Prune container images
+      containers.podman.podman_prune:
+        image: true
+
     - name: Login to homelab registry
       ansible.builtin.import_role:
         name: dpkg_i_foo_deb.homelab.podman
