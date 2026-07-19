@@ -60,13 +60,13 @@ homelab_dns:
 
 home_dns:
   hosts:
-    primary_home_dns:
+    home_dns:
       ansible_host: 10.0.2.2
       container_user: bmc
 
 vpn_dns:
   hosts:
-    primary_vpn_dns:
+    vpn_dns:
       ansible_host: 10.0.2.4
       container_user: 'bmc'
     # vps_vpn_dns:

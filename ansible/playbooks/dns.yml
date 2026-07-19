@@ -1,5 +1,5 @@
 - name: Common configuration for all DNS servers
-  hosts: vpn_dns, home_dns, homelab_dns
+  hosts: home_dns
   tasks:
     - name: Allow usage of privileged ports by rootless processes
       ansible.builtin.import_role:
@@ -13,125 +13,55 @@
         state: stopped
         enabled: false
 
-    - name: Delete resolv.conf in case it is symlinked
+    - name: Ensure resolv.conf is absent even as a symbolic link
       become: true
       ansible.builtin.file:
-        path: "/etc/resolv.conf"
+        path: '/etc/resolv.conf'
         state: absent
 
-    - name: Ensure resolv.conf is present
+    - name: Ensure working resolv.conf file is present
       become: true
       ansible.builtin.copy:
-        src: "files/pihole/resolv.conf"
-        dest: "/etc/resolv.conf"
-        owner: "root"
-        group: "root"
-        mode: "0644"
-
-    - name: Ensure there's a directory to store Pi-Hole wildcard DNS
-      become: true
-      ansible.builtin.file:
-        path: "/var/pihole"
-        state: directory
-        owner: "{{ container_user }}"
-        group: "{{ container_user }}"
-        mode: "0644"
+        src: 'files/blocky/resolv.conf'
+        dest: '/etc/resolv.conf'
+        owner: 'root'
+        group: 'root'
+        mode: '0644'
 
 - name: Configure DNS Servers
-  hosts: vpn_dns, home_dns, homelab_dns
-  vars:
-    dns_sync_pass: !vault |
-          $ANSIBLE_VAULT;1.1;AES256
-          66663931303761383032353263643234333766623731323062383935626230666433646633303837
-          6465323665326566656235373031353566663939306163660a656464306663663835303964323564
-          34666662366430666339666561383439633638386635653262386266623061323739383530313765
-          6564323538613133300a613466343737303632373035666361373738623137626239353730346166
-          6666
+  hosts: home_dns
   tasks:
-    - name: Template wildcard dns configuration
-      become: true
-      ansible.builtin.template:
-        src: "templates/pihole/wildcard-domains.conf.j2"
-        dest: "/var/pihole/99-wildcard-domains.conf"
-        owner: "{{ container_user }}"
-        group: "{{ container_user }}"
-        mode: "0755"
-      vars:
-        pihole_wildcard_records: []
+    - name: Ensure there's a directory to store blocky configuration
+      ansible.builtin.file:
+        path: '/var/blocky'
+        state: directory
+        owner: '{{ container_user }}'
+        group: '{{ container_user }}'
+        mode: '0755'
 
-    - name: Deploy pi-hole
+    - name: Ensure Blocky DNS config file is present
+      ansible.builtin.template:
+        src: 'files/blocky/config.yml.j2'
+        dest: '/var/blocky/config.yml'
+        owner: '{{ container_user }}'
+        group: '{{ container_user }}'
+        mode: '0644'
+
+    - name: Deploy Blocky DNS server
       ansible.builtin.import_role:
         name: dpkg_i_foo_deb.homelab.quadlet_service
       vars:
         quadlet_service_definition:
-          name: 'pihole'
+          name: 'blocky'
           user: '{{ container_user }}'
           image: 'docker.io/pihole/pihole:latest'
-          host_network: true
-          volumes:
-            - name: 'pihole_data'
-              dest: '/etc/pihole:z'
+          host_network: false
+          ports:
+            - '5353:53/udp'
           file_mounts:
-            - src: '/var/pihole/99-wildcard-domains.conf'
-              dest: '/etc/dnsmasq.d/99-wildcard-domains.conf:z'
-          env:
-            FTLCONF_webserver_api_password: "{{ dns_sync_pass }}"
-            FTLCONF_dns_listeningMode: "all"
-          cap_add:
-            - NET_ADMIN
-            - SYS_TIME
-            - SYS_NICE
-
-# - name: Configure VPN DNS Sync
-#   hosts: primary_vpn_dns
-#   vars:
-#     dns_sync_pass: !vault |
-#       $ANSIBLE_VAULT;1.1;AES256
-#       66663931303761383032353263643234333766623731323062383935626230666433646633303837
-#       6465323665326566656235373031353566663939306163660a656464306663663835303964323564
-#       34666662366430666339666561383439633638386635653262386266623061323739383530313765
-#       6564323538613133300a613466343737303632373035666361373738623137626239353730346166
-#       6666
-#   tasks:
-#     - name: Deploy nebula-sync
-#       ansible.builtin.import_role:
-#         name: dpkg_i_foo_deb.homelab.quadlet_service
-#       vars:
-#         quadlet_service_definition:
-#           name: 'pihole-nebula-sync'
-#           user: '{{ container_user }}'
-#           image: 'ghcr.io/lovelaze/nebula-sync:latest'
-#           restart_when: 'on-failure'
-#           env:
-#             PRIMARY: "http://host.containers.internal:80|{{ dns_sync_pass }}"
-#             REPLICAS: "http://10.0.2.5:80|{{ dns_sync_pass }},http://100.64.0.1:80|{{ dns_sync_pass }}"
-#             FULL_SYNC: "true"
-#             RUN_GRAVITY: "false"
-#             CLIENT_RETRY_DELAY_SECONDS: 20
-
-# - name: Configure home DNS Sync
-#   hosts: primary_home_dns
-#   vars:
-#     dns_sync_pass: !vault |
-#       $ANSIBLE_VAULT;1.1;AES256
-#       66663931303761383032353263643234333766623731323062383935626230666433646633303837
-#       6465323665326566656235373031353566663939306163660a656464306663663835303964323564
-#       34666662366430666339666561383439633638386635653262386266623061323739383530313765
-#       6564323538613133300a613466343737303632373035666361373738623137626239353730346166
-#       6666
-#   tasks:
-#     - name: Deploy nebula-sync
-#       ansible.builtin.import_role:
-#         name: dpkg_i_foo_deb.homelab.quadlet_service
-#       vars:
-#         quadlet_service_definition:
-#           name: 'pihole-nebula-sync'
-#           user: '{{ container_user }}'
-#           image: 'ghcr.io/lovelaze/nebula-sync:latest'
-#           restart_when: 'on-failure'
-#           env:
-#             PRIMARY: "http://host.containers.internal:80|{{ dns_sync_pass }}"
-#             REPLICAS: "http://100.64.0.16:80|{{ dns_sync_pass }}"
-#             FULL_SYNC: "true"
-#             RUN_GRAVITY: "false"
-#             CLIENT_RETRY_DELAY_SECONDS: 20
+            - src: '/var/blocky/config.yml'
+              dest: '/app/config.yml:ro,z'
+          # cap_add:
+          #   - NET_ADMIN
+          #   - SYS_TIME
+          #   - SYS_NICE
