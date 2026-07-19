@@ -35,7 +35,6 @@ resource "incus_instance" "vpn_gateway" {
     properties = {
       network                  = var.transit_net.name
       "ipv4.address"           = "10.0.6.20"
-      "ipv6.address"           = "none"
       "security.mac_filtering" = true
     }
   }
@@ -46,7 +45,6 @@ resource "incus_instance" "vpn_gateway" {
     properties = {
       network                  = var.trusted_net.name
       "ipv4.address"           = "10.0.0.20"
-      "ipv6.address"           = "none"
       "security.mac_filtering" = true
     }
   }
@@ -57,7 +55,6 @@ resource "incus_instance" "vpn_gateway" {
     properties = {
       network                  = var.reverse_proxy_net.name
       "ipv4.address"           = "10.0.5.20"
-      "ipv6.address"           = "none"
       "security.mac_filtering" = true
     }
   }
@@ -68,7 +65,6 @@ resource "incus_instance" "vpn_gateway" {
     properties = {
       network                  = var.management_net.name
       "ipv4.address"           = "10.0.1.20"
-      "ipv6.address"           = "none"
       "security.mac_filtering" = true
     }
   }
@@ -79,7 +75,6 @@ resource "incus_instance" "vpn_gateway" {
     properties = {
       network                  = var.monitoring_net.name
       "ipv4.address"           = "10.0.7.20"
-      "ipv6.address"           = "none"
       "security.mac_filtering" = true
     }
   }
