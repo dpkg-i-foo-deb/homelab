@@ -216,6 +216,16 @@
 - name: Configure reverse proxy on home server
   hosts: private_reverse_proxy
   tasks:
+    - name: Login to homelab registry
+      ansible.builtin.import_role:
+        name: dpkg_i_foo_deb.homelab.podman
+        tasks_from: login
+      vars:
+        podman_login_registry: '{{ registry_host }}.{{ internet_host }}:5000'
+        podman_login_user: '{{ homelab_registry_user }}'
+        podman_login_pass: '{{ homelab_registry_pass }}'
+        podman_user: '{{ container_user }}'
+
     - name: Deploy Caddy on home server
       ansible.builtin.import_role:
         name: dpkg_i_foo_deb.homelab.quadlet_service
@@ -252,6 +262,16 @@
   tags:
     - public-caddy-deploy
   tasks:
+    - name: Login to homelab registry
+      ansible.builtin.import_role:
+        name: dpkg_i_foo_deb.homelab.podman
+        tasks_from: login
+      vars:
+        podman_login_registry: '{{ registry_host }}.{{ internet_host }}'
+        podman_login_user: '{{ homelab_registry_user }}'
+        podman_login_pass: '{{ homelab_registry_pass }}'
+        podman_user: '{{ container_user }}'
+
     - name: Deploy Caddy on public internet VPS
       ansible.builtin.import_role:
         name: dpkg_i_foo_deb.homelab.quadlet_service
