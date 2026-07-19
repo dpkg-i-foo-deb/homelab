@@ -222,11 +222,8 @@
       vars:
         quadlet_service_definition:
           name: caddy
-          image: 'localhost/caddy-custom:latest'
+          image: '{{ registry_host }}.{{ internet_host }}:5000/caddy-bmc:latest'
           user: '{{ container_user }}'
-          pull_image: false
-          auto_update_strategy: 'local'
-          pull_strategy: 'never'
           host_network: true
           volumes:
             - name: 'caddy_data'
@@ -261,10 +258,7 @@
       vars:
         quadlet_service_definition:
           name: caddy
-          image: 'localhost/caddy-custom:latest'
-          pull_image: false
-          auto_update_strategy: 'local'
-          pull_strategy: 'never'
+          image: '{{ registry_host }}.{{ internet_host }}/caddy-bmc:latest'
           user: '{{ container_user }}'
           env:
             CF_API_TOKEN: !vault |
