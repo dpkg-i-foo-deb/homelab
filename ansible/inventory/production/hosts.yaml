@@ -52,16 +52,17 @@ code:
 #       ansible_host: 10.0.0.12
 #       container_user: 'bmc'
 
-homelab_dns:
-  hosts:
-    unrestricted_homelab_dns:
-      ansible_host: 10.0.2.3
-      container_user: bmc
 
-home_dns:
+dns_servers:
   hosts:
     home_dns:
       ansible_host: 10.0.2.2
+      container_user: bmc
+    vpn_dns:
+      ansible_host: 10.0.2.4
+      container_user: bmc
+    homelab_dns:
+      ansible_host: 10.0.2.5
       container_user: bmc
 
 vpn_dns:
