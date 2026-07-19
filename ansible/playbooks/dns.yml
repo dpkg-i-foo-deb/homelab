@@ -73,7 +73,3 @@
           volumes:
             - name: 'blocky_cache'
               dest: '/var/cache/blocky/lists:z'
-          # cap_add:
-          #   - NET_ADMIN
-          #   - SYS_TIME
-          #   - SYS_NICE
