@@ -23,3 +23,11 @@ SecRule REQUEST_URI "@rx ^/admin/realms/[^/]+/users/[^/]+/role-mappings" \
     nolog,\
     ctl:ruleRemoveById=932130,\
     ctl:ruleRemoveById=933135"
+
+# Allow usernames or attributes that match Unix command names (like ansible)
+SecRule REQUEST_URI "@rx ^/admin/realms/[^/]+/users" \
+    "id:10003,\
+    phase:1,\
+    pass,\
+    nolog,\
+    ctl:ruleRemoveById=932260"
