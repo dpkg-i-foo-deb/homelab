@@ -8,7 +8,7 @@
         name: dpkg_i_foo_deb.homelab.podman
         tasks_from: login
       vars:
-        podman_login_registry: '{{ registry_host }}.{{ internet_host }}:5000'
+        podman_login_registry: '{{ registry_host }}.{{ internet_host }}:443'
         podman_login_user: '{{ homelab_registry_user }}'
         podman_login_pass: '{{ homelab_registry_pass }}'
         podman_user: '{{ container_user }}'
@@ -60,18 +60,18 @@
       6561
     security_keycloak_admin_user: !vault |
       $ANSIBLE_VAULT;1.1;AES256
-      31636265363930343931613234333463333837653765333633336132663035313036383761616630
-      6637393066343333626236383066366136343863353963310a633330313065363534633661373730
-      38643361316332656433326262656464636130323132303237616639306466653837633133353831
-      6533373938626333380a363132343063366230353736383766633436353338656364633535363162
-      3863
+      64386130303634373936333235326163326261396131373738653866303537343766356138356265
+      3634633766616364373332653833643430383565623234380a623664633138653034323562393263
+      33336332366230303263643331633138343061393561633063623537303232636162376433383939
+      3266336664306563390a393963366661353562663263336631633964656563353534353632646533
+      6261
     security_keycloak_admin_password: !vault |
       $ANSIBLE_VAULT;1.1;AES256
-      30613837336139366632376265353233353532633765363632373063393162343037343833343037
-      3364363865346164663537346537396637666563336139310a316463623463373333613864396631
-      30376566326439353732653334303437343837643664346634373735343565356132643230323434
-      6436636335386631310a323835636630353865313832303862633366326463663439646630383362
-      3562
+      64343133303938666538313130336532373039323964626633336132633539353330303337616334
+      3339366466613862376234653232646231366661313962310a336566613335326537613636373433
+      62386237666363613035313061313835356636303538306632623430333737333530306433343933
+      3237393465373730630a366337643833313633363636396661656264623730313036343662623531
+      35656234663232313862393838393938393830613766376565646234653265366265
 
   tasks:
     - name: Deploy Postgres for keycloak
@@ -153,50 +153,6 @@
           6436
         state: present
 
-
-    - name: Ensure Remote service is registered as a client
-      middleware_automation.keycloak.keycloak_client:
-        auth_client_id: admin-cli
-        auth_keycloak_url: 'https://{{ auth_host }}.{{ internet_host }}'
-        auth_realm: master
-        auth_username: '{{ security_keycloak_admin_user }}'
-        auth_password: '{{ security_keycloak_admin_password }}'
-        state: present
-        realm: '{{ homelab_realm }}'
-        client_id: '{{ remote_client }}'
-        name: '{{ remote_client }}'
-        description: 'Remote access to homelab virtual machines'
-        base_url: 'https://{{ remote_host }}.{{ internet_host }}'
-        enabled: true
-        client_authenticator_type: client-secret
-        secret: '{{ remote_secret }}'
-        redirect_uris:
-          - 'https://{{ remote_host }}.{{ internet_host }}/*'
-        bearer_only: false
-        consent_required: false
-        standard_flow_enabled: true
-        implicit_flow_enabled: true
-        direct_access_grants_enabled: false
-        service_accounts_enabled: false
-        authorization_services_enabled: false
-        public_client: false
-        frontchannel_logout: false
-        protocol: openid-connect
-        protocol_mappers:
-          - config:
-              included.client.audience: '{{ remote_client }}'
-              access.token.claim: 'true'
-              id.token.claim: 'true'
-            name: '{{ remote_client }}-audience'
-            protocol: openid-connect
-            protocolMapper: oidc-audience-mapper
-        full_scope_allowed: false
-        node_re_registration_timeout: -1
-        use_template_config: false
-        use_template_scope: false
-        use_template_mappers: false
-        always_display_in_console: true
-
     - name: Ensure Notes taking service is registered as a client
       middleware_automation.keycloak.keycloak_client:
         auth_client_id: admin-cli
@@ -231,52 +187,6 @@
               access.token.claim: 'true'
               id.token.claim: 'true'
             name: '{{ notes_client }}-audience'
-            protocol: openid-connect
-            protocolMapper: oidc-audience-mapper
-        full_scope_allowed: false
-        node_re_registration_timeout: -1
-        use_template_config: false
-        use_template_scope: false
-        use_template_mappers: false
-        always_display_in_console: true
-
-    - name: Ensure RSS service is registered as a client
-      middleware_automation.keycloak.keycloak_client:
-        auth_client_id: admin-cli
-        auth_keycloak_url: 'https://{{ auth_host }}.{{ internet_host }}'
-        auth_realm: master
-        auth_username: '{{ security_keycloak_admin_user }}'
-        auth_password: '{{ security_keycloak_admin_password }}'
-        state: present
-        realm: '{{ homelab_realm }}'
-        client_id: '{{ rss_client }}'
-        name: '{{ rss_client }}'
-        description: 'RSS reader'
-        base_url: 'https://{{ rss_host }}.{{ internet_host }}'
-        enabled: true
-        client_authenticator_type: client-secret
-        secret: '{{ rss_secret }}'
-        redirect_uris:
-          - 'https://{{ rss_host }}.{{ internet_host }}/*'
-          - 'https://{{ rss_host }}.{{ internet_host }}'
-          - 'http://{{ rss_host }}.{{ internet_host }}/*'
-          - 'http://{{ rss_host }}.{{ internet_host }}'
-        bearer_only: false
-        consent_required: false
-        standard_flow_enabled: true
-        implicit_flow_enabled: false
-        direct_access_grants_enabled: false
-        service_accounts_enabled: false
-        authorization_services_enabled: false
-        public_client: false
-        frontchannel_logout: false
-        protocol: openid-connect
-        protocol_mappers:
-          - config:
-              included.client.audience: '{{ rss_client }}'
-              access.token.claim: 'true'
-              id.token.claim: 'true'
-            name: '{{ rss_client }}-audience'
             protocol: openid-connect
             protocolMapper: oidc-audience-mapper
         full_scope_allowed: false

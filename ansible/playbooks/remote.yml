@@ -27,50 +27,6 @@
         podman_login_pass: '{{ homelab_registry_pass }}'
         podman_user: '{{ container_user }}'
 
-    - name: Ensure there's a directory to store guacamole-web init script
-      become: true
-      ansible.builtin.file:
-        path: '/var/guacamole_web'
-        owner: '{{ container_user }}'
-        group: '{{ container_user }}'
-        state: directory
-        mode: '0777'
-
-    - name: Ensure initdb script is present on the host
-      become: true
-      ansible.builtin.copy:
-        src: 'files/guacamole/initdb.sql'
-        dest: '/var/guacamole_web/initdb.sql'
-        mode: '0777'
-        owner: '{{ container_user }}'
-        group: '{{ container_user }}'
-
-    - name: Deploy Postgres for Guacamole
-      ansible.builtin.import_role:
-        name: dpkg_i_foo_deb.homelab.quadlet_service
-      vars:
-        quadlet_service_definition:
-          name: guacamole_postgres
-          image: '{{ registry_host }}.{{ internet_host }}:5000/dockerhub/library/postgres:latest'
-          registry_user: '{{ homelab_registry_user }}'
-          registry_pass: '{{ homelab_registry_pass }}'
-          user: '{{ container_user }}'
-          userns: 'auto'
-          networks:
-            - name: guacamole
-          ports:
-            - '5432:5432'
-          volumes:
-            - name: 'guacamole_postgres'
-              dest: '/var/lib/postgresql:z'
-          file_mounts:
-            - src: '/var/guacamole_web/initdb.sql'
-              dest: '/docker-entrypoint-initdb.d/initdb.sql:z'
-          env:
-            POSTGRES_DB: '{{ remote_guacamole_postgres_db }}'
-            POSTGRES_USER: '{{ remote_guacamole_postgres_user }}'
-            POSTGRES_PASSWORD: '{{ remote_guacamole_postgres_pass }}'
-
     - name: Deploy Guacamole guacd
       ansible.builtin.import_role:
         name: dpkg_i_foo_deb.homelab.quadlet_service
@@ -85,39 +41,6 @@
             - name: guacamole
           ports:
             - '4822:4822'
-
-    - name: Deploy Guacamole web
-      ansible.builtin.import_role:
-        name: dpkg_i_foo_deb.homelab.quadlet_service
-      vars:
-        quadlet_service_definition:
-          name: guacamole_web
-          image: '{{ registry_host }}.{{ internet_host }}:5000/dockerhub/guacamole/guacamole:latest'
-          registry_user: '{{ homelab_registry_user }}'
-          registry_pass: '{{ homelab_registry_pass }}'
-          user: '{{ container_user }}'
-          networks:
-            - name: guacamole
-          ports:
-            - '8081:8080'
-          env:
-            GUACD_HOSTNAME: 'guacamole_guacd'
-            GUACD_PORT: '4822'
-            POSTGRESQL_HOSTNAME: '{{ remote_guacamole_postgres_db }}'
-            POSTGRESQL_DATABASE: '{{ remote_guacamole_postgres_db }}'
-            POSTGRESQL_USER: '{{ remote_guacamole_postgres_user }}'
-            POSTGRESQL_PASSWORD: '{{ remote_guacamole_postgres_pass }}'
-            POSTGRESQL_AUTO_CREATE_ACCOUNTS: 'true'
-            REMOTE_IP_VALVE_ENABLED: 'true'
-            TRUSTED_PROXIES: '.*'
-            EXTENSION_PRIORITY: 'openid,postgresql'
-            OPENID_AUTHORIZATION_ENDPOINT: 'https://{{ auth_host }}.{{ internet_host }}/realms/{{ homelab_realm }}/protocol/openid-connect/auth'
-            OPENID_JWKS_ENDPOINT: 'https://{{ auth_host }}.{{ internet_host }}/realms/{{ homelab_realm }}/protocol/openid-connect/certs'
-            OPENID_ISSUER: 'https://{{ auth_host }}.{{ internet_host }}/realms/{{ homelab_realm }}'
-            OPENID_CLIENT_ID: '{{ remote_client }}'
-            OPENID_REDIRECT_URI: 'https://{{ remote_host }}.{{ internet_host }}'
-            WEBAPP_CONTEXT: 'ROOT'
-            LOG_LEVEL: 'debug'
 
 - name: Configure Termix
   hosts: remote_hetzner

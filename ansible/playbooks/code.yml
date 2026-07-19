@@ -20,7 +20,7 @@
       vars:
         quadlet_service_definition:
           name: code-server-personal
-          image: '{{ registry_host }}.{{ internet_host }}:5000/code-server:latest'
+          image: '{{ registry_host }}.{{ internet_host }}:5000/code-server-bmc:latest'
           registry_user: '{{ homelab_registry_user }}'
           registry_pass: '{{ homelab_registry_pass }}'
           user: '{{ container_user }}'

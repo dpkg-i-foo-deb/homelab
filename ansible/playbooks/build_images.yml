@@ -1,0 +1,50 @@
+- name: Build required images
+  hosts: registry_servers
+  tags: image-build
+  tasks:
+    - name: Login to homelab registry
+      ansible.builtin.import_role:
+        name: dpkg_i_foo_deb.homelab.podman
+        tasks_from: login
+      vars:
+        podman_login_registry: '{{ registry_host }}.{{ internet_host }}:5000'
+        podman_login_user: '{{ homelab_registry_user }}'
+        podman_login_pass: '{{ homelab_registry_pass }}'
+        podman_user: '{{ container_user }}'
+
+    - name: Build Caddy image
+      become: true
+      become_user: '{{ container_user }}'
+      vars:
+        caddy_extensions:
+          - github.com/caddy-dns/cloudflare
+          - github.com/corazawaf/coraza-caddy/v2
+      containers.podman.podman_image:
+        name: '{{ registry_host }}.{{ internet_host }}:5000/caddy-bmc:latest'
+        state: build
+        force: true
+        push: true
+        build:
+          container_file: "{{ lookup('template', 'caddy/Containerfile.j2') }}"
+
+    - name: Build code-server image
+      become: true
+      become_user: '{{ container_user }}'
+      containers.podman.podman_image:
+        name: '{{ registry_host }}.{{ internet_host }}:5000/code-server-bmc:latest'
+        state: build
+        force: true
+        push: true
+        build:
+          container_file: "{{ lookup('template', 'code_server/Containerfile.j2') }}"
+
+    - name: Build woodpecker runner image
+      become: true
+      become_user: '{{ container_user }}'
+      containers.podman.podman_image:
+        name: '{{ registry_host }}.{{ internet_host }}:5000/ansible-woodpecker:latest'
+        state: build
+        force: true
+        push: true
+        build:
+          container_file: "{{ lookup('template', 'code_server/Containerfile.j2') }}"

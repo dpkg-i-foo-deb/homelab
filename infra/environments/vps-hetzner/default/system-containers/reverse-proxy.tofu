@@ -13,8 +13,8 @@ resource "incus_instance" "reverse_proxy" {
 
   config = {
     "boot.autostart"              = true
-    "limits.cpu"                  = 2
-    "limits.cpu.allowance"        = "50%"
+    "limits.cpu"                  = 4
+    "limits.cpu.allowance"        = "80%"
     "limits.memory"               = "2GiB"
     "limits.memory.swap"          = "true"
     "limits.memory.swap.priority" = "0"

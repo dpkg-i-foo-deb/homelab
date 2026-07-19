@@ -21,8 +21,8 @@ resource "incus_instance" "streaming" {
   image = "images:debian/trixie/cloud"
   config = {
     "boot.autostart"              = true
-    "limits.cpu"                  = 2
-    "limits.cpu.allowance"        = "60%"
+    "limits.cpu"                  = 4
+    "limits.cpu.allowance"        = "50%"
     "limits.memory"               = "8GiB"
     "limits.memory.swap"          = "true"
     "limits.memory.swap.priority" = "0"

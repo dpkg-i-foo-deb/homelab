@@ -118,22 +118,6 @@
         name: dpkg_i_foo_deb.homelab.podman
         tasks_from: rootless_ports
 
-    - name: Build Caddy image
-      become: true
-      become_user: '{{ container_user }}'
-      tags:
-        - caddy-build
-      vars:
-        caddy_extensions:
-          - github.com/caddy-dns/cloudflare
-          - github.com/corazawaf/coraza-caddy/v2
-      containers.podman.podman_image:
-        name: 'caddy-custom:latest'
-        state: build
-        force: true
-        build:
-          container_file: "{{ lookup('template', 'caddy/Containerfile.j2') }}"
-
     - name: Validate Caddy configuration
       become: true
       become_user: '{{ container_user }}'
@@ -202,17 +186,24 @@
 - name: Configure reverse proxy on home server
   hosts: private_reverse_proxy
   tasks:
+    - name: Login to homelab registry
+      ansible.builtin.import_role:
+        name: dpkg_i_foo_deb.homelab.podman
+        tasks_from: login
+      vars:
+        podman_login_registry: '{{ registry_host }}.{{ internet_host }}:5000'
+        podman_login_user: '{{ homelab_registry_user }}'
+        podman_login_pass: '{{ homelab_registry_pass }}'
+        podman_user: '{{ container_user }}'
+
     - name: Deploy Caddy on home server
       ansible.builtin.import_role:
         name: dpkg_i_foo_deb.homelab.quadlet_service
       vars:
         quadlet_service_definition:
           name: caddy
-          image: 'localhost/caddy-custom:latest'
+          image: '{{ registry_host }}.{{ internet_host }}:5000/caddy-bmc:latest'
           user: '{{ container_user }}'
-          pull_image: false
-          auto_update_strategy: 'local'
-          pull_strategy: 'never'
           host_network: true
           volumes:
             - name: 'caddy_data'
@@ -241,16 +232,23 @@
   tags:
     - public-caddy-deploy
   tasks:
+    - name: Login to homelab registry
+      ansible.builtin.import_role:
+        name: dpkg_i_foo_deb.homelab.podman
+        tasks_from: login
+      vars:
+        podman_login_registry: '{{ registry_host }}.{{ internet_host }}'
+        podman_login_user: '{{ homelab_registry_user }}'
+        podman_login_pass: '{{ homelab_registry_pass }}'
+        podman_user: '{{ container_user }}'
+
     - name: Deploy Caddy on public internet VPS
       ansible.builtin.import_role:
         name: dpkg_i_foo_deb.homelab.quadlet_service
       vars:
         quadlet_service_definition:
           name: caddy
-          image: 'localhost/caddy-custom:latest'
-          pull_image: false
-          auto_update_strategy: 'local'
-          pull_strategy: 'never'
+          image: '{{ registry_host }}.{{ internet_host }}/caddy-bmc:latest'
           user: '{{ container_user }}'
           env:
             CF_API_TOKEN: !vault |
@@ -267,7 +265,6 @@
           hosts: "{{
             {
             (lan_prefix ~ '.' ~ auth_host ~ '.' ~ internet_host): private_reverse_proxy_host,
-            (lan_prefix ~ '.' ~ remote_host ~ '.' ~ internet_host): private_reverse_proxy_host,
             (lan_prefix ~ '.' ~ code_personal_host ~ '.' ~ internet_host): private_reverse_proxy_host,
             (lan_prefix ~ '.' ~ music_host ~ '.' ~ internet_host): private_reverse_proxy_host,
             (lan_prefix ~ '.' ~ notes_host ~ '.' ~ internet_host): private_reverse_proxy_host,
