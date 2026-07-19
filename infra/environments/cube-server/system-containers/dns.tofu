@@ -10,12 +10,6 @@ resource "incus_storage_volume" "dns_vpn_data" {
   project = "default"
 }
 
-resource "incus_storage_volume" "dns_home_unrestricted_data" {
-  name    = "dns-home-unrestricted-data"
-  pool    = var.virt_main_pool
-  project = "default"
-}
-
 resource "incus_instance" "dns_home" {
   name  = "dns-home"
   image = "images:debian/trixie/cloud"
