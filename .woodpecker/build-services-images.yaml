@@ -3,6 +3,7 @@ when:
     branch: main
     path:
       - "**/*Containerfile"
+      - "**/*Containerfile.j2"
   - event: manual
     evaluate: "TARGET == 'image-build'"
   - event: cron
