@@ -102,8 +102,6 @@ monitoring_servers:
       ansible_host: 10.0.251.11
       container_user: bmc
 
----
-
 cube_server:
   hosts:
     cube-hypervisor:
