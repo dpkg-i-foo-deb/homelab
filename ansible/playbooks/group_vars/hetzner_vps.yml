@@ -1,0 +1,1 @@
+registry_url: '{{ registry_host }}.{{ internet_host }}:443'
