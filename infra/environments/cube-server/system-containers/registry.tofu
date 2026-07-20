@@ -26,8 +26,6 @@ resource "incus_instance" "registry" {
     "limits.cpu"                  = 8
     "limits.cpu.allowance"        = "80%"
     "limits.memory"               = "16GiB"
-    "limits.memory.swap"          = "true"
-    "limits.memory.swap.priority" = "0"
     "cloud-init.user-data" = templatefile(
       "${path.root}/cloud-init/generic.yml.tftpl",
       {

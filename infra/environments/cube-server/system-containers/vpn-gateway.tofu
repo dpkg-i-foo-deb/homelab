@@ -7,8 +7,6 @@ resource "incus_instance" "vpn_gateway" {
     "limits.cpu"                  = 2
     "limits.cpu.allowance"        = "50%"
     "limits.memory"               = "1GiB"
-    "limits.memory.swap"          = "true"
-    "limits.memory.swap.priority" = "0"
     "cloud-init.user-data" = templatefile(
       "${path.root}/cloud-init/generic.yml.tftpl",
       {

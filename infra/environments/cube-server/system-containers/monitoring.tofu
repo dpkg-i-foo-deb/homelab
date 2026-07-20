@@ -35,8 +35,6 @@ resource "incus_instance" "monitoring" {
     "limits.cpu"                  = 1
     "limits.cpu.allowance"        = "10%"
     "limits.memory"               = "2GiB"
-    "limits.memory.swap"          = "true"
-    "limits.memory.swap.priority" = "0"
     "cloud-init.user-data" = templatefile(
       "${path.root}/cloud-init/generic.yml.tftpl",
       {

@@ -15,8 +15,6 @@ resource "incus_instance" "bastion" {
     "limits.cpu"                  = 1
     "limits.cpu.allowance"        = "20%"
     "limits.memory"               = "4GiB"
-    "limits.memory.swap"          = "true"
-    "limits.memory.swap.priority" = "0"
     "cloud-init.user-data" = templatefile(
       "${path.root}/cloud-init/generic.yml.tftpl",
       {
