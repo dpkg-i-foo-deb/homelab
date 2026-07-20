@@ -27,7 +27,7 @@ resource "incus_instance" "automation" {
     properties = {
       network                   = var.management_net.name
       "ipv4.address"            = "10.0.1.11"
-      "ipv6.address"            = "fd19:e607:9497::1"
+      "ipv6.address"            = "none"
       "security.ipv4_filtering" = true
       "security.ipv6_filtering" = true
       "security.mac_filtering"  = true
