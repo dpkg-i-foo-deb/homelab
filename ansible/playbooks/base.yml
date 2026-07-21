@@ -16,15 +16,6 @@
         groups: "sudo,adm,systemd-journal"
         append: true
 
-    - name: Remove the user 'username'
-      tags:
-        - fix-messup
-      become: true
-      ansible.builtin.user:
-        name: username
-        state: absent
-        remove: true
-
 - name: Configure SSH keys
   hosts: all
   tasks:
