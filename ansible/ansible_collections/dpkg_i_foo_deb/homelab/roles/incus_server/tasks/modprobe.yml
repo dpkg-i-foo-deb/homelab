@@ -1,5 +1,13 @@
-- name: Add the br_netfilter module
+- name: Ensure the br_netfilter module is loaded
   become: true
   community.general.modprobe:
     name: br_netfilter
     state: present
+    persistent: present
+
+- name: Ensure the wireguard module is loaded
+  become: true
+  community.general.modprobe:
+    name: wireguard
+    state: present
+    persistent: present
