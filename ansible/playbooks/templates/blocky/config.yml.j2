@@ -5,7 +5,13 @@ upstreams:
       - 8.8.8.8
 customDNS:
   mapping:
-    {{ registry_host }}.{{ internet_host }}: {{ hostvars['cube-registry']['ansible_host'] }}
+    {{ registry_host }}.{{ internet_host }}: {{ hostvars['cube-reverse-proxy']['ansible_host'] }}
+    {{ code_personal_host }}.{{ internet_host }}: {{ hostvars['cube-reverse-proxy']['ansible_host'] }}
+    {{ music_host }}.{{ internet_host }}: {{ hostvars['cube-reverse-proxy']['ansible_host'] }}
+    {{ photos_host }}.{{ internet_host }}: {{ hostvars['cube-reverse-proxy']['ansible_host'] }}
+    {{ metrics_host }}.{{ internet_host }}: {{ hostvars['cube-reverse-proxy']['ansible_host'] }}
+
+
 blocking:
   denylists:
     ads:
