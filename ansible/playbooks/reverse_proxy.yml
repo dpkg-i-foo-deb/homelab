@@ -183,7 +183,7 @@
             )
 
 - name: Configure reverse proxy on home server
-  hosts: private_reverse_proxy
+  hosts: cube-reverse-proxy
   tasks:
     - name: Login to homelab registry
       ansible.builtin.import_role:
@@ -227,7 +227,7 @@
             GOGC: '200'
 
 - name: Configure reverse proxy on public internet VPS
-  hosts: public_reverse_proxy
+  hosts: hetzner-reverse-proxy
   tags:
     - public-caddy-deploy
   tasks:

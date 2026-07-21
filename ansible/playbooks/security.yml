@@ -14,7 +14,7 @@
         podman_user: '{{ container_user }}'
 
 - name: Configure password manager
-  hosts: security_hetzner
+  hosts: hetzner-security
   tags:
     - password-manager-deploy
   tasks:
@@ -46,7 +46,7 @@
               35656232303366366331
 
 - name: Configure OIDC Provider
-  hosts: security_hetzner
+  hosts: hetzner-security
   tags:
     - oidc-deploy
   vars:

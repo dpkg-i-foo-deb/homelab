@@ -1,5 +1,5 @@
 - name: Configure knowledge virtual machine
-  hosts: knowledge_hetzner
+  hosts: knowledge_management
   tasks:
 
     - name: Login to homelab registry

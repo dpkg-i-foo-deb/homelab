@@ -67,7 +67,7 @@
             - '8080:8080'
 
 - name: Deploy Grafana + Promethus + Loki stack
-  hosts: homelab_monitor
+  hosts: cube-monitor
   tasks:
     - name: Ensure there's a directory to store Prometheus stuff
       become: true
