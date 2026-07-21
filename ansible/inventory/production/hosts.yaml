@@ -48,7 +48,7 @@ code:
 
 dns_servers:
   hosts:
-    cube-home-dms:
+    cube-home-dns:
       ansible_host: 10.0.2.2
       container_user: bmc
     cube-vpn-dns:
@@ -109,7 +109,7 @@ cube_server:
     cube-vpn-gateway:
     cube-registry:
     cube-code:
-    cube-home-dms:
+    cube-home-dns:
     cube-vpn-dns:
     cube-homelab-dns:
     cube-automation:
