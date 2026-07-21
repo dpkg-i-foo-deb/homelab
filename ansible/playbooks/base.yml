@@ -10,11 +10,11 @@
           - { path: '/root/.bashrc', owner: 'root' }
 
     - name: Ensure users can read journal logs
+      become: true
       ansible.builtin.user:
         name: "username"
         groups: "sudo,adm,systemd-journal"
         append: true
-      become: true
 
 - name: Configure SSH keys
   hosts: all
