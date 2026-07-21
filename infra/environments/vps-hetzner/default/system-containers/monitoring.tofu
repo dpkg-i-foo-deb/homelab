@@ -11,16 +11,15 @@ resource "incus_instance" "monitoring" {
   name  = "monitoring"
   image = "images:debian/trixie/cloud"
   config = {
-    "boot.autostart"              = true
-    "limits.cpu"                  = 1
-    "limits.cpu.allowance"        = "20%"
-    "limits.memory"               = "1GiB"
-    "limits.memory.swap"          = "true"
-    "limits.memory.swap.priority" = "0"
+    "boot.autostart"       = true
+    "limits.cpu"           = 1
+    "limits.cpu.allowance" = "20%"
+    "limits.memory"        = "1GiB"
     "cloud-init.user-data" = templatefile(
       "${path.root}/cloud-init/generic.yml.tftpl",
       {
         ssh_public_key           = var.ssh_public_key
+        ssh_automation_key       = var.ssh_automation_key
         lxc_username             = "bmc"
         lxc_username_description = "monitoring Linux System Container"
         lxc_user_password        = var.lxc_user_password

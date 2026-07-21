@@ -3,16 +3,15 @@ resource "incus_instance" "vpn_gateway" {
   image = "images:debian/trixie/cloud"
 
   config = {
-    "boot.autostart"              = true
-    "limits.cpu"                  = 1
-    "limits.cpu.allowance"        = "50%"
-    "limits.memory"               = "256MiB"
-    "limits.memory.swap"          = "true"
-    "limits.memory.swap.priority" = "0"
+    "boot.autostart"       = true
+    "limits.cpu"           = 1
+    "limits.cpu.allowance" = "50%"
+    "limits.memory"        = "256MiB"
     "cloud-init.user-data" = templatefile(
       "${path.root}/cloud-init/generic.yml.tftpl",
       {
         ssh_public_key           = var.ssh_public_key,
+        ssh_automation_key       = var.ssh_automation_key
         lxc_username             = "bmc"
         lxc_username_description = "vpn-gateway Linux System Container"
         lxc_user_password        = var.lxc_user_password,
@@ -46,9 +45,9 @@ resource "incus_instance" "vpn_gateway" {
     name = "eth2"
     type = "nic"
     properties = {
-      network                   = var.dmz_net.name
-      "security.mac_filtering"  = true
-      "ipv4.address"            = "10.0.253.20"
+      network                  = var.dmz_net.name
+      "security.mac_filtering" = true
+      "ipv4.address"           = "10.0.253.20"
     }
   }
 
@@ -56,7 +55,7 @@ resource "incus_instance" "vpn_gateway" {
     name = "eth3"
     type = "nic"
     properties = {
-      network = var.management_net.name
+      network                  = var.management_net.name
       "security.mac_filtering" = "true"
       "ipv4.address"           = "10.0.251.20"
     }

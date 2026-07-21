@@ -12,16 +12,15 @@ resource "incus_instance" "security" {
   image = "images:debian/trixie/cloud"
 
   config = {
-    "boot.autostart"              = true
-    "limits.cpu"                  = 2
-    "limits.cpu.allowance"        = "80%"
-    "limits.memory"               = "2GiB"
-    "limits.memory.swap"          = "true"
-    "limits.memory.swap.priority" = "0"
+    "boot.autostart"       = true
+    "limits.cpu"           = 2
+    "limits.cpu.allowance" = "80%"
+    "limits.memory"        = "2GiB"
     "cloud-init.user-data" = templatefile(
       "${path.root}/cloud-init/generic.yml.tftpl",
       {
         ssh_public_key           = var.ssh_public_key,
+        ssh_automation_key       = var.ssh_automation_key
         lxc_username             = "bmc"
         lxc_username_description = "Security Linux System Container"
         lxc_user_password        = var.lxc_user_password,

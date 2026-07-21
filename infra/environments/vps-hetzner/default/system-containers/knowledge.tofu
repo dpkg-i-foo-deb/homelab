@@ -15,12 +15,11 @@ resource "incus_instance" "knowledge" {
     "limits.cpu"                  = 2
     "limits.cpu.allowance"        = "50%"
     "limits.memory"               = "1GiB"
-    "limits.memory.swap"          = "true"
-    "limits.memory.swap.priority" = "0"
     "cloud-init.user-data" = templatefile(
       "${path.root}/cloud-init/generic.yml.tftpl",
       {
         ssh_public_key           = var.ssh_public_key
+        ssh_automation_key       = var.ssh_automation_key
         lxc_username             = "bmc"
         lxc_username_description = "Knowledge management Linux System Container"
         lxc_user_password        = var.lxc_user_password
