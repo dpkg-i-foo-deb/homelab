@@ -3,6 +3,9 @@ upstreams:
     default:
       - 1.1.1.1
       - 8.8.8.8
+customDNS:
+  mapping:
+    {{ registry_host }}.{{ internet_host }}: {{ hostvars['cube-registry']['ansible_host'] }}
 blocking:
   denylists:
     ads:
