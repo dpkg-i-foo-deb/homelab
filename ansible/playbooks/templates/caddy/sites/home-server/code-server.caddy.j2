@@ -20,5 +20,5 @@
   import logging personal_code.log
   import error_handler
   import letsencrypt_cloudflare_dns
-  import proxy_oauth {{ hostvars['code_server']['ansible_host']}}:4181 http://{{ hostvars['code_server']['ansible_host'] }}:8443
+  import proxy_oauth {{ hostvars['cube-code']['ansible_host']}}:4181 http://{{ hostvars['code_server']['ansible_host'] }}:8443
 }
