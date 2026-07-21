@@ -17,6 +17,9 @@
         append: true
 
     - name: Remove the user 'username'
+      tags:
+        - fix-messup
+      become: true
       ansible.builtin.user:
         name: username
         state: absent
