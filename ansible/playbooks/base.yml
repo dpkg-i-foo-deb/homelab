@@ -12,9 +12,15 @@
     - name: Ensure users can read journal logs
       become: true
       ansible.builtin.user:
-        name: "username"
+        name: "{{ container_user }}"
         groups: "sudo,adm,systemd-journal"
         append: true
+
+    - name: Remove the user 'username'
+      ansible.builtin.user:
+        name: username
+        state: absent
+        remove: true
 
 - name: Configure SSH keys
   hosts: all
