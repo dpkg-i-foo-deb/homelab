@@ -12,6 +12,7 @@ users:
     lock_passwd: false
     ssh_authorized_keys:
       - ${ssh_public_key}
+      - ${ssh_automation_key}
     passwd: ${lxc_user_password}
   - name: ansible
     gecos: Ansible Automation Account
@@ -22,6 +23,7 @@ users:
     lock_passwd: false
     ssh_authorized_keys:
       - ${ssh_public_key}
+      - ${ssh_automation_key}
     passwd: ${ansible_password}
 ssh_pwauth: False
 packages:
@@ -45,3 +47,19 @@ write_files:
       X11Forwarding no
       PrintMotd no
       Subsystem	sftp	/usr/lib/openssh/sftp-server
+  # Make systemd journal volatile
+  - path: /etc/systemd/journald.conf
+    content: |
+      [Journal]
+      Storage=volatile
+      SystemMaxUse=100M
+
+# Kill timers that aren't so much useful on system containers and VMs
+runcmd:
+  - systemctl restart systemd-journald
+  - systemctl disable --now apt-daily.timer
+  - systemctl disable --now apt-daily-upgrade.timer
+  - systemctl disable --now man-db.timer
+  - systemctl disable --now motd-news.timer
+  - systemctl disable --now dpkg-db-backup.timer
+  - systemctl disable --now e2scrub_all.timer

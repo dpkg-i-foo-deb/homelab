@@ -7,15 +7,16 @@ module "system_containers" {
 
   virt_main_pool = var.virt_main_pool
 
-  trusted_net = var.trusted_net
-  dmz_net     = var.dmz_net
-  transit_net = var.transit_net
+  trusted_net    = var.trusted_net
+  dmz_net        = var.dmz_net
+  transit_net    = var.transit_net
   management_net = var.management_net
 
 
-  ansible_password  = var.ansible_password
-  lxc_user_password = var.lxc_user_password
-  ssh_public_key    = var.ssh_public_key
+  ansible_password   = var.ansible_password
+  lxc_user_password  = var.lxc_user_password
+  ssh_public_key     = var.ssh_public_key
+  ssh_automation_key = var.ssh_automation_key
 }
 
 

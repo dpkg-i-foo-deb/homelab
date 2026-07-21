@@ -13,6 +13,11 @@ variable "ssh_public_key" {
   description = "SSH public key to connect to instances"
 }
 
+variable "ssh_automation_key" {
+  type        = string
+  description = "SSH Automation Public Key"
+}
+
 variable "virt_main_pool" {
   type        = string
   description = "The name of the main storage pool"

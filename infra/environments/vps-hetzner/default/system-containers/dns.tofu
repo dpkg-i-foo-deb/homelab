@@ -1,5 +1,5 @@
-resource "incus_storage_volume" "dns_data" {
-  name    = "dns-data"
+resource "incus_storage_volume" "dns_hetzner_data" {
+  name    = "dns-hetzner-data"
   pool    = var.virt_main_pool
   project = "default"
   config = {
@@ -7,21 +7,20 @@ resource "incus_storage_volume" "dns_data" {
   }
 }
 
-resource "incus_instance" "dns" {
-  name  = "dns"
+resource "incus_instance" "dns_hetzner" {
+  name  = "dns-hetzner"
   image = "images:debian/trixie/cloud"
 
   config = {
-    "boot.autostart"              = true
-    "limits.cpu"                  = 1
-    "limits.cpu.allowance"        = "20%"
-    "limits.memory"               = "512MiB"
-    "limits.memory.swap"          = "true"
-    "limits.memory.swap.priority" = "0"
+    "boot.autostart"       = true
+    "limits.cpu"           = 1
+    "limits.cpu.allowance" = "20%"
+    "limits.memory"        = "512MiB"
     "cloud-init.user-data" = templatefile(
       "${path.root}/cloud-init/generic.yml.tftpl",
       {
         ssh_public_key           = var.ssh_public_key,
+        ssh_automation_key       = var.ssh_automation_key,
         lxc_username             = "bmc"
         lxc_username_description = "DNS Linux System Container"
         lxc_user_password        = var.lxc_user_password,
@@ -58,7 +57,7 @@ resource "incus_instance" "dns" {
     type = "disk"
     properties = {
       path   = "/home"
-      source = incus_storage_volume.dns_data.name
+      source = incus_storage_volume.dns_hetzner_data.name
       pool   = var.virt_main_pool
     }
   }

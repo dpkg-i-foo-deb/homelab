@@ -17,3 +17,8 @@ variable "ssh_public_key" {
   type        = string
   description = "SSH public key to connect to instances"
 }
+
+variable "ssh_automation_key" {
+  type        = string
+  description = "SSH Automation Public Key"
+}
