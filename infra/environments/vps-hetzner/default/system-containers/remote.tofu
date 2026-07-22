@@ -13,7 +13,7 @@ resource "incus_instance" "remote" {
   config = {
     "boot.autostart" = true
     "limits.cpu"     = 2
-    "limits.memory"  = "4GiB"
+    "limits.memory"  = "512MiB"
     "cloud-init.user-data" = templatefile(
       "${path.root}/cloud-init/generic.yml.tftpl",
       {

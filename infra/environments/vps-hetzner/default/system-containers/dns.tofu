@@ -13,8 +13,8 @@ resource "incus_instance" "dns_hetzner" {
 
   config = {
     "boot.autostart"       = true
-    "limits.cpu"           = 1
-    "limits.cpu.allowance" = "20%"
+    "limits.cpu"           = 2
+    "limits.cpu.allowance" = "50%"
     "limits.memory"        = "512MiB"
     "cloud-init.user-data" = templatefile(
       "${path.root}/cloud-init/generic.yml.tftpl",

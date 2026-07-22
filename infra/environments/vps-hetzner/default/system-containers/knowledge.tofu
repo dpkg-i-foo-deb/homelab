@@ -14,7 +14,7 @@ resource "incus_instance" "knowledge" {
     "boot.autostart"              = true
     "limits.cpu"                  = 2
     "limits.cpu.allowance"        = "50%"
-    "limits.memory"               = "1GiB"
+    "limits.memory"               = "512MiB"
     "cloud-init.user-data" = templatefile(
       "${path.root}/cloud-init/generic.yml.tftpl",
       {

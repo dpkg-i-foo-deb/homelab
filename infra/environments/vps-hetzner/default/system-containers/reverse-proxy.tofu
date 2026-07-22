@@ -15,7 +15,7 @@ resource "incus_instance" "reverse_proxy" {
     "boot.autostart"       = true
     "limits.cpu"           = 4
     "limits.cpu.allowance" = "80%"
-    "limits.memory"        = "2GiB"
+    "limits.memory"        = "1.5GiB"
     "cloud-init.user-data" = templatefile(
       "${path.root}/cloud-init/generic.yml.tftpl",
       {

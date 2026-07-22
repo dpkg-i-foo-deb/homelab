@@ -14,8 +14,8 @@ resource "incus_instance" "security" {
   config = {
     "boot.autostart"       = true
     "limits.cpu"           = 2
-    "limits.cpu.allowance" = "80%"
-    "limits.memory"        = "2GiB"
+    "limits.cpu.allowance" = "50%"
+    "limits.memory"        = "1.5GiB"
     "cloud-init.user-data" = templatefile(
       "${path.root}/cloud-init/generic.yml.tftpl",
       {
